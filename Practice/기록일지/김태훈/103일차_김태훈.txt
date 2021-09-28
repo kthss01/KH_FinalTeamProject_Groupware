@@ -1,0 +1,32 @@
+SpringBoot 인프런 공부 (스프링 부트 맛보기)
+https://github.com/kthss01/SpringBoot_Study_Infern
+
+자바 복습
+
+Optional 클래스 조사
+https://held-spaghetti-47e.notion.site/Optional-92789a5e4aa44d71b5f36da1ea3019b6
+
+AtomiLong 클래스 
+https://codechacha.com/ko/java-atomic-long/
+Long형 자료형인데 Thread-safe
+
+JUnit 사용해보기
+개발한 기능을 실행해서 테스트 할 때 자바의 main 메소드를 통해서 실행하거나,
+웹 어플리케이션의 컨트롤러를 통해서 해당 기능을 실행한다.
+이러한 방법은 준비하고 실행하는데 오래 걸리고, 반복 실행하기 어렵고
+여러 테스트를 한번에 실행하기 어려움
+-> junit으로 쉽게 사용
+
+test 쪽에 패키지 똑같이 보통 만들고
+클래스명 작성 관례가 뒤에 클래스명Test
+
+클래스 public으로 안해도됨 다른데서 안쓰니
+@Test 붙이면 실행할 수 있게됨 이런 식으로 테스트
+
+그냥 == 이런걸로 테스트해도 되는데
+Assertion라는 클래스 assert 메소드 사용 (jupiter로 있고 assertj도 있음)
+방법은 해당 메소드 등을 실행해보고 검증해보는거
+클래스로 메소드 한번에 다 실행할 수 있고 메소드만 실행해볼 수 있음
+실행해서 잘되면 초록불 아니면 다른불 나와서 확인 가능
+
+실무에서는 이거를 빌드툴이랑 엮어서 빌드 할 때 테스트를 하고 성공 못하면 다음 단계로 못넘어가게 막아버린다고함 
