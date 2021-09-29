@@ -1,0 +1,26 @@
+
+
+Spring 을 통한 실시간 채팅.
+
+Socket.io 와 spring frame work
+Socket.io  / https://socket.io/
+->  real-time web application 에 활용되는 Javascript library 
+Server 와 Client 간의 양방향 통신을 지원한다. Client lib 와  Server lib 로 구성되어 있다. [ Node.js 기반 ] 
+
+ 
+공식 같지 않은 공식 페이지 document 예시 이미지
+지원 언어: Java , C++, Swift, Dart, Python, .Net, Golang, Rust  - 클라이언트
+지원 언어: Java, Python - 서버
+
+구조
+Client -> WebSocket Connection 
+
+
+
+const socket = new WebSocket ("ws:// 주소 값 ); -> 소켓 획득 
+
+
+
+
+
+
