@@ -1,0 +1,241 @@
+
+세미프로젝트 개선을 통해 댓글 기능 구현 연습중이다.
+
+Github : https://github.com/sunyoring/CrowdFundingUpgrade
+Notion :  https://charming-galleon-9a5.notion.site/2-2021-09-30-4013960760d74f70bc44f7c3cc697356
+
+
+
+# 1. 로그인을 하지 않은 유저도 댓글 작성 가능
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/35d56d49-98b6-481e-b9d0-6269c305c1b4/Untitled.png)
+
+### ✔️  **eventDetailView.jsp**
+
+ → `loginUser` 가 `null` 일 경우 닉네임과 비밀번호 `input` 노출
+
+```java
+<form method="post" action="<%=request.getContextPath()%>/enrollComment.ev">
+			<input type="hidden" name="eno" value="<%=e.geteNo()%>">
+			
+				<%
+					if (loginUser != null) {
+				%>
+				<input type="hidden" name="emailId"
+					value="<%=loginUser.getEmailId()%>">
+				<%
+					} else {
+				%>
+				닉네임 : <input type="text" name="nickname">
+				비밀번호 : <input type="password" name="cPwd" maxlengh="4">
+				
+				<%
+					}
+				%>
+				<textarea name="comment" class="comment"
+					maxlength="1000" > </textarea>
+	
+				<input type="submit" id="commentBtn" value="댓글 등록">
+			</form>
+```
+
+### ✔️ **EnrollCommentServlet.java**
+
+→ 로그인한 경우에는 `emailId` 를 하지 않은 경우에는 `nickName`과 `cPwd` 를 넣어 객체 생성
+
+```java
+String nickName = null;
+		String emailId = null;
+		int cPwd = 0;
+
+		if(loginUser == null) {
+			nickName = request.getParameter("nickname");
+			cPwd = Integer.parseInt(request.getParameter("cPwd"));
+		}else {
+			emailId = loginUser.getEmailId();
+
+		}
+
+int cParent; //대댓글 기능을 위해 임시 선언해 둠.
+
+int eno = Integer.parseInt(request.getParameter("eno"));
+String comment = request.getParameter("comment");
+
+EventComment ec = new EventComment();
+
+	//로그인 상태가 아닐 땐 닉네임과 비밀번호를 객체에 set
+		if(nickName != null && nickName !="" && cPwd !=0) {
+			ec.setEmailId(nickName);
+			ec.setePwd(cPwd);
+		}else { //아니라면 로그인한 계정의 이메일 아이디를 넣을 것.
+			ec.setEmailId(emailId);
+
+		if(eno != 0 && comment != null && comment !="") {
+			ec.seteNo(eno);
+			ec.setComment(comment);
+		}
+
+```
+
+```java
+int result = new EventService().enrollComment(ec);
+		
+		if(result > 0) {
+			response.sendRedirect(request.getContextPath()+"/eDetail.do?eno="+eno);
+
+		}else {
+			request.getSession().setAttribute("msg", "댓글 등록 실패");
+			response.sendRedirect("views/common/errorPage.jsp");
+
+		}
+```
+
+### ✔️EventService.java
+
+```java
+public int enrollComment(EventComment eventComment) {
+		Connection conn = getConnection();
+		
+		int result = new EventDao().enrollComment(conn, eventComment);
+		
+		if(result > 0 ) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+```
+
+### ✔️ EventDao.java
+
+```java
+public int enrollComment(Connection conn, EventComment ec) {
+		
+		PreparedStatement pstmt = null;
+		String sql = "INSERT INTO E_COMMENT VALUES(SEQ_E_COMMENT.NEXTVAL,?,?,NULL,SYSDATE,NULL,?)";
+		int result = 0;
+	
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ec.geteNo());
+			pstmt.setString(2, ec.getEmailId());
+			pstmt.setString(3, ec.getComment());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("dao result: " + result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			
+		}
+		return result;
+	}
+```
+
+# 2. 본인이 작성한 댓글에 수정, 삭제 기능 추가
+
+**→ 쿼리를 수정하여 작성자의 아이디가 아니라 이름이 보이도록 변경**
+
+**→ 최신 작성 된 댓글 순으로 보이도록 하기 위해 등록일자 별로 정렬**
+
+```sql
+**SELECT
+    B.USER_NAME,
+    A.* 
+FROM E_COMMENT A
+LEFT JOIN USER_TB B ON A.C_ID = B.EMAIL_ID
+WHERE A.E_NO=132
+ORDER BY A.C_DATE ASC;**
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/afa3acdf-c083-498d-91f9-34b4e15fb693/Untitled.png)
+
+***→ 작성자가 null 인 경우는 익명의 작성자로 닉네임으로 표시되도록 반영할 예정.***
+
+### ✔️EventDetailView.jsp  [AJAX]
+
+- 댓글 조회 ajax 통신으로 받아오는 리스트의 댓글 객체마다 이메일 아이디를 확인하고 , 로그인을 했을 경우 본인이 작성한 댓글 옆에 수정 삭제 버튼을 노출 시키도록 코드를 추가
+- 수정 버튼 클릭시 해당 댓글을 수정가능 한 상태로 바꾸고 수정 버튼을 완료 버튼으로 변경한다.	**`$(this).prev().attr("disabled",false);`**
+
+```jsx
+
+success : function(list){
+	console.log(list);
+		
+	list.forEach((cm => {
+
+		commentBox.append(`
+				<br>
+				<b>작성자 : </b> \${cm.name} 
+				<br>
+				
+				<textarea name="comment" class="comment"  maxlength="1000" disabled> \${cm.comment}</textarea>
+				`)
+				<% if(loginUser != null){%>
+				if(cm.emailId == "<%=loginUser.getEmailId()%>"){
+					commentBox.append(`
+							<input type="button" id="updateBtn" value="수정">
+							<input type="button" value="X" onclick="goDelete();">
+							<input type="hidden" name="cNum" value=\${cm.cNum}>
+					`)
+				}
+				<%}%>
+		
+	}
+	));
+```
+
+### 🔴 CHECK POINT
+
+수정 된 내용을 서블릿으로 전달하기 위해  `textarea`  의 값을 `comment` 변수에  넣어 쿼리스트링으로 넘겨주었는데 너무 간단하게 생각한 것인지 잘 되지 않았다. 문제는 수정된 값이 아니라 기존의 값으로 넘어간다는 것인데 그래서  `keyup` 이벤트를 걸면 변경 내용으로 바로바로 바인딩 되지 않을까 하여 시도해보았는데 마찬가지로 실패하였다 ㅠㅠ
+
+ 
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2754030a-8993-41ff-a4b9-e17ba6b1b805/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2b70bd7c-a47a-4353-b91c-99e3fde8413f/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a5f84b59-9e8b-4e5c-8634-cd0a5d0ae8c5/Untitled.png)
+
+→ 쿼리스트링으로 넘어가지 않는다..!
+
+그래서 구글링을 통해 이럴 경우에는  `trigger()` 함수를 이용한 다는 것을 알게 되었다 .
+
+`trigger()` : 이벤트가 발생할 때 실행될 함수나 `.bind()` 함수로 연결된 어떠한 이벤트 핸들러를 강제로 실행시켜준다.
+
+**<기존코드>**
+
+```jsx
+$(this).prev().on("keyup",funciton(){
+comment = $(this).prev().val();
+})
+```
+
+**<수정 코드>**
+
+```jsx
+	$("#updateBtn").on("click",function(){
+
+		var cno = $(this).next().next().val();
+		$(this).prev().attr("disabled",false);
+		$(this).prev().trigger("keyup");
+		comment = $(this).prev().val();
+		
+		$(this).attr("value","완료").on("click",function(){
+			location.href="<%=request.getContextPath()%>/update.eco?cno="+cno+"&comment="+comment;
+		});
+	})				
+}
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c8099b49-5ac5-4582-8fd3-cf55c5f13b7e/Untitled.png)
+
+→ 간단하게 		`$(this).prev().trigger("keyup");`
+코드를 한 줄 추가하고 나니 수정 후 변경 된 값으로 잘 넘어오는 것을 확인 하였다.
+
+- **정리를 하면서 다시 코드를 살펴 본 결과 `comment` 변수의 유효범위때문이 아니었을까 싶기도 하다.  일단 `trriger()`   함수를 처음 접해보았는데 기억해두면 유용하게 또 자주 사용하게 되지 않을까 싶다.**
