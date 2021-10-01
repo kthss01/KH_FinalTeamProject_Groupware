@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="chatStyle.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+    <div class="chat_wrap">
+    <div class="header">
+        <p class="conStat"> disconnected </p>
+    </div>
+    <div class="input-div">
+        <input type="text" class="textField" placeholder="write yout message here..">
+    </div>
+ 
+    <!-- format -->
+ 
+    <div class="chat">  
+            <li class="info" style="font-size: 11px; color: rgba(0,0,0,0.34);">알림창</li>
+        <ul class="content"><!-- 채팅 내용을 밀어넣을 구역-->
+            <li class="user"> <!--유저명을 담을 영역--></li>
+            <li class="message"> <!-- 메시지를 담을 영역--> </li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- 
+
+    socket.io 최근 버전 에러 발생
+    1.4.n 버전 다운 시도
+    
+    eclipse sts 에러 발생 아..
+
+  -->
+<script>
+
+    var socket = io();
+    // 서버에 연결
+
+    // 연결 됐을 때
+    socket.on('connect',function(){
+        console.log("Connected!");
+    });
+
+    $(".textField").keyup(
+        function(e){
+            if(e.keyCode == 13) { 
+                var msg = data[$(".textField").val];
+            }
+    })
+
+    // .emit() -> event 발생자 [ 메시지 전송 ]
+    // socket.emit('event', data ) 
+    // .on() -> event listener [ 수신 ]
+    // socket.on('event', -- ) 
+ 
+
+
+    /*
+        connect - connected to server
+        error - connection error
+        disconnect - disconnected from server
+        reconnect / reconnection, reconnect_error -  reconnecting
+    
+    */
+
+    
+    /*
+    io.on('connection',(socket) =>{
+        socket.on('disconnect', () =>{
+            alert('disconnected');
+        });
+    });
+
+
+    var socket = io.connect('localhost');
+
+    socket.on('event',function(e){
+        console.log(e);
+        socket.emit('event',e);
+    })
+
+    function clearTextField(){
+   
+        $("input[type=text],textarea").val("");
+    }
+    */
+
+</script>
+<!--<scripe type="javascript" src="chat.js"></scripe>-->
+
+
+</body>
+</html>
