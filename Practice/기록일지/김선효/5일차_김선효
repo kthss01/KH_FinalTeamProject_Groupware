@@ -1,0 +1,271 @@
+→***대댓글 UI 구현 중 생각보다 막히는 부분이 많아서 기능적인 부분에서는 오늘 크게 진도를 나가지 못한 것 같다. 하지만 일반 댓글 CRUD는 모두 끝났고 대댓글은 조회만 남겨둔 상태라 내일까지 마무리하면 될 것 같다!*** 
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/58a15c82-96ad-4327-ac7d-8f04d1eb7575/Untitled.png)
+
+# ♣️ SQL
+
+```sql
+//1. 익명 댓글 등록
+INSERT INTO E_COMMENT VALUES(SEQ_E_COMMENT.NEXTVAL,?,?,?,SYSDATE,?,?)
+
+//2. 로그인 유저 댓글 등록
+INSERT INTO E_COMMENT VALUES(SEQ_E_COMMENT.NEXTVAL,?,?,NULL,SYSDATE,?,?)
+```
+
+# ✔️ 대댓글 등록
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/87863b49-ed8b-496b-b399-ef07c2942119/Untitled.png)
+
+**→ 답글 버튼을 클릭하면 답글 작성란이 생긴다 ! 닫기 버튼을 클릭하면 삭제**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/94e087ea-0071-4ed9-96a1-3816066e224d/Untitled.png)
+
+## ⚫ JSP
+
+## <입력창 UI 동적 구현>
+
+- 댓글 리스트를 불러오는 ajax의  `**success : function()**` 에 위치하는 코드이다.
+- **`$(this).next().next().after(` `)` :  클릭한 객체의 다음(수정버튼),다음(X)객체 뒤에 html태그를 삽입하여 UI를 생성한다.**
+
+### eventDetailView.jsp
+
+```jsx
+$(".nestedComment").on("click",function(){  //답글 버튼 클릭!!
+					
+ 					$(this).next().next().after(`
+ 							<div class="replyBox">
+							<br>
+							<form method="post" action="<%=request.getContextPath()%>/enrollReComment.ev">
+							<input type="hidden" name="eno" value="<%=e.geteNo()%>">
+									<h5>답글 작성 </h5>
+							<%
+								if (loginUser != null) {
+							%>
+							<input type="hidden" name="emailId"
+								value="<%=loginUser.getEmailId()%>">
+							<%
+								} else {
+							%>
+							닉네임 : <input type="text" name="nickname">
+							비밀번호 : <input type="password" name="cPwd" maxLength="6">
+
+							<%
+								}
+							%>
+				
+							<textarea name="comment" class="comment"
+								maxlength="1000" > </textarea>
+				
+							<input type="submit" id="commentBtn" value="댓글 등록" >
+							<input type="button" value="닫기" onclick="removeReplyBox();">
+							</form>
+							</div>
+							`) 
+
+				})
+```
+
+- `**<input type="button" value="닫기" onclick="removeReplyBox();">**` : 닫기 버튼 클릭 시 **전역함수** 로 선언해 둔 **`removeReplyBox()`** 를 통해 입력창이 삭제된다.
+
+→ *처음에는 함수를 같은 범위 내에 정의해두었는데 클릭 이벤트가 타지 않아 밖으로 옮겨보니 잘 되는 것을 확인할 수 있었다. 리스트를 불러오는 시점에서 생성되어 안 타지는 것이었을까 일단 추측만이 가능했지만 전역으로 미리 정의해두어 해결가능했다.*
+
+```jsx
+function removeReplyBox(){
+			$(".replyBox").remove();
+		}
+```
+
+### 🔴CHECK POINT
+
+ **: 답글 버튼을 누르면 클릭 된 버튼의 뒤에 입력란이 추가되게 의도했으나 `append()` 와 `after()` 의 차이를 혼동하여 클릭 되는 버튼 뒤에 `append()`  이용하여 html 태그를 삽입하려다 되지 않아 잠시 헤맸었다. 비슷하지만 다른 요소 삽입 메소드들을 정리할 필요가 있다.**
+
+🌟 **append(), prepend(), after(), before() 간단 차이**
+
+```sql
+<p> /*기존요소*/ </p>
+
+**append()** :  <p>  /*기존요소*/    **append()** </p>
+**prepend()** : <p>  **prepend()** <p>  /*기존요소*/  </p>
+**after()** :  <p> /*기존요소*/  </p> **prepend()**
+**before()** : **before()** <p>  /*기존요소*/ <p>   
+```
+
+## ⚫ Controller
+
+### EnrollReComment.java
+
+- 일반 댓글 등록과 큰 차이는 없지만 **부모의 댓글번호를 DB에 같이 INSERT** 해줘야 하여 쿼리를 동적으로 지정할까 생각하다가 컨트롤러를 아예 분리했다.
+- `int cParentNo = Integer.parseInt(cParent);`  → 부모의 댓글 번호
+
+```java
+User loginUser = (User)(request.getSession().getAttribute("loginUser"));
+		EventComment ec = new EventComment();
+		String nickName = null;
+		String emailId = null;
+		int cPwd = 0;
+		int result = 0;
+		
+		int eno = Integer.parseInt(request.getParameter("eno"));
+		String cParent = request.getParameter("cNum");
+		System.out.println("답글 서블릿 부모 댓글 번호: " + cParent);
+		int cParentNo = Integer.parseInt(cParent);
+		String comment = request.getParameter("comment");
+
+		if(cParentNo != 0) { //부모 댓글 존재하면 셋팅
+			ec.setcParent(cParentNo);
+		}
+		
+		if(eno != 0 && comment != null && comment !="") {
+			ec.seteNo(eno);
+			ec.setComment(comment);
+		}
+
+		if(loginUser == null) {
+			nickName = request.getParameter("nickname");
+			cPwd = Integer.parseInt(request.getParameter("cPwd"));
+			System.out.println(nickName);
+			ec.setName(nickName);
+			ec.setePwd(cPwd);
+			result = new EventService().anonymousReComment(ec);
+
+		}else {
+			emailId = loginUser.getEmailId();
+			ec.setEmailId(emailId);
+			result = new EventService().enrollReComment(ec);
+
+		}
+		
+		  if(result > 0) {
+		  response.sendRedirect(request.getContextPath()+"/eDetail.do?eno="+eno);
+		  
+		  }else { request.getSession().setAttribute("msg", "댓글 등록 실패");
+		  response.sendRedirect("views/common/errorPage.jsp");
+		  
+		  }
+		
+	}
+```
+
+### EventService.java
+
+```java
+//익명 댓글 등록
+public int anonymousReComment(EventComment ec) {
+		Connection conn = getConnection();
+		
+		int result = new EventDao().anonymousReComment(conn, ec);
+		
+		if(result > 0 ) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+// 로그인 유저 댓글 등록
+	public int enrollReComment(EventComment ec) {
+		Connection conn = getConnection();
+		
+		int result = new EventDao().enrollReComment(conn, ec);
+		
+		if(result > 0 ) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+```
+
+### EventDao.java
+
+- 일반 댓글 등록과 차이점은 부모댓글번호가 추가로 들어가는 것 밖에 없다.
+
+```java
+//익명 댓글 등록
+public int anonymousReComment(Connection conn, EventComment ec) {
+		
+		PreparedStatement pstmt = null;
+		String sql = 
+"INSERT INTO E_COMMENT VALUES(SEQ_E_COMMENT.NEXTVAL,?,?,?,SYSDATE,?,?)";
+		int result = 0;
+		
+		System.out.println("익명 댓글 등록 dao : " + ec);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ec.geteNo());
+			pstmt.setString(2, ec.getName());
+			pstmt.setInt(3, ec.getePwd());
+			pstmt.setInt(4, ec.getcParent());
+			pstmt.setString(5, ec.getComment());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("dao result: " + result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			
+		}
+
+		return result;
+	}
+
+//로그인 유저 댓글 등록
+	public int enrollReComment(Connection conn, EventComment ec) {
+
+		PreparedStatement pstmt = null;
+		String sql = 
+"INSERT INTO E_COMMENT VALUES(SEQ_E_COMMENT.NEXTVAL,?,?,NULL,SYSDATE,?,?)";
+		int result = 0;
+	
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ec.geteNo());
+			pstmt.setString(2, ec.getEmailId());
+			pstmt.setInt(3, ec.getcParent());
+			pstmt.setString(4, ec.getComment());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("dao result: " + result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			
+		}
+		return result;
+	}
+```
+
+# ✔️ 대댓글 수정
+
+- 수정은 기존의 만들어 둔 수정 버튼을 같이 사용할 생각 중이다.
+
+```jsx
+$(".updateBtn").on("click",function(){
+					var cno = $(this).next().next().val();
+					$(this).prev().prev().attr("disabled",false);
+					
+					 $(this).prev().prev().trigger("keyup");
+					comment = $(this).prev().prev().val();				 
+					
+					$(this).attr("value","완료").on("click",function(){
+					 	var eno = <%=e.geteNo()%>;
+						location.href="<%=request.getContextPath()%>/update.eco?cno="+cno+"&comment="+comment+"&eno="+eno;		
+					}); 
+					
+				});
+```
+
+### 🔴 CHECK POINT
+
+: 요소를 선택할 때 `**next().next()**` 또는 `**prev().prev()**` 와 같은 방식으로 한 칸 한 칸 이동하여 찾아가는 방식으로 코드를 짜다가 이는 한눈에 알아보기도 힘들고 깔끔한 코딩이 아닌 것 같아 중간에 `**.siblings()**`  으로 수정을 하게 되었다. **형제 요소 중에 지정한 선택자에 해당하는 요소를 모두 선택**하게 되는데..! 이 부분을 생각하지 못하고 수정 후 테스트를 해보니 *클릭 시  수정하려는 댓글 뿐만 아니라 화면의 모든 댓글이 수정모드로 바뀌어 버렸다.* 
+
+→ 다시 원래 코드로 수정해 놓은 상태이기는 하나,  ***대댓글 조회를 구현한 후 같은 버튼을 사용하기 위해서는 다른 방법을 생각해보거나 버튼을 분리해야 할 것 같다***. 두 코드의 태그 구성이 약간 다르기 때문에 그대로 사용 하면 	`comment = $(this).prev().prev().val();`	이 부분에서 오류가 발생할 것이다. 버튼을 클릭한 ***$(this) 의 prev() prev()는 그 때마다 다른 객체이기 때문이다.***
