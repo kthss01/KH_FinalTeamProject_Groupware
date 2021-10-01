@@ -1,0 +1,6 @@
+소켓 io Api는 불친절하다
+
+spring 3 과 spring 4( boot) 를 eclipse 한 프로젝트에 전부 다운로드 받았더니
+spring legacy project 생성 시 class build 오류가 발생하여 프로젝트를 진행 할 수 없었다.
+
+eclipse 왜 이럴까
