@@ -1,0 +1,188 @@
+# ✔️ 대댓글 조회 기능
+
+**첫번째 ajax통신으로 부모 댓글들을 조회해서 화면에 뿌려준다. *부모 댓글 마다 함수를  호출하여 2차 ajax 통신을 통해* 해당 댓글의 번호를 부모번호로 가지고 있는 자식 댓글들을 2차로 그 아래에 붙여준다.**  
+
+## <JSP>
+
+### ✔️ eventDetailView.java
+
+	**`selectNestedList(cm.cNum);`	 → 댓글 마다 실행 → 2차 통신**
+
+```jsx
+$.ajax({
+			url:'commentList.ev',
+			type: 'get',
+			async:false,
+			data : { eno : eno},
+			success : function(list){
+
+				list.forEach((cm => {
+					console.log(cm);
+
+					commentBox.append(`
+							<br>
+							<b>작성자 : </b> \${cm.name} 
+							<br>
+							
+							<textarea name="comment" class="comment"  maxlength="1000" disabled> \${cm.comment}</textarea>
+							<input type="button" class ="nestedComment" value="답글">
+
+									<input type="button" class="updateBtn" value="수정">
+									<input type="button" class="deleteBtn" value="삭제" >
+									<input type="hidden" name="cNum" value=\${cm.cNum}>
+	
+							`)	
+						**selectNestedList(cm.cNum); //해당 댓글의 번호를 인자로 넘김.**							
+				}
+				));
+```
+
+## ♣️ SQL
+
+*`cm.cNum`으로 넘긴 댓글 번호는 **Controller**에 전달 된다.*
+
+```sql
+SELECT 
+B.USER_NAME,
+.* 
+FROM E_COMMENT A 
+LEFT JOIN USER_TB B ON A.C_ID = B.EMAIL_ID
+WHERE A.C_PARENT=? 
+ORDER BY A.C_DATE ASC";
+```
+
+### 🌟 f**unction** `selectNestedList(cm.cNum)`
+
+```jsx
+function selectNestedList(pNo){
+					**//부모 댓글 번호**
+					console.log("부모댓글번호 : " + **pNo**); 로 자식 조회.
+					$.ajax({
+						url : 'nestedCommentList.ev',
+						type : 'post',
+						async:false,
+						dataType :'json',
+						data : {
+							cno : pNo
+						},
+						success :  function(list){
+							list.forEach((cm => {
+								commentBox.append(`
+										<div class="nestedreplyBox" style="margin-left:50px;">
+										<br>
+										ㄴ> <b>작성자 : </b> \${cm.name} 
+										<br>
+										<textarea name="comment" class="comment"  maxlength="1000" disabled> \${cm.comment}</textarea>
+										<input type="button" class ="nestedComment" value="답글">
+
+												<input type="button" class="updateBtn" value="수정">
+												<input type="button" class="deleteBtn" value="삭제" >
+												<input type="hidden" name="cNum" value=\${cm.cNum}>										
+										</div>
+										`)													
+							}))							
+						},
+						error : function(e,e2){
+							console.log("통신실패")
+							console.log(e2);
+						}
+						
+					})
+				}
+```
+
+### ✔️ NastedCommentListServlet.java
+
+**nastedCommentList.ev**
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		int cno = Integer.parseInt(request.getParameter("cno"));
+		System.out.println("부모댓글번호 :" + cno);
+		ArrayList<EventComment> list = new EventService().nestedCommentList(cno);
+		
+		JSONArray jArr = new JSONArray();
+		JSONObject jObj = null;
+		
+		for(EventComment ec : list) {	
+			jObj = new JSONObject();
+
+			jObj.put("cNum", ec.getcNum());
+			jObj.put("eNo", ec.geteNo());
+			jObj.put("name",ec.getName());
+			jObj.put("emailId", ec.getEmailId());
+			jObj.put("ePwd", ec.getePwd());
+			jObj.put("cDate", ec.getcDate()+"");
+			jObj.put("cParent", ec.getcParent());
+			jObj.put("comment", ec.getComment());
+			
+			jArr.add(jObj);
+		}
+		
+		System.out.println("jArr : " + jArr);
+		//브라우저로 json객체를 전송
+		response.setContentType("application/json; charset=utf-8");
+		response.getWriter().print(jArr);
+	
+	}
+```
+
+### 🔴CHECK POINT
+
+AJAX는 기본적으로 비동기 방식으로 통신을 하는데 이를 동기식으로 진행하고 싶을 경우에는 속성에 **async : false** 처리를 해주는 방법이 있다.
+
+- **< 동기와 비동기방식의 차이점 >**
+    
+    ## 동기(Synchronous)
+    
+    **동기는 요청을 보낸 후 응답(결과물)을 받고 다음 동작이 이루어지는 방식**이다.
+    모든 일은 순차적으로 실행되며 어떤 작업이 수행중이라면 그 다음 작업은 대기한다.
+    
+    ## 비동기(Asynchronous)
+    
+    - 비동기 처리가 필요한 이유 ?
+    
+     데이터를 서버로부터 받아오는 앱을 만든다고 가정하면, 서버로부터 데이터를 받아와서
+    해당 데이터를 뿌려줘야 하므로 맨 처음에 실행할 수 있도록 위치해야 한다.
+    
+     데이터를 다 받아오기 전까지 다른 작업들은 수행할 수 없고, 데이터의 양이 많아질수록
+    앱의 실행속도는 기하급수적으로 느려질 것이다.
+    
+    이는 상당히 비효율적이라고 할 수 있다.
+    
+    데이터를 가져오는 동안 앱이 대기하는 시간을 줄이고 페이지를 표시하는 일과 데이터를
+    가져오는 일을 별도로 수행하는 것이 옳다고 볼 수 있다.
+    
+    비동기 처리의 대표적인 예 : setTimeout , Ajax
+    
+
+**자식 댓글은 부모 댓글 1개마다 조회되기 때문에 비동기식으로 진행하면 아래 결과가 된다.**
+
+부모댓글과의 관계는 상관없이 무차별적으로 뿌려진다. 아마 존재하는 댓글이 많았다면 좀더 확연하게 차이점이 보였을 것 같다. 
+
+이를 해결하려면 자식 댓글에게  **async : false** 처리를 해주고 요청이 있을 때에만 통신을 하도록 하면 된다!
+
+### ✔️비동기 방식
+
+*부모와 자식이 따로 놀게 된다.*
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6418e427-d58f-45ac-9f78-5191525c4e59/Untitled.png)
+
+### ✔️동기 방식
+
+*동기 처리로 순서를 확실히 해주니 정상적으로 자기 자리에 뿌려진다.*
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eb5d9f86-af8a-4266-9fd7-1c22a3235de9/Untitled.png)
+
+# 🔥 마무리
+
+> ***이전에 미리 ajax를 경험하고 정리해둔 덕분에 가장 걱정했던 조회 부분에서 많이 헤매지 않아 다행인 것 같다.***
+> 
+> 
+> ***아쉬운 점은 익명유저의 수정,삭제 방식 미구현과 무한 댓글로는 연장하지 못했다는 것인데 매 세대마다 ajax 통신을 해서 불러야 하기 때문에 세대를 늘리는 데에는 한계가 있다.***  
+> 
+> ***자식 세대를 호출하는 함수를 재사용해보려 가볍게 시도해보려다가 무한 콜백 현상이 발생해서 좀 더 연구를 해보아야 할텐데 아쉽게도 거기까지 진행하기에는 현재 급한일이 더 많고 너무나도 바쁘다 ㅠㅠ***
+> 
+> ***다음 프로젝트 때 댓글기능을 활용할 수 있다면 그 때 다시 도전해보기러 하고 이쯤에서 마치도록 하자.***
+>
