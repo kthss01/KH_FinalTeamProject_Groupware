@@ -1,0 +1,320 @@
+마이바티스 예습과 실습 정리
+https://sunyoring.notion.site/myBatis-22ad37ec1e4c4dbb8c1c224f7d0bc5fc
+
+
+## ※ JDBC(Java Database Connectivity)
+
+- 자바 프로그램이 DB와 연결되어 데이터를 주고받을 수 있도록 하는 인터페이스이다.
+
+→ DriverClass , Connection , PreparedStatemet, ResultSet 등의 다양한 객체를 제공한다. 각 각의 기능을 사용하기 위해서 관련 객체를 생서하고 해제해야 하는 단점이 존재한다.
+
+*그렇다면*
+
+# ⚫ myBatis 란?
+
+***이  JDBC를 보다 편리하게 사용할 수 있기 위해 개발 된 자바 퍼시스턴스 프레임워크의 하나로 SQL문을 별도의 파일로 분리해서 관리할 수 있도록 제공한다.***
+
+[MyBatis - 마이바티스 3 | 소개](https://mybatis.org/mybatis-3/ko/index.html)
+
+## ✔️myBatis의 특징
+
+1. **SQL문의 코드로부터 완전히 분리**
+    
+      - 기존의 *DAO*파일에 모든 쿼리문을 작성한 것과 달리 *myBatis*에서는 *xml*의 *Mapper*파일에 *sql*쿼리문을 입력하고 *DAO*에서 호출하여 사용하는 방식이다.
+    
+2. **생산성** : 코드의 양이 줄어 가독성이 향상된다.
+3. **유지보수성 향상** : *Mapper*파일에 *sql*코드를 모아놓고 *sql*쿼리문을 변경할 시 *Mapper*파일만 수정하면 *DAO*에 아무런 영향을 끼치지 않기 때문에 유지보수에 용이하다.
+
+# ✔️myBatis 설정방법 및 순서
+
+### pom.xml 라이브러리 추가 (Maven)
+
+```xml
+<dependency>
+  <groupId>org.mybatis</groupId>
+  <artifactId>mybatis</artifactId>
+  <version>3.4.5</version>
+</dependency>
+```
+
+## ⚫ XML에서 SqlSessionFactory 빌드하기
+
+→ JDBC의 *Connection* 과 *Statenet* , *PreparedStatement* , *ResultSet* 등 모든 기능등을 ***SqlSession*** 에 가지고 있다.
+
+**Connection 객체 관리**
+
+  - 기능마다 Connection 객체를 만들고 해제하는 것이 많이 반복되다보면 시스템에 부하가 많이 발생하기 때문에 미리 Connection 의 객체를 만들어 사용하고 반납하는 형태
+
+***→ 이와 같이 SqlSession을 관리하도록 하기 위한 상자같은 개념이 SqlSessionFactory라고 할 수 있다. 이것을 설정해주는 과정이 SqlSessionFactory 빌드이다.***
+
+### < mybatis-config.xml> → DB 접속 정보 셋팅
+
+→  `<environment>` 는 여러 개 만드는 것이 가능하며 *id* 값은 물론 다르게 주어야 하고 상황에 따라 접속 정보를 다르게 지정할 수도 있다.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="mapper/event/EventMapper.xml"/> //xml기반의 sql구문 매핑
+  </mappers>
+</configuration>
+```
+
+### <MyBatis.java>
+
+```java
+package com.kh.common;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+public class MyBatis {
+
+	//SqlSessionFactory 빌드하기
+
+	//resource에 mybatis-config.xml의 경로 classPath를 기준으로 시작하여 적어준다.
+	String resource = "com/kh/config/mybatis-config.xml";
+	private SqlSessionFactory sqlSessionFactory;
+
+	public MyBatis() {
+
+		InputStream inputStream = null;
+		try {
+			inputStream = Resources.getResourceAsStream(resource);
+			//resource에 있는 xml파일에서 설정 정보를 가져온다.
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//SqlSessionFactoryBuilder에 resource에 있는 설정 정보를 넘겨 sqlSessionFactory를 생성한다.
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+	
+	}
+}
+```
+
+## ⚫XML을 사용하지 않고 SqlSessionFactory 빌드하기
+
+→ 자바를 사용해서 직접 설정하기 위한 코드로 *XML*파일 같은 모든 설정을 제공하는 *Configuration* 클래스를 사용하면 된다.
+
+예제)
+
+```java
+DataSource dataSource = BlogDataSourceFactory.getBlogDataSource();
+TransactionFactory transactionFactory = new JdbcTransactionFactory();
+Environment environment = new Environment("development", transactionFactory, dataSource);
+Configuration configuration = new Configuration(environment);
+configuration.addMapper(BlogMapper.class);
+SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+```
+
+이 설정에서 추가로 해야 할 일은 Mapper 클래스를 추가하는 것으로 Mapper 클래스는 SQL맵핑 애노테이션을 가진 자바 클래스이다.
+
+## ⚫SqlSessionFactory에서 SqlSession 인스턴스 만들기
+
+*SqlSession*은 *DB*에 대해 *SQL*명령어를 실행하기 위해 필요한 모든 메소드를 가지고 있어서 *SqlSession* 인스턴스를 통해 직접 *SQL*구문을 실행 할 수 있다.
+
+**예제 1)**
+
+```java
+try (SqlSession session = sqlSessionFactory.openSession()) {
+  Blog blog = session.selectOne("org.mybatis.example.BlogMapper.selectBlog", 101);
+}
+```
+
+→ 위 방법은 마이바티스의 이전 버전의 방법이고 이보다 좋은 방법은 주어진 *SQL*구문의 인자와 리턴값을 설명하는 인터페이스(예를 들어 , *BlogMappper.class*)를 사용하는 것으로 문자열 처리 오류나 타입 캐스팅 오류 없이 더 안전하고 깔끔하게 실행이 가능하다.
+
+**예제 2)**
+
+```java
+try (SqlSession session = sqlSessionFactory.openSession()) {
+  BlogMapper mapper = session.getMapper(BlogMapper.class);
+  Blog blog = mapper.selectBlog(101);
+}
+```
+
+ →***쉬운 예로 로그인을 실행하려 할때 사용자가 입력한 아이디와 패스워가 인자로 넘어가면 Member라는 형태의 어떠한 객체로 리턴을 받을 때, SQL에 이것을 설명해 줄 때 인터페이스를 사용한다는 것이다.***
+
+## 🌟매핑 된 SQL 구문 살펴보기
+
+### <EventMapper.xml>
+
+→  패키지명으로 객체를 지정한다.
+
+ - `***namespace***` : 매핑하는 실행 메소드가 있는 파일
+
+ - `***resultType***` : 리턴 타입 
+
+**예제)**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.event.EventMapper">
+  <select id="getAllEventList" resultType="com.kh.event.model.vo.Event">
+    SELECT * FROM EVENT_TB   //이벤트 테이블에서 이벤트 리스트를 불러올 것
+  </select>
+</mapper>
+```
+
+### <EventMapper.java> - 인터페이스
+
+**예제 )**
+
+```java
+
+// 이벤트 리스트를 불러오는 SQL구문을 매핑해주는 인터페이스
+// 아래 코드는 파라미터가 없고 리턴 값만 존재하는 형태로 
+// 파라미터가 존재한다면 getAllEventList(int eNo) 와 같이 넣어주면 된다.
+package mapper.event;
+import java.util.ArrayList;
+import com.kh.event.model.vo.Event;
+
+public interface EventMapper {
+
+	ArrayList<Event> getAllEventList();
+}
+```
+
+## 🌟 SqlSession과 Mapper클래스 실행 자세히 살펴보기
+
+- 한 개의 매퍼 *XML*파일에는 많은 수의 매핑 구문을 정의할 수 있기 때문에 ***매핑된 SELECT 구문의 이름과* *파라미터 그리고 리턴타입을 가진 네임스페이스와 같은 이름의 Mapper 클래스와 직접 매핑*** 될 수 있게 한다.
+
+[ **예제 XML ]**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mybatis.example.BlogMapper">
+  <select id="selectBlog" resultType="Blog">
+    select * from Blog where id = #{id}
+  </select>
+</mapper>
+```
+
+[ **기존방법 ]**
+
+ - 패키지를 포함한 전체 경로의 클래스 내 메소드를 호출하는 것과 비슷한 형태
+
+```java
+Blog blog = (Blog) session.selectOne("org.mybatis.example.BlogMapper.selectBlog", 101);
+```
+
+[ **보다 간단한 방법 ]**
+
+ - 문자열에 의존하지 않는다.
+
+ - 개발자가 IDE를 사용할 때 매핑된 SQL구문을 사용할 때의 수고를 덜어준다.
+
+ - 리턴타입에 대한 타입 캐스팅을 생략할 수 있다. 파라미터도 마찬가지
+
+```java
+BlogMapper mapper = session.getMapper(BlogMapper.class);
+Blog blog = mapper.selectBlog(101);
+```
+
+다시 [MyBatis.java](http://MyBatis.java) 로 돌아와서 두 번째 방법을 사용한다.
+
+## < MyBatis.java>
+
+ - *SqlSession을*  ***`sqlSessionFactory.openSession()`***  을 통해 받아온다.
+
+ - ***`session.getMapper(EventMapper.class)`*** *: 인터페이스의 클래스 정보로 매퍼 생성*
+
+ - ***`ArrayList<Event> list = mapper.getAllEventList()`**  : 인터페이스에 정의한 리턴타입으로 받는 것*
+
+```java
+public void getAllEventList(){
+		
+
+		SqlSession session = sqlSessionFactory.openSession();
+		EventMapper mapper = session.getMapper(EventMapper.class);
+		ArrayList<Event> list = mapper.getAllEventList();
+		
+		for(Event e : list) {
+			System.out.println("마이바티스 실행 : " + e.getE_NAME());
+		}
+		
+	}
+```
+
+이제 실행하여 결과를 살펴보자.
+
+**[ 출력결과 ]**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/39913659-4a07-4adc-8e9d-b46218877dc8/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3dd52462-9025-4857-87a2-d3cdd380fffe/Untitled.png)
+
+- ***성공적으로 이벤트리스트가 불러와져 콘솔에 출력된다.***
+
+## 🌟더 알아보기
+
+### 💫 다른 매핑 구문 방법
+
+- 간단한 구문에서는 자바 애노테이션을 사용하는 것이 더 깔끔하다.
+
+위의 인터페이스 예제를 활용하자면 
+
+```java
+package mapper.event;
+import java.util.ArrayList;
+import com.kh.event.model.vo.Event;
+
+public interface EventMapper {
+	
+		@Select("SELECT * FROM EVENT_TB")
+		ArrayList<Event> list = getAllEventList;
+}
+```
+
+와 같이 바꿔쓸 수 있다. 하지만 **복잡한 구문에서 제한적이고 코드가 엉망이 될 수 있기 때문에 복잡할 경우에는 XML 매핑을 사용하는 것이 나을 것이다**.
+
+***매핑 구문은 일관 된 방식으로 정하는 것이 중요***하다고 하니 프로젝트 시 팀과 조율을 해야 한다. 
+
+### 💫 스코프(Scope) 와 생명주기 (Lifecycle)
+
+- ***SqlSessionFactoryBuilder***
+
+ - ***SqlSessionFactoryBuilder***는 인스턴스화 되어 사용할 수 있는데 생성한 후 유지할 필요는 없다. 그러므로 인스턴스의 가장 좋은 스코프는 ***메소드 스코프***로 여러 개의 ***SqlSessionFactory*** 인스턴스를 빌드하기 위해 재사용할 수는 있으나 유지는 하지 않는 것이 좋겠다*.*
+
+- ***SqlSessionFactory***
+
+ - 한 번 만든 ***SqlSessionFactory*** 는 ***애플리케이션이 실행하는 동안 존재***해야 한다. 따라서 삭제하거나 재생성할 필요가 없고 실행되는 동안 여러 차례 ***SqlSessionFactory*** 를 다시 빌드하지 않는 것이 좋은 방법이다.  따라서 가장 좋은 스코프는 ***애플리케이션 스코프***다.
+
+- ***SqlSession***
+
+ - 각 각의 스레드는 자체적으로 ***SqlSession*** 인스턴스를 가져야 한다.  ***SqlSession*** 인스턴스는 공유되지 않고 스레드에 안전하지도 않다. 그러므로 가장 좋은 스코프는 ***메소드 스코프***이다. 
+
+ -***SqlSession 은 static** 필드나 클래스의 인스턴스 필드로 지정해서는 안된다. 그리고 서블릿 프레임워크의 **HttpSession** 과 같은 관리 스코프에 둬서도 안된다**.***  
+
+ - 웹 프레임워크를 사용한다면 HTTP요청과 유사한 스코프에 두는 것으로 고려해야 하며 달리 말하면 **HTTP요청을 받을 때마다 만들고 응답할 때마다 *SqlSession*을 닫도록 한다.** ***SqlSession***은 닫는 것이 중요하니 ***finally***블록에서 꼭 닫아주도록 하자 →***JDBC Connection 과 같이 생각하면 될 것 같다.***
+
+- ***Mapper 인스턴스***
+
+ - ***Mapper***는 매핑된 구문을 바인딩하기 위해 만드는 인터페이스로 ***mapper***의 인터페이스 인스턴스는 ***SqlSession*** 에서 생성한다. 따라서 ***SqlSession***과 동일한 스코프로 생각하자 → ***메소드 스코프***
+
+ - ***SqlSession*** 처럼 명시적으로 닫아줄 필요는 없다.
