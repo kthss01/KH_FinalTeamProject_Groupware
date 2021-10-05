@@ -1,0 +1,11 @@
+django 맛보기
+https://github.com/kthss01/Django_Study_Codeit
+
+팀 프로젝트 회의 
+주제 선정 및 그에 맞는 기능 조사 해보기
+주제 : 사내 - 그룹웨어
+부트스트랩4 템플릿 찾아보기로함
+
+GO 언어 간단 정리 (노마드 코더)
+GO 언어과 왜 인기 있는지
+https://held-spaghetti-47e.notion.site/Go-ce8e394708434e0bb5e8f3efa6adc629

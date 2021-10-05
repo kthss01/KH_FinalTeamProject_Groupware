@@ -1,0 +1,8 @@
+HTTP 웹 기본지식 공부
+https://held-spaghetti-47e.notion.site/HTTP-26e373b922174719aafd4648e6f72315
+
+코트린 간단 조사
+https://held-spaghetti-47e.notion.site/490de54d93fc44a4a5e4c370ac37f932
+
+django 맛보기
+https://github.com/kthss01/Django_Study_Codeit/commits/main
