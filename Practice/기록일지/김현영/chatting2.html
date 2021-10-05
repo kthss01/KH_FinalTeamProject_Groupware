@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="chatStyle.css" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="javascript" src="server.js"></script>
+
+
+  </head>
+  <body>
+    <div id="chat_wrap" class="chat_wrap">
+      <div id="chatLog" class="chat_log" readonly>
+        <ul id="content" class="content">
+
+        </ul>
+      </div>
+
+    <form id="chatting" class="chatting">
+      <input id="user" class="user" type="text" readonly>
+      <input id="message" class="message" type="text">
+      <input type="submit" class="chat" value="chat"/>
+    </form>
+    </div>
+
+    <div id="box" class="box">
+    
+
+    
+    </div>
+
+    <script>
+      var socket = io();
+
+      // Message 발신
+      $('.chatting').on('submit', function(e){
+
+        socket.emit('send message', $('#user').val(), $('#essage').val());
+        // 서버에게 user 의 val 과 message 의 val 발신
+        
+        $('.message').val('');
+        $('.message').focus();
+        e.preventDefault();
+      });
+
+
+      // Message 수신
+      socket.on('receive message', function(userName, msg){ 
+        $('.chatLog').append('<li>' + userName + '</li>' + '\n' + '<li> ' + msg + ' </li>');
+        $('.chatLog').scrollTop($('chatLog')[-1].scrollHeight);
+      });
+
+      socket.on('change name', function(name){
+        $('.user').val(name);
+      });
+    </script>
+  </body>
+</html>
