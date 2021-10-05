@@ -1,0 +1,178 @@
+### 공부자료
+
+[스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술 - 인프런 | 학습 페이지](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/lecture/49603?tab=curriculum&speed=1.5)
+
+[Spring Boot Features](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features)
+
+# ⚫ 프로젝트 환경 설정
+
+- java 11로 설치
+- IntelliJ IDEA 설치
+
+### ✔️ 프로젝트 생성
+
+ -  Spring에서 운영하고 있는 사이트를 통해 생성
+
+[Spring Initializr](https://start.spring.io/)
+
+### ♣️ Maven 과 Gradle 란 ?
+
+ - 필요한 라이브버리를 가져오며 빌드하는 라이브러리까지 관리해주는 Tool이라고 볼 수 있다. Maven은 과거에 많이 사용했고 레거시 프로젝트 같은 경우 Maven으로 한 것이 많은데 Gradle를 사용하는 것이 요즘 더 추세라고 한다.
+
+ * **Spring Boot 2.5.5** 최신 버전 선택 *(버전 뒤에 영어가 붙은 것은 정식 버전이 아니니 사용x)*
+
+ * **Project Metadata**
+
+ - ***Group*** : 보통 팀 명이나 기업명
+
+ - ***Artifact*** : 프로젝트 명의 개념
+
+ - *나머지 항목은 변경하지 않았음*
+
+ * **Dependencies**
+
+ → 사용할 라이브러리를 추가하는 부분
+
+- ***Spring Web*** : 웹 프로젝트를 만들기 위한 라이브러리
+- ***Lombok***
+- ***Thymeleaf*** : *html* 템플릿을 생성해주는 라이브러리
+
+→ 화면 하단에 **GENERATE** 클릭해주면 파일이 다운받아진다 → 사용할 폴더에 압축 해제 
+
+→ **IntelliJ** 로 압축 푼 폴더에서 **build.gradle** 선택 후 **open**
+
+*(로딩 할 파일이 많기 때문에 처음에 다소 시간이 걸린다)*
+
+**[** **처음 생성 된 모습 ]**
+
+srd > main > java > com.sunyo.hellospring > **HelloSpringApplication.java**
+
+```java
+package com.sunyo.hellospring;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HelloSpringApplication {
+
+	public static void main(String[] args) { //실행되는 main 메소드
+		SpringApplication.run(HelloSpringApplication.class, args);
+	}
+
+}
+```
+
+**🌟 실행 설정 : 애플리케이션을 실행할 때 *Gradle*이 아닌 *IntelliJ* 로 바꿔주는 것이 좋은데 *Gradle*로 하면 시간이 너무 오래 소요되는 경우가 있다고 한다.** 
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b9560a99-04c1-4491-8b64-dc898c23187e/Untitled.png)
+
+**[ 실행 시킨 후 console 내용 중 ]**
+
+[ main] o.s.b.w.embedded.tomcat.TomcatWebServer : ***Tomcat started on port(s): 8080*** (http) with context path '' → 웹페이지로 접속해보자
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/33c2e1ce-1374-4ba1-81c6-6472689409ab/Untitled.png)
+
+→ ***현재 아무것도 없기 때문에 위와 같이 에러페이지가 나오면 성공한 것이다! 실행을 종료하고 새로고침을 해보면 이렇게 나온다.***
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1a44d3c0-2350-4bbc-a700-2b58195439c1/Untitled.png)
+
+### **🌟 핵심** 라이브러리 살펴보기
+
+      → *Gradle*은 의존관계가 있는 라이브러리를 함께 다운로드 한다. 
+
+ * 스프링 부트 라이브러리 *
+
+- *spring-boot-starter-web*
+    - *spring-boot-starter-tomcat* : 톰캣 (웹 서버)
+    - *spring-webmvc* : 스프링 웹 MVC
+
+ ***Spring*은 톰캣을 내장하고 있기 때문에 실행시키면 자동으로 톰캣 서버로 실행된다.**
+
+- *spring-boot-starter-thymeleaf* :  타임리프 템플릿 엔진(View)
+- *spring-boot-starter*(공통) : 스프링 부트 + 스프링 코어 + 로깅
+    - *spring-boot*
+        - *spring-core*
+    - *spring-boot-starter-logging*
+        - *logback , slf4j*
+
+**현업에서는 System.out.println() 을 거의 쓰지 않는다고 한다. 그럼 어떻게 하냐 log 라는 것을 남겨서 사용하는데 에러같은 것을 잡을 때 *log로 기록을 남겨 찾는다*는 것이다. 추후에 알아보자!**
+
+# ⚫ VIEW 환경설정
+
+## ✔️ Welcome Page 만들기
+
+→  resources/static/index.html 을 생성하면 스프링이 Welcome Page 기능을 제공.
+
+```html
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+Hello
+<a href="/hello">hello</a>
+</body>
+</html>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b7a474d-f160-441f-9cce-32328c435126/Untitled.png)
+
+## ✔️Thymeleaf 템플릿 엔진 사용해보기
+
+→ thymeleaf 문법을 사용하기 위해 상부에 엔진을 선언해줘야 한다. 
+
+```html
+<html xmlns:th="http://www.thymeleaf.org">
+
+```
+
+**<Contoller>**
+
+```java
+package com.sunyo.hellospring.conroller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HelloController {
+
+    @GetMapping("hello")  //주소 매핑으로 해당 주소일 때 아래 메소드가 실행되는 것
+    public String HelloController(Model model) { //Spring이 Model이란 것을 만들어 넘겨줌
+        model.addAttribute("data", "hello!!");  //data에 hello가 치환되어 들어간다.
+        return "hello";  // hello.html을 실행하라
+
+    }
+}
+```
+
+**<resources/templates/hello.html>**
+
+```html
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<p th:text="'안녕하세요.' + ${data}" > 안녕하세요. 손님</p>
+
+</body>
+</html>
+```
+
+**<실행>**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/034ddd25-f18f-47da-b6c7-59972196d01e/Untitled.png)
+
+**[ 동작 환경]**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/42ad9861-7ef1-42d4-b4a0-ba910430a2d9/Untitled.png)
+
+**→ {ViewName} → hello로 치환 된 것**
