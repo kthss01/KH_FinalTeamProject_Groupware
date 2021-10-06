@@ -1,0 +1,8 @@
+웹소켓 예제보고 따라 구현해보기 (JSP/Servlet)
+https://github.com/kthss01/KH_Final_Practice/tree/main/WebSocket_Practice
+
+UML 복습 및 정리
+https://held-spaghetti-47e.notion.site/UML-38333823605547b7aaa91e56f44d66c4
+
+세션, 토큰, 쿠키 정리 (노마드코더)
+https://held-spaghetti-47e.notion.site/6d8f0b7dfbe941d19aeeddd05ffc2cef

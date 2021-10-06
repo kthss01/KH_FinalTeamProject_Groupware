@@ -1,0 +1,140 @@
+# ⚫ 스프링 웹 개발 기초
+
+## ✔️ 정적컨텐츠 제공 기능
+
+→ static이란 폴더 내부에 hello-static.html 파일을 생성하고 문서를 작성했다.
+
+→ [localhost:8080](http://localhost:8080)/hello-static.html   으로 접속한다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c1c79d99-115d-4893-8018-5a0f24107cb6/Untitled.png)
+
+ *** 정적 컨텐츠 이미지***
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9e081386-4217-4401-adac-9546a2ea3f12/Untitled.png)
+
+→ 요청이 들어 올 경우 스프링 컨테이너에서 hello-static 관련 컨트롤러가 있는 지 먼저 조회하고 없을 경우에 resources 에서 찾아 브라우저에 반환한다.  
+
+## ✔️ MVC와 템플릿 엔진
+
+- **MVC** : *Model*, *View*, *Controller*
+
+과거에는 MVC가 분리되어 있지 않아 하나의 jsp파일에 수천라인 이상의 코드가 존재했다. 유지보수에 상당히 어려워 현재는 분리되어 있는 형태를 기본으로 작업한다고 보면 된다.
+
+**<HelloController.java>**
+
+```java
+@GetMapping("hello-mvc")
+    public String helloMvc(@RequestParam("name") String name, Model model) {  
+        model.addAttribute("name",name); //키와 값의 형태로 파라미터로 넘어온 name을 넣어준다.
+        return "hello-template";
+    }
+}
+```
+
+### 🌟 **@RequestParam을 이용한 값 받아오기**
+
+***@RequestParam* 어노테이션은 *HttpServletRequest* 객체와 같은 역할로 *Servlet*에서 *getParameter()* 메소드로 값을 받아올 수 있었 듯이 *@RequestParam*를 이용하는 방법이 있다.**
+
+ **`*helloMvc()*`** 의 인자 값에 *@RequestParam()* 어노테이션을 넣어서 사용하는데 위 코드로 보면 ***String*** 타입의 값을 ***name*** 변수에 담아오는 것이다. 
+
+***@RequestParam("데이터명") [데이터 타입], [데이터를 담을 변수명]***
+
+그리고 ***Model*** 객체를 이용해 ***View***로 값을 넘겨준다.
+
+**<hello.template.html>**
+
+```html
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<p th:text="'hello ' + ${name}">hello! empty</p>
+</body>
+</html>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/80b4ab12-2c62-47bd-887b-6666f4168c16/Untitled.png)
+
+→  `**${name}**`  이 '**spring!!!**'이라는 **String** 타입의 문자열로 치환되어 화면에 뿌려진다. 
+
+---
+
+ *  *hello! empty 의 의미는 무엇일까? **
+
+ - *thymeleaf*의 기능 중 하나로 html문서를 서버없이 돌려 테스트 해보고 싶을 때 사용하는 데 *html*문서로 열었을 경우 **'hello ' + ${name}** 이 부분 대신 **hello! empty** 로 치환되어 보인다. 말하자면 *html*문서의 껍데기를 보여주는 것이라고 할 수 있다.  생략해도 무방하다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7040276c-1105-4787-892d-f58548af7039/Untitled.png)
+
+→ veiwResolver가 hello-template.html을 찾고 웹 브라우저에 반환할 때 정적 컨테츠를 띄울 때와는 달리 HTML로 변환 과정을 거친다.
+
+## ✔️ API 방식
+
+**<HelloController.java>**
+
+```java
+//API방식으로 데이터 전달하여 화면 띄우기기
+    @GetMapping("hello-string")
+    @ResponseBody  //꼭 넣어줘야 함
+    public String helloString(@RequestParam("name") String name){
+        return "hello " + name; //
+    }
+```
+
+→ *API* 방식은 *VIEW*가 존재하지 않는다. 위 코드로 실행하게 되면 **`*"hello " + name;*`** 이 데이터 그대로 화면에 뿌려지게 된다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f3853910-4359-4658-b60f-af0d02e57852/Untitled.png)
+
+그냥 보았을 때에는 MVC패턴과의 차이점이 보이지 않는다. 페이지 소스보기를 열어보자! 
+
+**[ API 방식 ]**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f8e4e7bc-a8a5-4727-ae32-62b3e1a0b63e/Untitled.png)
+
+**[ MVC 방식 ]**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1c6a9fc5-8165-43a5-82d6-13e6d7256fec/Untitled.png)
+
+→ ***MVC방식이 HTML의 변환 과정을 통해 데이터를 HTML문서에 직접 삽입하는 방식이라면 API는 데이터 자체 그대로 웹 브라우저에 내보내고 있다.***
+
+ ***API 방식은 객체를 넘길 때 JSON방식을 이용한다!**
+
+컨트롤러에 아래 클래스와 메소드를 추가해보고 확인해보자.
+
+```java
+@GetMapping("hello-api")
+    @ResponseBody
+    public Hello helloApi(@RequestParam("name") String name){
+        Hello hello = new Hello();
+        hello.setName(name);
+        return hello;
+    }
+
+    static class Hello{
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+```
+
+**[ 결과 ]**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b3f47571-240e-409f-a29c-ab9d43fd9da7/Untitled.png)
+
+*실무에서 자주 활용하게 될 것 같은 느낌이다.*
+
+### 🌟 **@ResponseBody**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8581939e-7ff6-4145-a54a-e511e24d3d21/Untitled.png)
+
+→ **@ResponseBody 가 있으면 viewResolver 대신에 HttpMessageConverter 가 동작하게 된다.**
+
+- ***StringConverter*** : 단순 문자열일 때 동작
+- ***JsonConverter*** : 객체를 처리할 때 동작
+    - 정확히는 ***MappingJackson2HttpMessageConverter*** 로 객체를 ***json***타입으로 변환시켜주는 대표적인 라이브러리이다. (다른 라이브러리로는 세미프로젝트 때 사용해 본  ***Gson***이 있겟다.)
+- byte 처리 등 등 기타 여러 MessageConverter가 등록되어 있다.
+
+**[** **참고 ]** : **클라이언트의 *HTTP Accept* 헤더와 서버의 컨트롤러 반환 타입 정보 둘을 조합해서 *HttpMessageConverter*가 선택된다**.
