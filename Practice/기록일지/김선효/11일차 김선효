@@ -1,0 +1,549 @@
+# ⚫ 마이바티스란 ?
+
+- 데이터의 CRUD를 보다 편하기위해 xml로 구조화한 Mapper 설정파일을 통해 JDBC를 구현한 영속성 프레임워크
+- 기존에 JDBC를 통해 구현했던 상당 부분의 코드와 파라미터 설정 및 결과 매핑을 XML설정을 통해 쉽게 구현할 수 있도록 해준다.
+
+## ◾ 마이바티스의 흐름
+
+ - 이전에 *JDBC Template*를 통해 *sql*을 실행했다면 마이바티스는 해당 흐름을 전용 라이브러리를 통해 대체 작용한다고 보면된다.
+
+- **컨트롤러** > **서비스** > **DAO [ 를  마이바티스 설정 파일로 대체  ]** > **DB**
+
+*DAO*에서는 호출만 하게 된다.
+
+## ◾마이바티스의 동작 구조
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/13005a56-487c-4fab-a582-81270c8ae583/Untitled.png)
+
+# ⚫ mybatis-config 설정하기
+
+1. **프로젝트에 *resources* 폴더 추가** 
+
+1. ***Java Build Path*에서 *Add Folder* 로 *resources* 를 추가해주면 *resources* 폴더도 클래스패스로 잡힌다.**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8bfcbc99-03bc-457f-af20-4e51b4c3c00e/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6cf4cfe7-ab9d-4005-b0ae-5ff168100d7f/Untitled.png)
+
+## ✔️ DTD(문서 형식 정의) 추가하기
+
+→ 마이바티스 API 사이트에서 제공하고 있는 mapper와 config 를 문서형식으로 정의해서 xml파일을 생성할 때 자동으로 형식을 갖출 수 있게 한다. 단, 인터넷이 안 될 경우에는 사용할 수 없다고 한다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52f2db51-a30d-44f3-be4a-619f01668744/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6449e2b6-41a4-4eb0-94ae-bd388029ac79/Untitled.png)
+
+→ ***Add 클릭하고 아래 두 개 입력 후 OK !***
+
+**[ config ]**
+
+- **Location :**   [http://mybatis.org/dtd/mybatis-3-config.dtd](http://mybatis.org/dtd/mybatis-3-config.dtd)
+- **Key :**   -[//mybatis.org//DTD](https://mybatis.org//DTD) Config 3.0//EN
+****
+
+**[ mapper]**
+
+- **Location :**   [http://mybatis.org/dtd/mybatis-3-mapper.dtd](http://mybatis.org/dtd/mybatis-3-mapper.dtd)
+- **Key :**   -[//mybatis.org//DTD](https://mybatis.org//DTD) Mapper 3.0//EN
+****
+
+→ ***Apply and close 클릭 하면 완료 !***
+
+*이런 방법도 있고 따로 다운받아서 넣어주는 방법도 있다고 한다.
+
+## ✔️ mybatis-config.xml 작성
+
+**[ mybatis-config.xml ]**
+
+```xml
+<!-- xml 최상단에 xml형식을 지정하여 이하의 설정 내용이 mybatis config 설정임을 선언 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+
+<!-- configuration : 마이바티스 설정과 관련된 기본 셋팅들을 선언할 수 있는 영역. 내부에 작성하는 엘리먼트들의 순서가 중요  -->
+
+<configuration>
+
+	<!-- 데이터가 Null로 들어올 경우 빈칸이 아닌 null로 인식하도록 설정   / value에 null을 대문자로 기입해야 함-->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<!-- VO/DTD 객체의 풀패키지명을 일반 클래스명으로 사용하기 위해 별칭을 선언하는 태그  -->
+	<typeAliases>
+		<typeAlias type="package com.kh.mybatis.member.model.vo.Member" alias="Member" />
+	</typeAliases>
+	
+	<!-- DB 연결 설정  -->
+	<environments default="development">
+	    <environment id="development">
+	      <transactionManager type="JDBC"/>
+	      <dataSource type="POOLED">
+	        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+	        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	        <property name="username" value="mybatis"/>
+	        <property name="password" value="mybatis"/>
+	      </dataSource>
+	    </environment>
+	 </environments>
+</configuration>
+```
+
+### ◾ config 태그 정리
+
+- * **`<configuration>` : 최상위 태그로 내부에 필요한 설정을 작성**
+    
+    ```xml
+    <configuration>
+    	
+    	<!-- 내부에 설정 작성 -->
+    
+    </configuration>
+    ```
+    
+- * **`<properties>`** **: 외부 properties 파일의 내용을 불러올 때 사용하는 태그**
+    
+    
+    ```xml
+    <properties resource="경로 + 파일명.properties">
+    		<!-- properties 파일에 값을 설정 가능  -->
+    		<property name="key명" value="설정 값"/>
+    </properties>
+    
+    <!-- 설정 값 활용-->
+    <dataSource type="POOLED">
+    		<property name="명칭" value="${ properties에 설정 된 key명}"/>
+    		<property name="명칭" value="${ properties에 설정 된 key명}"/>
+    </dataSource>
+    
+    ```
+    
+- * **`<settings>` : mybatis 구동 시 선언할 설정들을 작성하는 태그**
+    
+    
+    ```xml
+    <!-- 만약에 Null 로 데이터 들어오면 빈칸이아니고 null 로 인식 하도록 설정 -->
+    <settings>
+    		<setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+    ```
+    
+    [MyBatis - 마이바티스 3 | 매퍼 설정](https://mybatis.org/mybatis-3/ko/configuration.html)
+    
+- *** `<typeAliasese>` : mybatis에서 사용할 자료형의 별칭을 선언하는 태그**
+    
+    
+    → 지정해준 별칭으로 매퍼.xml에서 사용할 때 해당 별칭으로 사용할 수 있다. 명시가 안되어있으면 풀패키지명으로 적어줘야 한다.
+    
+    ```xml
+    <!-- VO/DTO 객체의 풀네임을 일반 클래스명으로 사용하기위해 별칭선언 -->
+    	<typeAliases>
+    			<typeAlias type="com.kh.mybatis.member.model.vo.Member" alias="Member"/>
+    	</typeAliases>
+    ```
+    
+- *** `<environments>` : mybatis에서 연동할 DB 정보를 등록하는 태그**
+    
+    → 여러 개도 지정 가능하다.
+    
+    ```xml
+    <!-- DB 연결 설정 -->
+    	 <environments default="development">
+    	    <environment id="development">
+    	      <transactionManager type="JDBC"/>
+    	      <dataSource type="POOLED">
+    	        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+    	        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+    	        <property name="username" value="mybatis"/>
+    	        <property name="password" value="mybatis"/>
+    	      </dataSource>
+    	    </environment>
+    	  </environments>
+    ```
+    
+- ***`<mappers>` 태그 : 사용하고자 하는 쿼리문이 정의된 mapper 파일을 등록하는 태그**
+    
+    ```xml
+    <!-- DB에 사용되는 쿼리문을 담은 mapper 파일을 등록 -->
+    	<mappers>
+    		<mapper resource="/mappers/member-mapper.xml"/>
+    	</mappers>
+    ```
+    
+
+### 🌟 POOLED와 UNPOOLED의 차이점
+
+- ***POOLED*** : 최초 커넥션 객체를 생성할 때 해당 정보를 *pool*영역에 저장해두고 이후 커넥션 객체를 생성할 때 이를 재사용한다.
+    - **장점** :  *Connection* 객체를 생성하여 *DB*와 연결을 구축하는 데 걸리는 시간을 단축
+    - **단점** : 설정이 많아 단순한 로직을 수행하는 객체를 만들기에는 부적합
+- ***UNPOOLED***: 객체를 별도로 저장하지 않고 호출 시 매번 생성한다
+    - **장점**: *Connection* 연결이 많지 않은 코드를 작성할 때 간단하게 구현 가능
+    - **단점**: 매번 새로운 객체를 생성하므로 속도가 상대적으로 느림
+
+ * *설정 가능한 type 중 JNDL도 있는데, 이는 mybatis에서 Connection 객체를 생성하여 관리하지 않고 Web Application 의 설정을 따르겠다는 의미* 
+
+### 🌟  Mybatis 내장 별칭 (for parameterType / resultType)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e1d31807-9b0d-433a-969e-efdf6a2b09d0/Untitled.png)
+
+# ⚫ mapper 설정하기
+
+## ✔️ -mapper.xml 작성
+
+*→ '**resources**' 폴더 안에 **mappers** 폴더를 생성하고 그 안에 식별하기 쉬운 이름을 지어 파일을 등록*
+
+→ xml최상단에 다음과 같이 xml 형식을 지정하여 이하의 설정내용이 마이바티스의 매퍼 설정임을 선언
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1ac560ba-463b-44b9-9d11-f9229f2491f2/Untitled.png)
+
+→ 이어서 최상위에 **<mapper>** 태그를 작성하고, 외부에서 접근할 수 있는 이름인 ***namespace***속성을 꼭 기입한다.  이후 태그는 **<mapper>** 내부에 작성 
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/626077c9-d945-4731-be64-3f5bb19263e6/Untitled.png)
+
+### ◾ mapper 태그 정리
+
+ **[ member-mapper.xml ]**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+ 
+  
+ <!--  USER_ID와 USER_PWD 컬럼은 Member 객체의 필드 변수명과 일치하지 않아서 정보를 가져오지 못한다. -->
+    <resultMap type="Member" id="memberResultSet">
+	  	<id property="userNo" column="USER_NO" />
+	  	<id property="userId" column="USER_ID" />
+	  	<id property="userPwd" column="USER_PWD" />
+	  	<id property="userName" column="USER_NAME" />
+	  	<id property="email" column="EMAIL" />
+	  	<id property="birthday" column="BIRTHDAY" />
+	  	<id property="gender" column="GENDER" />
+	  	<id property="phone" column="PHONE" />
+	  	<id property="address" column="ADDRESS" />
+	  	<id property="enrollDate" column="ENROLL_DATE" />
+	  	<id property="modifyDate" column="MODIFY_DATE" />
+	  	<id property="status" column="STATUS" />  	
+  </resultMap>
+
+  <!-- <select id = "loginMember" parameterType="Member" resultType="Member"> -->
+  
+  <select id = "loginMember" parameterType="Member" resultMap="memberResultSet">
+  	SELECT * 
+  	FROM MEMBER
+  	WHERE USER_ID = #{userId}
+  	AND USER_PWD = #{userPwd}
+  	AND STATUS='Y'
+  
+  </select>
+
+</mapper>
+```
+
+- **`<resultMap>`** :  조회한 결과를 객체와 Row간의 1:1매칭이 아닌, 원하는 객체의 필드에 담아 반환하고자 할 때 사용하는 태그
+    - ***type 속성*** : 실제로 구현해놓은 자바 POJO 객체를 사용해야 하며, mybatis-config.xml에서 *typeAlias*(별칭) 을 지정하지 않은 경우에는 풀패키지명으로 기입해야 함.
+    - ***property*** = 자바의 필드 변수 이름 / ***column*** = DB의 해당 컬럼
+        
+        → 변수명과 컬럼명이 다를 시 이렇게 지정해주지 않으면 값을 가져올 수 없다. 반대로 같다면 설정을 해주지 않아도 자동으로 값을 가져옴을 의미한다.
+        
+    - ***id*** : 기본 키 컬럼
+    - ***result*** : 일반 컬럼
+    
+    ```xml
+    <resultMap type="Member" id="memberResultSet">
+    	  	<id property="userNo" column="USER_NO" />
+    	  	<result property="userId" column="USER_ID" />
+    	  	<result property="userPwd" column="USER_PWD" />
+    	  	<result property="modifyDate" column="MODIFY_DATE" />
+    	  	<result property="status" column="STATUS" />  	
+      </resultMap>
+    ```
+    
+- **`<select>`** : SQL 의 조회 구문을 작성할 때 사용되는 태그
+    
+    *→ 해당 쿼리를 외부에서 접근하고자 할 때 [namespace.id](http://namespace.id) 명을 접어 접근 가능하다.*
+    
+    → **`#{}`**는 ***PreparedStatement*** 의  ' **?** ' 와 같은 역할이며, 전달 된 값을 뜻한다. 여러 줄로 줄바꿈을 하여 사용도 가능하나 *세미콜론은 제외 (에러 유발)*한다. 
+    
+    ```xml
+    <select id = "loginMember" parameterType="Member" resultMap="memberResultSet">
+      	SELECT * 
+      	FROM MEMBER
+      	WHERE USER_ID = #{userId}
+      	AND USER_PWD = #{userPwd}
+      	AND STATUS='Y'
+      
+      </select>
+    ```
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3ecaeb7e-f268-4465-a214-66f67192dab0/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9aacfaf8-73af-4eb6-9087-f31167ee0b7a/Untitled.png)
+    
+    ### 🌟 FlushCache 와 useCache
+    
+     *- 내용의 변동이 없는 정적인 결과나 쿼리는 반복 시마다 굳이 새로운 쿼리로 생성하여 호출하거나, 새로운 결과를 받아올 필요가 없다. 이러한 상황을 위해 **Mybatis에서 내장하고 있는 Cache 저장소에 반복되는 정적인 쿼리의 호출이나 결과를 한 번 이상 실행할 경우 미리 저장시켜두고 재 호출**에 소요되는 시간을 절약시켜준다.* 
+    
+
+- **`<insert>` , `<update>` , `<delete>`**
+    
+    
+     * **세 태그는** **주요 속성이 동일하다.**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d325851a-a436-4dfb-91bc-848c851d490b/Untitled.png)
+    
+
+# ⚫ SqlSession 생성하기
+
+## ✔️ 싱글톤을 적용한 Template 클래스 생성
+
+### ▪️ SqlSessionFactory 를 빌드하고 SqlSession을 반환하는 Template을 생성
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/13e621fd-93d0-4cdb-8fdb-0ef0ac1227d9/Untitled.png)
+
+**[ Template.java ]**
+
+```java
+package com.kh.mybatis.common;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+public class Template {
+	
+	public static SqlSession getSqlSession() {
+		
+		SqlSession sqlSession = null;
+		
+		InputStream stream;
+		try {
+			stream = Resources.getResourceAsStream("/mybatis-config.xml");
+			sqlSession = new SqlSessionFactoryBuilder().build(stream).openSession(false); //default 가 false임
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sqlSession;
+		
+	}
+
+}
+```
+
+### 🌟 SqlSessionFactoryBuilder 메소드
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f4ab487f-d56d-4738-ac21-12457dace91b/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/097a654d-6c10-4cc1-a7cb-f97992677fd8/Untitled.png)
+
+### ▪️ 서블릿마다 공통적인 인코딩 처리를 위한 인코딩 필터 추가
+
+- **[ EncodingFilter.java ]**
+    
+    ```java
+    package com.kh.mybatis.common.filter;
+    
+    import java.io.IOException;
+    import javax.servlet.Filter;
+    import javax.servlet.FilterChain;
+    import javax.servlet.FilterConfig;
+    import javax.servlet.ServletException;
+    import javax.servlet.ServletRequest;
+    import javax.servlet.ServletResponse;
+    import javax.servlet.annotation.WebFilter;
+    
+    /**
+     * Servlet Filter implementation class EncodingFilter
+     */
+    @WebFilter(urlPatterns="/*")
+    public class EncodingFilter implements Filter {
+    
+        /**
+         * Default constructor. 
+         */
+        public EncodingFilter() {
+            // TODO Auto-generated constructor stub
+        }
+    
+    	/**
+    	 * @see Filter#destroy()
+    	 */
+    	public void destroy() {
+    		// TODO Auto-generated method stub
+    	}
+    
+    	/**
+    	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+    	 */
+    	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    		// 뷰에서 전달 받은 값에 한글이 있을 경우
+    		request.setCharacterEncoding("utf-8");
+    		
+    		chain.doFilter(request, response);
+    	}
+    
+    	/**
+    	 * @see Filter#init(FilterConfig)
+    	 */
+    	public void init(FilterConfig fConfig) throws ServletException {
+    		// TODO Auto-generated method stub
+    	}
+    
+    }
+    ```
+    
+
+### ▪️SqlSession을 통한 쿼리 실행
+
+**[ VIEW ]**
+
+```jsx
+<form action="login.me" method="post">
+	아이디  : <input type="text" name="userId">
+	비밀번호 : <input type="password" name="userPwd">
+</form>
+```
+
+**[ LoginServlet.java ]**
+
+```java
+package com.kh.mybatis.member.controller;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.kh.mybatis.member.model.service.MemberService;
+import com.kh.mybatis.member.model.service.MemberServiceImpl;
+import com.kh.mybatis.member.model.vo.Member;
+
+@WebServlet("/login.me")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private MemberService memberService = new MemberServiceImpl();
+	
+    public LoginServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+		
+		Member m = new Member();
+		m.setUserId(userId);
+		m.setUserPwd(userPwd);
+		
+		Member loginUser = memberService.loginMember(m);
+
+		System.out.println(loginUser);
+		
+	}
+****	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+****
+}
+```
+
+**[ MemberService.java ] - Mapper Interface** 
+
+```java
+package com.kh.mybatis.member.model.service;
+
+import com.kh.mybatis.member.model.vo.Member;
+
+public interface MemberService {
+
+	Member loginMember(Member m);
+
+}
+```
+
+  * 인터페이스로 ***반환타입*** 과 ***파라미터 타입***을 정의해놓고 사용하는 이유 *
+
+→ *기존 방식처럼 **`new MemberService().loginMember()`**와 같은 형태로 사용하지 않는 이유는 결합도를 낮추기 위함이다. 모듈과 모듈은 관련 정보가 많을 수록 결합도가 높아지는데 결합도가 높아지면 유지보수가 힘들기 때문에 인터페이스를 구현하여 사용하는 형태가 많다. 절대적인 방식은 아니고 회사의 환경마다 차이는 있을 수 있다.*
+
+**[ MemberServiceImpl.java ]**
+
+```java
+package com.kh.mybatis.member.model.service;
+
+import org.apache.ibatis.session.SqlSession;
+import static com.kh.mybatis.common.Template.*;
+import com.kh.mybatis.member.model.vo.Member;
+import com.kh.mybatis.member.model.dao.MemberDao;
+public class MemberServiceImpl implements MemberService {
+
+	private MemberDao memberDao = new MemberDao();
+	
+	@Override
+	public Member loginMember(Member m) {
+		SqlSession sqlSession = getSqlSession();
+
+		Member loginUser = memberDao.loginMember(sqlSession, m);
+		
+		sqlSession.close();
+		return loginUser;
+	}
+
+}
+```
+
+→ ***`getSqlSession()`*** 호출을 통해 ***SqlSession***을 생성
+
+→***Dao***클래스의 메소드 호출 시 인자로 ***SqlSession*** 객체를 넘긴다. 
+
+→ **JDBCTemplate.java**에서 *static*으로 ***Connection*** 객체 생성하여 반환하던 ***`getConnection()`*** 으로 ***Connection*** 생성해서 넘겨줬던 것 과 같은 원리임. 
+
+**[ [MemberDao.java](http://MemberDao.java) ]**
+
+```java
+package com.kh.mybatis.member.model.dao;
+
+import org.apache.ibatis.session.SqlSession;
+import com.kh.mybatis.member.model.vo.Member;
+
+public class MemberDao {
+
+	public Member loginMember(SqlSession sqlSession, Member m) {
+		
+		Member loginUser = null;
+		
+		loginUser = sqlSession.selectOne("memberMapper.loginMember", m);
+
+		return loginUser;
+	}
+
+}
+```
+
+→ **m** 객체를 ***memberMapper*** 매퍼에 ***loginMember*** 가 ***id***인 것을 찾아가서 넘겨주고 ***sql***을 실행시켜 ***Member***객체를 받아온다.
+
+### 🌟 SqlSession을 통한 쿼리실행 메소드
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d675aa8e-7e1d-4fbf-b29f-ebff7697e06b/Untitled.png)
+
+### 실행
+
+**입력한 아이디와 비밀번호로  Member객체를 생성하고 이 객체를 인자로 전달하여 SQL이 실행된다.** 
+
+**DB에서 조회 된 결과를 다시 Member 객체로 반환한다.**
+
+- 서블릿에서 request의 파라미터로 Member 객체 생성
+- 파라미터 타입과 리턴 타입을 인터페이스로 지정 → 해당 인터페이스를 상속하여 메소드 오버라이딩하여 생성한 클래스에 Member객체와 SqlSession 인자로넘기며  DAO호출 후에 SqlSession은 닫아줌
+- DAO 호출 → DAO 에서 sqlSession.selectOne("memberMapper.loginMember", m) 실행시켜 반환
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/604d60cf-503a-4e0d-8ce7-d84bd4f2dc81/Untitled.png)
