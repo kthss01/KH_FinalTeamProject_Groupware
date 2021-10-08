@@ -1,0 +1,10 @@
+코딩테스트 공부
+https://github.com/kthss01/Algorithm_Study_2021/commits/master
+
+팀 프로젝트 사전 준비
+그룹웨어 기능조사
+	다우오피스
+https://held-spaghetti-47e.notion.site/bbdadbdaa09449afb1925f9d4d6e2dd4
+
+부트스트랩 템플릿 후보 선정
+https://held-spaghetti-47e.notion.site/e701a75ca63b41318a5e47bef796ea4f

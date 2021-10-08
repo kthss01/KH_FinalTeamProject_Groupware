@@ -1,0 +1,87 @@
+<10/07 수업 내용 복습>
+
+<config.xml>
+
+용어정리
+
+configuration : 마이바티스 설정과 관련된 기본 셋팅들을
+선언할 수 있는 영역, 내부에 작성하는 엘리먼트들의 순서가 중요
+
+settings:만약 데이터가 빈값으로 들어오면 'null'로 인식하도록 설정
+
+
+★typeAliases: ★VO/DTO★의 패키지명->별칭으로 정의
+
+environments: API에서 끌고와서 복사
+(property: 드라이버,username,password 자기꺼에 맞게 설정)
+
+mappers:해당되는 mapper 기입(member-mapper.xml)
+
+
+
+<mapper.xml>쿼리문!!
+
+namespace꼭 정의!(memberMapper)
+
+★resultMap: property와 column정의(컬럼명을 연결하는 기능)
+		property:vo
+		column:테이블
+
+<resultMap type="Member" ★id="memberResultSet"★>
+=>나중에 이 id를 이용해서 쿼리를 사용
+
+
+<select>태그 속성
+1.id
+2.parameterType: 쿼리문에 넣어줄 파라미터 
+	※파라미터는 #{}로 기입
+3.resultType: 리턴되는 타입의 패키지 경로를 포함한 전체 클래스명이나 별칭
+리스트로 설정할 수도 있다
+
+
+
+
+
+※mybatis 내장 별칭
+_byte
+_long
+_short
+_int
+_double
+_float
+_boolean
+string
+byte
+long
+short
+int/integer
+
+
+
+1.인코딩을 위해 mybatis 폴더에 EncodingFilter.java 추가
+
+
+
+
+2.SqlSession 객체를 반환해주는 템플릿 클래스 생성
+-->static
+
+
+
+(1)아까 만들어놓은 mybatis-config.xml 파일을 통해 생성되는 것(InputStream 객체 import)
+(2)SqlSessionFactoryBuilder객체를 가져와서 build()메소드를 이용하여 생성
+
+InputStream stream=Resources.getResourceAsStream("/mybatis-config.xml");
+			
+sqlSession=new SqlSessionFactoryBuilder().build(stream).openSession(false);
+
+
+※openSession(false) : SqlSession 생성 시 AutoCommit 여부
+
+
+
+
+
+
+
+
