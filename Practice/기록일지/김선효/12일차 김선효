@@ -1,0 +1,425 @@
+# ⚫ 로그아웃과  회원가입
+
+### ✔️ 로그아웃
+
+**[ LogoutServlet.java ]** 
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getSession().invalidate(); //세션 무효화 , 로그아웃
+		response.sendRedirect(request.getContextPath());
+	}
+```
+
+### ✔️ 회원가입
+
+ **[ MemberInsertServet.java ]**
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+		String userName = request.getParameter("userName");
+		String email = request.getParameter("email");
+		String birthday = request.getParameter("birthday");
+		String gender = request.getParameter("gender");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		
+		Member m = new Member(userId, userPwd, userName, email, birthday, gender, phone, address);
+		
+		try {
+			memberService.insertMember(m);
+			response.sendRedirect(request.getContextPath());
+
+		} catch (Exception e) {
+
+			request.setAttribute("msg", "회원가입 실패");
+			request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
+			
+			e.printStackTrace();
+		}
+	}
+```
+
+**[ member-mapper.xml ]**
+
+```xml
+<insert id ="insertMember" parameterType ="Member">
+	INSERT INTO MEMBER
+		VALUES(SEQ_UNO.NEXTVAL, #{userId}, #{userPwd}, #{userName}, #{email},
+				#{birthday}, #{gender}, #{phone}, #{address}, SYSDATE, SYSDATE, DEFAULT)
+  
+  </insert>
+```
+
+**[ MemberServiceImpl.xml ]**
+
+```java
+@Override
+	public void insertMember(Member m) throws Exception {
+		SqlSession sqlSession = getSqlSession();
+
+		int result = memberDao.insertMember(sqlSession, m);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}else {
+			sqlSession.rollback();
+			throw new Exception();
+		}
+		sqlSession.close();	
+	}
+```
+
+**[ MemberInsertServlet.java ]**
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+		String userName = request.getParameter("userName");
+		String email = request.getParameter("email");
+		String birthday = request.getParameter("birthday");
+		String gender = request.getParameter("gender");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		
+		Member m = new Member(userId, userPwd, userName, email, birthday, gender, phone, address);	
+		try {
+			memberService.insertMember(m);
+			response.sendRedirect(request.getContextPath());
+
+		} catch (Exception e) {
+
+			request.setAttribute("msg", "회원가입 실패");
+			request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
+			
+			e.printStackTrace();
+		}	
+	}
+```
+
+# ⚫ 게시판
+
+## ✔️ board-mapper.xml 등록
+
+**[ mybatis-config.xml ]**
+
+```xml
+
+<typeAliases>
+		<typeAlias type="com.kh.mybatis.member.model.vo.Member" alias="Member"/>
+		<!-- Board객체 별칭 등록 -->
+		<typeAlias type="com.kh.mybatis.board.model.vo.Board" alias="Board"/> 
+	</typeAliases>
+
+<mappers>
+		<mapper resource="/mappers/member-mapper.xml"/>
+		<!-- board-mapper를 등록 -->
+		<mapper resource="/mappers/board-mapper.xml"/>  
+</mappers>
+
+```
+
+## ✔️ 게시판 조회- 페이징
+
+### 🌟 싱글톤 패턴으로 페이징 객체 구현
+
+ * ***싱글톤 패턴(Singleton Pattern)***
+
+ *- 애플리케이션이 시작될 때 어떠한 클래스는 최초 한번만 **static**으로 메모리를 할당하고 그 메모리의 인스턴스를 만들어 사용하는 디자인 패턴을 말한다.*
+
+ *- JDBCTemplate , MyBatisTemplate 등 등에 사용하며, 생성자가 여러 차례 호출되더라도 실제로 생성되는 객체는 하나이고 최초 생성 이후 호출된 생성자가 최초 생성한 객체를 반환한다.*
+
+*⇒ **private**로 선언한 후 **`getInstance()`**로 받아 사용하는 방법도 있다.* 
+
+**[ PageInfo.java ]**
+
+```java
+package com.kh.mybatis.board.model.vo;
+
+public class PageInfo {
+	
+	private int listCount;			// 총 게시글 갯수
+	private int currentPage;		// 현재 페이지 (즉, 요청한 페이지)
+	private int startPage;			// 현재 페이지에 하단에 보여지는 페이징 바의 시작 수 
+	private int endPage;			// 현재 페이지에 하단에 보여지는 페이징 바의 끝 수
+	private int maxPage;			// 전체 페이지에서의 가장 마지막 페이지
+	
+	private int pageLimit;			// 한 페이지 하단에 보여질 페이지 최대 갯수
+	private int boardLimit;			// 한 페이지에 보여질 게시글 최대 갯수
+
+}
+```
+
+**[ Pagination.java ]**
+
+```java
+package com.kh.mybatis.common;
+
+import com.kh.mybatis.board.model.vo.PageInfo;
+
+public class Pagination {
+	
+	public static PageInfo getPageInfo(int listCount, int currentPage, int pageLimit, int boardLimit) {
+		
+		// * maxPage : 총 페이지 수
+		
+		int maxPage = (int)Math.ceil((double)listCount/boardLimit);
+		
+		// * startPage : 현재 페이지에 보여지는 페이징 바의 시작 수
+		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
+		
+		// * endPage : 현재 페이지에 보여지는 페이징 바의 끝 수
+		int endPage = startPage + pageLimit - 1;
+		
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		
+		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
+		return pi;
+		
+	}
+
+}
+```
+
+**[ BoardListServlet.java ]**
+
+- *`**int listCount = boardService.getListCount();**`*→ 페이징 처리를 하기 위해서는 총 게시물 갯수와 현재 페이지 정보가 필요하다.
+- `***PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);`***		
+→ 총 게시물 갯수 , 현재 페이지, 한 화면에 표시될 페이지 수와 표시될 게시물 수를 셋팅 해주고 `***getPageInfo`*** 를 통해 `***PageInfo***` 객체를 생성한다.
+- pi객체를 넘겨 Board 리스트를 불러오는 객체를 호출한다.
+
+```java
+
+@WebServlet("/list.bo")
+public class BoardListServelt extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    private BoardService boardService = new BoardServiceImpl();
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public BoardListServelt() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			int listCount = boardService.getListCount();
+			int currentPage = 1; //현재 페이지
+			int pageLimit = 10;
+			int boardLimit = 5;
+						
+			if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
+
+			PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+			
+			ArrayList<Board> list = boardService.selectList(pi);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("pi", pi);
+			
+			request.getRequestDispatcher("WEB-INF/views/board/boardListView.jsp").forward(request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+```
+
+### 🌟 마이바티스의 페이징 처리 - RowBounds
+
+ * **RowBounds 가 무엇일까?** 
+
+ - ***RowBounds***는 페이징 처리를 위해 마이바티스에서 제공하는 클래스로 특정 갯수만큼 레코드를 건너띄게 해준다. ***offset***과 ***limit***(총 레코드 수)로 생성한다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b4fdf14-cfad-4335-8714-5833c1727151/Untitled.png)
+
+ → 간단히 말하자면 ***offset*** 만큼 건너뛴 ***limit***를 가져온다고 보면된다! 단, 테이블을 *풀스캔*을 한 후 건너뛰어 가져오기 때문에 *데이터가 매우 많을 경우에는 속도가 저하*될 수 있다. 
+
+ * **`*int offset*`** : 몇개의 게시글을 건너 뛰고 조회할 지에 대해 계산
+
+		ex) **boardLimit : 5**
+		 **currentPage** = **1**		**1~5**		*0개의 게시글 건너 뛰고 1부터 5개 조회*
+		 **currentPage** = **2**		**6~10**	*5개의 게시글 건너 뛰고 6부터 5개 조회*
+		 **currentPage** = **3**		**11~15**	*10개의 게시글 건너 뛰고 11부터 5개 조회*
+		 **currentPage** = **4**		**16~20**	*15개의 게시글 건너 뛰고 16부터 5개 조회*
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e726523e-bd59-4eee-841f-257448a2d25c/Untitled.png)
+
+**[ BoardDao.java ]**
+
+```java
+package com.kh.mybatis.board.model.dao;
+
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSession;
+
+import com.kh.mybatis.board.model.vo.Board;
+import com.kh.mybatis.board.model.vo.PageInfo;
+
+public class BoardDao {
+
+	public int getListCount(SqlSession sqlSession) throws Exception {
+		return sqlSession.selectOne("boardMapper.getListCount");
+	}
+
+	public ArrayList<Board> selectList(SqlSession sqlSession, PageInfo pi) throws Exception  {
+
+		int offset = (pi.getCurrentPage()-1)* pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return 	(ArrayList)sqlSession.selectList("boardMapper.selectList", null , rowBounds); //두번째 인자는 파라미터 타입이므로 세번째 인자로 rowBounds를 넘김
+	}
+
+}
+```
+
+**[ board-mapper.xml ]**
+
+→  resultMap 을 사용해 select 결과를 Board객체에 매핑한다. 
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">  
+	
+	<resultMap type="Board" id="boardResultMap">
+	  	<id property="boardNo" column="BOARD_NO" />
+	  	<id property="boardTitle" column="BOARD_TITLE" />
+	  	<id property="boardWriter" column="USER_ID" />
+	  	<id property="count" column="COUNT" />
+	  	<id property="createDate" column="CREATE_DATE" />
+
+	</resultMap>
+
+<!-- 총 게시글 수를 가져온 -->
+  <select id = "getListCount" resultType="_int">
+		  
+		  SELECT 
+		  COUNT(*)
+		  FROM BOARD
+		  WHERE STATUS = 'Y'  
+  </select>
+
+  <select id="selectList" resultMap = "boardResultMap">
+  
+ 		SELECT BOARD_NO, BOARD_TITLE, USER_ID, COUNT, CREATE_DATE
+		FROM BOARD B
+		JOIN MEMBER ON(BOARD_WRITER=USER_NO)
+		WHERE B.STATUS='Y'
+		ORDER BY BOARD_NO DESC
+  
+  </select>
+</mapper>
+```
+
+**[ boardListView.jsp ]**
+
+(Controller)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8059c8e7-337d-4642-a125-62dce5367ee2/Untitled.png)
+
+→ 페이지의 정보 표시를 위해 PageInfo 와 Board 리스트를 둘 다 request에 setAttribute()로  담는다.
+
+```jsx
+<!-- 게시물리스트 -->
+		<table id="listArea" align="center">
+			<thead>
+				<tr>
+					<th>글번호</th>
+					<th width="300">제목</th>
+					<th>작성자</th>
+					<th>조회수</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="b" items="${ list }">
+					<tr>
+						<td>${ b.boardNo }</td>
+						<td>${ b.boardTitle }</td>
+						<td>${ b.boardWriter }</td>
+						<td>${ b.count }</td>
+						<td>${ b.createDate }</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+<!-- 페이징바영역 -->
+		
+		<div id="pagingArea" align="center">
+			<!-- [이전] -->
+			<c:if test="${ pi.currentPage != 1 }">
+				<c:if test="${ empty search }">
+						<a href="list.bo?currentPage=${ pi.currentPage-1 }">[이전]</a>
+					</c:if>
+					<c:if test="${ !empty search }">
+						<c:url var="searchUrl" value="search.bo">
+							<c:param name="currentPage" value="${pi.currentPage-1 }"/>
+							<c:param name="condition" value="${ condition }"/>
+							<c:param name="search" value="${ search }"/>
+						</c:url>
+						<a href="${ searchUrl }">[이전]</a>
+					</c:if>
+			</c:if>
+			
+			<!-- [번호들] -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ pi.currentPage eq p }">
+					<font color="red" size="4">[${ p }]</font>
+				</c:if>
+				<c:if test="${ pi.currentPage ne p }">
+					<%-- <a href="list.bo?currentPage=${ p }">[${ p }]</a> --%>
+					
+					<c:if test="${ empty search }">
+						<a href="list.bo?currentPage=${ p }">[${ p }]</a>
+					</c:if>
+					<c:if test="${ !empty search }">
+						<c:url var="searchUrl" value="search.bo">
+							<c:param name="currentPage" value="${ p }"/>
+							<c:param name="condition" value="${ condition }"/>
+							<c:param name="search" value="${ search }"/>
+						</c:url>
+						<a href="${ searchUrl }">[${ p }]</a>
+					</c:if>
+				</c:if>
+			</c:forEach>
+			
+			<!-- [다음] -->
+			<c:if test="${ pi.currentPage ne pi.maxPage }">
+				<c:if test="${ empty search }">
+						<a href="list.bo?currentPage=${ pi.currentPage+1 }">[다음]</a>
+					</c:if>
+					<c:if test="${ !empty search }">
+						<c:url var="searchUrl" value="search.bo">
+							<c:param name="currentPage" value="${pi.currentPage+1  }"/>
+							<c:param name="condition" value="${ condition }"/>
+							<c:param name="search" value="${ search }"/>
+						</c:url>
+						<a href="${ searchUrl }">[다음]</a>
+					</c:if>
+			</c:if>
+		</div>
+```
+
+# [ 결과 ]
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c1c7b4f-d96d-49d5-bae4-7ff2b33d951a/Untitled.png)
