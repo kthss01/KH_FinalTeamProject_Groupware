@@ -1,0 +1,149 @@
+# 스프링 빈 등록
+
+## [ Spring Bean 이란 ? ]
+
+- Spring에서 Spring의 DI Container에 의해 관리되는 POJO(Plain Old Java Object) 를 Bean이라고 부르며, 이러한 Bean들이 Spring을 구성하는 핵심 요소가 된다.
+
+ * Bean
+
+ - Spring Application을 구성하는 핵심 객체
+
+ - 스프링 컨테이터에 의해 생성 및 관리된다.
+
+ - 구성요소
+
+- class : Bean으로 등록할 Java클래스(메소드)
+- id : 고유 식별자
+- scope : Bean 생성 방법 (싱글톤, 프로토타입 등)
+- constructor-arg : Bean 생성 시 전달할 파라미터
+- property : Bean 생성 시 setter에 전달할 인자
+
+ **** Controller 란 ?***
+
+ *- 사용자의 요청이 진입하는 지점으로, 요청에 따라 처리를 결정하고 실질적인 처리는 서비스를 통해 이뤄진다. 서비스의 처리 결과를 사용자 또는 View에 응답해준다.* 
+
+## 방법 1) 컴포넌트 스캔과 자동 의존관계 설정
+
+### @Component
+
+→ 해당 어노테이션이 있으면 스프링빈이 자동으로 등록된다.
+
+→ @Controller , @Service , @Repository 가 @Component를 포함하고 있어 컴포넌트 스캔으로 스프링 빈으로 자동 등록될 수 있다. 
+
+### @Controller
+
+→ 전통적인 SpringMVC의 컨트롤러
+
+ → @Controller 어노테이션을 사용하면 스프링에서 컨트롤러의 역할을 하는 클래스로 인식하고 bear으로 등록되며 스프링의 제어를 받게 된다.
+
+### @ResetController
+
+→ Restful웹 서비스의 컨트롤러 
+
+→ @Controller + @ResponseBody 이며, 메소드의 return을 문자열(JSON) 형태로 반환한다. VIEW가 필요없는 API만 지원하는 클래스에 사용되며, JSON이나 XML같은 문자열의 return이 주목적이다.
+
+### @Autowired
+
+→ 생성자에 @Autowired 가 있으면 스프링이 연관된 객체를 스프링 컨테이너에 찾아 넣어준다. 이렇게 객체 의존관계를 외부에서 넣어주는 것을 **(DI, Dependency Injection)** **의존성 주입**이라고 한다. 
+
+→ 스프링 빈으로 등록되어 있는 객체에서만 작용한다. 내가 직접 new 로 생성하는 객체에도 작동 x
+
+**회원 컨트롤러에 의존관계 추가** 
+
+```java
+package com.sunyo.hellospring.conroller;
+
+import com.sunyo.hellospring.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+//스프링 컨테이너가 생성해줌.
+@Controller  
+public class MemberController {
+			
+		//여러 개 생성할 필요 없기 때문에 컨트롤러에 한 번만 생성해준다 
+    private final MemberService memberService;
+
+		//스프링 컨테이너가 MemberService를 가지고와서 연결시켜준다 : 의존성 주입
+    @Autowired
+    public MemberController(MemberService memberService){
+        this.memberService = memberService;
+    }
+
+```
+
+### @Service
+
+→ Service 클래스를 스프링 빈으로 자동 등록시키는 어노테이션  @Autowired 가 있는 컨트롤러에서 스프링 빈으로 등록 된 서비스를 가지고와서 연결시켜주기 위해 등록되어야 한다.
+
+```java
+@Service
+public class MemberService {
+    private final MemberRepository memberRepository;
+
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+ }
+```
+
+### @Repository
+
+→ Repository 를 스프링 빈으로 등록시키는 어노테이션 Repository 클래스에 넣어준다.
+
+```java
+@Repository
+public class MemoryMemberRepository implements MemberRepository{
+
+    private static Map<Long, Member> store = new HashMap<>();
+    private static long sequence =0L; 
+}
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1c5ccf14-9a26-46ea-b9df-ad28e8139afe/Untitled.png)
+
+→***MemberController***, ***MemberService***, ***MemberRepository***가 스프링 컨테이너에 빈으로 등록되었다.
+
+ * 스프링은 스프링 컨테이네어 빈을 등록할 때 , 기본적으로 싱글톤으로 등록한다. 최초의 하나만 등록되는 것으로 같은 스프링 빈은 모두 같은 인스턴스이다.
+
+## 방법 2) 자바 코드로 직접 스프링 빈 등록하기
+
+스프링 컨피그 클래스를 만들어 직접 등록하는 방법
+
+### @Configuration
+
+→ 이 어노테이션을 구현함으로써 클래스가 하나 이상의 @Bean 메소드를 제공하고 스프링 컨테이너가 Bean정의를 생성해 런타임시 Bean들이 요청들을 처리할 것을 선언한다.
+
+### @Bean
+
+→ @Bean 어노테이션을 사용할 경우 반드시 @Configurationdhk 어노테이션을 활용하여 해당 클래스에서 Bean을 등록하고자 함을 명시해야 한다. 
+
+```java
+package com.sunyo.hellospring.service;
+
+import com.sunyo.hellospring.repository.MemberRepository;
+import com.sunyo.hellospring.repository.MemoryMemberRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SpringConfig {
+
+    @Bean
+    public MemberService memberService() {
+        return new MemberService(memberRepository());  
+    }
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+}
+
+//MemberSerivce가 생성되기 위해서는 MemberRepository가 필요하다. 이 때 이와 같이 메소드명을
+//바로 넣어 연결시켜줄 수있다고 한다.
+
+```
+
+## 방법 3 ) XML 파일로 스프리 빈 등록하기
+
+→ 최근에는 자주 사용하지 않는 방법
