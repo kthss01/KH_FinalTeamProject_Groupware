@@ -1,0 +1,14 @@
+# ⚫ 프레임워크 (Framework) 란 ?
+
+ * ***Framework***란, 개발자가 소프트웨어를 개발함에 있어 코드를 구현하는 개발시간을 줄이고, 코드의 재사용성을 증가 시키기위해 일련의 클래스 묶음이나 뼈대, 틀을 제공하는 라이브러리를 구현해 놓은 것을 말한다.
+
+### ✔️ **Framework 의 특징**
+
+1. 개발자가 따라야하는 가이드를 제공
+2. 개발할 수 있는 범위가 정해져있다.
+3. 개발자를 위한 다양한 도구, 플러그인들을 지원
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/875bdeea-e268-4a67-ba67-a7ca4a108d14/Untitled.png)
+
+- **영속성** : CRUD 편의성을 제공해준다.
+    - **Hibernate** (JPA 공부할 때 같이 공부해보자)
