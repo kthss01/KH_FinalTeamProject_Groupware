@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Console Log Setting -->
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<encoder>
+				<pattern>[%d{yyyy/MM/dd HH:mm:ss}] %highlight(%-5level)| %cyan(%-25.25logger{0}) | %msg%n</pattern>
+			</encoder>
+		</layout>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/logs/debug.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%-5level] %d{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
+		</encoder>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/logs/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>15</maxHistory>
+		</rollingPolicy>
+	</appender>
+	
+	<logger name="com.kh.spring" level="DEBUG" />
+	
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="file" />
+	</root>
+</configuration>

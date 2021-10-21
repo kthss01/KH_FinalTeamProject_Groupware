@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<settings><!-- value 에 NULL 은 무조건 대문자로  -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
+
+	</typeAliases>
+
+
+	<mappers>
+		<mapper resource="/mappers/member-mapper.xml"/> 
+	</mappers>
+
+
+</configuration>
