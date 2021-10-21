@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="menubar.jsp"/>
-	
+<%-- 	<jsp:include page="menubar.jsp"/>  --%>	
+
 	<br>
 	<div align="center">	
 		<br><br>
@@ -18,6 +18,6 @@
 	</div>
 	<br>
 	
-	<jsp:include page="footer.jsp"/>
-</body>
+<%-- 	<jsp:include page="footer.jsp"/> --%>
+ </body>
 </html>
