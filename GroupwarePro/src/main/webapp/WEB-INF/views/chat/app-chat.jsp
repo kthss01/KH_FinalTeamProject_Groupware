@@ -92,7 +92,8 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="row no-gutters">
-                                <div class="col-lg-5 col-xl-2 border-right">
+                            <!-- 주소록 -->
+                                <div class="col-lg-5 col-xl-3 border-right">
                                     <div class="card-body border-bottom">
                                         <form>
                                             <input class="form-control" type="text" placeholder="Search Contact">
@@ -164,7 +165,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-7  col-xl-10">
+                             <!--  채팅화면 -->   
+                                <div class="col-lg-7  col-xl-9">
                                     <div class="chat-box scrollable position-relative"
                                         style="height: calc(100vh - 111px);">
                                         <!--chat Row -->

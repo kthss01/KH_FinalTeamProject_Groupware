@@ -13,6 +13,6 @@ public class ChatServiceImpl implements ChatService {
 	private SqlSessionTemplate sqlSession;
 
 	@Autowired
-	private ChatDao ChatDao;
+	private ChatDao chatDao;
 
 }
