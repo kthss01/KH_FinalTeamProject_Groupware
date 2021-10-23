@@ -29,8 +29,17 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public ArrayList<CommunityBoard> selectBoardList(SelectBoardListInfo info) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<CommunityBoard> list = communityDao.selectBoardList(sqlSession,info);
+		
+		return list;
+	}
+
+	@Override
+	public CommunityBoard selectBoard(int bno) {
+
+		CommunityBoard b = communityDao.selectBoard(sqlSession,bno);
+		return b;
 	}
 
 

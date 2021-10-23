@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>	
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -138,9 +141,12 @@
 										type="text" class="form-control form-control-sm" value="집에가고싶다">
 									<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">작성날짜</label>
 
-									<input type="date" class="form-control" value="2021-05-13"
-										readonly>
-
+									<c:set var="today" value="<%=new java.util.Date()%>" />
+									<!-- 현재날짜 -->
+									<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd" /></c:set> 				
+								
+									<input type="date" class="form-control" value="${date}" readonly>
+										
 
 								</div>
 								<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>

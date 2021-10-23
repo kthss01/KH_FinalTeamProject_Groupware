@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +10,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- summernote -->
+	<link rel="stylesheet"
+	href="${ pageContext.servletContext.contextPath }/resources/summernote/summernote-lite.css">
+
+
+    
     
 <title>Insert title here</title>
 </head>
 <body>
+
+									
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -52,7 +60,7 @@
                 <div class="row">
                 	               
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">커뮤니티</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">커뮤니티</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -79,134 +87,64 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <div class="row">
-                 <button class="btn btn-primary" onclick="">카테고리 신청하기</button>
-                
-			                    <div class="col-12">
-			                        <div  class="card">
-			                            <div class="card-body">
-			                                <h4 class="card-title  font-weight-bold" >자유게시판</h4>
-			                            </div>
-			                           <div>
-			                            <a  class="btn btn-warning" href="enrollBoardForm.co">글 쓰기</a>
-			                           
-			                           </div>
-			                            
-			                            
-			                            <table id="boardList" class="table table-sm  table-hover mb-0" style="text-align:center;" >
-			                                <thead>
-			                                    <tr>
-			                                        <th  >#</th>
-			                                        <th style="width:60%;" >제목</th>
-			                                        <th >작성자(익명)</th>
-			                                        <th >작성날짜</th>
-			                                        <th >조회수</th>
-			                                        
-			                                    </tr>
-			                                </thead>
-			                                <tbody>
-			                                	<c:forEach items="${ list }" var="b">
-			                                    <tr>
-			                                        <th scope="row">${ b.bno }</th>
-			                                        <td> ${ b.title }</td>
-			                                        <td> ${ b.nickname }</td>
-			                                        <td> ${ b.CDate }</td>
-			                                        <td> ${ b.hit }</td>
-			                                    </tr>
-			                                    </c:forEach>
-			                                    <!-- <tr>
-			                                        <th scope="row">2</th>
-			                                        <td>이곳은</td>
-			                                        <td>관리자</td>
-			                                        <td>21-10-22</td>
-			                                        <td>10</td>
-			                                    </tr>
-			                                    <tr>
-			                                        <th scope="row">3</th>
-			                                        <td>자유게시판입니다.</td>
-			                                        <td>관리자</td>
-			                                        <td>21-10-22</td>
-			                                        <td>20</td>
-			                                    </tr> -->
-			                                </tbody>
-			                  
-			                            </table>
-			                            
-			                            
-			                            
-			                            <div class=card-footer >
-			                              <nav aria-label="Page navigation example" >
-                                            <ul class="pagination">
-                                                     <ul class="pagination">
-                	<c:choose>
-                		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item">
-                			<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage-1 }">
-                			    <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>                			
-                			</a></li>
-                		</c:when>
-                		<c:otherwise>
-							<li class="page-item disabled" >
-							<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage+1 }">
-   								<span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>  
-                			</a></li>                		</c:otherwise>
-                	</c:choose>
-                	
-                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                    	<c:choose>
-	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
-	                		</c:when>
-	                		<c:otherwise>
-	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
-	                		</c:otherwise>
-	                	</c:choose>
-                    </c:forEach>
-                    
-                    
-                    <c:choose>
-                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item" x><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
-                			
-                			
-                			  <span aria-hidden="true">&raquo;</span>
-                              <span class="sr-only">Next</span>
-                			
-                			</a></li>
-                		</c:when>
-                		<c:otherwise>
-                			<li class="page-item disabled" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
-                				
-                			  <span aria-hidden="true">&raquo;</span>
-                              <span class="sr-only">Next</span>
-                			</a></li>
-                		</c:otherwise>
-                	</c:choose>
-                                            </ul>
-                                        </nav>
-			                            
-			                            </div>
-			                        </div>
-			                    </div>
-                            </div>
-                        </div>
+			<div class="container-fluid">
+				<!-- ============================================================== -->
+				<!-- Start Page Content -->
+				<!-- ============================================================== -->
+				<div class="row">
+					<button class="btn btn-primary " onclick="">카테고리 신청하기</button>
+
+					<div class="col-12">
+						<div class="card">
+							<div class="container" style="padding: 50px;">
+
+								<div class="form-group">
+
+
+									
+									 <label style=display:inline class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
+									<span id = "nickname">${ b.nickname }</span>									
+									 <br><br>
+									<label  style=display:inline
+										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">글 제목</label> 
+									<span id = "title">${ b.title }</span>
+									<input id="updateTitle" style="display:inline-block; width:600px;"
+										type="text" class="form-control form-control-sm" value="${ b.title }"> <br><br>
+									<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">작성날짜</label>
+									<span id="enrollDate">
+									${ b.CDate }
+									</span>
+									<span id="updateDate">
+									<c:set var="today" value="<%=new java.util.Date()%>" />
+									<!-- 현재날짜 -->
+									<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd" /></c:set> 				
+									<c:out value="${date}" />
+									</span>
+								
+
+
+								</div>
+								<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label><br><br>
+
+								<div id="summernote" style="min-height:500px;">
+								${b.content }
+  			         				</div>
+  			         				
+  			         			<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button">수정</button>
+								<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()">삭제</button>
+								<button id="updateBtn" type=submit class="btn btn-secondary">수정완료</button>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
                     </div>
                 </div>
  
- 	<script>
-	$(function(){
-		$("#boardList tbody tr").click(function(){
-			location.href="detail.bo?bno=" + $(this).children().eq(0).text();
-		});
-	});
- 	
- 	</script>
+ 
+ 				
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -238,6 +176,7 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/popper.js/dist/umd/popper.min.js"></script>
@@ -255,6 +194,44 @@
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
+    <!--  -->
+	<script
+		src="${ pageContext.servletContext.contextPath }/resources/summernote/summernote-lite.js"></script>
+	<script
+		src="${ pageContext.servletContext.contextPath }/resources/summernote/lang/summernote-ko-KR.js"></script>
+    
+    <script>
+	$(function(){
+		$('#updateBtn').hide();
+		$('#updateDate').hide();
+		$('#updateTitle').hide();
+	})
+	
+	var edit = function() {
+		$('#updateFormBtn').hide();
+		$('#deleteBtn').hide();
+		$('#updateBtn').show();
+		$('#nickname').attr("readonly",false)
+		$('#enrollDate').hide();
+		$('#updateDate').show();
+		$('#title').hide();
+		$('#updateTitle').show();
+
+		  $('#summernote').summernote({
+			  height : 500,		  
+			  focus: true
+			  });
+		};
+		
+	var deleteBoard = function(){
+		
+		var pwd = prompt("삭제는 작성 시 입력한 암호가 필요합니다.");
+		
+	}
+	
+ 				 
+ 		
+ 	</script>
 </body>
 
 </html>
