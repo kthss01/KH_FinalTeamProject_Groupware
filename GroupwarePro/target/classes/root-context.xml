@@ -26,7 +26,7 @@
     <!-- destroy-method="close" 세션을 자동으로 close 하겠다는 얘기 -->	  
    	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	  	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:146.56.135.54:1521:orcl"/>
+		<property name="url" value="jdbc:oracle:thin:@146.56.135.54:1521:orcl"/>
 		<property name="username" value="KH_FINAL"/>
 		<property name="password" value="KH_FINAL"/>
 		<property name="defaultAutoCommit" value="false"/> 
