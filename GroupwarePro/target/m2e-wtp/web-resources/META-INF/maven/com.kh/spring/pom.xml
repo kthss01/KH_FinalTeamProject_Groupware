@@ -123,11 +123,22 @@
 		<!-- 1. DB 관련 라이브러리 -->
 		<!-- 1_1. DataBase 오라클 사용을 위한 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
 		    <artifactId>ojdbc6</artifactId>
 		    <version>11.2.0.4</version>
-		</dependency>
+		</dependency> -->
+		
+		
+ 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc10</artifactId>
+		    <version>19.12.0.0</version>
+		</dependency> 
+		
+		
+		
 		
 		<!-- 1_2. 스프링에서 JDB 기능 사용을 위한 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->

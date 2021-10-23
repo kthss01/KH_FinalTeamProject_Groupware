@@ -105,7 +105,7 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title font-weight-bold">글 작성</h4>
+								<h4 class="card-title font-weight-bold">글 수정</h4>
 
 
 							</div>
@@ -125,17 +125,13 @@
 										<option value="3">ㅇㅇ게시판</option>
 									</select> <br>
 									 <label style=display:inline class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
-									<input  type="text" class="form-control form-control-sm"
-										style="display:inline-block; width: 200px;" value="프로야근러"> 
+									<input type="text" class="form-control form-control-sm"
+										style="width: 200px;" value=""> 
+
 									<label  style=display:inline
-										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">암호</label>
-									<input 
-										type="password" class="form-control form-control-sm"
-										style="display:inline-block; width: 200px;" value="1111"> 
-									<label  style=display:block
 										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">글 제목</label> 
-									<input 
-										type="text" class="form-control form-control-sm" value="집에가고싶다">
+									<input
+										type="text" class="form-control form-control-sm" value="집에가고싶다" readonly>
 									<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">작성날짜</label>
 
 									<input type="date" class="form-control" value="2021-05-13"
@@ -148,7 +144,7 @@
 								<textarea id="summernote" name="editordata">
 								언젠가는 퇴근하겠지
   			         				</textarea>
-								<button type=submit class="btn btn-warning">등록</button>
+								<button type=submit class="btn btn-warning">수정 완료</button>
 
 							</div>
 

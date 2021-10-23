@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,12 +49,12 @@
                 <div class="row">
                 	               
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">자료실</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">커뮤니티</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html" class="text-muted">Home</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Libarary</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Community</li>
                                 </ol>
                             </nav>
                         </div>
@@ -80,15 +81,15 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <div class="row">
-                 <button class="btn btn-primary" onclick="">자료 신청하기</button>
+                 <button class="btn btn-primary" onclick="">카테고리 신청하기</button>
                 
 			                    <div class="col-12">
 			                        <div  class="card">
 			                            <div class="card-body">
-			                                <h4 class="card-title  font-weight-bold ">공통 문서양식 모음</h4>
+			                                <h4 class="card-title">자유게시판</h4>
 			                            </div>
 			                           <div>
-			                            <a  class="btn btn-warning" href="enrollBoardForm.li">자료등록</a>
+			                            <a  class="btn btn-warning" href="enrollBoardForm.co">글 쓰기</a>
 			                           
 			                           </div>
 			                            
@@ -98,63 +99,89 @@
 			                                    <tr>
 			                                        <th  >#</th>
 			                                        <th style="width:60%;" >제목</th>
-			                                        <th >작성자</th>
+			                                        <th >작성자(익명)</th>
 			                                        <th >작성날짜</th>
 			                                        <th >조회수</th>
-			                                        <th >다운로드수</th>
 			                                        
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
+			                                	<c:forEach items="${ list }" var="b">
 			                                    <tr>
-			                                        <th scope="row">1</th>
-			                                        <td>견적서 양식입니다.</td>
-			                                        <td>관리자</td>
-			                                        <td>21-10-22</td>
-			                                        <td>30</td>
-			                                        <td>12</td>
+			                                        <th scope="row">${ b.bno }</th>
+			                                        <td> ${ b.title }</td>
+			                                        <td> ${ b.nickname }</td>
+			                                        <td> ${ b.cDate }</td>
+			                                        <td> ${ b.hit }</td>
 			                                    </tr>
-			                                    <tr>
+			                                    </c:forEach>
+			                                    <!-- <tr>
 			                                        <th scope="row">2</th>
-			                                        <td>발주서 양식입니다.</td>
+			                                        <td>이곳은</td>
 			                                        <td>관리자</td>
 			                                        <td>21-10-22</td>
 			                                        <td>10</td>
-			                                        <td>5</td>
 			                                    </tr>
 			                                    <tr>
 			                                        <th scope="row">3</th>
-			                                        <td>계약서 양식입니다.</td>
+			                                        <td>자유게시판입니다.</td>
 			                                        <td>관리자</td>
 			                                        <td>21-10-22</td>
 			                                        <td>20</td>
-			                                        <td>8</td>
-			                                    </tr>
+			                                    </tr> -->
 			                                </tbody>
 			                  
 			                            </table>
+			                            
+			                            
+			                            
 			                            <div class=card-footer >
 			                              <nav aria-label="Page navigation example" >
                                             <ul class="pagination">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="javascript:void(0)"
-                                                        aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item"><a class="page-link"
-                                                        href="javascript:void(0)">1</a></li>
-                                                <li class="page-item"><a class="page-link"
-                                                        href="javascript:void(0)">2</a></li>
-                                                <li class="page-item"><a class="page-link"
-                                                        href="javascript:void(0)">3</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="javascript:void(0)" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
+                                                     <ul class="pagination">
+                	<c:choose>
+                		<c:when test="${ pi.currentPage ne 1 }">
+                			<li class="page-item">
+                			<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage-1 }">
+                			    <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>                			
+                			</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                	
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    	<c:choose>
+	                		<c:when test="${ pi.currentPage ne p }">
+                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+	                		</c:when>
+	                		<c:otherwise>
+	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+	                		</c:otherwise>
+	                	</c:choose>
+                    </c:forEach>
+                    
+                    
+                    <c:choose>
+                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+                			<li class="page-item" x><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
+                			
+                			
+                			  <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                			
+                			</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
+                				
+                			  <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                			</a></li>
+                		</c:otherwise>
+                	</c:choose>
                                             </ul>
                                         </nav>
 			                            
