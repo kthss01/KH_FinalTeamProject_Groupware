@@ -13,4 +13,6 @@ public interface CommunityService {
 
 	ArrayList<CommunityBoard> selectBoardList(SelectBoardListInfo info);
 
+	CommunityBoard selectBoard(int bno);
+
 }

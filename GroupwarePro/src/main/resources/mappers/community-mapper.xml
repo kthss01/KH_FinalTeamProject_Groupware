@@ -4,6 +4,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="communityMapper">
 
+	<resultMap id="boardResultSet" type="CommunityBoard">
+		<id column="b_no" property="bno"/>
+		<result column="category_no" property="cno"/>
+		<result column="b_title" property="title"/>
+		<result column="b_content" property="content"/>
+		<result column="b_hit" property="hit"/>
+		<result column="b_cdate" property="CDate"/>
+		<result column="b_mdate" property="MDate"/>
+		<result column="status" property="status"/>
+		<result column="nickname" property="nickname"/>
+	</resultMap>
+<!-- 	<resultMap id="replyResultSet" type="Reply">
+		<id column="reply_no" property="replyNo"/>
+		<result column="reply_content" property="replyContent"/>
+		<result column="ref_bno" property="refBoardNo"/>
+		<result column="reply_writer" property="replyWriter"/>
+		<result column="create_date" property="createDate"/>
+		<result column="status" property="status"/>
+	</resultMap>
+ -->
+
+
 
 	<select id ="selectListCount" parameterType="_int" resultType="_int">
 	
@@ -14,4 +36,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
+	<select id = "selectBoardList" parameterType="_int" resultMap="boardResultSet">
+	
+	SELECT *
+	FROM COMMUNITY
+	WHERE CATEGORY_NO =#{cno}
+	AND STATUS = 'Y'
+	ORDER BY B_NO DESC
+	</select>
+
+	<select id = "selectBoard" parameterType="_int" resultMap="boardResultSet">
+	
+	SELECT *
+	FROM COMMUNITY
+	WHERE B_NO = #{bno}
+
+	</select>
+	
+	
 </mapper>
