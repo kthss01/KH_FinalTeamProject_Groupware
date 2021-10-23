@@ -56,7 +56,7 @@
                 <div class="row">
                 	               
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">자료실</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">자료실</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -92,15 +92,44 @@
 			                    <div class="col-12">
 			                        <div  class="card">
 			                            <div class="card-body">
-			                                <h4 class="card-title">자료 등록</h4>
+			                                <h4 class="card-title font-weight-bold">자료 등록</h4>
 			                            </div>
 
-			                           
-  			         			<div class="container" style=padding:50px;>
-  			         				<textarea id="summernote" name="editordata">
-  			         				</textarea>
-  			         			 <button type=submit class="btn btn-warning">등록하기</button>
+  			         		<div class="container" style="padding: 50px;">
+
+								<div class="form-group">
+
+	
+									 <!--<label class="mr-sm-2  font-weight-bold" for="selectCategory">카테고리 선택</label>
+										 <select class="custom-select mr-sm-2"
+										id="selectCategory" style="width: 150px;">
+										<option selected>자유게시판</option>
+										<option value="1">골프게시판</option>
+										<option value="2">주식게시판</option>
+										<option value="3">ㅇㅇ게시판</option>
+									</select> <br> -->
+									
+									<label  style=display:inline
+										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">자료명</label> 
+									<input
+										type="text" class="form-control form-control-sm" value="프로젝트 기획서 양식">
+									<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">등록날짜</label>
+
+									<input type="date" class="form-control" value="2021-05-13"
+										readonly>
+
+
+								</div>
+								<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">자료설명</label>
+
+								<textarea id="summernote" name="editordata"> 
+								
+								프로젝트 기획서 양식입니다.
+								
+								</textarea>
   			         				
+								<button type=submit class="btn btn-warning">등록</button>
+
   			         			</div>
 			       
 			                        </div>

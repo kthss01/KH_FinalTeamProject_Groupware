@@ -41,7 +41,7 @@
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
                                     class="hide-menu">커뮤니티 </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="general.co" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="boardList.co?cno=1" class="sidebar-link"><span
                                             class="hide-menu"> 자유게시판
                                         </span></a>
                                 </li>

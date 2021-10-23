@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/webapp/WEB-INF/spring/spring-security.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/aspect-context.xml</config>
+		<config>src/main/resources/mappers/community-mapper.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/resources/root-context.xml</config>
