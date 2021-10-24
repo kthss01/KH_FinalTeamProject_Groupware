@@ -18,7 +18,38 @@
 <link rel="stylesheet"
 	href="${ pageContext.servletContext.contextPath }/resources/summernote/summernote-lite.css">
 
+<style>
+	.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+    
+    .filebox label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+}
+	.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+	
+}
 
+</style>
 
 
 
@@ -115,49 +146,48 @@
 
 
 							<div class="container" style="padding: 50px;">
+            				<form id="enrollForm" method="post" action="insert.co" enctype="multipart/form-data"  >
 
-								<div class="form-group">
+								<div class="form-group"  style="position:relative" >
 
+	
+										<label class="mr-sm-2  font-weight-bold" for="selectCategory">카테고리 선택</label>
+										<select class="custom-select mr-sm-2"
+											id="selectCategory" name="cno" style="width: 150px; height:33px; font-size:13px;">
+											<option value='1' selected>자유게시판</option>
+										</select> <br>
+										 <label style=display:inline class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
+										<input name="nickname" type="text" class="form-control form-control-sm"
+											style="display:inline-block; width: 200px;" placeholder="닉네임을 입력하세요"> 
+										<label  style=display:block
+											class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">글 제목</label> 
+										<input name="title"
+											type="text" class="form-control form-control-sm"  style=" margin-bottom:10px;" placeholder="글 제목을 입력하세요">
+										<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">작성날짜</label>
+	
+										<c:set var="today" value="<%=new java.util.Date()%>" />
+										<!-- 현재날짜 -->
+										<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd" /></c:set> 				
+									
+										<input name="CDate" type="date" class="form-control" value="${date}" readonly>
 
-									<label class="mr-sm-2  font-weight-bold" for="selectCategory">카테고리 선택</label>
-										 <select class="custom-select mr-sm-2"
-										id="selectCategory" style="width: 150px;">
-										<option selected>자유게시판</option>
-										<option value="1">골프게시판</option>
-										<option value="2">주식게시판</option>
-										<option value="3">ㅇㅇ게시판</option>
-									</select> <br>
-									 <label style=display:inline class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
-									<input  type="text" class="form-control form-control-sm"
-										style="display:inline-block; width: 200px;" value="프로야근러"> 
-									<label  style=display:inline
-										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">암호</label>
-									<input 
-										type="password" class="form-control form-control-sm"
-										style="display:inline-block; width: 200px;" value="1111"> 
-									<label  style=display:block
-										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">글 제목</label> 
-									<input 
-										type="text" class="form-control form-control-sm" value="집에가고싶다">
-									<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">작성날짜</label>
-
-									<c:set var="today" value="<%=new java.util.Date()%>" />
-									<!-- 현재날짜 -->
-									<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd" /></c:set> 				
-								
-									<input type="date" class="form-control" value="${date}" readonly>
+									
+									    <label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>
+	
+									    <textarea id="summernote" name="content"></textarea>
+								       
+								      	<div class="filebox mr-sm-2" style="margin-top:15px;" >
+								      	<label style="display:inline;" class="mr-sm-2  font-weight-bold" for="uploadFile">첨부파일</label>
+								      	<br>
+										    <input class="upload-name mr-sm-2 form-control form-control-sm" style=max-width:400px; placeholder="선택된 파일 없음">
+										    <label for="file" >찾기</label> 
+										    <input style="display:none;" type="file" id="file" name="uploadFile">
+										</div>
+										 <button style="position:absolute; right:0" type=submit class="btn btn-warning">글 등록</button>	  			         				 			    										    
 										
-
-								</div>
-								<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>
-
-								<textarea id="summernote" name="editordata">
-								언젠가는 퇴근하겠지
-  			         				</textarea>
-								<button type=submit class="btn btn-warning">등록</button>
-
-							</div>
-
+										</div>
+  			         				  </form>
+  			         			 </div>
 						</div>
 					</div>
 				</div>
@@ -235,7 +265,7 @@
 
 
 	<script>
-		$(document).ready(function() {
+		$(function() {
 			//여기 아래 부분
 			$('#summernote').summernote({
 				height : 500, // 에디터 높이
@@ -243,10 +273,28 @@
 				maxHeight : null, // 최대 높이
 				focus : true, // 에디터 로딩후 포커스를 맞출지 여부
 				lang : "ko-KR", // 한글 설정
-				placeholder : '최대 2048자까지 쓸 수 있습니다' //placeholder 설정
-
+				placeholder : '최대 4000자까지 쓸 수 있습니다.', //placeholder 설정
+				toolbar: [
+				    // [groupName, [list of button]]
+				    ['style', ['bold', 'italic', 'underline', 'clear']],
+				    ['font', ['strikethrough', 'superscript', 'subscript']],
+				    ['fontsize', ['fontsize']],
+				    ['color', ['color']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']]
+				  ]
+				
 			});
+			
+			
+		
 		});
+		
+		$("#file").on('change',function(){
+			  var fileName = $("#file").val();
+			  $(".upload-name").val(fileName);
+			});
+		
 
 		/*  // 서머노트에 text 쓰기
 		    $('#summernote').summernote('insertText', 써머노트에 쓸 텍스트);
