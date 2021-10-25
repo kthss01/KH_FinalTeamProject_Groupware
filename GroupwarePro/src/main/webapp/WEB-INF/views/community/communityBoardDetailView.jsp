@@ -102,15 +102,16 @@
 
 
 									
-									 <label style=display:inline class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
-									<span id = "nickname">${ b.nickname }</span>									
+									 <label style=display:inline class="mr-sm-2 font-weight-bold" ">작성자</label>
+									<span id = "nickname">${ b.nickname }</span>	
+								
 									 <br><br>
 									<label  style=display:inline
 										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">글 제목</label> 
 									<span id = "title">${ b.title }</span>
 									<input id="updateTitle" style="display:inline-block; width:600px;"
 										type="text" class="form-control form-control-sm" value="${ b.title }"> <br><br>
-									<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">작성날짜</label>
+									<label id="dateLabel" style=display:inline class="mr-sm-2  font-weight-bold" ">작성날짜</label>
 									<span id="enrollDate">
 									${ b.CDate }
 									</span>
@@ -126,13 +127,49 @@
 								</div>
 								<label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label><br><br>
 
-								<div id="summernote" style="min-height:500px;">
+								<div id="summernote" style="min-height:200px;">
 								${b.content }
   			         				</div>
+  			         			<c:if test ="${not empty at}">
+  			         			<div id ="imgBox" style="margin-bottom:50px; ">  			         			
+  			   					<c:forEach items="${ at }" var="at">
+  			   					<img class="col-5" style="margin:auto;" src="${ pageContext.servletContext.contextPath }/resources/upload_files/${at.changeName}">
+  			   					      				
+  			         			</c:forEach>
+  			         			</div>
+  			         			
+  			         			<div id="imgUpdate" style="margin-top : 50px; display:none;">
+  			         			<h3>첨부파일 수정</h3>
+  			         			
+  			         			 	<c:forEach items="${ at }" var="at" varStatus="status">
+									
+										<div style="font-size:12px;" >
+										<span class="current_file" >기존 파일 ${status.count} <i class="icon-close"></i></span> <br />																			
+										<p>${at.originName}</p>
+										</div>
+									</c:forEach>
+  			         			
+									<button id="btn-upload" type="button"
+										style="border: 1px solid #ddd; outline: none;">파일
+										추가</button>
+									<input id="input_file" multiple="multiple" type="file"
+										style="display: none;"> <span
+										style="font-size: 10px; color: gray;">※첨부파일은 게시물 당 최대 4개까지
+										등록이 가능합니다. 초과하실 경우 기존에 등록되어 있는 파일이 교체됩니다.</span>
+									<div class="data_file_txt" id="data_file_txt"
+										style="margin: 40px;">
+
+										
+										<span>추가 파일</span> <br />
+										<div id="articlefileChange"></div>
+									</div>
+  			         			</div>
+  			         			
+  			         			</c:if>
   			         				
-  			         			<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button">수정</button>
-								<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()">삭제</button>
-								<button id="updateBtn" type=submit class="btn btn-secondary">수정완료</button>
+  			         			<button id="updateFormBtn"  class="btn btn-primary" onclick="edit()" type="button" style="margin-top:50px;">수정</button>
+								<button id="deleteBtn" class="btn btn-danger" style="margin-top:50px;" onclick="deleteBoard()">삭제</button>
+								<button id="updateBtn"  class="btn btn-secondary" onclick="updateBoard()" style="margin-top:50px;">수정완료</button>
 
 							</div>
 
@@ -201,22 +238,53 @@
 		src="${ pageContext.servletContext.contextPath }/resources/summernote/lang/summernote-ko-KR.js"></script>
     
     <script>
+    
+    
+
+	
+
+    
+    
 	$(function(){
 		$('#updateBtn').hide();
 		$('#updateDate').hide();
 		$('#updateTitle').hide();
-	})
+		$('#imgUpdate').hide();
+		
+		
+		
+	    
+		// input file 파일 첨부시 fileCheck 함수 실행
+	
+	$("#input_file").on("change", fileCheck);
+
+	});
+
+	
+	$("#file").on('change', function() {
+		var fileName = $("#file").val();
+		$(".upload-name").val(fileName);
+	});
+
+    
+    
+
 	
 	var edit = function() {
 		$('#updateFormBtn').hide();
 		$('#deleteBtn').hide();
 		$('#updateBtn').show();
-		$('#nickname').attr("readonly",false)
 		$('#enrollDate').hide();
 		$('#updateDate').show();
 		$('#title').hide();
+		$('#title').hide();
+		$('#title').hide();
 		$('#updateTitle').show();
-
+		$('#imgBox').hide();
+		$('#imgUpdate').show();
+		$('#dateLabel').text('수정날짜');
+		
+		
 		  $('#summernote').summernote({
 			  height : 500,		  
 			  focus: true,
@@ -239,8 +307,105 @@
 		
 	}
 	
- 				 
+
+	 /**
+	  * 첨부파일로직
+	  */
+
+	  
+	  
+	 $(function () {
+	     $('#btn-upload').click(function (e) {
+	         e.preventDefault();
+	         $('#input_file').click();
+	     });
+	 });
+
+	 // 파일 현재 필드 숫자 totalCount랑 비교값
+	 var fileCount = 0;
+	 // 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
+	 var totalCount = 4;
+	 // 파일 고유넘버
+	 var fileNum = 0;
+	 // 첨부파일 배열
+	 var content_files = new Array();
+
+
+	 
+	 function fileCheck(e) {
+	     var files = e.target.files;
+	     
+	     // 파일 배열 담기
+	     var filesArr = Array.prototype.slice.call(files);
+	     
+	     // 파일 개수 확인 및 제한
+	     if (fileCount + filesArr.length > totalCount) {
+	       $.alert('파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
+	       return;
+	     } else {
+	     	 fileCount = fileCount + filesArr.length;
+	     }
+	     
+	     // 각각의 파일 배열담기 및 기타
+	     filesArr.forEach(function (f) {
+	       var reader = new FileReader();
+	       reader.onload = function (e) {
+	         content_files.push(f);
+	         $('#articlefileChange').append(
+	        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
+	        		+ '<font style="font-size:12px">' + f.name + '</font>'  
+	        		+ '<i style="font-size:10px;" class="icon-close"></i>' 
+	        		+ '<div/>'
+	 		);
+	         fileNum ++;
+	       };
+	       reader.readAsDataURL(f);
+	     });
+	     console.log(content_files);
+	     //초기화 한다.
+	     $("#input_file").val("");
+	   }
+
+	 // 파일 부분 삭제 함수
+	 function fileDelete(fileNum){
+	     var no = fileNum.replace(/[^0-9]/g, "");
+	     content_files[no].is_delete = true;
+	 	$('#' + fileNum).remove();
+	 	fileCount --;
+	     console.log(content_files);
+	 }			 
  		
+
+	  
+		 function updateBoard(){
+			    var bno= ${b.bno};
+			   	var content = $('#summernote').summernote('code');
+			   	var title = $('#updateTitle').val();
+			   	
+			   	console.log("bno : " + bno);
+			   	console.log("content : " + content);
+			   	console.log("title : " + title);
+				   	
+  				 $.ajax({				 
+				type: "POST",
+		  	      url: 'updateBoard.co',
+		      	  data : {
+		      		  bno : bno,
+		      		  content :  content,
+		      		  title : title
+		      	  },
+		  	      success: function () {
+		  	    	  alert('글 업데이트 ajax성공');
+		 				  registerAction();
+	
+		  	      },
+		  	      error: function (xhr, status, error) {
+		  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+	
+		  	      }
+					 
+				 });  
+		 }  
  	</script>
 </body>
 

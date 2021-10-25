@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.common.PageInfo;
+import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
@@ -35,6 +36,32 @@ public class CommunityDao {
 	public CommunityBoard selectBoard(SqlSessionTemplate sqlSession, int bno) {
 
 		return sqlSession.selectOne("communityMapper.selectBoard",bno);
+	}
+
+	public int selectSeqBno(SqlSessionTemplate sqlSession) {
+
+		return sqlSession.selectOne("communityMapper.selectSeqBno");
+	}
+
+	public int insertBoard(SqlSessionTemplate sqlSession,CommunityBoard b) {
+		
+		return sqlSession.insert("communityMapper.insertBoard",b);
+	}
+
+	public int insertCommunityAttachment(SqlSessionTemplate sqlSession, CommunityAttachment at) {
+
+		return sqlSession.insert("communityMapper.insertCommunityAttachment",at);
+	}
+
+	public ArrayList<CommunityAttachment> selectAttachmentList(SqlSessionTemplate sqlSession,int bno) {
+
+		return (ArrayList)sqlSession.selectList("communityMapper.selectAttachmentList",bno);
+	}
+
+	public int updateBoard(SqlSessionTemplate sqlSession, CommunityBoard b) {
+		
+		return sqlSession.update("communityMapper.updateBoard",b);
+
 	}
 
 }

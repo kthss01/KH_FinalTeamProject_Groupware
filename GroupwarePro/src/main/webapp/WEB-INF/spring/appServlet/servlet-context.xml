@@ -23,6 +23,15 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	
+	<!-- 스프링에서 기본으로 제공하는 multipartResolver는 CommonsMultipartResolver 이므로,
+	 순수한 multipartResolver를 사용하기 위해 빈 이름으로 "multipartResolver"를 등록해야함 + 프로퍼티를 이용 최대 가능한 업로드 사이즈 지정함 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10000000"></beans:property>
+	</beans:bean>
+	
+	
+	
 	<!-- 빈을 조회할 범위 설정 -->
 	<context:component-scan base-package="com.kh.spring" />
 	
