@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 public interface CommunityService {
@@ -26,5 +27,9 @@ public interface CommunityService {
 	ArrayList<CommunityAttachment> selectAttachmentList(int bno);
 
 	void updateBoard(CommunityBoard b);
+
+	int insertReply(CommunityReply r);
+
+	ArrayList<CommunityReply> selectReplyList(int bno);
 
 }

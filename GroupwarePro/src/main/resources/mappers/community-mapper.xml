@@ -30,6 +30,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="upload_date" property="uploadDate"/>
 	</resultMap>
 	
+	<!-- CommunityReply  -->
+	
+	<resultMap id="replyResultSet" type="CommunityReply">
+		<id column="C_NO" property="cno"/>
+		<result column="B_NO" property="bno"/>
+		<result column="NAME" property="name"/>
+		<result column="PWD" property="pwd"/>
+		<result column="CDATE" property="CDate"/>
+		<result column="PARENT_NO" property="pno"/>
+		<result column="COM_COMMENT" property="comment"/>
+	</resultMap>
+	
 	
 <!-- 	<resultMap id="replyResultSet" type="Reply">
 		<id column="reply_no" property="replyNo"/>
@@ -107,5 +119,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateBoard" parameterType="CommunityBoard">
 	UPDATE COMMUNITY SET B_TITLE = #{title},B_CONTENT=#{content},B_MDATE=SYSDATE WHERE B_NO =#{bno}
 	</update>
+	
+	<insert id="insertReply" parameterType="CommunityReply">
+	INSERT INTO COM_REPLY VALUES(SEQ_COM_REPLY_NO.NEXTVAL,#{bno},#{name},#{pwd},SYSDATE,DEFAULT,#{comment} )
+	</insert>
+	
+	<select id ="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno}
+	
+	</select>
 	
 </mapper>

@@ -11,6 +11,7 @@ import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.dao.CommunityDao;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 @Service
@@ -87,6 +88,26 @@ public class CommunityServiceImpl implements CommunityService {
 			 throw new CommException("게시물 업데이트 실패");
 
 		}
+	}
+
+	@Override
+	public int insertReply(CommunityReply r) {
+
+		int result = communityDao.insertReply(sqlSession,r);
+		
+		if(result<0) {
+			 throw new CommException("댓글 등록 실패");
+
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<CommunityReply> selectReplyList(int bno) {
+
+		ArrayList<CommunityReply> list = communityDao.selectReplyList(sqlSession,bno);
+		
+		return list;
 	}
 
 

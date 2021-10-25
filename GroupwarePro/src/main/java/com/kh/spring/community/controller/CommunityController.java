@@ -24,12 +24,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.common.Pagination;
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.service.CommunityService;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 @Controller
@@ -113,6 +115,27 @@ public class CommunityController {
 		
 		return "redirect:/boardList.co";
 	}
+	
+	
+	@RequestMapping("insertReply.co")
+	public String insertReply(CommunityReply r) {
+		
+		int result = communityService.insertReply(r);
+	
+		return String.valueOf(result);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="selectReplyList.co",produces="application/json; charset=utf-8")
+	public String selectReplyList(int bno) {
+		
+		ArrayList<CommunityReply> list = communityService.selectReplyList(bno);
+		
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
+	
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 

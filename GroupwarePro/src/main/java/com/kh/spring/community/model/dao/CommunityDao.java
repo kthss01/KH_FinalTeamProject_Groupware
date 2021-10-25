@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 @Repository
@@ -62,6 +63,16 @@ public class CommunityDao {
 		
 		return sqlSession.update("communityMapper.updateBoard",b);
 
+	}
+
+	public int insertReply(SqlSessionTemplate sqlSession, CommunityReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("communityMapper.insertReply",r);
+	}
+
+	public ArrayList<CommunityReply> selectReplyList(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("communityMapper.selectReplyList", bno);
 	}
 
 }
