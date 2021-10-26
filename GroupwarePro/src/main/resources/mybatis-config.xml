@@ -8,6 +8,8 @@
 
 	<typeAliases>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityBoard" alias="CommunityBoard"/>
+		<typeAlias type="com.kh.spring.community.model.vo.CommunityAttachment" alias="CommunityAttachment"/>
+		<typeAlias type="com.kh.spring.community.model.vo.CommunityReply" alias="CommunityReply"/>
 		<!-- 
 		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.spring.library.model.vo.LibraryBoard" alias="LibraryBoard"/> 
