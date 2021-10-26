@@ -75,4 +75,14 @@ public class CommunityDao {
 		return (ArrayList)sqlSession.selectList("communityMapper.selectReplyList", bno);
 	}
 
+	public ArrayList<CommunityReply> selectReComentList(SqlSessionTemplate sqlSession, CommunityReply r) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("communityMapper.selectReCommnetList", r);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, CommunityReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("communityMapper.deleteReply",r);
+	}
+
 }

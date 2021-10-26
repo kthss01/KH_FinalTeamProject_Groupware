@@ -121,12 +121,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<insert id="insertReply" parameterType="CommunityReply">
-	INSERT INTO COM_REPLY VALUES(SEQ_COM_REPLY_NO.NEXTVAL,#{bno},#{name},#{pwd},SYSDATE,DEFAULT,#{comment} )
+	
+		<choose>
+			<when test="pno != null and pno != '' ">
+				INSERT INTO COM_REPLY VALUES(SEQ_COM_REPLY_NO.NEXTVAL,#{bno},#{name},#{pwd},SYSDATE,#{pno},#{comment} )
+			
+			</when>
+			<otherwise>
+				INSERT INTO COM_REPLY VALUES(SEQ_COM_REPLY_NO.NEXTVAL,#{bno},#{name},#{pwd},SYSDATE,DEFAULT,#{comment} )
+			
+			</otherwise>
+		
+		</choose>
 	</insert>
 	
 	<select id ="selectReplyList" parameterType="_int" resultMap="replyResultSet">
-	SELECT * FROM COM_REPLY WHERE B_NO=#{bno}
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO IS NULL
 	
 	</select>
+	
+	<select id ="selectReCommnetList" parameterType="CommunityReply" resultMap="replyResultSet">
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO = #{pno}
+	
+	</select>
+	
+	<delete id="deleteReply" parameterType="CommunityReply">
+
+	DELETE FROM COM_REPLY WHERE C_NO = #{cno}
+
+	</delete>
 	
 </mapper>

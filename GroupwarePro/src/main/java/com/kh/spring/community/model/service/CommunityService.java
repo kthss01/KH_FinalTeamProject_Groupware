@@ -32,4 +32,8 @@ public interface CommunityService {
 
 	ArrayList<CommunityReply> selectReplyList(int bno);
 
+	ArrayList<CommunityReply> selectReComentList(CommunityReply r);
+
+	int deleteReply(CommunityReply r);
+
 }

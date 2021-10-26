@@ -21,6 +21,22 @@
 
 
 <title>Insert title here</title>
+
+<style>
+
+#commentBox{
+	margin-bottom:50px;
+}
+
+.replyBtn1{
+	position:absolute;
+	right:60px;
+}
+.replyBtn2{
+	position:absolute;
+	right:0;
+}
+</style>
 </head>
 <body>
 
@@ -187,14 +203,14 @@
 
 								<div class="card-footer"
 									style="margin-top: 50px; min-height: 500px; padding: 50px;">
-									<h4>댓글 목록</h4>
+									<h4 class='font-weight-bold'>댓글 목록</h4>
 									총 <span id="rcount"></span>개
-									<div id="commentBox"></div>
+									<div id="commentBox" style="position:relative"></div>
 
 
 
 									<hr>
-									<h4 style="margin-bottom: 25px;">댓글 쓰기</h4>
+									<h4 style="margin-bottom: 25px;" class='font-weight-bold'>댓글 쓰기</h4>
 
 									<form id="replyForm" method="post">
 										<input type="hidden" name="bno" value="${b.bno }"> <label
@@ -301,7 +317,7 @@
     
 	$(function(){
 		
-		selectReplyList();
+		selectReplyList(${b.bno});
 		
 		$('#updateBtn').hide();
 		$('#updateDate').hide();
@@ -472,9 +488,39 @@
   	 				dataType : 'json',
   	 				success : function (result){
 						if(result > 0){
-							alert("댓글이 성공적으로 등록되었습니다.");
-							$("#replyContent").val("");
-							selectReplyList();
+
+						alert("댓글이 성공적으로 등록되었습니다.");
+						$("#replyNickname  ").val("");
+						$("#replyPwd").val("");
+						$("#comment").val("");
+						selectReplyList(${b.bno});
+						 
+						}else{
+							alert("댓글등록실패");
+						}
+  	 					
+  	 				},
+  	 				error:function(request, status, error){
+  	 					console.log("request"+request);
+  	 					console.log("status"+status);
+  	 					console.log("error"+error);
+  	 				}
+  	 			})	
+  	 		}
+  	 		
+  	 		function insertReComment(){
+  	 			
+  	 			var formData = $("#reCommentForm").serialize();
+  	 			
+  	 			$.ajax({
+  	 				type:'post',
+  	 				url : 'insertReply.co',
+  	 				data : formData,
+  	 				success : function (result){
+						if(result > 0){
+							alert("답글이 성공적으로 등록되었습니다.");
+							$("#reCommentBox").hide();
+							selectReplyList(${b.bno});
 							
 						}else{
 							alert("댓글등록실패");
@@ -489,38 +535,40 @@
   	 			})	
   	 		}
   	 		
+  	 		
   	 		const commentBox = $('#commentBox');
   	 		
-   	 		function selectReplyList(){
-  	 			var bno = ${b.bno};
+   	 		function selectReplyList(bno){
   	 			$.ajax({
   	 				url:"selectReplyList.co",
   	 				data:{bno : bno},
   	 				type:"post",
   	 				dataType : 'json',
   	 				success:function(list){
-  	 					
-  	 					console.log(list);
-  	 					console.log(list.length);
-  	 					
-  	 					 	 					
+					 	 					
   	 					$("#rcount").text(list.length);
 
   	 					list.forEach((r => {
   	 						console.log(r);
   	 						commentBox.append(`
   	 								<br>
-  	 								<b>작성자 :  </b> \${r.name} 
+  	 								<b class='font-weight-bold'>\${r.name}</b>님의 한마디 
   	 								<br>
   	 								
-  	 								<textarea name="comment" class="comment form-control form-control-sm" style="resize:none"  maxlength="1000" disabled> \${r.comment}</textarea>
-  	 								<input type="button" class ="btn reComment replyBtn" value="답글">
-  	 										<input type="button" class="btn replyBtn" value="수정">
-  	 										<input type="button" class="btn replyBtn" value="삭제" >
-  	 										<input type="hidden" name="cNum" value=\${r.cno}>
+  	 								<textarea name="comment" class="comment form-control form-control-sm" style="resize:none;"  maxlength="1000" disabled> \${r.comment}</textarea>
+  	 								<input type="button" class ="btn reComment replyBtn1" value="답글">
+  	 								
+  	 										<input type="button" class="btn replyBtn2 " onclick="deleteReply('\${r.cno}' , '\${r.pwd}');" value="삭제" >
+  	 										<input type="hidden" name="cno" value=\${r.cno}>
+  	 										<input type="hidden" name="pwd" value=\${r.pwd}>
   	 		
   	 								`)	
-  	 							/* electNestedList(r.cno); */
+  	 								
+  	 							
+  	 							 selectReComentList(r.cno, bno); 
+  	 						
+
+					
   	 					}));
   	 					
   	 					
@@ -528,14 +576,15 @@
   	 					
   	 					
   	 			   	 	$(".reComment").on("click",function(){
-  	 			   	 				$(".replyBtn").hide();
-  	 			   	 	/*  			var cno = $(this).next().next().next().val();*/
-  	 			   	 	 				$(this).next().after(`
+  	 			   	 				$(".replyBtn1").hide();
+  	 			   	 				$(".replyBtn2").hide();
+  	 			   	 				var pno = $(this).next().next().val();
+  	 			   	 				console.log("??" + pno);
+   	  			   	 	 				$(this).next().after(`
   	 			   	 							<div id="reCommentBox" style="margin-left:50px;">
   	 			   	 						<br>
-  	 			   	 						<form method="post" > 
-  	 			   	 						<input type="hidden" name="bno" value="">
-  	 			   	 						<input type="hidden" name="cno" value="">  	 			   	 		
+  	 			   	 						<form method="post" id="reCommentForm"> 
+  	 			   	 						<input type="hidden" id='pno' name="pno" value=\${pno}>
   	 												ㄴ<input type="hidden" name="bno" value="${b.bno }"> <label
   	 												style="display: inline" class="mr-sm-2  font-weight-bold">닉네임</label>
   	 											<input id="replyNickname" name="name" type="text"
@@ -546,7 +595,7 @@
   	 												class="mr-sm-2  font-weight-bold">비밀번호</label> <input
   	 												id="replyPwd" name="pwd" type="password"
   	 												class="form-control form-control-sm"
-  	 												style="display: inline-block; width: 200px;" name="cPwd"
+  	 												style="display: inline-block; width: 200px;" name="pwd"
   	 												maxLength="6">
 
   	 											<textarea id="comment" name="comment"
@@ -554,14 +603,14 @@
   	 												style="resize: none; height: 50px; margin-top: 10px;"> </textarea>
 
   	 											<input class="btn btn-orange" type="button" id="insertReCommentBtn"
-  	 												style="margin-top: 30px;" 
+  	 												style="margin-top: 30px;" onclick="insertReComment()"
   	 												value="답글 등록">
   	 											<input class="btn btn-primary" type="button"
   	 												style="margin-top: 30px;" 
   	 												value="취소" onclick="deleteReCommnetBox()">
   	 			   	 						</form>
   	 			   	 						</div>
-  	 			   	 						`)  
+  	 			   	 						`)   
   	 			   	 	   	 	})
 
 			
@@ -576,11 +625,92 @@
    	 		
 				var	deleteReCommnetBox =  function(){
 		   	 			$("#reCommentBox").hide();
-		   	 			$(".replyBtn").show();
+		   	 			$(".replyBtn1").show();
+		   	 			$(".replyBtn2").show();
 
 		   	 	}
-		    	 		
+				
 
+
+
+				
+				 function selectReComentList(pno,bno){
+
+					 
+						$.ajax({
+							
+							url : 'selectReComentList.co',
+							type : 'post',
+							async:false,
+							data : {
+								pno : pno,
+								bno : bno
+							},
+							success :  function(list){
+								console.log("통신성공");
+								console.log("답글 : " + list);
+							
+								list.forEach((r => {
+									
+									commentBox.append(`
+											<div class='reCommentBox' style="padding-left:40px;">
+		  	 								<br>
+		  	 								<b class='font-weight-bold'>ㄴ\${r.name}</b>님의 한마디  
+		  	 								<br>
+		  	 								
+		  	 								<textarea name="comment" class="comment form-control form-control-sm" style="resize:none;"  maxlength="1000" disabled> \${r.comment}</textarea>
+		  	 										<input type="button" class="btn replyBtn2" onclick="deleteReply('\${r.cno}' , '\${r.pwd}');"  value="삭제" >
+		  	 										<input type="hidden" name="cno" value=\${r.cno}>
+		  	 										<input type="hidden" name="pwd" value=\${r.pwd}>
+											</div>
+		  	 								`)	
+								}))
+						
+							},
+							error : function(e){
+								console.log("통신실패")
+							}
+							
+						})
+							
+				 }
+			
+				function deleteReply(cno, pwd){
+					
+					console.log("삭제비번 :" + pwd);
+							
+					 var checkPwd = prompt("댓글 암호를 입력하세요");
+					 console.log("입력 비번 :" + checkPwd);
+					 if(checkPwd == pwd){
+						$.ajax({
+							url:'deleteReply.co',
+							type:'post',
+							data:{
+								cno : cno,
+								pwd : pwd
+							},
+							success : function (result,result2){
+								if(result > 0){
+									alert("삭제되었습니다.");
+									location.reload();
+									
+								}else{
+									alert("댓글 삭제 실패");
+								}
+		  	 					
+		  	 				},
+		  	 				error:function(request, status, error){
+		  	 					console.log("request"+request);
+		  	 					console.log("status"+status);
+		  	 					console.log("error"+error);
+		  	 				}
+							
+						})						
+					}else{
+						alert("암호가 다릅니다.");
+					}
+
+				}
 
  	</script>
 </body>

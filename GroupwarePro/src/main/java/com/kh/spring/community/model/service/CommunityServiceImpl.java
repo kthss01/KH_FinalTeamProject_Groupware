@@ -110,5 +110,21 @@ public class CommunityServiceImpl implements CommunityService {
 		return list;
 	}
 
+	@Override
+	public ArrayList<CommunityReply> selectReComentList(CommunityReply r) {
+		ArrayList<CommunityReply> list = communityDao.selectReComentList(sqlSession,r);
+		return list;
+	}
+
+	@Override
+	public int deleteReply(CommunityReply r) {
+		int result = communityDao.deleteReply(sqlSession,r);
+		
+		if(result<0) {
+			 throw new CommException("댓글 삭제 실패");
+
+		}
+		return result;
+	}
 
 }

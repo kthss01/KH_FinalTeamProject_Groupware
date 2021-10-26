@@ -116,13 +116,14 @@ public class CommunityController {
 		return "redirect:/boardList.co";
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping("insertReply.co")
 	public String insertReply(CommunityReply r) {
+				
 		
-		int result = communityService.insertReply(r);
+		 int result = communityService.insertReply(r);
 	
-		return String.valueOf(result);
+		 return String.valueOf(result);
 	}
 	
 	
@@ -135,6 +136,25 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="selectReComentList.co",produces="application/json; charset=utf-8")
+	public String selectReComentList(CommunityReply r) {
+		
+		
+		ArrayList<CommunityReply> list = communityService.selectReComentList(r);
+		
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteReply.co")
+	public String deleteReply(CommunityReply r) {
+				
+		
+		 int result = communityService.deleteReply(r);
+	
+		 return String.valueOf(result);
+	}
 	
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
