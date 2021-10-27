@@ -1,0 +1,2 @@
+DB 구현 진행사항 - 김태훈
+일정, 예약 파트 DB 설계에 맞게 DDL 구현 (테이블 구현 및 COMMENT, CONSTRAINT 작성)
