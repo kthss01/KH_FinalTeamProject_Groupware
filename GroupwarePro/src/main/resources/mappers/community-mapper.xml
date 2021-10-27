@@ -4,6 +4,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="communityMapper">
 
+
+
+	<!-- CommunityBoard -->
 	<resultMap id="boardResultSet" type="CommunityBoard">
 		<id column="b_no" property="bno"/>
 		<result column="category_no" property="cno"/>
@@ -15,15 +18,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="status" property="status"/>
 		<result column="nickname" property="nickname"/>
 	</resultMap>
-<!-- 	<resultMap id="replyResultSet" type="Reply">
-		<id column="reply_no" property="replyNo"/>
-		<result column="reply_content" property="replyContent"/>
-		<result column="ref_bno" property="refBoardNo"/>
-		<result column="reply_writer" property="replyWriter"/>
-		<result column="create_date" property="createDate"/>
-		<result column="status" property="status"/>
+	
+	
+	<!-- CommunityAttachment  -->
+	
+	<resultMap id="attachmentResultSet" type="CommunityAttachment">
+		<id column="f_no" property="fno"/>
+		<result column="b_no" property="bno"/>
+		<result column="origin_name" property="originName"/>
+		<result column="change_name" property="changeName"/>
+		<result column="upload_date" property="uploadDate"/>
 	</resultMap>
- -->
+	
+	<!-- CommunityReply  -->
+	
+	<resultMap id="replyResultSet" type="CommunityReply">
+		<id column="C_NO" property="cno"/>
+		<result column="B_NO" property="bno"/>
+		<result column="NAME" property="name"/>
+		<result column="PWD" property="pwd"/>
+		<result column="CDATE" property="CDate"/>
+		<result column="PARENT_NO" property="pno"/>
+		<result column="COM_COMMENT" property="comment"/>
+	</resultMap>
+	<!-- CommunityReply  -->
+	
+	<resultMap id="categoryResultSet" type="CommunityCategory">
+		<id column="CATEGORY_NO" property="cno"/>
+		<result column="C_NAME" property="name"/>
+		<result column="C_MANAGER" property="manager"/>
+		<result column="STATUS" property="status"/>
+
+	</resultMap>
+	
+	
+
 
 
 
@@ -53,5 +82,79 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 	
+	
+	<select id ="selectSeqBno" resultType="_int">
+	SELECT
+	SEQ_COM_NO.NEXTVAL
+	FROM DUAL
+	</select>
+	
+	
+	<insert id="insertBoard" parameterType="CommunityBoard">
+	
+	INSERT INTO COMMUNITY VALUES
+	(
+	SEQ_COM_NO.NEXTVAL,
+	#{cno},
+	#{title},
+	#{content},
+	200,
+	DEFAULT,SYSDATE,SYSDATE,'Y',#{nickname}
+	)
+	
+	</insert>
+	
+	<insert id="insertCommunityAttachment" parameterType="CommunityAttachment">
+	INSERT INTO COM_ATTACHMENT VALUES
+	(SEQ_COM_ATTACH.NEXTVAL,
+	#{bno},
+	#{originName},#{changeName},SYSDATE
+	)	
+	</insert>
+	
+	
+	<select id="selectAttachmentList" parameterType="_int" resultMap="attachmentResultSet">
+	SELECT * FROM COM_ATTACHMENT WHERE B_NO = #{bno}
+	</select>
+	
+	<update id="updateBoard" parameterType="CommunityBoard">
+	UPDATE COMMUNITY SET B_TITLE = #{title},B_CONTENT=#{content},B_MDATE=SYSDATE WHERE B_NO =#{bno}
+	</update>
+	
+	<insert id="insertReply" parameterType="CommunityReply">
+	
+		<choose>
+			<when test="pno != null and pno != '' ">
+				INSERT INTO COM_REPLY VALUES(SEQ_COM_REPLY_NO.NEXTVAL,#{bno},#{name},#{pwd},SYSDATE,#{pno},#{comment} )
+			
+			</when>
+			<otherwise>
+				INSERT INTO COM_REPLY VALUES(SEQ_COM_REPLY_NO.NEXTVAL,#{bno},#{name},#{pwd},SYSDATE,DEFAULT,#{comment} )
+			
+			</otherwise>
+		
+		</choose>
+	</insert>
+	
+	<select id ="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO IS NULL
+	
+	</select>
+	
+	<select id ="selectReCommnetList" parameterType="CommunityReply" resultMap="replyResultSet">
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO = #{pno}
+	
+	</select>
+	
+	<delete id="deleteReply" parameterType="CommunityReply">
+
+	DELETE FROM COM_REPLY WHERE C_NO = #{cno}
+
+	</delete>
+	
+	<select id="selectCategoryList" resultMap="categoryResultSet">
+	SELECT * FROM COM_CATEGORY
+	
+	</select>
 	
 </mapper>

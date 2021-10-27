@@ -25,9 +25,10 @@
                                 </span></a>
                         </li>
                        
-                                               <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu">자료실 </span></a>
+                        <li class="sidebar-item">
+                         <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                         	<i data-feather="file-text" class="feather-icon"></i>
+                         	<span class="hide-menu">자료실 </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 <li class="sidebar-item"><a href="generalLibrary.li" class="sidebar-link"><span
                                             class="hide-menu"> 공통 문서양식 모음
@@ -37,14 +38,12 @@
                             </ul>
                         </li>
                         
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu">커뮤니티 </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="boardList.co?cno=1" class="sidebar-link"><span
-                                            class="hide-menu"> 자유게시판
-                                        </span></a>
-                                </li>
+                        <li class="sidebar-item" id="categoryMenuBtn">
+                         <a class="sidebar-link has-arrow" href="javascript:void(0)"  aria-expanded="false">
+                         <i data-feather="file-text" class="feather-icon"></i>
+                         <span  class="hide-menu">커뮤니티 </span></a>
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line" id="categroyMenu">
+										<!-- 커뮤니티 메뉴 (카테고리) 리스트 출력 -->
                                 
                             </ul>
                         </li>
@@ -222,5 +221,33 @@
             <!-- End Sidebar scroll-->
         </aside>
 
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
+
+	<script>
+		$(function(){
+			var categoryBox = $("#categroyMenu");
+			$.ajax({
+				url:'categoryList.co',
+				post:'post',
+				dataType:'json',
+				success:function(list){
+					console.log(list);
+					$.each(list,function(i,obj){
+
+						categoryBox.append(`
+								<li class="sidebar-item">
+                                <a href="boardList.co?cno=\${ obj.cno }" class="sidebar-link ">
+                                	<span class="hide-menu"> \${ obj.name } </span>
+                                </a>
+                                </li>
+								`) 
+			 		}) 				
+				}
+			})
+			
+		})
+	</script>
+
+	
 </body>
 </html>

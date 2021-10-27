@@ -2,8 +2,6 @@ package com.kh.spring.community.model.vo;
 
 import java.sql.Date;
 
-import com.kh.spring.common.Attachment;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +11,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CommunityAttachment {
-
-	private int fno;
+public class CommunityReply {
+	
+	private int cno;
 	private int bno;
-	private String  originName;
-	private String changeName;
-	private Date uploadDate;
+	private String name;
+	private int pwd;
+	private Date cDate;
+	private int pno;
+	private String comment;
+	
 }

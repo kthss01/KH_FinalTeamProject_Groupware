@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,9 +110,10 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                	<c:forEach items="${ list }" var="b">
+			                                	<c:forEach items="${ list }" var="b"  varStatus="i">
 			                                    <tr>
-			                                        <th scope="row">${ b.bno }</th>
+ 			                                        <th scope="row">${ fn:length(list)-i.index }</th>
+ 			                                        <td style="display:none">${b.bno}</td> 			                                        
 			                                        <td> ${ b.title }</td>
 			                                        <td> ${ b.nickname }</td>
 			                                        <td> ${ b.CDate }</td>
@@ -202,7 +204,7 @@
  	<script>
 	$(function(){
 		$("#boardList tbody tr").click(function(){
-			location.href="detail.co?bno=" + $(this).children().eq(0).text();
+			location.href="detail.co?bno=" + $(this).children().eq(1).text();
 		});
 	});
  	
@@ -255,6 +257,16 @@
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
-</body>
+</body>	
+<!-- 	<script>
+		$("#categoryMenuBtn").addClass("selected");
+		$("#categoryMenuBtn").children('a').addClass("active");
+
+		if($("#categoryMenuBth").children('a').hasClass("active")){
+			$("ul", $("#categoryMenuBth").children('a').parents("ul:first")).removeClass("in");
+			$("ul", $("#categoryMenuBth").children('a').parents("ul:first")).removeClass("active");
+		}
+		
+	</script> -->
 
 </html>
