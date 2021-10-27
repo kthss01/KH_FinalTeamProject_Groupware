@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
@@ -83,6 +84,11 @@ public class CommunityDao {
 	public int deleteReply(SqlSessionTemplate sqlSession, CommunityReply r) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("communityMapper.deleteReply",r);
+	}
+
+	public ArrayList<CommunityCategory> selectCategoryList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("communityMapper.selectCategoryList");
 	}
 
 }

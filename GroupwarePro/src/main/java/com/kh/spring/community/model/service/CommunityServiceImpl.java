@@ -11,6 +11,7 @@ import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.dao.CommunityDao;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
@@ -125,6 +126,12 @@ public class CommunityServiceImpl implements CommunityService {
 
 		}
 		return result;
+	}
+
+	@Override
+	public ArrayList<CommunityCategory> selectCategoryList() {
+		ArrayList<CommunityCategory> list = communityDao.selectCategoryList(sqlSession);
+		return list;
 	}
 
 }

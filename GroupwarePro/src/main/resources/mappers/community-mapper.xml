@@ -41,17 +41,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="PARENT_NO" property="pno"/>
 		<result column="COM_COMMENT" property="comment"/>
 	</resultMap>
+	<!-- CommunityReply  -->
 	
-	
-<!-- 	<resultMap id="replyResultSet" type="Reply">
-		<id column="reply_no" property="replyNo"/>
-		<result column="reply_content" property="replyContent"/>
-		<result column="ref_bno" property="refBoardNo"/>
-		<result column="reply_writer" property="replyWriter"/>
-		<result column="create_date" property="createDate"/>
-		<result column="status" property="status"/>
+	<resultMap id="categoryResultSet" type="CommunityCategory">
+		<id column="CATEGORY_NO" property="cno"/>
+		<result column="C_NAME" property="name"/>
+		<result column="C_MANAGER" property="manager"/>
+		<result column="STATUS" property="status"/>
+
 	</resultMap>
- -->
+	
+	
+
 
 
 
@@ -150,5 +151,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	DELETE FROM COM_REPLY WHERE C_NO = #{cno}
 
 	</delete>
+	
+	<select id="selectCategoryList" resultMap="categoryResultSet">
+	SELECT * FROM COM_CATEGORY
+	
+	</select>
 	
 </mapper>
