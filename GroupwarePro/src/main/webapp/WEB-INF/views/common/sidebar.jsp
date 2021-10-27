@@ -42,7 +42,7 @@
                          <a class="sidebar-link has-arrow" href="javascript:void(0)"  aria-expanded="false">
                          <i data-feather="file-text" class="feather-icon"></i>
                          <span  class="hide-menu">커뮤니티 </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line" id="categroyMenu">
+                            <ul aria-expanded="false" class="collapse first-level base-level-line" id="categroyMenu">
 										<!-- 커뮤니티 메뉴 (카테고리) 리스트 출력 -->
                                 
                             </ul>
@@ -236,8 +236,8 @@
 
 						categoryBox.append(`
 								<li class="sidebar-item">
-                                <a href="boardList.co?cno=\${ obj.cno }" class="sidebar-link ">
-                                	<span class="hide-menu"> \${ obj.name } </span>
+                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
+                                	<span class="hide-menu"> \${ obj.cname } </span>
                                 </a>
                                 </li>
 								`) 

@@ -151,7 +151,20 @@
 											선택</label> <select class="custom-select mr-sm-2" id="selectCategory"
 											name="cno"
 											style="width: 150px; height: 33px; font-size: 13px;">
-											<option value='1' selected>자유게시판</option>
+											<c:forEach items="${ categoryList }" var="c"  varStatus="i">												
+			                                 	<c:choose>
+												    <c:when test="${cno eq c.cno}">
+			                                 			<option value="${c.cno}" selected>${c.cname}  </option>        	
+												    </c:when>
+												    <c:otherwise>
+			                                 			<option value="${c.cno}">${c.cname} </option>        	
+												    </c:otherwise>
+												</c:choose>	                                 
+			                                   </c:forEach>
+											
+											
+											
+											
 										</select> <br> <label style="display: inline"
 											class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
 										<input id='nickname' name="nickname" type="text"
@@ -180,7 +193,7 @@
 
 										<textarea id="summernote" name="content"></textarea>
 
-										<div class="filebox mr-sm-2" style="margin-top: 15px;">
+										<div class="filebox mr-sm-2" style="margin-top: 15px; padding-bottom:30px;">
 											<!-- 										<label style="display: inline;"
 												class="mr-sm-2  font-weight-bold" for="uploadFile">첨부파일</label>
 											<br> <input
@@ -204,11 +217,11 @@
 												<div id="articlefileChange"></div>
 											</div>
 
-											<input  style="position: absolute; right: 0" type="button"
-											onclick ="insertBoard()"
+											<input  style="position: absolute; right: 0;" type="button" onclick ="insertBoard()"
 												class="btn btn-warning" value="글 등록">
-
 										</div>
+							
+										
 									</div>
 <!-- 								</form>
  -->							</div>
@@ -423,11 +436,6 @@
 			   	var content = $('#summernote').val();
 			   	var title = $('#title').val();
 			   	
-			   	console.log("cno : " + cno);
-			   	console.log("nickname : " + nickname);
-			   	console.log("content : " + content);
-			   	console.log("title : " + title);
-			   	
 			   	
 			 $.ajax({				 
 				  type: "POST",
@@ -439,7 +447,7 @@
 	        		  title : title
 	        	  },
 	    	      success: function (data) {
-	    	    	  alert('글 업로드 ajax성공');
+	    	    	  alert('게시글이 등록되었습니다.');
        				  registerAction();
 
 	    	      },
@@ -452,8 +460,8 @@
 		 }
 		  
 		 	function registerAction(){
-			 		 	
-		 		alert("파일 업로드 함수 실행");
+ 	 	    var cno= $('#selectCategory option:selected').val();
+ 		 	
 		 	var form = $("form")[0];        
 		  	var formData = new FormData(form);
 		 		for (var x = 0; x < content_files.length; x++) {
@@ -473,7 +481,7 @@
 		        	  processData: false,
 		    	      contentType: false,
 		    	      success: function () {
-		    				location.href='boardList.co';
+		    				location.href='boardList.co?cno='+cno;
 		    	      },
 		    	      error: function (xhr, status, error) {
 		    	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");

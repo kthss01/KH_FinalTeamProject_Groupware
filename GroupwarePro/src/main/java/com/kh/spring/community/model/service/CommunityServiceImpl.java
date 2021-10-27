@@ -134,4 +134,20 @@ public class CommunityServiceImpl implements CommunityService {
 		return list;
 	}
 
+	@Override
+	public CommunityCategory selectCategory(int cno) {
+		CommunityCategory category = communityDao.selectCategory(sqlSession,cno);
+		return category;
+	}
+
+	@Override
+	public void countBoard(int bno) {
+		int result = communityDao.countBoard(sqlSession,bno);
+		
+		if(result<0) {
+			 throw new CommException("조회수 증가 실패");
+
+		}
+	}
+
 }

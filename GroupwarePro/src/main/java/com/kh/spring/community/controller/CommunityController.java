@@ -47,7 +47,6 @@ public class CommunityController {
 
 		int listCount = communityService.selectListCount(cno);
 
-		System.out.println("listCount : " + listCount);
 
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 
@@ -55,21 +54,32 @@ public class CommunityController {
 
 		ArrayList<CommunityBoard> list = communityService.selectBoardList(info);
 
+		CommunityCategory category = communityService.selectCategory(cno);
+				
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
+		model.addAttribute("category", category);
 
 		return "/community/communityBoardListView";
 	}
 
 	@GetMapping("enrollBoardForm.co")
-	public String enrollBoardFrom() {
-		return "/community/enrollBoardForm";
+	public ModelAndView enrollBoardFrom(ModelAndView mv , int cno) {
+		
+		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
+		mv.addObject("categoryList",list).setViewName("/community/enrollBoardForm");
+		mv.addObject("cno",cno);
+		return mv;
 	}
 
 	@GetMapping("detail.co")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
 
 		CommunityBoard b = communityService.selectBoard(bno);
+		
+		//조회수 증가
+		communityService.countBoard(bno);
+		
 		ArrayList<CommunityAttachment> at = communityService.selectAttachmentList(bno);
 		mv.addObject("b", b);
 		mv.addObject("at",at);

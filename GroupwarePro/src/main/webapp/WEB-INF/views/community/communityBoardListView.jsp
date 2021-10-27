@@ -65,13 +65,10 @@
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
+                            <button class="btn btn-primary btn-sm" type="button" style="width:220px;" data-toggle="modal" data-target="#multiple-one">카테고리 신청하기</button>
+
                         </div>
-                    </div>
+                    </div>                
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -85,121 +82,181 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <div class="row">
-                 <button class="btn btn-primary" onclick="">카테고리 신청하기</button>
-                
-			                    <div class="col-12">
-			                        <div  class="card">
-			                            <div class="card-body">
-			                                <h4 class="card-title  font-weight-bold" >자유게시판</h4>
-			                            </div>
-			                           <div>
-			                            <a  class="btn btn-warning" href="enrollBoardForm.co">글 쓰기</a>
-			                           
-			                           </div>
-			                            
-			                            
-			                            <table id="boardList" class="table table-sm  table-hover mb-0" style="text-align:center;" >
-			                                <thead>
-			                                    <tr>
-			                                        <th  >#</th>
-			                                        <th style="width:60%;" >제목</th>
-			                                        <th >작성자(익명)</th>
-			                                        <th >작성날짜</th>
-			                                        <th >조회수</th>
-			                                        
-			                                    </tr>
-			                                </thead>
-			                                <tbody>
-			                                	<c:forEach items="${ list }" var="b"  varStatus="i">
-			                                    <tr>
- 			                                        <th scope="row">${ fn:length(list)-i.index }</th>
- 			                                        <td style="display:none">${b.bno}</td> 			                                        
-			                                        <td> ${ b.title }</td>
-			                                        <td> ${ b.nickname }</td>
-			                                        <td> ${ b.CDate }</td>
-			                                        <td> ${ b.hit }</td>
-			                                    </tr>
-			                                    </c:forEach>
-			                                    <!-- <tr>
-			                                        <th scope="row">2</th>
-			                                        <td>이곳은</td>
-			                                        <td>관리자</td>
-			                                        <td>21-10-22</td>
-			                                        <td>10</td>
-			                                    </tr>
-			                                    <tr>
-			                                        <th scope="row">3</th>
-			                                        <td>자유게시판입니다.</td>
-			                                        <td>관리자</td>
-			                                        <td>21-10-22</td>
-			                                        <td>20</td>
-			                                    </tr> -->
-			                                </tbody>
-			                  
-			                            </table>
-			                            
-			                            
-			                            
-			                            <div class=card-footer >
-			                              <nav aria-label="Page navigation example" >
-                                            <ul class="pagination">
-                                                     <ul class="pagination">
-                	<c:choose>
-                		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item">
-                			<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage-1 }">
-                			    <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>                			
-                			</a></li>
-                		</c:when>
-                		<c:otherwise>
-							<li class="page-item disabled" >
-							<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage+1 }">
-   								<span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>  
-                			</a></li>                		</c:otherwise>
-                	</c:choose>
-                	
-                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                    	<c:choose>
-	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
-	                		</c:when>
-	                		<c:otherwise>
-	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
-	                		</c:otherwise>
-	                	</c:choose>
-                    </c:forEach>
+            
+                   <div class="col-12">
+                       <div  class="card">
+                       
+                           <div class="card-body">
+                               <h4 class="card-title  font-weight-bold" >${ category.cname }</h4>
+                               
+                           </div>
+                          	<div style="height:70px;">
+                           <a  class="btn btn-warning mr-sm-2" href="enrollBoardForm.co?cno=${category.cno}" style="position:absolute; right:55px; width:100px;">글 쓰기</a>
+                           </div>
+                           <div class=row>
+                           <div class="col-1"></div>
+                            <table id="boardList" class="table table-sm  table-hover mb-0 col-10" style="text-align:center;" >
+                               <thead >
+                                   <tr >
+                                       <th class="font-weight-bold" >#</th>
+                                       <th style="width:60%;" class="font-weight-bold">제목</th>
+                                       <th class="font-weight-bold">작성자(익명)</th>
+                                       <th class="font-weight-bold">작성날짜</th>
+                                       <th class="font-weight-bold">조회수</th>                                       
+                                   </tr>
+                               </thead>
+                               <tbody>
+                               	<c:forEach items="${ list }" var="b"  varStatus="i">
+                                   <tr>
+                                        <th scope="row">${ fn:length(list)-i.index }</th>
+                                        <td style="display:none">${b.bno}</td> 			                                        
+                                       <td> ${ b.title }</td>
+                                       <td> ${ b.nickname }</td>
+                                       <td> ${ b.CDate }</td>
+                                       <td> ${ b.hit }</td>
+                                   </tr>
+                                   </c:forEach>
+                               </tbody>
+                 
+                           </table>
+                           <div class="col-1"></div>
+                           </div> 
+	                            <div class=card-footer style="margin-top:50px;">
+	                              <nav aria-label="Page navigation example" >
+	                                                  <ul class="pagination">
+						                	<c:choose>
+						                		<c:when test="${ pi.currentPage ne 1 }">
+						                			<li class="page-item">
+						                			<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage-1 }">
+						                			    <span aria-hidden="true">&laquo;</span>
+						                                <span class="sr-only">Previous</span>                			
+						                			</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+													<li class="page-item disabled" >
+													<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage+1 }">
+						   								<span aria-hidden="true">&laquo;</span>
+						                                <span class="sr-only">Previous</span>  
+						                			</a></li>                		</c:otherwise>
+						                	</c:choose>
+								                	
+						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						                    	<c:choose>
+							                		<c:when test="${ pi.currentPage ne p }">
+						                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+							                		</c:when>
+							                		<c:otherwise>
+							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+							                		</c:otherwise>
+							                	</c:choose>
+						                    </c:forEach>
+								                    
+								                    
+						                    <c:choose>
+						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+						                			<li class="page-item" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
+						                			
+						                			
+						                			  <span aria-hidden="true">&raquo;</span>
+						                              <span class="sr-only">Next</span>
+						                			
+						                			</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
+						                				
+						                			  <span aria-hidden="true">&raquo;</span>
+						                              <span class="sr-only">Next</span>
+						                			</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+	                                          </ul>
+	                                      </nav>		                            
+		                            </div>
+		                        </div>
+		                    </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+ 
+ 
+ 
                     
-                    
-                    <c:choose>
-                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item" x><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
-                			
-                			
-                			  <span aria-hidden="true">&raquo;</span>
-                              <span class="sr-only">Next</span>
-                			
-                			</a></li>
-                		</c:when>
-                		<c:otherwise>
-                			<li class="page-item disabled" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
-                				
-                			  <span aria-hidden="true">&raquo;</span>
-                              <span class="sr-only">Next</span>
-                			</a></li>
-                		</c:otherwise>
-                	</c:choose>
-                                            </ul>
-                                        </nav>
-			                            
-			                            </div>
-			                        </div>
-			                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!--  카테고리 신청 모달  -->                  
+   <div id="multiple-one" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-oneModalLabel" aria-hidden="true" style="display: none;">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h4 class="modal-title font-weight-bold" id="multiple-oneModalLabel">* 필독  *</h4>
+                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                           </div>
+                           <div class="modal-body">
+                               <h5 class="mt-0 font-weight-bold">카테고리 신청 안내사항</h5>
+                               <br>
+                               <p> 커뮤니티 주제를 신청하면 관리자의 검토 후에 승인이 이뤄집니다. 
+                               </p>
+                               <p style=font-size:12px;><span class="font-weight-bold" style="color:red">※</span> 단, 정치나 종교 등 사회적으로 예민한 주제는 반려될 수 있으며 승인이 통과되면 해당 주제 게시판이 열리고 신청자에게는 해당 게시판의 관리자 권한이 부여됩니다.
+                               	관리에 소홀하거나 게시판 이용이 적을 경우 알림 후에 추후에 삭제 될 가능성이 있음을 알립니다</p>
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-primary" data-target="#multiple-two" data-toggle="modal" data-dismiss="modal">신청 양식</button>
+                           </div>
+                       </div><!-- /.modal-content -->
+                   </div><!-- /.modal-dialog -->
+               </div>
+   			<div id="multiple-two" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-twoModalLabel" aria-hidden="true" style="display: none;">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h4 class="modal-title font-weight-bold" id="multiple-twoModalLabel">* 게시판 신청 양식 *</h4>
+                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                           </div>
+      						 <div class="modal-body">
+                               <div class="text-center mt-2 mb-4">
+                                   <a href="index.html" class="text-success">
+                                       <span><img class="mr-2" src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="" height="18">
+                                       <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text.png" alt="" height="18"></span>
+                                   </a>
+                               </div>
+
+                               <form class="pl-3 pr-3" action="#">
+
+                                   <div class="form-group">
+                                       <label for="cname"  class="font-weight-bold">카테고리 주제</label>
+                                       <input class="form-control" type="text" id="cname" name="cname" placeholder="OOO게시판">
+                                   </div>
+
+                                   <div class="form-group">
+                                       <label for="description" class="font-weight-bold">주제 부가설명</label>
+                                       <input class="form-control" style="height:120px;" type="text" id="description" name="description" placeholder="간단하게  작성해주세요.">
+                                   </div>
+
+                                   <div class="form-group">
+                                       <div class="custom-control custom-checkbox">
+                                           <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                           <label class="custom-control-label" for="customCheck1"> 주의사항을 검토하였습니다.</label>
+                                       </div>
+                                   </div>
+                                   <div class="form-group text-center">
+                                       <button class="btn btn-primary" type="submit">신청서 제출하기 </button>
+                                   </div>
+
+                               </form>
+
+                           </div>
+
+                       </div>
+                   </div>
+               </div>
+             <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center text-muted">
+                All Rights Reserved by Adminmart. Designed and Developed by <a
+                    href="https://wrappixel.com">WrapPixel</a>.
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
  
  	<script>
 	$(function(){
@@ -209,35 +266,9 @@
 	});
  	
  	</script>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center text-muted">
-                All Rights Reserved by Adminmart. Designed and Developed by <a
-                    href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
 
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
+
+
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
@@ -258,15 +289,16 @@
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
 </body>	
-<!-- 	<script>
+	<script>
+		$(function(){
+			$("#categroyMenu").addClass("in");
+		})
+		
 		$("#categoryMenuBtn").addClass("selected");
 		$("#categoryMenuBtn").children('a').addClass("active");
 
-		if($("#categoryMenuBth").children('a').hasClass("active")){
-			$("ul", $("#categoryMenuBth").children('a').parents("ul:first")).removeClass("in");
-			$("ul", $("#categoryMenuBth").children('a').parents("ul:first")).removeClass("active");
-		}
+	
 		
-	</script> -->
+	</script> 
 
 </html>
