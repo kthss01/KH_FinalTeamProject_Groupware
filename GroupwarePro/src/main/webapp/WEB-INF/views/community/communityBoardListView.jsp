@@ -257,6 +257,16 @@
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
-</body>
+</body>	
+<!-- 	<script>
+		$("#categoryMenuBtn").addClass("selected");
+		$("#categoryMenuBtn").children('a').addClass("active");
+
+		if($("#categoryMenuBth").children('a').hasClass("active")){
+			$("ul", $("#categoryMenuBth").children('a').parents("ul:first")).removeClass("in");
+			$("ul", $("#categoryMenuBth").children('a').parents("ul:first")).removeClass("active");
+		}
+		
+	</script> -->
 
 </html>

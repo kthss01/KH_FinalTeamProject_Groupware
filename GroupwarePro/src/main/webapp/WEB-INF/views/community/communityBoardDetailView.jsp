@@ -317,6 +317,8 @@
     
 	$(function(){
 		
+
+		
 		selectReplyList(${b.bno});
 		
 		$('#updateBtn').hide();

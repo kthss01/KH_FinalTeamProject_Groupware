@@ -31,6 +31,7 @@ import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.service.CommunityService;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
 import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
@@ -155,6 +156,18 @@ public class CommunityController {
 	
 		 return String.valueOf(result);
 	}
+	
+	@ResponseBody	
+	@RequestMapping(value="categoryList.co",produces="application/json; charset=utf-8")
+	public String selectCategoryList(CommunityCategory r) {
+		
+		
+		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
+		
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
+	
 	
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
