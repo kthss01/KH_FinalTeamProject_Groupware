@@ -39,4 +39,8 @@ public interface CommunityService {
 
 	ArrayList<CommunityCategory> selectCategoryList();
 
+	CommunityCategory selectCategory(int cno);
+
+	void countBoard(int bno);
+
 }

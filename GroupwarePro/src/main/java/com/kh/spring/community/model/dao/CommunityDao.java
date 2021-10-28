@@ -91,4 +91,14 @@ public class CommunityDao {
 		return (ArrayList)sqlSession.selectList("communityMapper.selectCategoryList");
 	}
 
+	public CommunityCategory selectCategory(SqlSessionTemplate sqlSession, int cno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("communityMapper.selectCategoryName",cno);
+	}
+
+	public int countBoard(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("communityMapper.countBoard",bno);
+	}
+
 }
