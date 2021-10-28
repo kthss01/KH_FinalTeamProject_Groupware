@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+
+
+	<!-- 
+		* 로그 
+		- 사용자가 요청한 정보, 응답한 정보 등등을 기록하는 것
+	
+		* log4j & interceptor
+		- 운영시 로그의 효율적인 관리가 가능하다. (콘솔 또는 특정 파일로)
+		- 콘솔 로그를 위해 System.out.print를 사용하는건 성능저하 야기 (로그로 찍는거 보다 10배 넘게 더 일을하게됨)
+		- 스프링 프로젝트에서는 기본적으로 로그를 찍을 수 있게끔 log4j 라이브러리가 추가되어있다. 
+		  slf4j(Simple logging Facade for Java), logging, log4j, ... 등과 같은 logging framework가 존재
+		    그 중 slf4j는 Facade(추상체) 역할을 하는 프레임 워크로, framework간 호환성을 보장 (자바로 따지면 interface 덩어리같은 존재)
+		
+		* 장점 VS 단점
+		- 장점 : 프로그램의 문제 파악에 용이
+			       빠른 디버깅이 가능, 효율적인 디버깅 가능(로그 파악이 쉬움)
+			       로그 이력을 파일, DB 등으로 남길 수 있음
+		
+		- 단점 : 로그에 대한 디바이스(파일또는 DB) 입출력으로 인해 런타임 오버헤드 발생
+			       로깅을 위한 추가적인 코드로 전체 코드 사이즈가 증가
+			       심하게 생성되는 로그는 혼란을 야기하거나 애플리케이션 성능에 영향을 미침
+			       개발 중간에 로깅 코드를 추가하기 어려움
+			       
+		* log4j.xml 구조
+		- Appender : 전달된 로그를 어디에 출력할지 결정 (콘솔에 출력할지, 파일에 출력할지, DB에 저장할지)
+		- Logger/root : 출력할 메세지를 해당 Appender에 전달 
+			# name 속성 : 로그 주체, 패키지 작성
+			# additivity 속성 : 로그를 상위로 전달할 지 여부. 기본값 true (중복로깅 발생)
+			# appender-ref 자식태그 : ref 속성값으로 appeder태그 name 값을 지정.
+			# level 자식태그 : 로그레벨을 설정함. 설정된 값 이상의 priority일 경우, 로깅출력
+			 				 (DEBUG < INFO < WARN < ERROR < FATAL)
+			 				 
+		# 로깅 처음 수업할 때 전체적인 log4j 구조 설명, 각각 아래의 appenders, logger, root logger 내용들 설명하고
+		    번호 붙인 순서대로 작업해보기
+	 -->
+
+	<!-- Appenders -->
+	<!-- 
+		* Appenders : 전달된 로그를 어디에 출력할지, 어떤 패턴으로 출력할지 결정하는 요소 (콘솔출력, 파일기록, DB저장)
+		- ConsoleAppender : 로그를 콘솔에 출력하기 위한 Appender
+		- JDBCAppender : 로그를 RDB에 출력하기 위한 Appender
+		- FileAppender : 로그를 파일에 출력하기 위한 Appender (단, 지정한 파일에 계속 로그가 쌓이기 때문에 파일 크기가 지나치게 커질 수 있다)
+		- RollingFileAppender : FileAppender를 보완한 개념으로 
+								일정 조건 후에 기존 파일을 백업파일로 바꾸고 다시 새로운 파일에 로그가 쌓이게끔 가능
+								그 예로 DailyRollingFileAppender (날짜별로 새로운 로그파일이 생기고 해당 그 문서에 쌓임)
+		
+		* Layout : 로그를 어떤 형식으로 출력할지 결정
+		- DateLayout
+		- HTMLLayout
+		- PatternLayout(가장 디버깅에 적합)
+		- SimpleLayout
+		- XMLLayout
+		
+		%p : debug, info, warn, error, fatal 등의 priority가 출력된다.
+		%m : 로그 내용이 출력된다.
+		%d : 로깅 이벤트가 발생한 시간을 기록된다. 포맷을 %d{HH:mm:ss, SSS}, %d{yyyy MMM dd HH:mm:ss, SSS} 같은 형태로 사용하며 SimpleDateFormat에 따른 포맷팅을 하면 된다.
+		%t : 로그이벤트가 발생된 쓰레드의 이름을 출력합니다.
+		%% : % 표시를 출력하기 위해 사용한다.
+		%n : 플랫폼 종속적인 개행문자가 출력된다. rn 또는 n 일 것이다.
+		%c : 카테고리르 표시합니다. -> 예) 카테고리가 a.b.c 처럼 되어있다면 %c{2}는 b.c가 출력된다. 
+	 	%C : 클래스명을 표시합니다. -> 예) 클래스 구조가 org.apache.xyz.SomeClass 처럼 되어있다면 %C{2}는 xyz.SomeClass가 출력된다.
+	 	%F : 로깅이 발생한 프로그램 파일명을 나타냅니다.
+	 	%l : 로깅이 발생한 caller의 정보를 나타냅니다. 
+	 	%L : 로깅이 발생한 caller의 라인수를 나타냅니다.
+	 	%M : 로깅이 발생한 method 이름을 나타냅니다.
+	 	%r : 어플리케이션 시작 이후 부터 로깅이 발생한 시점의 시간(milliseconds)
+	 	%x : 로깅이 발생한 thread와 관련된 NDC(nested diagnostic context)를 출력합니다.
+	 	%X : 			"       %X{key} 형태
+		
+	 -->
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %m%n" />
+		</layout>
+	</appender>
+	<appender name="fileLogger" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="D:/git/KH_Study_Spring/SpringP/src/main/resources/logs/member/system.log"/>
+		<param name="Append" value="true"/>
+
+		<param name="encoding" value="UTF-8"/>
+		
+		<param name="DatePattern" value="'.'yyyyMMdd"/>
+		
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} [%-5p] %c{1}.%M{%L} - %m%n"/>
+		</layout>
+	</appender>
+	
+	<!-- Application Loggers -->
+	<logger name="com.kh.spring">
+		<level value="trace" />
+	</logger>
+	
+	<!-- 3rdparty Loggers --> 
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="info"/>
+		<appender-ref ref="sqlLogger"/>
+	</logger>
+	
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="sqlLogger"/>
+	</logger>
+	
+	
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="console" />
+		<appender-ref ref="fileLogger" />
+	</root>
+	
+</log4j:configuration>

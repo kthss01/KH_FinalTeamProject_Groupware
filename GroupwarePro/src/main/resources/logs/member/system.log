@@ -1,0 +1,8 @@
+21-10-20 17:19:58 [INFO ] ContextLoader.initWebApplicationContext{271} - Root WebApplicationContext: initialization started
+21-10-20 17:20:00 [INFO ] ContextLoader.initWebApplicationContext{307} - Root WebApplicationContext initialized in 1779 ms
+21-10-20 17:20:00 [INFO ] DispatcherServlet.initServletBean{525} - Initializing Servlet 'appServlet'
+21-10-20 17:20:02 [INFO ] DispatcherServlet.initServletBean{547} - Completed initialization in 1629 ms
+21-10-20 17:36:50 [INFO ] ContextLoader.initWebApplicationContext{271} - Root WebApplicationContext: initialization started
+21-10-20 17:36:52 [INFO ] ContextLoader.initWebApplicationContext{307} - Root WebApplicationContext initialized in 1856 ms
+21-10-20 17:36:52 [INFO ] DispatcherServlet.initServletBean{525} - Initializing Servlet 'appServlet'
+21-10-20 17:36:54 [INFO ] DispatcherServlet.initServletBean{547} - Completed initialization in 1730 ms
