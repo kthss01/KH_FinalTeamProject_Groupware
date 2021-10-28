@@ -30,7 +30,7 @@
                          	<i data-feather="file-text" class="feather-icon"></i>
                          	<span class="hide-menu">자료실 </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="generalLibrary.li" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="boardList.li" class="sidebar-link"><span
                                             class="hide-menu"> 공통 문서양식 모음
                                         </span></a>
                                 </li>
