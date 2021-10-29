@@ -28,7 +28,7 @@ export default class SideMenu extends Component {
     $sideMenuLikeCal.classList.add("row", "border-bottom", "pb-3");
 
     const $sideMenuPubCal = this.$target.querySelector('[data-component="sidemenu-pubcal"]');
-    $sideMenuPubCal.classList.add("row", "mb-3");
+    $sideMenuPubCal.classList.add("row", "mt-3");
 
     new SideMenuHeader($sideMenuHeader, {});
     new SideMenuMyCal($sideMenuMyCal, {});
