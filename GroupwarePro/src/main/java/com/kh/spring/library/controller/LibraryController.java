@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.common.Pagination;
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.common.exception.CommException;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
 import com.kh.spring.library.model.service.LibraryService;
 import com.kh.spring.library.model.vo.LibraryBoard;
 
@@ -31,17 +32,18 @@ public class LibraryController {
 	
 	@RequestMapping("boardList.li")
 	public ModelAndView selectList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-			ModelAndView mv, @RequestParam(value = "cno", required = false, defaultValue = "0") int cno) {
+								   @RequestParam(value = "cno", required = false, defaultValue = "0") int cno,
+								   @RequestParam @Nullable  String keyword , ModelAndView mv) {
 
 		int listCount = libraryService.selectListCount(cno);
-
-		
+	
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 3, 8);
 
-		SelectBoardListInfo info = new SelectBoardListInfo(cno, pi);
+		SelectBoardListInfo info = new SelectBoardListInfo(cno, keyword ,pi);
 
 		ArrayList<LibraryBoard> list = libraryService.selectBoardList(info);
 
+		System.out.println(list);
 		
 		mv.addObject("list", list);
 		mv.addObject("pi", pi);

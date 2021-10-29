@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.library.model.vo.LibraryBoard;
 
 public interface LibraryService {

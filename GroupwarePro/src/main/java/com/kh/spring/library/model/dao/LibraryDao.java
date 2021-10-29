@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.common.PageInfo;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.library.model.vo.LibraryBoard;
 
 @Repository
@@ -21,13 +21,12 @@ public class LibraryDao {
 	public ArrayList<LibraryBoard> selectBoardList(SqlSessionTemplate sqlSession, SelectBoardListInfo info) {
 
 		PageInfo pi = info.getPageInfo();
-		int cno = info.getCno();
 		
 		int offset = (pi.getCurrentPage()-1)* pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());		
 		
-		return (ArrayList)sqlSession.selectList("libraryMapper.selectBoardList",cno,rowBounds);
+		return (ArrayList)sqlSession.selectList("libraryMapper.selectBoardList",info,rowBounds);
 	}
 
 	public int insertBoard(SqlSessionTemplate sqlSession, LibraryBoard b) {
