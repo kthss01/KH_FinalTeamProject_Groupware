@@ -18,6 +18,10 @@ public interface LibraryService {
 
 	void fileDownload(HttpServletRequest request, HttpServletResponse response, String fileName);
 
+	void deleteBoard(int lno);
+
+	void countLibrary(String fileName);
+
 
 
 
