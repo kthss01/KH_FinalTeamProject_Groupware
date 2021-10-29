@@ -81,7 +81,7 @@ export default class Calendar extends Component {
           titleFormat: { year: '2-digit', month: 'numeric', day: 'numeric', weekday: 'short' },
         },
         timeGridWeek: { 
-          titleFormat: { month: 'short', day: 'numeric' },
+          titleFormat: { month: 'numeric', day: 'numeric' },
         },
         listYear: {
           titleFormat: { year: 'numeric' }
