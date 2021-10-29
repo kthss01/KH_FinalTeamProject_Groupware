@@ -166,6 +166,7 @@
                 <h4 class="card-title mt-5 font-weight-bold"><i class="fas fa-copy"></i>&nbsp;&nbsp;서류 검색</h4>
                         <div class="card">
                             <div class="card-body" style="padding:15px;">
+                            <form action="boardList.li" method="get" >
                                <div class="form-group row">
                                	<div class="col-3" style="display:inline-block">
                                	 <label class=" font-weight-bold" for="">부서 별 분류</label>
@@ -180,12 +181,13 @@
                                	</div>
                                	<div  class=" col-6" style="display:inline-block">
          						<label class="mr-sm-2 font-weight-bold" for="">서류 검색</label>                                  
-                                   <input type="search" style="display:inline-block;" class="form-control" placeholder="서류 검색">
+                                   <input type="search" name="keyword" style="display:inline-block;" class="form-control" placeholder="서류 검색">
                               	</div>
                               	<div class="col-2">	
-                              	<button style="width:100px; margin-top:40px;" class="form-control btn btn-outline-secondary"><i class="icon-magnifier">검색</i></button>
+                              		<button style="width:100px; margin-top:40px;" class="form-control btn btn-outline-secondary"><i class="icon-magnifier">검색</i></button>
                               	</div>
                                </div>
+                               </form>
                             </div>
                         </div>
 

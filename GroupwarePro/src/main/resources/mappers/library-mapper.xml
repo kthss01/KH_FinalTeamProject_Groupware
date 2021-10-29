@@ -38,19 +38,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>	
 	</select>
 	
-	<select id="selectBoardList" parameterType="_int" resultMap="boardResultSet">
-	
+	<select id="selectBoardList" parameterType="SelectBoardListInfo" resultMap="boardResultSet">
 
-			
-			
-			<choose>
-			<when test="cno != 0">
+		<choose>
+			<when test="cno != 0 and keyword != null ">
+				SELECT *
+				FROM LIBRARY
+				WHERE C_NO =#{cno}
+				AND L_TITLE LIKE '%' || #{keyword} || '%'
+				AND STATUS = 'Y'
+				ORDER BY L_TITLE			
+			</when>
+			<when test="cno == 0 and keyword != null ">
+				SELECT *
+				FROM LIBRARY
+				WHERE L_TITLE LIKE '%' || #{keyword} || '%'
+				AND STATUS = 'Y'
+				ORDER BY L_TITLE			
+			</when>
+			<when test="cno != 0 and keyword == null ">
 				SELECT *
 				FROM LIBRARY
 				WHERE C_NO =#{cno}
 				AND STATUS = 'Y'
 				ORDER BY L_TITLE			
-				</when>
+			</when>
+			
 			<otherwise>
 				SELECT *
 				FROM LIBRARY

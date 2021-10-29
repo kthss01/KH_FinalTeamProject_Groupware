@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.common.exception.CommException;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
 import com.kh.spring.library.model.dao.LibraryDao;
 import com.kh.spring.library.model.vo.LibraryBoard;
 

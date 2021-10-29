@@ -7,13 +7,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.dao.CommunityDao;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
 import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
