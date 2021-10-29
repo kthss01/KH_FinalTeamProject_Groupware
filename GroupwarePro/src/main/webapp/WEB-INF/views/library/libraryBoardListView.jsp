@@ -40,6 +40,10 @@
     overflow: hidden;
     border: 0;
 }
+
+.deleteBtn:hover{
+	cursor:pointer;
+}
 </style>
 
 </head>
@@ -184,23 +188,42 @@
                                </div>
                             </div>
                         </div>
-                
+
+
                 <h4 class="card-title mt-5 font-weight-bold"><i class="fas fa-copy"></i>&nbsp;&nbsp;문서 양식 목록</h4>
 	                <div class="row">
+	                
+	                                   
 	                 <c:forEach items="${ list }" var="l"  varStatus="i">
 	                
 	                    <div class="col-sm-12 col-md-6 col-lg-3">
 
-	                 		   <div class="card">
-	                            <div class="card-body">
+	                 		   <div class="card"style="height:200px"   >
+	                            <div class="card-body" >
+									<a class='deleteBtn'  onclick='deleteBoard(${l.lno});' style="color:darkgray"><i class="fas fa-trash-alt" style="font-size:13px; position:absolute; right:15px; top:10px;"></i></a>
 	                                <h4 class="card-title" style="font-size:17px;">
 	                                <a href="fileDownLoad.do?fileName=${l.changeName }">${l.originName} &nbsp; 
 	                                <i class="fas fa-file-alt" onclick="downloadFile(${l.changeName});"></i></a></h4>
-	                                
-	                                <div class="thumbnail" style="height:100px;">
-										<img src="http://placehold.it/170x100" />
-	                               </div>
-	                               
+	                      
+										<span style="font-size:15px;">${l.content }</span>
+
+	                            	<span class="" style="font-size:13px; position:absolute; left:15px; bottom:10px;" >다운로드 횟수 : ${l.hit }회 </span>   <br>                         
+
+	                                <div style="text-align:right;">
+	                            		<c:if test="${ l.cno == 1 }">
+	                            			<span class="badge badge-pill badge-secondary" style="font-size:13px; position:absolute; right:15px; bottom:10px;">경리회계</span>                           	
+										</c:if>
+	                            		<c:if test="${ l.cno == 2 }">
+	                            			<span class="badge badge-pill badge-success" style="font-size:13px; position:absolute; right:15px; bottom:10px;">경영지원</span>                           	
+										</c:if>
+	                            		<c:if test="${ l.cno == 3 }">
+	                            			<span class="badge badge-pill badge-info" style="font-size:13px; position:absolute; right:15px; bottom:10px;">영업지원</span>                           	
+										</c:if>
+	                            		<c:if test="${ l.cno == 4 }">
+	                            			<span class="badge badge-pill badge-warning" style="font-size:13px; position:absolute; right:15px; bottom:10px;">인사총무</span>                           	
+										</c:if>
+
+	                            	</div> 
 	                            </div>
 	                        </div>
 	                 	  </div>                 	                
@@ -216,14 +239,14 @@
 				                	<c:choose>
 				                		<c:when test="${ pi.currentPage ne 1 }">
 				                			<li class="page-item">
-				                			<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage-1 }">
+				                			<a class="page-link" aria-label="Previous" href="boardList.li?currentPage=${ pi.currentPage-1 }">
 				                			    <span aria-hidden="true">&laquo;</span>
 				                                <span class="sr-only">Previous</span>                			
 				                			</a></li>
 				                		</c:when>
 				                		<c:otherwise>
 											<li class="page-item disabled" >
-											<a class="page-link" aria-label="Previous" href="list.bo?currentPage=${ pi.currentPage+1 }">
+											<a class="page-link" aria-label="Previous" href="boardList.li?currentPage=${ pi.currentPage+1 }">
 				   								<span aria-hidden="true">&laquo;</span>
 				                                <span class="sr-only">Previous</span>  
 				                			</a></li>                		</c:otherwise>
@@ -232,7 +255,7 @@
 				                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 				                    	<c:choose>
 					                		<c:when test="${ pi.currentPage ne p }">
-				                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+				                    			<li class="page-item"><a class="page-link" href="boardList.li?currentPage=${ p }">${ p }</a></li>
 					                		</c:when>
 					                		<c:otherwise>
 					                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -243,7 +266,7 @@
 						                    
 				                    <c:choose>
 				                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-				                			<li class="page-item" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
+				                			<li class="page-item" ><a class="page-link" aria-label="Next" href="boardList.li?currentPage=${ pi.currentPage+1 }">
 				                			
 				                			
 				                			  <span aria-hidden="true">&raquo;</span>
@@ -252,7 +275,7 @@
 				                			</a></li>
 				                		</c:when>
 				                		<c:otherwise>
-				                			<li class="page-item disabled" ><a class="page-link" aria-label="Next" href="list.bo?currentPage=${ pi.currentPage+1 }">
+				                			<li class="page-item disabled" ><a class="page-link" aria-label="Next" href="boardList.li?currentPage=${ pi.currentPage+1 }">
 				                				
 				                			  <span aria-hidden="true">&raquo;</span>
 				                              <span class="sr-only">Next</span>
@@ -373,6 +396,14 @@
         });
     }
  */
+ 
+	 var deleteBoard = function(lno){
+		 var check = confirm("자료를 삭제하십니까 ?");
+		 
+		 if(check == true){
+			 location.href="deleteBoard.li?lno=" + lno;
+		 }
+	 }
     </script>
 </body>
 

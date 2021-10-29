@@ -116,20 +116,34 @@ public class LibraryServiceImpl implements LibraryService {
 				out.write(buffer, 0, readCount);
 				// outputStream에 씌워준다
 			}
+			
+			
 		} catch (Exception e) {
 			throw new CommException("file Load Error");
-		} finally {
-
-			try {
-				fis.close();
-				out.flush();
-				out.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
+	}
+
+	@Override
+	public void deleteBoard(int lno) {
+
+		int result = libraryDao.deleteBoard(sqlSession,lno);
+		
+		if (result < 0) {
+			throw new CommException("자료 삭제 실패");
+		}
+	}
+
+	@Override
+	public void countLibrary(String fileName) {
+		
+		int result = libraryDao.countLibrary(sqlSession,fileName);
+		if (result < 0) {
+			throw new CommException("자료 다운 횟수 증가 실패");
+		}
+		
+		
+		
 	}
 
 	/*

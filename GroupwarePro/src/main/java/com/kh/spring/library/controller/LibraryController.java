@@ -70,11 +70,23 @@ public class LibraryController {
 	
 	@RequestMapping("fileDownLoad.do")
 	public void fileDownload(String fileName, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(fileName);
+		
+		
 		
 		libraryService.fileDownload(request, response, fileName);
-		
+
+		//해당 파일네임인 자료 찾아서 다운로드 횟수 증가 
+		libraryService.countLibrary(fileName);
 	}
+	
+	@RequestMapping("deleteBoard.li")
+	public String deleteBoard(int lno) {
+		
+		libraryService.deleteBoard(lno);
+		
+		return "redirect:/boardList.li";
+	}
+	
 	
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 

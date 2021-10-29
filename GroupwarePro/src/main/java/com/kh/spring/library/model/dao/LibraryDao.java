@@ -40,6 +40,16 @@ public class LibraryDao {
 		return sqlSession.selectOne("libraryMapper.selectOriginFileName",fileName);
 	}
 
+	public int deleteBoard(SqlSessionTemplate sqlSession, int lno) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("libraryMapper.deleteBoard",lno);
+	}
+
+	public int countLibrary(SqlSessionTemplate sqlSession, String fileName) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("libraryMapper.countLibrary",fileName);
+	}
+
 	/*
 	 * public LibraryCategory selectCategory(SqlSessionTemplate sqlSession, int cno)
 	 * { // TODO Auto-generated method stub return
