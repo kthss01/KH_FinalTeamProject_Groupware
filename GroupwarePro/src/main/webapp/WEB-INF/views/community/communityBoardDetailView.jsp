@@ -734,7 +734,7 @@
 		  	 										<input type="hidden" name="pwd" value=\${r.pwd}>
 											</div>
 		  	 								`)	
-								}))
+								}));
 						
 							},
 							error : function(e){
