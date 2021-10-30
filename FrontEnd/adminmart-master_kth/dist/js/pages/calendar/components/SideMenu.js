@@ -14,6 +14,11 @@ export default class SideMenu extends Component {
           <div data-component="sidemenu-likecal"></div>
           <div data-component="sidemenu-pubcal"></div>
       </div>
+      <div class="card-footer">
+        <button class="btn btn-outline-secondary btn-block">
+          <i class="fas fa-cog"></i> 캘린더 설정
+        </button>
+      </div>
     `;
   }
 
