@@ -83,7 +83,7 @@
 
 					<div class="col-7 align-self-center">
 						<h4
-							class="page-title text-truncate text-dark font-weight-medium mb-1">커뮤니티</h4>
+							class="page-title text-truncate text-dark font-weight-bold mb-1">커뮤니티</h4>
 						<div class="d-flex align-items-center">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb m-0 p-0">
@@ -95,16 +95,14 @@
 							</nav>
 						</div>
 					</div>
-					<div class="col-5 align-self-center">
-						<div class="customize-input float-right">
-							<select
-								class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-								<option selected>Aug 19</option>
-								<option value="1">July 19</option>
-								<option value="2">Jun 19</option>
-							</select>
-						</div>
-					</div>
+					  <div class="col-5 align-self-center">
+                        <div class="customize-input float-right">
+                            <button class="btn btn-primary btn-sm" type="button" style="width:220px;" 
+                            		data-toggle="modal" data-target="#multiple-one">카테고리 신청하기
+                            </button>
+
+                      </div>
+                    </div>  
 				</div>
 			</div>
 			<!-- ============================================================== -->
@@ -118,41 +116,40 @@
 				<!-- Start Page Content -->
 				<!-- ============================================================== -->
 				<div class="row">
-					<button class="btn btn-primary " onclick="">카테고리 신청하기</button>
-
 					<div class="col-12">
 						<div class="card">
 							<div class="container" style="padding: 50px;">
 
+
 								<div class="form-group">
 
-
-
-									<label style="display: inline" class="mr-sm-2 font-weight-bold"">작성자</label>
-									<span id="nickname">${ b.nickname }</span> <br>
-									<br> <label style="display: inline"
-										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">글
-										제목</label> <span id="title">${ b.title }</span> <input
-										id="updateTitle" style="display: inline-block; width: 600px;"
-										type="text" class="form-control form-control-sm"
-										value="${ b.title }"> <br>
-									<br> <label id="dateLabel" style="display: inline"
-										class="mr-sm-2  font-weight-bold"">작성날짜</label> <span
-										id="enrollDate"> ${ b.CDate } </span> <span id="updateDate">
+									<label style="display: inline-block; width:130px;" class="mr-sm-2 font-weight-bold">
+												<i class="fas fa-user"></i>  &nbsp&nbsp작성자</label>
+									<span id="nickname" style="font-size:18px;">${ b.nickname }</span>
+									<br> 
+									<label style="display: inline-block; width:130px;" 
+										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">
+										<i class="far fa-caret-square-right"></i>  &nbsp&nbsp글 제목</label> 
+									<span id="title" style="font-size:18px;">${ b.title }</span> 
+									<input id="updateTitle" style="display: inline-block; width: 600px;" type="text" class="form-control form-control-sm"
+													value="${ b.title }"> 
+									<br> 
+									<label id="dateLabel" style="display: inline-block; width:130px;" class="mr-sm-2  font-weight-bold">
+											<i class="far fa-calendar-alt"></i>  &nbsp&nbsp작성날짜</label> 
+									<span style="font-size:18px;" id="enrollDate"> ${ b.CDate } </span>
+								    <span id="updateDate">
 										<c:set var="today" value="<%=new java.util.Date()%>" /> <!-- 현재날짜 -->
 										<c:set var="date">
 											<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" />
 										</c:set> <c:out value="${date}" />
 									</span>
 
-
-
-								</div>
-								<label style="display: inline" class="mr-sm-2  font-weight-bold"
-									for="inlineFormCustomSelect">내용</label><br>
 								<br>
+								<label style="display: inline-block; width:130px;"  class="mr-sm-2  font-weight-bold"
+									for="inlineFormCustomSelect"><i class="fas fa-align-left"></i> &nbsp&nbsp내용</label>
+								<hr>
 
-								<div id="summernote" style="min-height: 200px;">
+								<div id="summernote" style="min-height: 200px; padding-left:40px;">
 									${b.content }</div>
 								<c:if test="${not empty at}">
 									<div id="imgBox" style="margin-bottom: 50px;">
@@ -163,8 +160,10 @@
 										</c:forEach>
 									</div>
 
-									<div id="imgUpdate" style="margin-top: 50px; display: none;">
-										<h3>첨부파일 수정</h3>
+								</c:if>
+								
+									<div id="imgUpdate" style="margin-top: 50px; ">
+										<h4>첨부파일 수정</h4>
 
 										<c:forEach items="${ at }" var="at" varStatus="status">
 
@@ -175,8 +174,8 @@
 											</div>
 										</c:forEach>
 
-										<button id="btn-upload" type="button"
-											style="border: 1px solid #ddd; outline: none;">파일 추가</button>
+										<button id="btn-upload" type="button" class="btn btn-sm"
+											style="border: 1px solid #ddd; outline: none;"><i class="fas fa-link"></i> 파일 추가</button>
 										<input id="input_file" multiple="multiple" type="file"
 											style="display: none;"> <span
 											style="font-size: 10px; color: gray;">※첨부파일은 게시물 당 최대
@@ -190,15 +189,12 @@
 										</div>
 									</div>
 
-								</c:if>
-
-								<button id="updateFormBtn" class="btn btn-primary"
-									onclick="edit()" type="button" style="margin-top: 50px;">수정</button>
-								<button id="deleteBtn" class="btn btn-danger"
-									style="margin-top: 50px;" onclick="deleteBoard()">삭제</button>
-								<button id="updateBtn" class="btn btn-secondary"
-									onclick="updateBoard()" style="margin-top: 50px;">수정완료</button>
-
+								<div id="btnArea" style="height:80px;"class="col-12">
+									<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정</button>
+									<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()" style="margin-top: 50px; position:absolute; right:0" >삭제</button>
+									<button id="updateBtn" class="btn btn-secondary" onclick="updateBoard()" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정완료</button>
+									<button id="updateCancelBtn" class="btn btn-secondary" onclick="updateCancel()" style="margin-top: 50px; position:absolute; right:0">취소</button>
+								</div>
 
 
 								<div class="card-footer"
@@ -245,7 +241,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 
 
 	<!-- ============================================================== -->
@@ -271,12 +267,72 @@
 	<!-- ============================================================== -->
 	<!-- End footer -->
 	<!-- ============================================================== -->
+  <!--  카테고리 신청 모달  -->                  
+   <div id="multiple-one" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-oneModalLabel" aria-hidden="true" style="display: none;">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h4 class="modal-title font-weight-bold" id="multiple-oneModalLabel">* 필독  *</h4>
+                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                           </div>
+                           <div class="modal-body">
+                               <h5 class="mt-0 font-weight-bold">카테고리 신청 안내사항</h5>
+                               <br>
+                               <p> 커뮤니티 주제를 신청하면 관리자의 검토 후에 승인이 이뤄집니다. 
+                               </p>
+                               <p style=font-size:12px;><span class="font-weight-bold" style="color:red">※</span> 단, 정치나 종교 등 사회적으로 예민한 주제는 반려될 수 있으며 승인이 통과되면 해당 주제 게시판이 열리고 신청자에게는 해당 게시판의 관리자 권한이 부여됩니다.
+                               	관리에 소홀하거나 게시판 이용이 적을 경우 알림 후에 추후에 삭제 될 가능성이 있음을 알립니다</p>
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-primary" data-target="#multiple-two" data-toggle="modal" data-dismiss="modal">신청 양식</button>
+                           </div>
+                       </div><!-- /.modal-content -->
+                   </div><!-- /.modal-dialog -->
+               </div>
+   			<div id="multiple-two" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-twoModalLabel" aria-hidden="true" style="display: none;">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h4 class="modal-title font-weight-bold" id="multiple-twoModalLabel">* 게시판 신청 양식 *</h4>
+                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                           </div>
+      						 <div class="modal-body">
+                               <div class="text-center mt-2 mb-4">
+                                   <a href="index.html" class="text-success">
+                                       <span><img class="mr-2" src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="" height="18">
+                                       <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text.png" alt="" height="18"></span>
+                                   </a>
+                               </div>
 
-	<!-- ============================================================== -->
-	<!-- End Wrapper -->
-	<!-- ============================================================== -->
-	<!-- End Wrapper -->
-	<!-- ============================================================== -->
+                               <form class="pl-3 pr-3" action="#">
+
+                                   <div class="form-group">
+                                       <label for="cname"  class="font-weight-bold">카테고리 주제</label>
+                                       <input class="form-control" type="text" id="cname" name="cname" placeholder="OOO게시판">
+                                   </div>
+
+                                   <div class="form-group">
+                                       <label for="description" class="font-weight-bold">주제 부가설명</label>
+                                       <input class="form-control" style="height:120px;" type="text" id="description" name="description" placeholder="간단하게  작성해주세요.">
+                                   </div>
+
+                                   <div class="form-group">
+                                       <div class="custom-control custom-checkbox">
+                                           <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                           <label class="custom-control-label" for="customCheck1"> 주의사항을 검토하였습니다.</label>
+                                       </div>
+                                   </div>
+                                   <div class="form-group text-center">
+                                       <button class="btn btn-primary" type="submit">신청서 제출하기 </button>
+                                   </div>
+
+                               </form>
+
+                           </div>
+
+                       </div>
+                   </div>
+               </div>
 	<!-- All Jquery -->
 	<!-- ============================================================== -->
 
@@ -322,6 +378,7 @@
 		selectReplyList(${b.bno});
 		
 		$('#updateBtn').hide();
+		$('#updateCancelBtn').hide();
 		$('#updateDate').hide();
 		$('#updateTitle').hide();
 		$('#imgUpdate').hide();
@@ -339,23 +396,34 @@
 	});
 
     
-    
+    var updateCancel = function(){
+    	 $('#summernote').summernote('destroy');
+ 		$('.card-footer').show();
+		$('#updateCancelBtn').hide();
+		$('#updateBtn').hide();
+		$('#deleteBtn').show();
+		$('#updateFormBtn').show();
+		$('#imgUpdate').hide();
+		$('#dateLabel').text('작성날짜');
+		$('#updateTitle').hide();
+		$('#title').show();
+
+    }
 
 	
 	var edit = function() {
 		$('#updateFormBtn').hide();
 		$('#deleteBtn').hide();
 		$('#updateBtn').show();
+		$('#updateCancelBtn').show();
 		$('#enrollDate').hide();
 		$('#updateDate').show();
-		$('#title').hide();
-		$('#title').hide();
 		$('#title').hide();
 		$('#updateTitle').show();
 		$('#imgBox').hide();
 		$('#imgUpdate').show();
 		$('#dateLabel').text('수정날짜');
-		
+		$('.card-footer').hide();
 		
 		  $('#summernote').summernote({
 			  height : 500,		  
@@ -558,9 +626,9 @@
   	 								<br>
   	 								
   	 								<textarea name="comment" class="comment form-control form-control-sm" style="resize:none;"  maxlength="1000" disabled> \${r.comment}</textarea>
-  	 								<input type="button" class ="btn reComment replyBtn1" value="답글">
+  	 								<input type="button" class ="btn reComment replyBtn1" style="font-size:15px;" value="답글">
   	 								
-  	 										<input type="button" class="btn replyBtn2 " onclick="deleteReply('\${r.cno}' , '\${r.pwd}');" value="삭제" >
+  	 										<input type="button" class="btn replyBtn2 " onclick="deleteReply('\${r.cno}' , '\${r.pwd}');" style="font-size:15px;" value="삭제" >
   	 										<input type="hidden" name="cno" value=\${r.cno}>
   	 										<input type="hidden" name="pwd" value=\${r.pwd}>
   	 		
@@ -661,12 +729,12 @@
 		  	 								<br>
 		  	 								
 		  	 								<textarea name="comment" class="comment form-control form-control-sm" style="resize:none;"  maxlength="1000" disabled> \${r.comment}</textarea>
-		  	 										<input type="button" class="btn replyBtn2" onclick="deleteReply('\${r.cno}' , '\${r.pwd}');"  value="삭제" >
+		  	 										<input type="button" class="btn replyBtn2" onclick="deleteReply('\${r.cno}' , '\${r.pwd}');"  style="font-size:15px;"  value="삭제" >
 		  	 										<input type="hidden" name="cno" value=\${r.cno}>
 		  	 										<input type="hidden" name="pwd" value=\${r.pwd}>
 											</div>
 		  	 								`)	
-								}))
+								}));
 						
 							},
 							error : function(e){
@@ -708,7 +776,7 @@
 		  	 				}
 							
 						})						
-					}else{
+					}else if(checkPwd != null){
 						alert("암호가 다릅니다.");
 					}
 

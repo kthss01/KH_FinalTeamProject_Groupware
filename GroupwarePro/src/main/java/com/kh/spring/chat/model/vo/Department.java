@@ -9,13 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ContectList {
+public class Department {
 	
-	int eNo;
-	String eName;
-	String phone;
-	String email;
-	String deptTitle;
-	String jobName;
-
+	private String code;
+	private String title;
 }

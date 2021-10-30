@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<resultMap id="categoryResultSet" type="CommunityCategory">
 		<id column="CATEGORY_NO" property="cno"/>
-		<result column="C_NAME" property="name"/>
+		<result column="C_NAME" property="cname"/>
 		<result column="C_MANAGER" property="manager"/>
 		<result column="STATUS" property="status"/>
 
@@ -156,5 +156,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT * FROM COM_CATEGORY
 	
 	</select>
+	<select id="selectCategoryName" parameterType="_int" resultMap="categoryResultSet">
+	SELECT * FROM COM_CATEGORY WHERE CATEGORY_NO=#{cno}
+	
+	</select>
+	
+	<update id="countBoard" parameterType="_int">
+	UPDATE COMMUNITY SET B_HIT = B_HIT+1 WHERE B_NO = #{bno}
+	</update>
 	
 </mapper>

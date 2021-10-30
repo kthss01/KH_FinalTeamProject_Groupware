@@ -27,13 +27,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.common.Pagination;
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.service.CommunityService;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
 import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 @Controller
 public class CommunityController {
@@ -47,7 +47,6 @@ public class CommunityController {
 
 		int listCount = communityService.selectListCount(cno);
 
-		System.out.println("listCount : " + listCount);
 
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 
@@ -55,21 +54,32 @@ public class CommunityController {
 
 		ArrayList<CommunityBoard> list = communityService.selectBoardList(info);
 
+		CommunityCategory category = communityService.selectCategory(cno);
+				
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
+		model.addAttribute("category", category);
 
 		return "/community/communityBoardListView";
 	}
 
 	@GetMapping("enrollBoardForm.co")
-	public String enrollBoardFrom() {
-		return "/community/enrollBoardForm";
+	public ModelAndView enrollBoardFrom(ModelAndView mv , int cno) {
+		
+		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
+		mv.addObject("categoryList",list).setViewName("/community/enrollBoardForm");
+		mv.addObject("cno",cno);
+		return mv;
 	}
 
 	@GetMapping("detail.co")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
 
 		CommunityBoard b = communityService.selectBoard(bno);
+		
+		//조회수 증가
+		communityService.countBoard(bno);
+		
 		ArrayList<CommunityAttachment> at = communityService.selectAttachmentList(bno);
 		mv.addObject("b", b);
 		mv.addObject("at",at);
@@ -208,49 +218,6 @@ public class CommunityController {
 
 		File deleteFile = new File(savePath + fileName);
 		deleteFile.delete();
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "/file-upload", method = RequestMethod.POST)
-	public String fileUpload(@RequestParam("article_file") List<MultipartFile> multipartFile,
-			HttpServletRequest request) {
-
-		String strResult = "{ \"result\":\"FAIL\" }";
-		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
-		String fileRoot;
-		try {
-			// 파일이 있을때 탄다.
-			if (multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
-
-				for (MultipartFile file : multipartFile) {
-					fileRoot = contextRoot + "resources/upload/";
-					System.out.println(fileRoot);
-
-					String originalFileName = file.getOriginalFilename(); // 오리지날 파일명
-					String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
-					String savedFileName = UUID.randomUUID() + extension; // 저장될 파일 명
-
-					File targetFile = new File(fileRoot + savedFileName);
-					try {
-						InputStream fileStream = file.getInputStream();
-						FileUtils.copyInputStreamToFile(fileStream, targetFile); // 파일 저장
-
-					} catch (Exception e) {
-						// 파일삭제
-						FileUtils.deleteQuietly(targetFile); // 저장된 현재 파일 삭제
-						e.printStackTrace();
-						break;
-					}
-				}
-				strResult = "{ \"result\":\"OK\" }";
-			}
-			// 파일 아무것도 첨부 안했을때 탄다.(게시판일때, 업로드 없이 글을 등록하는경우)
-			else
-				strResult = "{ \"result\":\"OK\" }";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return strResult;
 	}
 
 }

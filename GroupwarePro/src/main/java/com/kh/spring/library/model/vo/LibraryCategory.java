@@ -1,6 +1,4 @@
-package com.kh.spring.community.model.vo;
-
-import com.kh.spring.common.PageInfo;
+package com.kh.spring.library.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SelectBoardListInfo {
-	
-	private int cno;
-	private PageInfo pageInfo;
+public class LibraryCategory {
 
+	private int cno;
+	private String cname;
 }
