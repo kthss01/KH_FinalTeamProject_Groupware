@@ -127,9 +127,7 @@ export default class Calendar extends Component {
 
   template () {
     return `
-      <div class="card-body b-l calender-sidebar">
-          <div id="calendar"></div>
-      </div>
+      <div id="calendar"></div>
     `;
   }
 
