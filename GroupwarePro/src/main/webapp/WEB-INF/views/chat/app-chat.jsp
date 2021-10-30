@@ -14,10 +14,10 @@
     <title>채팅</title>
     <!-- This page css -->
     
-    <!-- 부트스트랩5 -->
+<!--     부트스트랩5
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" 
 	rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" 
-	crossorigin="anonymous">
+	crossorigin="anonymous"> -->
     
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
@@ -25,9 +25,15 @@
 
 	<style>
 	
-	.contectDeptList:hover{
-	background-color:	#EBFBFF;
+	.contectDeptList button:hover{
+	font-weight:bold;
 	}
+	
+	.accordion{
+	height:80px;
+	}
+	.accordion-button{
+	height:60px;}
 	
 	
 	</style>
@@ -89,30 +95,32 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <div class="container-fluid" >
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card" >
                             <div class="row no-gutters">
-                            <div class="col-lg-5 col-xl-3 card-body border-right" style="text-align:center; color:#1C2D41">
-                            <h3 class="font-weight-bold">주소록</h3>
-                            </div>
-                            <div class="col-lg-7  col-xl-9 border-bottom">
-                            </div>
+
+
                             
                             <!-- 주소록 -->
                                 <div class="col-lg-5 col-xl-3 border-right">
-                                    <div class="card-body border-bottom">
+                                    <div class="card-body">
+                                    <h3 style="color:#1C2D41; font-weight:bold;">주소록</h3><br>
                                         <form>
-                                            <input class="form-control" type="text" placeholder="이름 또는 부서 입력" style="font-size:15px;">
+                                            <input class="form-control" type="text" placeholder="이름 또는 부서 입력" style="font-size:15px; display:inline-block; width:85%;">
+                                       <i class="icon-magnifier"></i>
                                         </form>
                                     </div>
-                                    <div class="scrollable position-relative" style="height: calc(100vh - 111px);">
-                                        <ul class="mailbox list-style-none" id="contectListArea">
-                                            <li>
-              
-<%--                                                     <!-- Message -->
-                                                    <a href="javascript:void(0)"
+                                    <div class="scrollable position-relative" style="height: calc(100vh - 250px); ">
+
+									         
+                                         <ul class="mailbox list-style-none" id="contectListArea">
+                                        
+             
+
+                                                    <!-- Message --> 
+<%--                                                      <a href="javascript:void(0)"
                                                         class="message-item d-flex align-items-center border-bottom px-3 py-2">
                                                         <div class="user-img"> <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
                                                                 alt="user" class="img-fluid rounded-circle"
@@ -121,28 +129,34 @@
                                                         </div>
                                                         <div class="w-75 d-inline-block v-middle pl-2">
                                                             <h6 class="message-title mb-0 mt-1">Arijit Sinh</h6>
-                                                            <span
-                                                                class="font-12 text-nowrap d-block text-muted text-truncate">I
-                                                                am a
-                                                                singer!</span>
-                                                            <span class="font-12 text-nowrap d-block text-muted">9:08
-                                                                AM</span>
+                                             
                                                         </div>
-                                                    </a>
-                                                    <!-- Message --> --%>
-                                                   
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                    </a> --%>
+                                    
+                                         </ul>
+                                   </div>
                                 </div>
                              <!--  채팅화면 -->   
                                 <div class="col-lg-7  col-xl-9">
+                                
+                                      <div class="border-bottom" style="padding:15px; height:90px;">
+	                                      <div style="float:left;">
+	                                      	<img  src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg" alt="user"
+				                                   class="rounded-circle" width="65">
+	                                      </div>
+		
+		                                   <div style="float:left; margin-left:10px;"> 
+		                                          <span style="font-size:22px; color:#1c2d41; font-weight:bold;">홍길동</span> <span style="font-size:16px;">대리</span> <br>
+												  <span style="font-size:16px;">인사관리부 | dummy1@kh.co.kr | 070-1234-5678</span>  
+										   </div>
+			                            </div>
+                                
                                     <div class="chat-box scrollable position-relative"
-                                        style="height: calc(100vh - 111px);">
+                                        style="height: calc(100vh - 250px);">
+
                                         <!--chat Row -->
                                         <ul class="chat-list list-style-none px-3 pt-3">
 
-                                           
                                             <!--chat Row -->
                                             <li class="chat-item list-style-none mt-3">
                                                 <div class="chat-img d-inline-block"><img
@@ -240,8 +254,8 @@
     <!--This page JavaScript -->
     
     <!-- 부트스트랩5 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+ -->    
     
     <script>
         $(function () {
@@ -259,7 +273,7 @@
         
         var contectList = $("#contectListArea");
         
-        $.ajax({
+         $.ajax({
         	url:'deptList.ch',
         	type:'post',
         	dataType:'json',
@@ -268,24 +282,57 @@
         		
          		list.forEach((d => {
         			contectList.append(`
-                            <div class="accordion accordion-flush border-bottom px-3 py-2 contectDeptList"  >
-							  <div class="accordion-item">
-							    <h2 class="accordion-header" id="flush-headingOne">
-							      <button class="accordion-button collapsed contectDeptBtn"style="color:#7C8798" type="button" data-bs-toggle="collapse" 
-							      				data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-							        \${d.title}
-							      </button>
-							    </h2>
-
-							  </div>							 
-							</div>
-		
+                            <li>
+	                            <a href="#"
+	                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
+	                                 <i class="icon-menu" style="font-size:14px;"></i> &nbsp;&nbsp;&nbsp;
+	                                    <span class="message-title mb-0 mt-1" style="font-size:21px;">\${d.title}</span>
+	                     
+	                            </a>
+	                            <ul id="\${d.title}">
+	                            </ul>
+                            </li>
         					`)
-        			
-        			
-        			
-        		})); 
-        		
+   			
+        			selectContectList(d.title);
+         		}));  
+         		
+   
+         		
+         		
+          
+                function selectContectList(title){
+                	
+                	var titleArea = $("#"+title);
+                	var title = title;
+                	$.ajax({
+                		url:'contectList.ch',
+                		type:'post',
+                		dataType:'json',
+                		data:{
+                			title : title
+                		},
+                		success : function(list){
+                			
+                      		list.forEach((c => {
+        						console.log(list);
+        						titleArea.append(`
+        								<div style="margin-left:20px;">
+		        							<a href='#'>
+			        								<li>
+			    											<span style="font-size:14px;">\${c.eName}</span>
+			    									</li>
+	    								</a>
+        								</div>
+        								
+        						
+        								`)
+                    		})); 
+
+                		}
+                	})
+                }
+                
         	},error : function(e,e2,e3){
         		console.log(e);
         		console.log(e2);
@@ -298,10 +345,9 @@
         
         
         
-        
         });
         
-        
+  
         
         
     </script>

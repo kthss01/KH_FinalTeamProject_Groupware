@@ -9,6 +9,6 @@ public interface ChatService {
 
 	ArrayList<Department> selectDeptList();
 
-	ArrayList<ContectList> selectContectList(String deptTitle);
+	ArrayList<ContectList> selectContectList(String title);
 
 }
