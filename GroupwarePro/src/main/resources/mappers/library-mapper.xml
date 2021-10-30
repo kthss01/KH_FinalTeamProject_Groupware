@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	
-		<resultMap id="categoryResultSet" type="LibraryCategory">
+	<resultMap id="categoryResultSet" type="LibraryCategory">
 		<id column="CATEGORY_NO" property="cno"/>
 		<result column="C_NAME" property="cname"/>
 		

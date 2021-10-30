@@ -13,14 +13,25 @@
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
     <title>채팅</title>
     <!-- This page css -->
+    
+    <!-- 부트스트랩5 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" 
+	rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" 
+	crossorigin="anonymous">
+    
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+	
+
+	<style>
+	
+	.contectDeptList:hover{
+	background-color:	#EBFBFF;
+	}
+	
+	
+	</style>
+
 </head>
 
 <body>
@@ -60,23 +71,14 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Chat</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">메신저</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Apps</li>
-                                    <li class="breadcrumb-item text-muted" aria-current="page">Chat</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Home</li>
+                                    <li class="breadcrumb-item text-muted" aria-current="page">Messenger</li>
                                 </ol>
                             </nav>
-                        </div>
-                    </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -92,55 +94,24 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="row no-gutters">
+                            <div class="col-lg-5 col-xl-3 card-body border-right" style="text-align:center; color:#1C2D41">
+                            <h3 class="font-weight-bold">주소록</h3>
+                            </div>
+                            <div class="col-lg-7  col-xl-9 border-bottom">
+                            </div>
+                            
                             <!-- 주소록 -->
                                 <div class="col-lg-5 col-xl-3 border-right">
                                     <div class="card-body border-bottom">
                                         <form>
-                                            <input class="form-control" type="text" placeholder="Search Contact">
+                                            <input class="form-control" type="text" placeholder="이름 또는 부서 입력" style="font-size:15px;">
                                         </form>
                                     </div>
                                     <div class="scrollable position-relative" style="height: calc(100vh - 111px);">
-                                        <ul class="mailbox list-style-none">
+                                        <ul class="mailbox list-style-none" id="contectListArea">
                                             <li>
-                                                <div class="message-center">
-                                                    <!-- Message -->
-                                                    <a href="javascript:void(0)"
-                                                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                        <div class="user-img"><img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg"
-                                                                alt="user" class="img-fluid rounded-circle"
-                                                                width="40px"> <span
-                                                                class="profile-status online float-right"></span>
-                                                        </div>
-                                                        <div class="w-75 d-inline-block v-middle pl-2">
-                                                            <h6 class="message-title mb-0 mt-1">Pavan kumar</h6>
-                                                            <span
-                                                                class="font-12 text-nowrap d-block text-muted text-truncate">Just
-                                                                see
-                                                                the my new
-                                                                admin!</span>
-                                                            <span class="font-12 text-nowrap d-block text-muted">9:30
-                                                                AM</span>
-                                                        </div>
-                                                    </a>
-                                                    <!-- Message -->
-                                                    <a href="javascript:void(0)"
-                                                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                        <div class="user-img"><img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/2.jpg"
-                                                                alt="user" class="img-fluid rounded-circle"
-                                                                width="40px"> <span
-                                                                class="profile-status busy float-right"></span>
-                                                        </div>
-                                                        <div class="w-75 d-inline-block v-middle pl-2">
-                                                            <h6 class="message-title mb-0 mt-1">Sonu Nigam</h6>
-                                                            <span
-                                                                class="font-12 text-nowrap d-block text-muted text-truncate">I've
-                                                                sung a
-                                                                song! See you at</span>
-                                                            <span class="font-12 text-nowrap d-block text-muted">9:10
-                                                                AM</span>
-                                                        </div>
-                                                    </a>
-                                                    <!-- Message -->
+              
+<%--                                                     <!-- Message -->
                                                     <a href="javascript:void(0)"
                                                         class="message-item d-flex align-items-center border-bottom px-3 py-2">
                                                         <div class="user-img"> <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
@@ -158,9 +129,8 @@
                                                                 AM</span>
                                                         </div>
                                                     </a>
-                                                    <!-- Message -->
+                                                    <!-- Message --> --%>
                                                    
-                                                </div>
                                             </li>
                                         </ul>
                                     </div>
@@ -268,6 +238,11 @@
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
+    
+    <!-- 부트스트랩5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    
+    
     <script>
         $(function () {
             $(document).on('keypress', "#textarea1", function (e) {
@@ -280,7 +255,55 @@
                     $(this).focus();
                 }
             });
+        
+        
+        var contectList = $("#contectListArea");
+        
+        $.ajax({
+        	url:'deptList.ch',
+        	type:'post',
+        	dataType:'json',
+        	success : function(list){
+        		console.log(list);
+        		
+         		list.forEach((d => {
+        			contectList.append(`
+                            <div class="accordion accordion-flush border-bottom px-3 py-2 contectDeptList"  >
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" id="flush-headingOne">
+							      <button class="accordion-button collapsed contectDeptBtn"style="color:#7C8798" type="button" data-bs-toggle="collapse" 
+							      				data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+							        \${d.title}
+							      </button>
+							    </h2>
+
+							  </div>							 
+							</div>
+		
+        					`)
+        			
+        			
+        			
+        		})); 
+        		
+        	},error : function(e,e2,e3){
+        		console.log(e);
+        		console.log(e2);
+        		console.log(e3);
+        		
+        	}
+        
+        
+        })
+        
+        
+        
+        
         });
+        
+        
+        
+        
     </script>
 </body>
 
