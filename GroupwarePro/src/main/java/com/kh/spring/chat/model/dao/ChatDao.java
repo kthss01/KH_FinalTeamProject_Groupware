@@ -16,9 +16,9 @@ public class ChatDao {
 		return (ArrayList)sqlSession.selectList("chatMapper.selectDeptList");
 	}
 
-	public ArrayList<ContectList> selectContectList(SqlSessionTemplate sqlSession, String deptTitle) {
+	public ArrayList<ContectList> selectContectList(SqlSessionTemplate sqlSession, String title) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("chatMapper.selectContectList");
+		return (ArrayList)sqlSession.selectList("chatMapper.selectContectList",title);
 	}
 
 }

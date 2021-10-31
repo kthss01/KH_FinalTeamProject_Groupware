@@ -33,10 +33,10 @@ public class ChatController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "contectList.ch",produces="application/json; charset=utf-8")
-	public String selectContectList(String deptTitle) {
+	public String selectContectList(String title) {
 		
-		ArrayList<ContectList> list = chatService.selectContectList(deptTitle); 
-		
+		ArrayList<ContectList> list = chatService.selectContectList(title); 
+		System.out.println("title : " + title);
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	
