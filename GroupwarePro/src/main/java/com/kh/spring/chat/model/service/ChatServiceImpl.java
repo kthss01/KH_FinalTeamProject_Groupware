@@ -27,9 +27,9 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ArrayList<ContectList> selectContectList(String deptTitle) {
+	public ArrayList<ContectList> selectContectList(String title) {
 
-		ArrayList<ContectList> list = chatDao.selectContectList(sqlSession,deptTitle);
+		ArrayList<ContectList> list = chatDao.selectContectList(sqlSession,title);
 		return list;
 	}
 

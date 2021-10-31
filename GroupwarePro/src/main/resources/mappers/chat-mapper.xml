@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id ="selectContectList" parameterType="string" resultMap="employeeResultSet">
 		
 		SELECT * FROM CONTECT_LIST_SAMPLE
-		WHERE DEPT_TITLE = #{deptTitle}
+		WHERE DEPT_TITLE = #{title}
 		
 	</select>
 
