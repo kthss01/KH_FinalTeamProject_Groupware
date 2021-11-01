@@ -8,21 +8,30 @@
 
 	<typeAliases>
 	
+		<!-- 회원 -->
 		<typeAlias type="com.kh.spring.member.model.vo.LoginInfo" alias="LoginInfo"/>
 		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
 	
+	
+		<!-- 커뮤니티게시판 -->
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityBoard" alias="CommunityBoard"/>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityAttachment" alias="CommunityAttachment"/>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityReply" alias="CommunityReply"/>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityCategory" alias="CommunityCategory"/>
 		
+		<!-- 커뮤니티&자료실 -->
 		<typeAlias type="com.kh.spring.common.SelectBoardListInfo" alias="SelectBoardListInfo"/>
 		
+		<!-- 자료실 -->
 		<typeAlias type="com.kh.spring.library.model.vo.LibraryBoard" alias="LibraryBoard"/>
 		<typeAlias type="com.kh.spring.library.model.vo.LibraryCategory" alias="LibraryCategory"/>
 
+		<!-- 메신저 -->
 		<typeAlias type="com.kh.spring.chat.model.vo.Department" alias="Department"/>
 		<typeAlias type="com.kh.spring.chat.model.vo.ContectList" alias="ContectList"/>
+	
+		<!-- 전사공지 -->
+	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
 	
 	</typeAliases>
 
@@ -32,6 +41,8 @@
 		<mapper resource="/mappers/community-mapper.xml"/> 
 		<mapper resource="/mappers/chat-mapper.xml"/> 
 		<mapper resource="/mappers/library-mapper.xml"/> 
+		<mapper resource="/mappers/notice-mapper.xml"/> 
+		
 	</mappers>
 
 
