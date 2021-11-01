@@ -19,6 +19,9 @@ export default class App extends Component {
   }
 
   mounted () {
+    const { router } = this.$props;
+    const component = router.router();
+
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');
     $calendarSidemenu.classList.add("col-lg-3", "border-right", "pr-0");
 
@@ -29,7 +32,8 @@ export default class App extends Component {
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
     new SideMenu($calendarSidemenu, {});
     // new Calendar($calendarMain, {});
-    new CalendarEnroll($calendarMain, {});
+    // new CalendarEnroll($calendarMain, {});
+    new component($calendarMain, {});
   }
 
 }
