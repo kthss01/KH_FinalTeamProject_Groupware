@@ -5,16 +5,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="memberMapper">
 
 	<resultMap id="memberResultSet" type="Member">
-		<id property="userId" column="user_ID"/>
-		<result property="userPwd" column="user_PWD"/>
-		<result property="userName" column="user_NAME"/>
-		<result property="email" column="EMAIL"/>
-		<result property="gender" column="GENDER"/>
-		<result property="age" column="AGE"/>
+		<id property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empReg" column="EMP_REG"/>
 		<result property="phone" column="PHONE"/>
-		<result property="address" column="ADDRESS"/>
+		<result property="email" column="EMAIL"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="salCode" column="SAL_CODE"/>
+		<result property="salary" column="SALARY"/>
+		<result property="bonus" column="BONUS"/>
 		<result property="enrollDate" column="ENROLL_DATE"/>
-		<result property="modifyDate" column="modify_DATE"/>
+		<result property="retireDate" column="RETIRE_DATE"/>
+		<result property="statement" column="STATEMENT"/>
+		<result property="gender" column="GENDER"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="loginPwd" column="LOGIN_PWD"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+	<resultMap id="loginResultSet" type="LoginInfo">
+		<id property ="empNo" column="EMP_NO"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="loginPwd" column="LOGIN_PWD"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
 
@@ -23,8 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'
 		-->
 		<!-- 암호화 후 -->
-		select * from member
-		where user_id=#{userId} and status='Y'
+		select * 
+		from employee a
+		left join login_info b on a.emp_no = b.emp_no
+		where b.login_id = #{loginId} and b.status = 'Y'
+		
 		
 	</select>
 	

@@ -36,7 +36,6 @@ public class ChatController {
 	public String selectContectList(String title) {
 		
 		ArrayList<ContectList> list = chatService.selectContectList(title); 
-		System.out.println("title : " + title);
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	

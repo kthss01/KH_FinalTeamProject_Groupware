@@ -220,6 +220,11 @@ public class MemberController {
 //		
 //	}
 	
+	@RequestMapping("loginForm.me")
+	public String loginForm(){
+		return "member/memberLoginForm";
+	}
+	
 	// 로그아웃 변경 (@SessionAttributes)
 	@RequestMapping("logout.me")
 	public String logoutMember(SessionStatus status) {
@@ -242,13 +247,13 @@ public class MemberController {
 						HttpSession session
 						) {
 		
-		m.setAddress(post + "/" + address1 + "/" + address2);
+//		m.setAddress(post + "/" + address1 + "/" + address2);
 
-		System.out.println("암호화 전 :" + m.getUserPwd());
-		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+//		System.out.println("암호화 전 :" + m.getUserPwd());
+		String encPwd = bCryptPasswordEncoder.encode(m.getLoginPwd());
 		System.out.println("암호화 후 :" + encPwd);
 		
-		m.setUserPwd(encPwd);
+//		m.setUserPwd(encPwd);
 		
 		memberService.insertMember(m);
 //		System.out.println(m);
@@ -260,6 +265,9 @@ public class MemberController {
 	
 	@RequestMapping("login.me")
 	public String loginMember(Member m, Model model) {
+		
+		String encPwd = bCryptPasswordEncoder.encode(m.getLoginPwd());
+		System.out.println(encPwd);
 		
 		Member loginUser;
 		loginUser = memberService.loginMember(bCryptPasswordEncoder ,m);
@@ -283,7 +291,7 @@ public class MemberController {
 			HttpSession session,
 			Model model) throws Exception {
 		
-		m.setAddress(post + "/" + address1 + "/" + address2);
+//		m.setAddress(post + "/" + address1 + "/" + address2);
 		
 		Member userInfo = memberService.updateMember(m);
 //		Member userInfo = memberService2.updateMember(m);

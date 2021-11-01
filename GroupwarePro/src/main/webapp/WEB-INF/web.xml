@@ -43,6 +43,8 @@
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<!-- 웹소켓 비동기 처리를 위해 추가 : 설정하지 않을 시 1:1통신은 문제가 없으나 2개 이상의 클라이언트가 접속하면 비동기 에러가 발생함 -->
+		<async-supported>true</async-supported>
 	</servlet>
 		
 	<servlet-mapping>
