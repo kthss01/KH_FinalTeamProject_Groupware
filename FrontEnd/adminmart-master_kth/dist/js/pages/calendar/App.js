@@ -6,8 +6,9 @@ import CalendarEnroll from './components/calendar/CalendarEnroll.js';
 export default class App extends Component {
 
   setup() {
+    this.$props.router.setApp(this);
     this.$state = {
-      
+      router: this.$props.router
     };
   }
 
@@ -19,7 +20,7 @@ export default class App extends Component {
   }
 
   mounted () {
-    const { router } = this.$props;
+    const { router } = this.$state;
     const component = router.router();
 
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');

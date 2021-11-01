@@ -2,11 +2,12 @@ import Calendar from '../components/Calendar.js'
 import CalendarEnroll from '../components/calendar/CalendarEnroll.js'
 
 export default class Router {
+  $app;
+
   constructor() {
     window.addEventListener("popstate", this.router);
 
     document.addEventListener("DOMContentLoaded", () => {
-
       document.body.addEventListener("click", e => {
         if (e.target.matches("[data-link]")) {
           e.preventDefault();
@@ -14,6 +15,10 @@ export default class Router {
         }
       });
     });
+  }
+
+  setApp($app) {
+    this.$app = $app;
   }
 
   pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -29,7 +34,7 @@ export default class Router {
 
   navigateTo = url => {
     history.pushState(null, null, url);
-    this.router();
+    this.$app.setState();
   }
 
   router = () => {
@@ -50,8 +55,6 @@ export default class Router {
         result: location.pathname.match(this.pathToRegex(route.path))
       };
     });
-
-    console.log(potentialMatches);
 
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
 
