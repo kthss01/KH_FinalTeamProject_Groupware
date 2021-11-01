@@ -2,14 +2,15 @@ package com.kh.spring.chat.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import com.kh.spring.member.model.vo.Member;
 
 @RequestMapping("/echo")
 public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 핸들러, binary는 이미지 등 파일 전송
@@ -29,11 +30,14 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 	       
 	       System.out.println("handleTextMessage : " + session + " : " + message);
 	       
-	       String senderId = session.getId();
-	       
+			String loginId;
+			Map<String, Object> map;
+			map = session.getAttributes();
+
+			loginId = ((Member)map.get("loginUser")).getLoginId();
 	       //모든 유저에게 메세지 출력  -> 알림 구현시 사용
 	        for(WebSocketSession sess : sessionList){
-	            sess.sendMessage(new TextMessage(senderId + " : " + message.getPayload()));
+	            sess.sendMessage(new TextMessage(loginId + " : " + message.getPayload()));
 	        }	
 	}
 

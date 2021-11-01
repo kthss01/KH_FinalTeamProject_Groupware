@@ -250,7 +250,7 @@
         connectWS();	
     });
     function connectWS() {
-        var ws = new WebSocket("ws://localhost:8090/spring/echo");
+        var ws = new WebSocket("ws://localhost:8090/wecanvas/echo");
         socket = ws;
         ws.onopen = function () {
             console.log('Info: connection opened.');
