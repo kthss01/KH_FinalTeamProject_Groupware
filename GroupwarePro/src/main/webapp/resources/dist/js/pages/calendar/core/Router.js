@@ -39,11 +39,11 @@ export default class Router {
 
   router = () => {
     const routes = [{
-        path: "/calendar",
+        path: "/spring/calendar/",
         view: Calendar
       },
       {
-        path: "/enroll",
+        path: "/spring/calendar/enroll",
         view: CalendarEnroll
       },
     ];

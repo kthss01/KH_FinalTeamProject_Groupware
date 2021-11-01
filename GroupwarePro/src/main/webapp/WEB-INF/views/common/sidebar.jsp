@@ -52,7 +52,7 @@
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chatPage.ch"
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
                                     class="hide-menu">메신저</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="#"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }/calendar.ca"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">일정</span></a></li>
 
