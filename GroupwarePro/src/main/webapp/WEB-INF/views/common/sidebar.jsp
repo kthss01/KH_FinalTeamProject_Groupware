@@ -231,7 +231,6 @@
 				post:'post',
 				dataType:'json',
 				success:function(list){
-					console.log(list);
 					$.each(list,function(i,obj){
 
 						categoryBox.append(`
