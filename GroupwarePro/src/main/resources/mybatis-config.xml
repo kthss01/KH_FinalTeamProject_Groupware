@@ -7,6 +7,10 @@
 	</settings>
 
 	<typeAliases>
+	
+		<typeAlias type="com.kh.spring.member.model.vo.LoginInfo" alias="LoginInfo"/>
+		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
+	
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityBoard" alias="CommunityBoard"/>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityAttachment" alias="CommunityAttachment"/>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityReply" alias="CommunityReply"/>
@@ -24,6 +28,7 @@
 
 
 	<mappers>
+		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/community-mapper.xml"/> 
 		<mapper resource="/mappers/chat-mapper.xml"/> 
 		<mapper resource="/mappers/library-mapper.xml"/> 
