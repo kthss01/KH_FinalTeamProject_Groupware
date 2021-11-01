@@ -21,10 +21,10 @@ public class AfterReturningAspect {
 		if (returnObj instanceof Member) {
 			Member m = (Member) returnObj;
 			
-			if (m.getUserId().equals("admin")) {
+			if (m.getLoginId().equals("admin")) {
 				logger.info("[LOG] : 관리자님 환영합니다");
 			} else {
-				logger.info("[LOG] : " + m.getUserName() +" 로그인 성공!!");
+				logger.info("[LOG] : " + m.getLoginId() +" 로그인 성공!!");
 			}
 		}
 		
