@@ -108,7 +108,7 @@
                                     <div class="card-body">
                                     <h3 style="color:#1C2D41; font-weight:bold;">주소록</h3><br>
                                         <form>
-                                            <input class="form-control" type="text" placeholder="이름 또는 부서 입력" style="font-size:15px; display:inline-block; width:85%;">
+                                            <input id="searchContect" class="form-control" type="text" placeholder="이름 또는 부서 입력" style="font-size:15px; display:inline-block; width:85%;">
                                        <i class="icon-magnifier"></i>
                                         </form>
                                     </div>
@@ -174,38 +174,21 @@
                                                 </div>
                                             </li>
                                             <!--chat Row -->
-                                            <li class="chat-item odd list-style-none mt-3">
-                                                <div class="chat-content text-right d-inline-block pl-3">
-                                                    <div class="box msg p-2 d-inline-block mb-1">I
-                                                        would love to
-                                                        join the team.</div>
-                                                    <br>
-                                                </div>
-                                            </li>
-                                            <!--chat Row -->
-                                            <li class="chat-item odd list-style-none mt-3">
-                                                <div class="chat-content text-right d-inline-block pl-3">
-                                                    <div class="box msg p-2 d-inline-block mb-1 box">
-                                                        Whats budget
-                                                        of the new project.</div>
-                                                    <br>
-                                                </div>
-                                                <div class="chat-time text-right d-block font-10 mt-1 mr-0 mb-3">
-                                                    10:59 am</div>
-                                            </li>
+
+
                                         </ul>
                                     </div>
                                     <div class="card-body border-top">
                                         <div class="row">
                                             <div class="col-9">
                                                 <div class="input-field mt-0 mb-0">
-                                                    <input id="textarea1" placeholder="Type and enter"
-                                                        class="form-control border-0" type="text">
+                                                    <input placeholder="메세지를 입력하세요."
+                                                        class="form-control border-0" id="message" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-3">
                                                 <a class="btn-circle btn-lg btn-cyan float-right text-white"
-                                                    href="javascript:void(0)"><i class="fas fa-paper-plane"></i></a>
+                                                    id="sendBtn"><i class="fas fa-paper-plane"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -255,21 +238,70 @@
     
     <!-- 부트스트랩5 -->
 <!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
- -->    
+ -->
+ 	<!-- SockJs 라이브러리 추가  -->    
+<!--     <script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+     -->
     
     <script>
-        $(function () {
-            $(document).on('keypress', "#textarea1", function (e) {
-                if (e.keyCode == 13) {
-                    var id = $(this).attr("data-user-id");
-                    var msg = $(this).val();
-                    msg = msg_sent(msg);
-                    $("#someDiv").append(msg);
-                    $(this).val("");
-                    $(this).focus();
-                }
-            });
+    var socket = null;
+    $(document).ready( function() {
+        connectWS();	
+    });
+    function connectWS() {
+        var ws = new WebSocket("ws://localhost:8090/spring/echo");
+        socket = ws;
+        ws.onopen = function () {
+            console.log('Info: connection opened.');
+        };
+        ws.onmessage = function (event) {
+            console.log(event.data+'\n');
+
+
+        };
+        ws.onclose = function (event) { 
+            console.log('Info: connection closed.');
+        };
+        ws.onerror = function (err) { console.log('Error:', err); };
         
+
+    }
+
+	//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  
+
+    	
+        $(function () {
+ 
+        	$('#message').on('keypress',function(e){
+                if (e.keyCode == 13) {
+                    var msg = $(this).val();
+					   socket.send(msg);
+				 		$(".chat-list").append(`
+		                        <li class="chat-item odd list-style-none mt-3">
+		                        <div class="chat-content text-right d-inline-block pl-3">
+		                            <div class="box msg p-2 d-inline-block mb-1">\${msg} </div>
+		                            <br>
+		                        </div>
+		                    </li>	
+		        				`);
+                   $(this).val("");
+                   $(this).focus();
+               }
+	
+        	});
+        	
+        	
+        	$('#searchContect').keyup(function(event) {
+        		var val = $(this).val(); if (val == "") { 
+        			$('.mailbox li').show(); 
+        		} else {
+        				$('.mailbox li').hide(); $(".mailbox li:contains('"+val+"')").show(); 
+        			} 
+        		});
+
+        	
+        	
         
         var contectList = $("#contectListArea");
         
@@ -278,7 +310,6 @@
         	type:'post',
         	dataType:'json',
         	success : function(list){
-        		console.log(list);
         		
          		list.forEach((d => {
         			contectList.append(`
@@ -315,7 +346,6 @@
                 		success : function(list){
                 			
                       		list.forEach((c => {
-        						console.log(list);
         						titleArea.append(`
         								<div style="margin-left:20px;">
 		        							<a href='#'>
