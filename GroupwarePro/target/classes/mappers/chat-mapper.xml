@@ -5,39 +5,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="chatMapper">
 
 
-
-
-	<resultMap id="departmentResultSet" type="Department">
-		<id column="DEPT_CODE" property="code"/>
-		<result column="DEPT_TITLE" property="title"/>
-		
-	</resultMap>
-	
-	<resultMap id="employeeResultSet" type="ContectList">
-		<id column="EMP_NO" property="eNo"/>
-		<result column="EMP_NAME" property="eName"/>
-		<result column="PHONE" property="phone"/>
-		<result column="EMAIL" property="email"/>
-		<result column="DEPT_TITLE" property="deptTitle"/>
-		<result column="JOB_NAME" property="jobName"/>
-		
-	</resultMap>
-	
-	
-	
-	
-	
-	<select id="selectDeptList" resultMap="departmentResultSet">
-		
-		SELECT * FROM DEPARTMENT
-		
-	</select>
-	
-	<select id ="selectContectList" parameterType="string" resultMap="employeeResultSet">
-		
-		SELECT * FROM CONTECT_LIST_SAMPLE
-		WHERE DEPT_TITLE = #{title}
-		
-	</select>
-
 </mapper>
