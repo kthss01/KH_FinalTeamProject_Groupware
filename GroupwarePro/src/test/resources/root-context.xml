@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 서버 구동시 web.xml을 거쳐서 바로 로딩되는 설정 파일로 
+		바로 세팅되어야하는 DB연결, 트랜잭션 처리, AOP 관련 설정들을 관리 
+	-->	
+	
+	<!-- 1. org.mybatis.spring.SqlSessionTemplate-->
+	
+  	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+  		<constructor-arg ref="sqlSessionFactory"/>	
+  	</bean>
+
+  	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+  	</bean> 
+    
+    <!-- destroy-method="close" 세션을 자동으로 close 하겠다는 얘기 -->	  
+   	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	  	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@146.56.135.54:1521:orcl"/>
+		<property name="username" value="KH_FINAL"/>
+		<property name="password" value="KH_FINAL"/>
+		<property name="defaultAutoCommit" value="false"/> 
+  	</bean>
+	
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="realDataSource"/>
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"/>
+				<property name="sqlPrefix" value="[SQL] "/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	 
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
+		<!-- tx:method - 트랜잭션을 설정할 메소드 및 트랜잭션 속성을 설정
+		   name - 트랜잭션이 적용될 메소드명을 명시 
+		   propagation - 트랜잭션 전파규칙을 설정
+		   isolation - 격리 레벨을 설정 
+		   rollback-for - 롤백할 예외 타입을 설정  
+		   
+		   
+		   ** propagation**
+		    REQUIRED	트랜잭션 상황에서 실행되어야 한다. 진행 중인 트랜잭션이 있다면 이 트랜잭션에서 실행된다. 없는 경우에는 트랜잭션이 새로 시작된다.
+			MANDATORY	호출 전에 반드시 진행 중인 트랜잭션이 존재해야 한다. 진행 중인 트랜잭션이 존재하지 않을 경우 예외 발생
+			REQUIRED_NEW	자신만의 트랜잭션 상황에서 실행되어야 한다. 이미 진행 중인 트랜잭션이 있으면 그 트랜잭션은 해당 메소드가 반환되기 전에 잠시 중단된다.
+			SUPPORTS	진행 중인 트랜잭션이 없더라도 실행 가능하고, 트랜잭션이 있는 경우에는 이 트랜잭션 상황에서 실행된다.
+			NOT_SUPPORTED	트랜잭션이 없는 상황에서 실행 만약 진행 중인 트랜잭션이 있다면 해당 메소드가 반환되기 전까지 잠시 중단한다.
+			NEVER	트랜잭션 진행 상황에서 실행 될 수 없다. 만약 이미 진행 중인 트랜잭션이 존재하면 예외 발생
+			NESTED	이미 진행 중인 트랜잭션이 존재하면 중첩된 트랜잭션에서 실행되어야 함을 나타낸다. 중첩된 트랜잭션은 본 트랜잭션과 독립적으로 커밋되거나 롤백될 수 있다. 만약 본 트랜잭션이 없는 상황이라면 이는 REQUIRED와 동일하게 작동한다. 그러나 이 전파방식은 DB 벤더 의존적이며, 지원이 안되는 경우도 많다.
+			@Transactional의 경우 REQUIRED이 기본값이다.
+	
+	
+	-->
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="select*" read-only="true" rollback-for="Exception"/>
+			<tx:method name="insert*" rollback-for="Exception" />
+			<tx:method name="update*"  rollback-for="Exception" />
+			<tx:method name="delete*" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config >
+		<aop:pointcut expression="execution(* com.kh.spring..*ServiceImpl*.*(..))" id="serviceMethod"/>
+		<aop:advisor id="transactionAdvisor" pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
+	</aop:config>	    
+	
+</beans>
