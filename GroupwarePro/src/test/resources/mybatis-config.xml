@@ -12,7 +12,6 @@
 		<typeAlias type="com.kh.spring.member.model.vo.LoginInfo" alias="LoginInfo"/>
 		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
 	
-	
 		<!-- 커뮤니티게시판 -->
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityBoard" alias="CommunityBoard"/>
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityAttachment" alias="CommunityAttachment"/>
@@ -32,6 +31,10 @@
 	
 		<!-- 전사공지 -->
 	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
+	    
+	    <!-- 일정 -->
+	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
+	    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
 	
 	</typeAliases>
 
@@ -42,6 +45,7 @@
 		<mapper resource="mappers/chat-mapper.xml"/> 
 		<mapper resource="mappers/library-mapper.xml"/> 
 		<mapper resource="mappers/notice-mapper.xml"/> 
+		<mapper resource="mappers/calendar-mapper.xml"/> 
 		
 	</mappers>
 

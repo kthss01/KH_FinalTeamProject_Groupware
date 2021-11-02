@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper>
+	<!-- resultMap -->
+	<resultMap id="calendarResultSet" type="Calendar"> 
+      <id column="CAL_NO" property="calNo"/>
+      <result column="NAME" property="name"/>
+      <result column="COLOR" property="color"/>
+      <result column="CAL_REG_NO" property="calRegNo"/>
+   </resultMap>
+   
+   	<resultMap id="eventResultSet" type="Event"> 
+      <id column="EVT_NO" property="evtNo"/>
+      <result column="NAME" property="name"/>
+      <result column="START_DATE" property="startDate"/>
+      <result column="END_DATE" property="endDate"/>
+      <result column="CONTENT" property="content"/>
+      <result column="CAGEGORY_NAME" property="categoryName"/>
+      <result column="ATT_NO" property="attNo"/>
+   </resultMap>
+   
+   <!-- READ -->
+   
+   <!-- CREATE -->
+   
+   <!-- UPDATE -->
+   
+   <!-- DELETE -->
+   
+</mapper>
