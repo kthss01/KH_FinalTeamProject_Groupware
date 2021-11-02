@@ -56,6 +56,13 @@
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="#"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">일정</span></a></li>
+                                    
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="main.hr"
+                                aria-expanded="false"><i data-feather="briefcase" class="feather-icon"></i><span
+                                    class="hide-menu">근태관리</span></a></li> 
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="main.ap"
+                                aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
+                                    class="hide-menu">전자결재</span></a></li>               
 
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Components</span></li>
