@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<resultMap id="employeeResultSet" type="ContectList">
 		<id column="EMP_NO" property="eNo"/>
+		<result column="LOGIN_ID" property="loginId"/>
+		<result column="STATUS" property="eStatus"/>
 		<result column="EMP_NAME" property="eName"/>
 		<result column="PHONE" property="phone"/>
 		<result column="EMAIL" property="email"/>
@@ -35,9 +37,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id ="selectContectList" parameterType="string" resultMap="employeeResultSet">
 		
-		SELECT * FROM CONTECT_LIST_SAMPLE
+		SELECT * FROM VW_CONTECT_LIST
 		WHERE DEPT_TITLE = #{title}
 		
 	</select>
+	<select id ="selectContectMember" parameterType="_int" resultMap="employeeResultSet">
+
+		SELECT * FROM VW_CONTECT_LIST
+		WHERE EMP_NO = #{eno}
+
+	</select>
+	
+	<insert id="insertMessage" parameterType="Chat">	
+		INSERT INTO CON_CHAT VALUES(
+		#{receiver},#{sender},#{msg},TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),SEQ_CHAT_NO.NEXTVAL)
+		
+	</insert>
 
 </mapper>
