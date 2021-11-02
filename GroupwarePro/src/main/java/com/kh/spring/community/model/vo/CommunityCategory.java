@@ -14,7 +14,7 @@ import lombok.ToString;
 public class CommunityCategory {
 
 	private int cno;
-	private String name;
+	private String cname;
 	private String manager;
 	private String status;
 	

@@ -3,10 +3,11 @@ package com.kh.spring.community.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 public interface CommunityService {
 
@@ -35,5 +36,11 @@ public interface CommunityService {
 	ArrayList<CommunityReply> selectReComentList(CommunityReply r);
 
 	int deleteReply(CommunityReply r);
+
+	ArrayList<CommunityCategory> selectCategoryList();
+
+	CommunityCategory selectCategory(int cno);
+
+	void countBoard(int bno);
 
 }

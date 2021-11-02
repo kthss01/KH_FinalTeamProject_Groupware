@@ -13,14 +13,31 @@
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
     <title>채팅</title>
     <!-- This page css -->
+    
+<!--     부트스트랩5
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" 
+	rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" 
+	crossorigin="anonymous"> -->
+    
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+	
+
+	<style>
+	
+	.contectDeptList button:hover{
+	font-weight:bold;
+	}
+	
+	.accordion{
+	height:80px;
+	}
+	.accordion-button{
+	height:60px;}
+	
+	
+	</style>
+
 </head>
 
 <body>
@@ -60,23 +77,14 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Chat</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">메신저</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Apps</li>
-                                    <li class="breadcrumb-item text-muted" aria-current="page">Chat</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Home</li>
+                                    <li class="breadcrumb-item text-muted" aria-current="page">Messenger</li>
                                 </ol>
                             </nav>
-                        </div>
-                    </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -87,61 +95,32 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <div class="container-fluid" >
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card" >
                             <div class="row no-gutters">
+
+
+                            
                             <!-- 주소록 -->
                                 <div class="col-lg-5 col-xl-3 border-right">
-                                    <div class="card-body border-bottom">
+                                    <div class="card-body">
+                                    <h3 style="color:#1C2D41; font-weight:bold;">주소록</h3><br>
                                         <form>
-                                            <input class="form-control" type="text" placeholder="Search Contact">
+                                            <input id="searchContect" class="form-control" type="text" placeholder="이름 또는 부서 입력" style="font-size:15px; display:inline-block; width:85%;">
+                                       <i class="icon-magnifier"></i>
                                         </form>
                                     </div>
-                                    <div class="scrollable position-relative" style="height: calc(100vh - 111px);">
-                                        <ul class="mailbox list-style-none">
-                                            <li>
-                                                <div class="message-center">
-                                                    <!-- Message -->
-                                                    <a href="javascript:void(0)"
-                                                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                        <div class="user-img"><img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg"
-                                                                alt="user" class="img-fluid rounded-circle"
-                                                                width="40px"> <span
-                                                                class="profile-status online float-right"></span>
-                                                        </div>
-                                                        <div class="w-75 d-inline-block v-middle pl-2">
-                                                            <h6 class="message-title mb-0 mt-1">Pavan kumar</h6>
-                                                            <span
-                                                                class="font-12 text-nowrap d-block text-muted text-truncate">Just
-                                                                see
-                                                                the my new
-                                                                admin!</span>
-                                                            <span class="font-12 text-nowrap d-block text-muted">9:30
-                                                                AM</span>
-                                                        </div>
-                                                    </a>
-                                                    <!-- Message -->
-                                                    <a href="javascript:void(0)"
-                                                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                        <div class="user-img"><img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/2.jpg"
-                                                                alt="user" class="img-fluid rounded-circle"
-                                                                width="40px"> <span
-                                                                class="profile-status busy float-right"></span>
-                                                        </div>
-                                                        <div class="w-75 d-inline-block v-middle pl-2">
-                                                            <h6 class="message-title mb-0 mt-1">Sonu Nigam</h6>
-                                                            <span
-                                                                class="font-12 text-nowrap d-block text-muted text-truncate">I've
-                                                                sung a
-                                                                song! See you at</span>
-                                                            <span class="font-12 text-nowrap d-block text-muted">9:10
-                                                                AM</span>
-                                                        </div>
-                                                    </a>
-                                                    <!-- Message -->
-                                                    <a href="javascript:void(0)"
+                                    <div class="scrollable position-relative" style="height: calc(100vh - 250px); ">
+
+									         
+                                         <ul class="mailbox list-style-none" id="contectListArea">
+                                        
+             
+
+                                                    <!-- Message --> 
+<%--                                                      <a href="javascript:void(0)"
                                                         class="message-item d-flex align-items-center border-bottom px-3 py-2">
                                                         <div class="user-img"> <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
                                                                 alt="user" class="img-fluid rounded-circle"
@@ -150,29 +129,34 @@
                                                         </div>
                                                         <div class="w-75 d-inline-block v-middle pl-2">
                                                             <h6 class="message-title mb-0 mt-1">Arijit Sinh</h6>
-                                                            <span
-                                                                class="font-12 text-nowrap d-block text-muted text-truncate">I
-                                                                am a
-                                                                singer!</span>
-                                                            <span class="font-12 text-nowrap d-block text-muted">9:08
-                                                                AM</span>
+                                             
                                                         </div>
-                                                    </a>
-                                                    <!-- Message -->
-                                                   
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                    </a> --%>
+                                    
+                                         </ul>
+                                   </div>
                                 </div>
                              <!--  채팅화면 -->   
                                 <div class="col-lg-7  col-xl-9">
+                                
+                                      <div class="border-bottom" style="padding:15px; height:90px;">
+	                                      <div style="float:left;">
+	                                      	<img  src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg" alt="user"
+				                                   class="rounded-circle" width="65">
+	                                      </div>
+		
+		                                   <div style="float:left; margin-left:10px;"> 
+		                                          <span style="font-size:22px; color:#1c2d41; font-weight:bold;">홍길동</span> <span style="font-size:16px;">대리</span> <br>
+												  <span style="font-size:16px;">인사관리부 | dummy1@kh.co.kr | 070-1234-5678</span>  
+										   </div>
+			                            </div>
+                                
                                     <div class="chat-box scrollable position-relative"
-                                        style="height: calc(100vh - 111px);">
+                                        style="height: calc(100vh - 250px);">
+
                                         <!--chat Row -->
                                         <ul class="chat-list list-style-none px-3 pt-3">
 
-                                           
                                             <!--chat Row -->
                                             <li class="chat-item list-style-none mt-3">
                                                 <div class="chat-img d-inline-block"><img
@@ -190,38 +174,21 @@
                                                 </div>
                                             </li>
                                             <!--chat Row -->
-                                            <li class="chat-item odd list-style-none mt-3">
-                                                <div class="chat-content text-right d-inline-block pl-3">
-                                                    <div class="box msg p-2 d-inline-block mb-1">I
-                                                        would love to
-                                                        join the team.</div>
-                                                    <br>
-                                                </div>
-                                            </li>
-                                            <!--chat Row -->
-                                            <li class="chat-item odd list-style-none mt-3">
-                                                <div class="chat-content text-right d-inline-block pl-3">
-                                                    <div class="box msg p-2 d-inline-block mb-1 box">
-                                                        Whats budget
-                                                        of the new project.</div>
-                                                    <br>
-                                                </div>
-                                                <div class="chat-time text-right d-block font-10 mt-1 mr-0 mb-3">
-                                                    10:59 am</div>
-                                            </li>
+
+
                                         </ul>
                                     </div>
                                     <div class="card-body border-top">
                                         <div class="row">
                                             <div class="col-9">
                                                 <div class="input-field mt-0 mb-0">
-                                                    <input id="textarea1" placeholder="Type and enter"
-                                                        class="form-control border-0" type="text">
+                                                    <input placeholder="메세지를 입력하세요."
+                                                        class="form-control border-0" id="message" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-3">
                                                 <a class="btn-circle btn-lg btn-cyan float-right text-white"
-                                                    href="javascript:void(0)"><i class="fas fa-paper-plane"></i></a>
+                                                    id="sendBtn"><i class="fas fa-paper-plane"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -268,19 +235,151 @@
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
+    
+    <!-- 부트스트랩5 -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+ -->
+ 	<!-- SockJs 라이브러리 추가  -->    
+<!--     <script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+     -->
+    
     <script>
+    var socket = null;
+    $(document).ready( function() {
+        connectWS();	
+    });
+    function connectWS() {
+        var ws = new WebSocket("ws://localhost:8090/wecanvas/echo");
+        socket = ws;
+        ws.onopen = function () {
+            console.log('Info: connection opened.');
+        };
+        ws.onmessage = function (event) {
+            console.log(event.data+'\n');
+
+
+        };
+        ws.onclose = function (event) { 
+            console.log('Info: connection closed.');
+        };
+        ws.onerror = function (err) { console.log('Error:', err); };
+        
+
+    }
+
+	//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  
+
+    	
         $(function () {
-            $(document).on('keypress', "#textarea1", function (e) {
+ 
+        	$('#message').on('keypress',function(e){
                 if (e.keyCode == 13) {
-                    var id = $(this).attr("data-user-id");
                     var msg = $(this).val();
-                    msg = msg_sent(msg);
-                    $("#someDiv").append(msg);
-                    $(this).val("");
-                    $(this).focus();
+					   socket.send(msg);
+				 		$(".chat-list").append(`
+		                        <li class="chat-item odd list-style-none mt-3">
+		                        <div class="chat-content text-right d-inline-block pl-3">
+		                            <div class="box msg p-2 d-inline-block mb-1">\${msg} </div>
+		                            <br>
+		                        </div>
+		                    </li>	
+		        				`);
+                   $(this).val("");
+                   $(this).focus();
+               }
+	
+        	});
+        	
+        	
+        	$('#searchContect').keyup(function(event) {
+        		var val = $(this).val(); if (val == "") { 
+        			$('.mailbox li').show(); 
+        		} else {
+        				$('.mailbox li').hide(); $(".mailbox li:contains('"+val+"')").show(); 
+        			} 
+        		});
+
+        	
+        	
+        
+        var contectList = $("#contectListArea");
+        
+         $.ajax({
+        	url:'deptList.ch',
+        	type:'post',
+        	dataType:'json',
+        	success : function(list){
+        		
+         		list.forEach((d => {
+        			contectList.append(`
+                            <li>
+	                            <a href="#"
+	                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
+	                                 <i class="icon-menu" style="font-size:14px;"></i> &nbsp;&nbsp;&nbsp;
+	                                    <span class="message-title mb-0 mt-1" style="font-size:21px;">\${d.title}</span>
+	                     
+	                            </a>
+	                            <ul id="\${d.title}">
+	                            </ul>
+                            </li>
+        					`)
+   			
+        			selectContectList(d.title);
+         		}));  
+         		
+   
+         		
+         		
+          
+                function selectContectList(title){
+                	
+                	var titleArea = $("#"+title);
+                	var title = title;
+                	$.ajax({
+                		url:'contectList.ch',
+                		type:'post',
+                		dataType:'json',
+                		data:{
+                			title : title
+                		},
+                		success : function(list){
+                			
+                      		list.forEach((c => {
+        						titleArea.append(`
+        								<div style="margin-left:20px;">
+		        							<a href='#'>
+			        								<li>
+			    											<span style="font-size:14px;">\${c.eName}</span>
+			    									</li>
+	    								</a>
+        								</div>
+        								
+        						
+        								`)
+                    		})); 
+
+                		}
+                	})
                 }
-            });
+                
+        	},error : function(e,e2,e3){
+        		console.log(e);
+        		console.log(e2);
+        		console.log(e3);
+        		
+        	}
+        
+        
+        })
+        
+        
+        
         });
+        
+  
+        
+        
     </script>
 </body>
 

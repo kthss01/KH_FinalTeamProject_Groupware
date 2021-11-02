@@ -14,16 +14,22 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Member {
-	private String userId;
-	private String userPwd;
-	private String userName;
-	private String email;
-	private String gender;
-	//private int age;
-	private String age; // 나중에 회원가입 시
+	private String empNo;
+	private String empName;
+	private String empReg;
 	private String phone;
-	private String address;
+	private String email;
+	private String deptCode;
+	private String jobCode;
+	private String salCode;
+	private int salary;
+	private double bonus;
 	private Date enrollDate;
-	private Date modifyDate;
+	private Date retireDate;
+	private String statement;
+	private String gender;
+	private String loginId;
+	private String loginPwd;
 	private String status;
+	
 }

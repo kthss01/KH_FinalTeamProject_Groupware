@@ -22,11 +22,12 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDao memberDao;
 	
+	
+	
 	@Override
 	public Member loginMember(Member m) throws Exception {
 		
 		Member loginUser = memberDao.loginMember(sqlSession, m);
-		
 		if (loginUser == null) {
 			throw new Exception("loginUser 확인");
 		}
@@ -53,7 +54,11 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		// matches(평문, 암호문) 이렇게 넣어야함
-		if (!bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
+		if (!bCryptPasswordEncoder.matches(m.getLoginPwd(), loginUser.getLoginPwd())) {
+			
+			System.out.println(m.getLoginPwd());
+			System.out.println(loginUser.getLoginPwd());
+			
 			throw new CommException("비밀번호 불일치");
 		}
 		
@@ -62,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member updateMember(Member m) throws Exception {
-		
+
 		int result = memberDao.updateMember(sqlSession, m);
 		
 //		memberDao.insertMember(sqlSession, m); // 일부러 에러 발생

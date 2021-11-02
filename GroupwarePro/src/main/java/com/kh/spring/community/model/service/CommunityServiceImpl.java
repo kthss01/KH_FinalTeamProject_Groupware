@@ -7,12 +7,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.common.SelectBoardListInfo;
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.community.model.dao.CommunityDao;
 import com.kh.spring.community.model.vo.CommunityAttachment;
 import com.kh.spring.community.model.vo.CommunityBoard;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.community.model.vo.CommunityReply;
-import com.kh.spring.community.model.vo.SelectBoardListInfo;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -125,6 +126,28 @@ public class CommunityServiceImpl implements CommunityService {
 
 		}
 		return result;
+	}
+
+	@Override
+	public ArrayList<CommunityCategory> selectCategoryList() {
+		ArrayList<CommunityCategory> list = communityDao.selectCategoryList(sqlSession);
+		return list;
+	}
+
+	@Override
+	public CommunityCategory selectCategory(int cno) {
+		CommunityCategory category = communityDao.selectCategory(sqlSession,cno);
+		return category;
+	}
+
+	@Override
+	public void countBoard(int bno) {
+		int result = communityDao.countBoard(sqlSession,bno);
+		
+		if(result<0) {
+			 throw new CommException("조회수 증가 실패");
+
+		}
 	}
 
 }

@@ -43,6 +43,8 @@
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<!-- 웹소켓 비동기 처리를 위해 추가 : 설정하지 않을 시 1:1통신은 문제가 없으나 2개 이상의 클라이언트가 접속하면 비동기 에러가 발생함 -->
+		<async-supported>true</async-supported>
 	</servlet>
 		
 	<servlet-mapping>
@@ -63,6 +65,17 @@
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 라우팅 처리를 위한 filter -->
+	<filter>
+		<filter-name>calendarFilter</filter-name>
+		<filter-class>com.kh.spring.common.filter.CalendarFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>calendarFilter</filter-name>
+		<url-pattern>/calendar/*</url-pattern>
 	</filter-mapping>
 	
 	<error-page>

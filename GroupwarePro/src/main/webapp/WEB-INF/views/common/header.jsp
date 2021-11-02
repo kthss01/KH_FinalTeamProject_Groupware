@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +28,7 @@
                             </b>
                             <!--End Logo icon -->
                             <!-- Logo text -->
-                            <span class="logo-text">
+                            <span class="logo-text">		
                                 <!-- dark Logo text -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
                                 <!-- Light Logo text -->
@@ -159,6 +160,10 @@
                             </a>
                         </li>
                     </ul>
+                    
+                    
+                    
+                    
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
@@ -181,36 +186,56 @@
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
+                      	    <c:if test="${!empty sessionScope.loginUser}"> 
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
                                     width="40">
+                                    
+                                <!--  헤더 로그인 구역  -->
+                                
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
+                                        class="text-dark">${sessionScope.loginUser.loginId}</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
+                              
+                                
                             </a>
+                      
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                            
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="credit-card"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    My Balance</a>
+                                    	내 정보</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    Inbox</a>
+                                   메뉴 2</a>
+                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    메뉴 3</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    Account Setting</a>
+                                    내 정보 수정</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
+                                <a class="dropdown-item" href="javascript:void(0)" href="logout.me"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    Logout</a>
+                                    로그아웃</a>
                                 <div class="dropdown-divider"></div>
+                                <!-- 
                                 <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
-                                        Profile</a></div>
+                                       Profile</a></div>
+                                        -->
                             </div>
+                             </c:if>
+                            
+                            <c:if test="${empty sessionScope.loginUser}">
+                                
+                                <a class="ml-2 d-none d-lg-inline-block" href="loginForm.me">
+                                		<br>
+                            			로그인
+                                </a>
+                                
+                                </c:if>
                         </li>
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
