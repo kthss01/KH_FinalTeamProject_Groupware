@@ -1,4 +1,6 @@
-package com.kh.spring.example;
+package com.kh.spring.calendar.controller;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -13,26 +15,23 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.kh.spring.calendar.model.dao.CalendarDao;
+import com.kh.spring.calendar.model.service.CalendarService;
+import com.kh.spring.calendar.model.service.CalendarServiceImpl;
+import com.kh.spring.calendar.model.vo.Event;
 import com.kh.spring.example.ControllerExampleTest.ContextConfig;
-import com.kh.spring.member.model.dao.MemberDao;
-import com.kh.spring.member.model.service.MemberService;
-import com.kh.spring.member.model.service.MemberServiceImpl;
-import com.kh.spring.member.model.vo.Member;
 
 /*
- * Service 테스트 예제
+ * Calendar Service 테스트
  * 
  */
 
 @ExtendWith(SpringExtension.class)
-//@ContextConfiguration()
-// 해당 컨트롤러에서 사용되는 bean들 추가해줘야함, xml로 되어있던거 class로 만들었으니 그것도 추가 (ContextConfig)
-@ContextConfiguration(classes = { MemberServiceImpl.class, MemberDao.class, ContextConfig.class })
-public class ControllerExampleTest {
-	
+@ContextConfiguration(classes = { CalendarServiceImpl.class, CalendarDao.class, ContextConfig.class })
+public class CalendarControllerTest {
+
 	// Session DI 하기 위한 Configuration 클래스위에 annotation 형태가 아니고 xml로 되어있어서 따로 추가
 	@Configuration
-//	@Import({ MemberDao.class })
 	@ImportResource(locations = { "file:src/main/resources/root-context.xml" })
 	public static class ContextConfig {
 		
@@ -44,33 +43,17 @@ public class ControllerExampleTest {
 			return sqlFactory.openSession();
 		}
 		
-//		@Bean 
-//		public MemberDao memberDao() {
-//			return new MemberDao();
-//		}
 	}
-	
-//	@Autowired
-//	MemberDao memberDao;
-	
-//	@Autowired
-//	SqlSession session;
 	
 	@Autowired
-	MemberService service;
+	CalendarService service;
 	
 	@Test
-	// assertj 이용해서 하면 좋을듯
-	public void 로그인테스트() {
-		Member m = new Member();
-		m.setLoginId("kth");
-		try {
-			Member loginUser = service.loginMember(m);
-			System.out.println(loginUser);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public void 이벤트리스트조회() {
+		ArrayList<Event> list = service.selectEventList();
+		
+		for (Event event : list) {
+			System.out.println(event);
 		}
-//		System.out.println("test");
 	}
-	
 }
