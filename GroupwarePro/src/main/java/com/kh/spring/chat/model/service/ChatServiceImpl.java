@@ -68,6 +68,12 @@ public class ChatServiceImpl implements ChatService {
 
 	}
 
+	@Override
+	public ArrayList<Chat> selectChatList(Chat chat) {
+		ArrayList<Chat> list = chatDao.selectChatList(sqlSession,chat);
+		return list;
+	}
+
 
 
 

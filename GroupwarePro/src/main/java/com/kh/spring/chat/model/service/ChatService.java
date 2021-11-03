@@ -19,4 +19,6 @@ public interface ChatService {
 
 	int updateStatus(ContectList con);
 
+	ArrayList<Chat> selectChatList(Chat chat);
+
 }

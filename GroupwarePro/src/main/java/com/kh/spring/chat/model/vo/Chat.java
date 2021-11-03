@@ -10,7 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Chat {
-
+	
+	int chatNo;
 	String msg;
 	int receiver;
 	int sender;
