@@ -1,16 +1,17 @@
 package com.kh.spring.calendar.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.calendar.model.vo.Event;
 
 @Repository
 public class CalendarDao {
 
-	public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
-		Member m1 = sqlSession.selectOne("memberMapper.loginMember", m);
-		return m1;
+	public ArrayList<Event> selectEventList(SqlSessionTemplate sqlSession) {
+		return (ArrayList) sqlSession.selectList("calendarMapper.selectEventList");
 	}
 
 }

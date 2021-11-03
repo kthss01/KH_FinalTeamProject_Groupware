@@ -33,7 +33,7 @@ public class ControllerExampleTest {
 	// Session DI 하기 위한 Configuration 클래스위에 annotation 형태가 아니고 xml로 되어있어서 따로 추가
 	@Configuration
 //	@Import({ MemberDao.class })
-	@ImportResource(locations = { "/root-context.xml" })
+	@ImportResource(locations = { "file:src/main/resources/root-context.xml" })
 	public static class ContextConfig {
 		
 		@Inject
