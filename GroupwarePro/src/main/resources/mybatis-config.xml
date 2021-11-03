@@ -28,6 +28,7 @@
 		<!-- 메신저 -->
 		<typeAlias type="com.kh.spring.chat.model.vo.Department" alias="Department"/>
 		<typeAlias type="com.kh.spring.chat.model.vo.ContectList" alias="ContectList"/>
+		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 	
 		<!-- 전사공지 -->
 	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
