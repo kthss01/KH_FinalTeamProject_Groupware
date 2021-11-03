@@ -265,8 +265,10 @@
 		src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
 </body>
 <script>
+//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  	
 var socket = null;
 $(document).ready( function() {
+
     connectWS();	
 });
 function connectWS() {
@@ -285,10 +287,19 @@ function connectWS() {
         console.log(alertMsg);
         var msg = msgArr[1];
         
-        socketAlert.css("display",'block');
-        socketAlertMsg.html(alertMsg);
-
+        if(location.pathname != "/spring/chatPage.ch"){
+            socketAlert.css("display",'block');
+            socketAlertMsg.html(alertMsg);
+        }
         
+       if(alertMsg == 'error'){
+    	   alert(msg);
+       }
+        /* 팝업은 클릭하지 않으면 5초 후에 자동으로 사라진다. 
+        setTimeout( function(){
+        	socketAlert.css("display","none");
+        }, 5000);
+        */
          $('.chat-list').append(`
         		
 				<!--chat Row -->

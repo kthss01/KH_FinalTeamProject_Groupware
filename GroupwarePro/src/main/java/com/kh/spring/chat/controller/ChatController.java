@@ -69,10 +69,12 @@ public class ChatController {
 	@RequestMapping(value="sendMsg.ch",produces="application/json; charset=utf-8")
 	public String insertMessage(Chat chat) {
 		
-		System.out.println("chat : " + chat);
-
-		int result = chatService.insertMessage(chat);
+		int result = 0;
 		
+		if(chat.getReceiver() != 0) {
+			result = chatService.insertMessage(chat);
+		}
+
 		return String.valueOf(result);
 		
 	}

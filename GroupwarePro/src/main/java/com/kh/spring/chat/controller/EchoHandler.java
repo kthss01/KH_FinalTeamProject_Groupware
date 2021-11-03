@@ -53,7 +53,6 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 					String receiverNo = strArr[3];
 					text = strArr[4];
 					
-					System.out.println("웹소켓 receiverNo : " + receiverNo);
 					
 					WebSocketSession receiverSession = userSessions.get(receiver);
 					if("chat".contentEquals(func) && receiverSession != null) {   //받는 이가 로그인한 상태라면 
