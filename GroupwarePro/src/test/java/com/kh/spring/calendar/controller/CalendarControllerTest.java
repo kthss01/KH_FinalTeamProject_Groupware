@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +33,8 @@ import com.kh.spring.example.ControllerExampleTest.ContextConfig;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { CalendarServiceImpl.class, CalendarDao.class, ContextConfig.class })
 public class CalendarControllerTest {
+	
+	private static final Logger logger = LoggerFactory.getLogger(CalendarControllerTest.class);
 
 	// Session DI 하기 위한 Configuration 클래스위에 annotation 형태가 아니고 xml로 되어있어서 따로 추가
 	@Configuration
@@ -52,10 +56,12 @@ public class CalendarControllerTest {
 	
 	@Test
 	public void 이벤트리스트조회() {
+		
+		
 		ArrayList<Event> list = service.selectEventList();
 		
 		for (Event event : list) {
-			System.out.println(event);
+			logger.debug(event.toString());
 		}
 	}
 	
@@ -66,7 +72,7 @@ public class CalendarControllerTest {
 		ArrayList<Attendant> list = service.selectAttList(evtNo);
 		
 		for (Attendant att : list) {
-			System.out.println(att);
+			logger.debug(att.toString());
 		}
 	}
 	
@@ -77,7 +83,7 @@ public class CalendarControllerTest {
 		ArrayList<Calendar> list = service.selectMyCalList(empNo);
 		
 		for (Calendar cal : list) {
-			System.out.println(cal);
+			logger.debug(cal.toString());
 		}
 	}
 	
