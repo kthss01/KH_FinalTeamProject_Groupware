@@ -38,4 +38,9 @@ public class ChatDao {
 		return sqlSession.update("chatMapper.updateStatus",con);
 	}
 
+	public ArrayList<Chat> selectChatList(SqlSessionTemplate sqlSession, Chat chat) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("chatMapper.selectChatList",chat);
+	}
+
 }

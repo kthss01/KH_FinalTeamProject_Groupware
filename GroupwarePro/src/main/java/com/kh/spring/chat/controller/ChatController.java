@@ -2,6 +2,8 @@ package com.kh.spring.chat.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import com.kh.spring.chat.model.service.ChatService;
 import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.chat.model.vo.Department;
+import com.kh.spring.member.model.vo.Member;
 
 @Controller
 public class ChatController {
@@ -23,13 +26,24 @@ public class ChatController {
 	private ChatService chatService;
 	
 	@GetMapping("chatPage.ch")
-	public ModelAndView chatPage(ModelAndView mv, @RequestParam(value="eno",required =false, defaultValue="0") int eno) {
+	public ModelAndView chatPage(ModelAndView mv, HttpServletRequest request, @RequestParam(value="eno",required =false, defaultValue="0") int eno) {
 		
 		ContectList receiver = null;
-
+		Chat chat = new Chat();
+		ArrayList<Chat> chatList = null;
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		int user = Integer.parseInt(loginUser.getEmpNo());		
+		chat.setSender(user);
+		chat.setReceiver(eno);
+		System.out.println("eno!! : " + eno);
 		if(eno != 0) {
-			receiver = chatService.selectContectMember(eno); 
+			receiver = chatService.selectContectMember(eno);
+			chatList = chatService.selectChatList(chat);
 		}
+		
+		System.out.println("채팅목록 : " + chatList);
+		
+		mv.addObject("chatList",chatList);
 		mv.addObject("receiver", receiver); 
 		mv.setViewName("/chat/app-chat");
 		return mv;

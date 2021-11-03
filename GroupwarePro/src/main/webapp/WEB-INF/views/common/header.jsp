@@ -8,7 +8,19 @@
 <title>Insert title here</title>
 </head>
 <body>
+
         <header class="topbar" data-navbarbg="skin6">
+        	
+				<div id="socketAlert" class="alert alert-info alert-dismissible fade show" role="alert" 
+						style="text-align:center; height:40px; padding:5px; display:none;">
+	                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:5px 30px;"
+	                			onclick='$("#socketAlert").css("display","none")'>
+	                    <span aria-hidden="true">×</span>
+	                </button>
+	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 메신저 &nbsp;- &nbsp;</span> 
+	                	<span id='socketAlertMsg' style="font-size:17px;"> 새 메세지가 도착했습니다! </span>
+                 </div>
+           
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
@@ -208,18 +220,18 @@
                                     	내 정보</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
                                         class="svg-icon mr-2 ml-1"></i>
-                                   메뉴 2</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    메뉴 3</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    내 정보 수정</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)" href="logout.me"><i data-feather="power"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    로그아웃</a>
+					                                   메뉴 2</a>
+					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    메뉴 3</a>
+					                                <div class="dropdown-divider"></div>
+					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    내 정보 수정</a>
+					                                <div class="dropdown-divider"></div>
+					                                <a class="dropdown-item" href="javascript:void(0)" href="logout.me"><i data-feather="power"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    로그아웃</a>
                                 <div class="dropdown-divider"></div>
                                 <!-- 
                                 <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
@@ -242,8 +254,70 @@
                         <!-- ============================================================== -->
                     </ul>
                 </div>
+                
+   
             </nav>
-        </header>
+            	             
 
+                	
+        </header>
+	<script
+		src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
 </body>
+<script>
+var socket = null;
+$(document).ready( function() {
+    connectWS();	
+});
+function connectWS() {
+    var ws = new WebSocket("ws://localhost:8090/spring/echo");
+    socket = ws;
+    ws.onopen = function () {
+        console.log('Info: connection opened.');
+    };
+    ws.onmessage = function (event) {
+        let socketAlert = $("div#socketAlert");
+        let socketAlertMsg = $("#socketAlertMsg");
+        console.log(event.data);
+        var str = event.data;
+        var msgArr = str.split(',');
+        var alertMsg = msgArr[0];
+        console.log(alertMsg);
+        var msg = msgArr[1];
+        
+        socketAlert.css("display",'block');
+        socketAlertMsg.html(alertMsg);
+
+        
+         $('.chat-list').append(`
+        		
+				<!--chat Row -->
+				<li class="chat-item list-style-none mt-3">
+					<div class="chat-img d-inline-block">
+						<img
+							src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
+							alt="user" class="rounded-circle" width="45">
+					</div>
+					<div class="chat-content d-inline-block pl-3">
+						<h6 class="font-weight-medium">Angelina Rhodes</h6>
+						<div class="msg p-2 d-inline-block mb-1">							
+								\${msg}
+						</div>
+					</div>
+
+				</li>
+
+        		`); 
+
+
+    };
+    
+    ws.onclose = function (event) { 
+        console.log('Info: connection closed.');
+    };
+    ws.onerror = function (err) { console.log('Error:', err); };
+    
+
+}
+</script>
 </html>

@@ -26,7 +26,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<resultMap id="chatResultSet" type="Chat">
+			<id column="CHAT_NO" property="chatNo"/>
+			<result column="C_TO" property="sender"/>
+			<result column="C_FROM" property="receiver"/>
+			<result column="MSG" property="msg"/>
+			<result column="C_TIME" property="time"/>
 	
+	</resultMap>
 	
 	
 	<select id="selectDeptList" resultMap="departmentResultSet">
@@ -60,5 +67,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CONTECT_LIST SET S_NO = #{eStatus} WHERE EMP_NO = #{eNo} 
 	</update>
 	
+	<select id="selectChatList" parameterType="Chat" resultMap="chatResultSet">
+	
+		SELECT 
+		*
+		FROM CON_CHAT
+		WHERE (C_TO=#{sender}
+		AND C_FROM= #{receiver})
+		OR ( C_TO=#{receiver} AND C_FROM = #{sender})
+		ORDER BY C_TIME
+	</select>
 
 </mapper>

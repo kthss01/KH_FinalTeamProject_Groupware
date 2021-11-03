@@ -45,6 +45,10 @@
 </head>
 
 <body>
+
+
+
+
 	<!-- ============================================================== -->
 	<!-- Preloader - style you can find in spinners.css -->
 	<!-- ============================================================== -->
@@ -66,6 +70,7 @@
 		<jsp:include page="../common/header.jsp" />
 		<!-- End Topbar header -->
 		<!-- ============================================================== -->
+		<!-- 팝업 공지  -->
 
 
 		<!-- Left Sidebar - style you can find in sidebar.scss  -->
@@ -78,6 +83,8 @@
 		<!-- Page wrapper  -->
 		<!-- ============================================================== -->
 		<div class="page-wrapper">
+		
+
 			<!-- ============================================================== -->
 			<!-- Bread crumb and right sidebar toggle -->
 			<!-- ============================================================== -->
@@ -177,6 +184,34 @@
 
 										<!--chat Row -->
 										<ul class="chat-list list-style-none px-3 pt-3">
+												<!-- 이전 기록 조회 -->
+											 <c:forEach items="${ chatList }" var="c">
+												<c:if test="${ c.receiver eq loginUser.empNo }">
+						                        <li class="chat-item odd list-style-none mt-3">
+							                        <div class="chat-content text-right d-inline-block pl-3">
+							                            <div class="box msg p-2 d-inline-block mb-1">${c.msg} </div>
+							                            <br>
+							                        </div>
+							                    </li>
+												</c:if>
+ 												<c:if test="${ c.receiver ne loginUser.empNo }">
+													<li class="chat-item list-style-none mt-3">
+														<div class="chat-img d-inline-block">
+															<img
+																src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
+																alt="user" class="rounded-circle" width="45">
+														</div>
+														<div class="chat-content d-inline-block pl-3">
+															<div class="msg p-2 d-inline-block mb-1">							
+																	${c.msg}
+															</div>
+														</div>
+								
+													</li>
+												</c:if> 
+											
+											
+											</c:forEach>
 
 													<!-- 메시지 올라오는 화면 -->
 										</ul>
@@ -249,53 +284,8 @@
 
 
 	<script>
-    var socket = null;
-    $(document).ready( function() {
-        connectWS();	
-    });
-    function connectWS() {
-        var ws = new WebSocket("ws://localhost:8090/spring/echo");
-        socket = ws;
-        ws.onopen = function () {
-            console.log('Info: connection opened.');
-        };
-        ws.onmessage = function (event) {
-            console.log(event.data+'\n');
-            
-             $('.chat-list').append(`
-            		
-					<!--chat Row -->
-					<li class="chat-item list-style-none mt-3">
-						<div class="chat-img d-inline-block">
-							<img
-								src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
-								alt="user" class="rounded-circle" width="45">
-						</div>
-						<div class="chat-content d-inline-block pl-3">
-							<h6 class="font-weight-medium">Angelina Rhodes</h6>
-							<div class="msg p-2 d-inline-block mb-1">							
-									\${event.data}
-							</div>
-						</div>
-
-					</li>
-
-            		`); 
-
-
-        };
-        
-        ws.onclose = function (event) { 
-            console.log('Info: connection closed.');
-        };
-        ws.onerror = function (err) { console.log('Error:', err); };
-        
-
-    }
-
-	//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  
-
-    	
+	
+	//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  	
         $(function () {
  
         	$('#message').on('keypress',function(e){
@@ -418,9 +408,9 @@
         		},
         		success:function(result){
         			console.log(result);
-        			if(result == 0){
-						//db에 먼저 올리고 성공하면  webSocket에 메세지 보냄 (프로토콜 : 기능, 메세지, 발신자, 수신자)
-        				socket.send("chat," + senderId +"," + receiverId+"," + msg);
+        			if(result == 1){
+						//db에 먼저 올리고 성공하면  webSocket에 메세지 보냄 (프로토콜 : 기능, 발신자, 수신자, 발신자번호, 메세지)
+        				socket.send("chat," + senderId +"," + receiverId+","+sender +"," + msg);
         			}else{
         				alert("현재 서버오류로 채팅이 불가합니다.");
         			}

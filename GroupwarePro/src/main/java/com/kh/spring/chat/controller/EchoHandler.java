@@ -1,7 +1,6 @@
 package com.kh.spring.chat.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,16 +46,18 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 			String msg = message.getPayload();
 			if(!StringUtils.isEmpty(msg)) {
 				String[] strArr = message.getPayload().split(",");
-				if(strArr != null && strArr.length == 4) {
+				if(strArr != null && strArr.length == 5) {
 					String func = strArr[0];
 					String sender = strArr[1];
 					String receiver = strArr[2];
-					text = strArr[3];
-
+					String receiverNo = strArr[3];
+					text = strArr[4];
+					
+					System.out.println("웹소켓 receiverNo : " + receiverNo);
 					
 					WebSocketSession receiverSession = userSessions.get(receiver);
 					if("chat".contentEquals(func) && receiverSession != null) {   //받는 이가 로그인한 상태라면 
-						receiverSession.sendMessage(new TextMessage(text));
+						receiverSession.sendMessage(new TextMessage("<a href='chatPage.ch?eno="+String.valueOf(receiverNo)+"'>새 메세지가 도착했습니다</a>"+"," + text ));
 					}
 				}
 				
@@ -64,7 +65,8 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 			
 			
 			/*
-			 * //모든 유저에게 메세지 출력 -> 알림 구현시 사용 for(WebSocketSession user : users){
+			 * //모든 유저에게 메세지 출력 -> 알림 구현시 사용 
+			 * for(WebSocketSession user : users){
 			 * user.sendMessage(new TextMessage(loginId + " : " + message.getPayload())); }
 			 */
 	}
