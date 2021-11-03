@@ -10,9 +10,20 @@ import com.kh.spring.hr.model.vo.Work;
 @Repository
 public class HrDao {
 
-	public ArrayList<Work> selectWorkList(SqlSessionTemplate sqlSession, int loginNo) {
+	public ArrayList<Work> selectWorkList(SqlSessionTemplate sqlSession, int empNo) {
 		
-		return (ArrayList)sqlSession.selectList("hrMapper.selectWorkList", loginNo);
+		return (ArrayList)sqlSession.selectList("hrMapper.selectWorkList", empNo);
 	}
+
+	public int insertWork(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.insert("hrMapper.insertWork", empNo);
+	}
+
+	public int updateWork(SqlSessionTemplate sqlSession, String wNo) {
+		
+		return sqlSession.update("hrMapper.updateWork", wNo);
+	}
+
 
 }

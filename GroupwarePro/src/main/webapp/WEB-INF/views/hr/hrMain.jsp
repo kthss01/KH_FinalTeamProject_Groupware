@@ -1,7 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import = "java.util.ArrayList, com.kh.spring.hr.model.vo.Work, org.springframework.ui.Model"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%	
+
+	ArrayList<Work> wlist = (ArrayList<Work>)request.getAttribute("wlist"); 
+	
+	String start = "미등록";
+	String end = "미등록";
+	String wNo = null;
+	
+	System.out.println(wlist);
+	System.out.println(wlist.size());
+	
+	if(wlist.size() != 0) {
+		
+		Work work = wlist.get(0);
+		System.out.println("======="+work);
+		wNo = work.getWNo();
+		System.out.println("======="+wNo);
+		if(work.getStartTime() != null) {
+			start = work.getStartTime().substring(11, work.getStartTime().length());
+		}
+		
+		if(work.getEndTime() != null) {
+			end = work.getEndTime().substring(11, work.getEndTime().length());
+		}
+		
+	}
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +88,7 @@
 		<!-- ============================================================== -->
 		<!-- Page wrapper  -->
 		<!-- ============================================================== -->
-		<div class="page-wrapper">
+		<div class="page-wrapper" style=" background-color: white;">
 			<!-- ============================================================== -->
 			<!-- Bread crumb and right sidebar toggle -->
 			<!-- ============================================================== -->
@@ -77,7 +105,7 @@
 				
 				<div class="row" style="height: 100%;">
 						<!-- 근태관리 사이드바 -->
-					<div class="col-2" style="border-right: 1px solid rgba(0,0,0,.125)">
+					<div class="col-2" style="border-right: 1px solid rgba(0,0,0,.125);">
 						<h3>근태관리</h3>
 						<div>
 							<c:set var="today" value="<%= new java.util.Date() %>"/>
@@ -85,10 +113,10 @@
 							<p id="clock" style="font-size:40px"></p>
 							<div>
 								<div class="d-flex" style="font-size: 12px">
-									<p class="col-6" style="padding:0px;">출근시간</p><p class="col-6 text-right" style="padding:0px;">00:00:00</p>
+									<p class="col-6" style="padding:0px;">출근시간</p><p class="col-6 text-right" style="padding:0px;"><%=start %></p>
 								</div>
 								<div class="d-flex" style="font-size: 12px">
-									<p class="col-6" style="padding:0px;">퇴근시간</p><p class="col-6 text-right" style="padding:0px;">00:00:00</p>
+									<p class="col-6" style="padding:0px;">퇴근시간</p><p class="col-6 text-right" style="padding:0px;"><%=end %></p>
 								</div>
 								<div class="d-flex" style="font-size: 12px">
 									<p class="col-7" style="padding:0px;">주간 누적 근무시간</p><p class="col-5 text-right" style="padding:0px;">00h 00m 00s</p>
@@ -98,13 +126,21 @@
 						
 						<br>
 						<form method="get" action="change.hr">
-						<div class="d-flex align-items-center">
-							<button type="submit" class="btn btn-rounded btn-outline-primary col-6" style="margin:2px" value="1" name="status">출근하기</button>
-							<button type="submit" class="btn btn-rounded btn-outline-primary col-6" style="margin:2px" value="2" name="status">퇴근하기</button>
-						</div>
-						<div class="d-flex align-items-center">
-							<button type="button" class="btn btn-rounded btn-outline-primary col-12" style="margin:2px">근무상태변경<i data-feather="chevron-down" class="feather-icon"></i></button>
-						</div>
+							<div class="d-flex align-items-center">
+								<button type="submit" class="btn btn-rounded btn-outline-primary col-6" style="margin:2px" value="1" name="status">출근하기</button>
+								<button type="submit" class="btn btn-rounded btn-outline-primary col-6" style="margin:2px" value="2" name="status">퇴근하기</button>
+							</div>
+							<div class="d-flex align-items-center">
+								<button type="button" class="btn btn-rounded btn-outline-primary col-12" style="margin:2px 2px 0px 2px;">근무상태변경<i data-feather="chevron-down" class="feather-icon"></i></button>
+							</div>
+ 							<div class="align-items-center" style="border: 1px solid rgb(95,118,232); border-radius: 10px;">
+								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none; border-top-left-radius: 9px; border-top-right-radius: 9px;" value="3" name="status">업무</button>
+								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none;" value="4" name="status">업무종료</button>
+								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none;" value="5" name="status">외근</button>
+								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none;" value="6" name="status">출장</button>
+								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none; border-bottom-left-radius: 9px; border-bottom-right-radius: 9px;" value="7" name="status">반차</button>
+							</div>
+							<input type="hidden" name="wNo" value="<%=wNo %>">
 						</form>
 						<br>
 						
