@@ -115,37 +115,33 @@
 								<!-- 주소록 -->
 								<div class="col-lg-5 col-xl-3 border-right">
 									<div class="card-body">
-										<h3 style="color: #1C2D41; font-weight: bold;">주소록</h3>
-										<br>
-										<form>
-											<input id="searchContect" class="form-control" type="text"
-												placeholder="이름 또는 부서 입력"
-												style="font-size: 15px; display: inline-block; width: 85%;">
-											<i class="icon-magnifier"></i>
-										</form>
+										<h3 style="color: #1C2D41; font-weight: bold; display:inline;">주소록</h3>
+											<select style="height:35px; width:100px;  font-size:13px; margin-left:15px; color:#5F76E8;"
+		                                        class="custom-select form-control bg-white custom-radius custom-shadow border-1"
+		                                        name="status" id="status">
+		                                        <option value="1" selected >온라인</option>
+		                                        <option value="2">부재중</option>
+		                                        <option value="3">회의중</option>
+		                                        <option value="4">식사중</option>
+		                                    </select>
+										
+										<div style="margin-top:30px;">
+
+											<form>
+												<input id="searchContect" class="form-control" type="text"
+													placeholder="이름 또는 부서 입력"
+													style="font-size: 15px; display: inline-block; width: 85%;">
+												<i class="icon-magnifier"></i>
+											</form>
+										</div>
+										
 									</div>
 									<div class="scrollable position-relative"
 										style="height: calc(100vh - 250px);">
 
 
 										<ul class="mailbox list-style-none" id="contectListArea">
-
-
-
-											<!-- Message -->
-											<%--                                                      <a href="javascript:void(0)"
-                                                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                        <div class="user-img"> <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
-                                                                alt="user" class="img-fluid rounded-circle"
-                                                                width="40px"> <span
-                                                                class="profile-status away float-right"></span>
-                                                        </div>
-                                                        <div class="w-75 d-inline-block v-middle pl-2">
-                                                            <h6 class="message-title mb-0 mt-1">Arijit Sinh</h6>
-                                             
-                                                        </div>
-                                                    </a> --%>
-
+												<!-- 연락처 추가 영역 -->
 										</ul>
 									</div>
 								</div>
@@ -182,24 +178,7 @@
 										<!--chat Row -->
 										<ul class="chat-list list-style-none px-3 pt-3">
 
-											<!--chat Row -->
-											<li class="chat-item list-style-none mt-3">
-												<div class="chat-img d-inline-block">
-													<img
-														src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
-														alt="user" class="rounded-circle" width="45">
-												</div>
-												<div class="chat-content d-inline-block pl-3">
-													<h6 class="font-weight-medium">Angelina Rhodes</h6>
-													<div class="msg p-2 d-inline-block mb-1">Well we have
-														good budget for the project</div>
-												</div>
-												<div class="chat-time d-block font-10 mt-1 mr-0 mb-3">11:00
-													am</div>
-											</li>
-											<!--chat Row -->
-
-
+													<!-- 메시지 올라오는 화면 -->
 										</ul>
 									</div>
 									<div class="card-body border-top">
@@ -268,13 +247,6 @@
 		src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
 	<!--This page JavaScript -->
 
-	<!-- 부트스트랩5 -->
-	<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
- -->
-	<!-- SockJs 라이브러리 추가  -->
-	<!--     <script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
-     -->
 
 	<script>
     var socket = null;
@@ -282,7 +254,7 @@
         connectWS();	
     });
     function connectWS() {
-        var ws = new WebSocket("ws://localhost:8090/wecanvas/echo");
+        var ws = new WebSocket("ws://localhost:8090/spring/echo");
         socket = ws;
         ws.onopen = function () {
             console.log('Info: connection opened.');
@@ -371,8 +343,8 @@
                             <li>
 	                            <a href="#"
 	                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-	                                 <i class="icon-menu" style="font-size:14px;"></i> &nbsp;&nbsp;&nbsp;
-	                                    <span class="message-title mb-0 mt-1" style="font-size:21px;">\${d.title}</span>
+	                                 <i class="icon-menu" style="font-size:11px;"></i> &nbsp;&nbsp;&nbsp;
+	                                    <span class="message-title mb-0 mt-1" style="font-size:19px;">\${d.title}</span>
 	                     
 	                            </a>
 	                            <ul id="\${d.title}">
@@ -402,16 +374,22 @@
         		},
         		success : function(list){
               		list.forEach((c => {
-						titleArea.append(`
-								<div style="margin-left:20px;">
-        							<a href="chatPage.ch?eno=\${c.eNo}">
-	        								<li>
-	    											<span style="font-size:14px;">\${c.eName}</span>
-	    									</li>
-									</a>
-								</div>
+              			if(c.eNo != ${ loginUser.empNo }){
+              				
+    						titleArea.append(`
+    								<div style="margin-left:20px;">
+            							<a href="chatPage.ch?eno=\${c.eNo}">
+    	        								<li>
+    	    											<span style="font-size:16px; color:#1C2D41;">\${c.eName}</span>
+    	    											<span style="font-size:10px; color:#005600; display:inline-block; margin-left:10px;">( \${c.eStatus})</span>
+    	    									</li>
+    									</a>
+    								</div>
 
-								`)
+    								`)
+              			
+              			}
+
             		}));
 
         		}
@@ -450,6 +428,29 @@
         	}) 
         	
         }  
+        
+        
+        
+        $("#status").on('change',function(){
+        	var eStatus = $(this).val();
+         	var eNo = '${ loginUser.empNo }';
+
+        	$.ajax({
+        		url:'updateStatus.ch',
+        		data: {
+        			eStatus : eStatus,
+        			eNo : eNo
+        			
+        		},
+        		type:'post',
+        		success:function(){
+        			alert("성공");
+        		},error:function(){
+        			alert("실패");
+        		}
+        	
+        	})
+        })
  
     </script>
 </body>

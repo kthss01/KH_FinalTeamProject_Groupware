@@ -63,4 +63,14 @@ public class ChatController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="updateStatus.ch",produces="application/json; charset=utf-8")
+	public String updateStatus(ContectList con) {
+		
+		int result = chatService.updateStatus(con);
+
+		
+		return String.valueOf(result);
+	}
+	
 }

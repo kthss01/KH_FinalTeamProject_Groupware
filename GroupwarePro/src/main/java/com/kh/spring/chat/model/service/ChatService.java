@@ -17,4 +17,6 @@ public interface ChatService {
 
 	int insertMessage(Chat chat);
 
+	int updateStatus(ContectList con);
+
 }

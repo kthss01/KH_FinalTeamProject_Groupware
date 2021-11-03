@@ -33,4 +33,9 @@ public class ChatDao {
 		return sqlSession.insert("chatMapper.insertMessage",chat);
 	}
 
+	public int updateStatus(SqlSessionTemplate sqlSession, ContectList con) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("chatMapper.updateStatus",con);
+	}
+
 }

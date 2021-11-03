@@ -234,7 +234,6 @@
 
 								</div>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -374,7 +373,6 @@
 	$(function(){
 		
 
-		
 		selectReplyList(${b.bno});
 		
 		$('#updateBtn').hide();
@@ -447,13 +445,8 @@
 		
 	}
 	
+		/* 첨부파일 로직 */
 
-	 /**
-	  * 첨부파일로직
-	  */
-
-	  
-	  
 	 $(function () {
 	     $('#btn-upload').click(function (e) {
 	         e.preventDefault();
@@ -471,7 +464,6 @@
 	 var content_files = new Array();
 
 
-	 
 	 function fileCheck(e) {
 	     var files = e.target.files;
 	     
@@ -514,18 +506,12 @@
 	 	fileCount --;
 	     console.log(content_files);
 	 }			 
- 		
 
-	  
 		 function updateBoard(){
 			    var bno= ${b.bno};
 			   	var content = $('#summernote').summernote('code');
 			   	var title = $('#updateTitle').val();
-			   	
-			   	console.log("bno : " + bno);
-			   	console.log("content : " + content);
-			   	console.log("title : " + title);
-				   	
+
   				 $.ajax({				 
 				type: "POST",
 		  	      url: 'updateBoard.co',
@@ -558,7 +544,6 @@
   	 				dataType : 'json',
   	 				success : function (result){
 						if(result > 0){
-
 						alert("댓글이 성공적으로 등록되었습니다.");
 						$("#replyNickname  ").val("");
 						$("#replyPwd").val("");
@@ -614,12 +599,9 @@
   	 				data:{bno : bno},
   	 				type:"post",
   	 				dataType : 'json',
-  	 				success:function(list){
-					 	 					
+  	 				success:function(list){		 	 					
   	 					$("#rcount").text(list.length);
-
   	 					list.forEach((r => {
-  	 						console.log(r);
   	 						commentBox.append(`
   	 								<br>
   	 								<b class='font-weight-bold'>\${r.name}</b>님의 한마디 
@@ -640,16 +622,11 @@
 
 					
   	 					}));
-  	 					
-  	 					
-  	 					
-  	 					
-  	 					
+
   	 			   	 	$(".reComment").on("click",function(){
   	 			   	 				$(".replyBtn1").hide();
   	 			   	 				$(".replyBtn2").hide();
   	 			   	 				var pno = $(this).next().next().val();
-  	 			   	 				console.log("??" + pno);
    	  			   	 	 				$(this).next().after(`
   	 			   	 							<div id="reCommentBox" style="margin-left:50px;">
   	 			   	 						<br>
