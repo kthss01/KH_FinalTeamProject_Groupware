@@ -52,8 +52,23 @@ public class ChatServiceImpl implements ChatService {
 			throw new CommException("채팅 저장 실패");
 		}
 		
-		return 0;
+		return result;
 	}
+
+	@Override
+	public int updateStatus(ContectList con) {
+
+		int result = chatDao.updateStatus(sqlSession,con);
+		
+		if(result < 0) {
+			throw new CommException("상태 변경 실패");
+		}		
+	
+		return result;
+
+	}
+
+
 
 
 }

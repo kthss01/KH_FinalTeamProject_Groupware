@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.kh.spring.chat.model.service.ChatService;
+import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.service.MemberServiceImpl2;
 import com.kh.spring.member.model.vo.Member;
@@ -53,6 +55,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberServiceImpl2 memberService2;
+	
+	@Autowired
+	private ChatService chatService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -266,11 +271,23 @@ public class MemberController {
 	@RequestMapping("login.me")
 	public String loginMember(Member m, Model model) {
 		
+
 		String encPwd = bCryptPasswordEncoder.encode(m.getLoginPwd());
 		System.out.println(encPwd);
 		
 		Member loginUser;
 		loginUser = memberService.loginMember(bCryptPasswordEncoder ,m);
+		
+		/*메신저 상태 온라인으로 변경*/
+		ContectList con = new ContectList();
+		
+		con.setENo(Integer.parseInt((loginUser.getEmpNo())));
+		con.setEStatus("1");
+		
+		chatService.updateStatus(con);
+		/*********************/
+		
+		
 		System.out.println("loginUser : " + loginUser); 
 		model.addAttribute("loginUser", loginUser);
 		return "redirect:/";

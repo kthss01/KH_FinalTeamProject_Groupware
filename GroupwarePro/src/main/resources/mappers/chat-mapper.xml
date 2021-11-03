@@ -53,5 +53,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{receiver},#{sender},#{msg},TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),SEQ_CHAT_NO.NEXTVAL)
 		
 	</insert>
+	
+	
+	<update id="updateStatus" parameterType="ContectList">
+	
+		UPDATE CONTECT_LIST SET S_NO = #{eStatus} WHERE EMP_NO = #{eNo} 
+	</update>
+	
 
 </mapper>
