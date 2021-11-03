@@ -4,11 +4,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="calendarMapper">
 	<!-- resultMap -->
-	<resultMap id="calendarResultSet" type="Calendar">
-		<id column="CAL_NO" property="calNo" />
-		<result column="NAME" property="name" />
-		<result column="COLOR" property="color" />
-		<result column="CAL_REG_NO" property="calRegNo" />
+	<resultMap id="attendantResultSet" type="Attendant">
+		<id column="ATT_NO" property="attNo" />
+		<result column="EVT_NO" property="evtNo" />
+		<result column="EMP_NO" property="empNo" />
 	</resultMap>
 
 	<resultMap id="eventResultSet" type="Event">
@@ -17,22 +16,76 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="START_DATE" property="startDate" />
 		<result column="END_DATE" property="endDate" />
 		<result column="CONTENT" property="content" />
-		<result column="CAGEGORY_NAME" property="categoryName" />
-		<result column="ATT_NO" property="attNo" />
+		<result column="CAT_NO" property="catNo" />
+		<result column="CATEGORY_NAME" property="categoryName" />
+		
+		<collection property="attendantList" ofType="Attendant">
+			<id column="ATT_NO" property="attNo" />
+			<result column="EVT_NO" property="evtNo" />
+			<result column="EMP_NO" property="empNo" />	
+		</collection>
+	</resultMap>
+
+	<resultMap id="calendarResultSet" type="Calendar">
+		<id column="CAL_NO" property="calNo" />
+		<result column="NAME" property="name" />
+		<result column="COLOR" property="color" />
+		<result column="EMP_NO" property="empNo" />
+		
+		<collection property="evtNoList" ofType="Integer">
+			<result column="EVT_NO"/>
+		</collection>
 	</resultMap>
 
 	<!-- READ -->
 	<select id="selectEventList" resultMap="eventResultSet">
 
 		SELECT 
-		    EVT_NO, E.NAME, START_DATE, END_DATE, LOCATION, CONTENT, C.NAME, ATT_NO
+		    EVT_NO, E.NAME, START_DATE, END_DATE, LOCATION, CONTENT, C.NAME "CATEGORY_NAME", 
+		    ATT_NO, EMP_NO, CAT_NO
 		FROM EVENT E
+		LEFT JOIN EVT_CATEGORY C USING(CAT_NO)
 		LEFT JOIN ATTENDANT A USING(EVT_NO)
-		LEFT JOIN EVT_CATEGORY C USING(CAT_NO) 
 
 	</select>
 
+	<select id="selectAttList" parameterType="_int" resultMap="attendantResultSet">
+
+		SELECT *
+		FROM ATTENDANT
+		WHERE EVT_NO = ${evtNo} 
+
+	</select>	
+
+	<select id="selectMyCalList" parameterType="_int" resultMap="calendarResultSet">
+	
+		SELECT *
+		FROM CALENDAR C
+		LEFT JOIN CAL_REGISTRATION CR USING(CAL_NO)
+		LEFT JOIN EVT_CAL_REGISTRATION ECR USING(CAL_NO)
+		WHERE EMP_NO = ${empNo}
+	
+	</select>
+
 	<!-- CREATE -->
+	
+	<insert id="insertAttendant" parameterType="Attendant">
+	
+		INSERT INTO ATTENDANT VALUES(SEQ_ATT.NEXTVAL, ${evtNo}, ${empNo})
+	
+	</insert>
+	
+	<insert id="insertEvent" parameterType="Event">
+	
+		INSERT INTO EVENT VALUES(SEQ_EVT.NEXTVAL, ${name}, ${startDate}, ${endDate}, ${location}, ${content}, ${catNo})
+		
+	</insert>
+	
+	<insert id="insertCalReg" parameterType="hashMap">
+	
+		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, ${calNo}, ${evtNo})
+	
+	</insert>
 
 	<!-- UPDATE -->
 

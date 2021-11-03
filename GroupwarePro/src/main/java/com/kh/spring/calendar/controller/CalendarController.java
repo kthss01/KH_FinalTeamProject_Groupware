@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
 import com.kh.spring.calendar.model.service.CalendarService;
+import com.kh.spring.calendar.model.vo.Calendar;
 import com.kh.spring.calendar.model.vo.Event;
 
 @Controller
@@ -23,11 +24,22 @@ public class CalendarController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value= "selectEventList.ca",produces="application/json; charset=utf-8")
+	@RequestMapping(value="selectEvtList.ca", produces="application/json; charset=utf-8")
 	public String selectEventList() {
 		
 		ArrayList<Event> list = calendarService.selectEventList(); 
 		
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectMyCalList.ca", produces="application/json; charset=utf-8")
+	public String selectMyCalList(int empNo) {
+		
+		ArrayList<Calendar> list = calendarService.selectMyCalList(empNo);
+		
+		return new GsonBuilder().create().toJson(list);
+	}
+	
+	
 }

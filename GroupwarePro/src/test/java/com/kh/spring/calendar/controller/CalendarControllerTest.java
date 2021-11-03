@@ -18,6 +18,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.kh.spring.calendar.model.dao.CalendarDao;
 import com.kh.spring.calendar.model.service.CalendarService;
 import com.kh.spring.calendar.model.service.CalendarServiceImpl;
+import com.kh.spring.calendar.model.vo.Attendant;
+import com.kh.spring.calendar.model.vo.Calendar;
 import com.kh.spring.calendar.model.vo.Event;
 import com.kh.spring.example.ControllerExampleTest.ContextConfig;
 
@@ -56,4 +58,27 @@ public class CalendarControllerTest {
 			System.out.println(event);
 		}
 	}
+	
+	@Test
+	public void 참석자리스트조회() {
+		int evtNo = 2;
+		
+		ArrayList<Attendant> list = service.selectAttList(evtNo);
+		
+		for (Attendant att : list) {
+			System.out.println(att);
+		}
+	}
+	
+	@Test
+	public void 내관심사리스트조회() {
+		int empNo = 201;
+		
+		ArrayList<Calendar> list = service.selectMyCalList(empNo);
+		
+		for (Calendar cal : list) {
+			System.out.println(cal);
+		}
+	}
+	
 }
