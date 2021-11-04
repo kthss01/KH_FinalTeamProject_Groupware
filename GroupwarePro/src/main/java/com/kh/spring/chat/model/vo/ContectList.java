@@ -12,6 +12,8 @@ import lombok.ToString;
 public class ContectList {
 	
 	int eNo;
+	String loginId;
+	String eStatus;
 	String eName;
 	String phone;
 	String email;
