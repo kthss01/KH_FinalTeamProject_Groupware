@@ -58,4 +58,13 @@ public class CalendarController {
 		
 		return String.valueOf(result);
 	}
+	
+	@ResponseBody
+	@RequestMapping("deleteEvent.ca")
+	public String deleteEvent(int evtNo) {
+		
+		int result = calendarService.deleteEvent(evtNo);
+		
+		return String.valueOf(result);
+	}
 }

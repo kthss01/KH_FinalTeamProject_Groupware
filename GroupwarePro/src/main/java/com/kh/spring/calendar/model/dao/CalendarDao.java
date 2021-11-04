@@ -61,4 +61,12 @@ public class CalendarDao {
 		return sqlSession.insert("calendarMapper.insertCalReg", cal);
 	}
 
+	public int selectAttNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("calendarMapper.selectAttNo");
+	}
+
+	public int deleteEvent(SqlSessionTemplate sqlSession, int evtNo) {
+		return sqlSession.delete("calendarMapper.deleteEvent");
+	}
+
 }

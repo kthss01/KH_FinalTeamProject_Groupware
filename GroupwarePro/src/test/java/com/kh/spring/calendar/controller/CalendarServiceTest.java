@@ -68,10 +68,10 @@ public class CalendarServiceTest {
 	}
 	
 	@Test
-	void 총참석자수조회() {
-		int attCount = dao.selectAttCount(sqlSession);
+	void 참석자번호조회() {
+		int attNo = dao.selectAttNo(sqlSession);
 		
-		logger.info(String.valueOf(attCount));
+		logger.info(String.valueOf(attNo));
 	}
 	
 	@Test

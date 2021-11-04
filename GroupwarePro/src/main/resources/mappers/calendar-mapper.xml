@@ -68,9 +68,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 
-	<select id="selectAttCount" resultType="_int">
+	<select id="selectAttNo" resultType="_int">
 		
-		SELECT COUNT(*) FROM ATTENDANT
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_ATT'
 	
 	</select>
 

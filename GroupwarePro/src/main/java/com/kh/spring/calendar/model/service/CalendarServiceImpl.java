@@ -73,11 +73,6 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public int selectAttCount() {
-		return calendarDao.selectAttCount(sqlSession);
-	}
-
-	@Override
 	public int insertCalendar(Calendar cal) {
 		// insertCalendar
 		int result = calendarDao.insertCalendar(sqlSession, cal);
@@ -97,6 +92,26 @@ public class CalendarServiceImpl implements CalendarService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public int selectEvtNo() {
+		return calendarDao.selectEvtNo(sqlSession);
+	}
+
+	@Override
+	public int selectAttNo() {
+		return calendarDao.selectAttNo(sqlSession); 
+	}
+
+	@Override
+	public int selectCalNo() {
+		return calendarDao.selectCalNo(sqlSession);
+	}
+
+	@Override
+	public int deleteEvent(int evtNo) {
+		return calendarDao.deleteEvent(sqlSession, evtNo);
 	}
 
 }
