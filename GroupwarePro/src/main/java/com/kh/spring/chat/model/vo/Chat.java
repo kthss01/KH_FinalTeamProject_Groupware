@@ -1,5 +1,19 @@
 package com.kh.spring.chat.model.vo;
 
-public class Chat {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Chat {
+	
+	int chatNo;
+	String msg;
+	int receiver;
+	int sender;
+	String time;
 }

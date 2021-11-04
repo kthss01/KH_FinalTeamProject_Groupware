@@ -107,16 +107,6 @@
 							</nav>
 						</div>
 					</div>
-					<div class="col-5 align-self-center">
-						<div class="customize-input float-right">
-							<select
-								class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-								<option selected>Aug 19</option>
-								<option value="1">July 19</option>
-								<option value="2">Jun 19</option>
-							</select>
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- ============================================================== -->
@@ -165,7 +155,8 @@
 											
 											
 											
-										</select> <br> <label style="display: inline"
+										</select> <br> 
+										<label style="display: inline"
 											class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
 										<input id='nickname' name="nickname" type="text"
 											class="form-control form-control-sm"
@@ -176,6 +167,7 @@
 										<input id='title'
 											name="title" type="text" class="form-control form-control-sm"
 											style="margin-bottom: 10px;" placeholder="글 제목을 입력하세요">
+										<input id='writer' name="writer" type="hidden" class="form-control form-control-sm" value ='${loginUser.empNo}'>
 										<label style="display: inline"
 											class="mr-sm-2  font-weight-bold"
 											for="inlineFormCustomSelect">작성날짜</label>
@@ -332,7 +324,6 @@
 		});
 
 		
-		
 		$("#file").on('change', function() {
 			var fileName = $("#file").val();
 			$(".upload-name").val(fileName);
@@ -361,9 +352,6 @@
 		    $('#summernote').summernote('redo');
 		 */
 		 
-
-
-
 		 /**
 		  * 첨부파일로직
 		  */
@@ -426,6 +414,8 @@
 		     console.log(content_files);
 		 }
 
+		 
+		 
 		 /*
 		  * 폼 submit 로직
 		  */
@@ -435,6 +425,7 @@
  	 		   	var nickname = $('#nickname').val();
 			   	var content = $('#summernote').val();
 			   	var title = $('#title').val();
+			   	var writer = $('#writer').val();
 			   	
 			   	
 			 $.ajax({				 
@@ -444,10 +435,10 @@
 	        		  cno : cno,
 	        		  nickname : nickname,
 	        		  content :  content,
-	        		  title : title
+	        		  title : title,
+	        		  writer : writer
 	        	  },
 	    	      success: function (data) {
-	    	    	  alert('게시글이 등록되었습니다.');
        				  registerAction();
 
 	    	      },
