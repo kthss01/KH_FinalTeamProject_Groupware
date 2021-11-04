@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="b_no" property="bno"/>
 		<result column="category_no" property="cno"/>
 		<result column="b_title" property="title"/>
+		<result column="b_writer" property="writer"/>
 		<result column="b_content" property="content"/>
 		<result column="b_hit" property="hit"/>
 		<result column="b_cdate" property="CDate"/>
@@ -98,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{cno},
 	#{title},
 	#{content},
-	200,
+	#{writer},
 	DEFAULT,SYSDATE,SYSDATE,'Y',#{nickname}
 	)
 	

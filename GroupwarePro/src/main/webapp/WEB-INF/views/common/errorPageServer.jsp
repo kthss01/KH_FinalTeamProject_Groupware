@@ -13,7 +13,7 @@
 	<div align="center">	
 		<br><br>
 		<h1 style="font-weight:bold">${ msg }</h1>
-		<h5 style="color: red;">${ requestScope['javax.servlet.error.message'] }</h2>
+		<h5 style="color: red;">${ requestScope['javax.servlet.error.message'] }</h5>
 		
 	</div>
 	<br>

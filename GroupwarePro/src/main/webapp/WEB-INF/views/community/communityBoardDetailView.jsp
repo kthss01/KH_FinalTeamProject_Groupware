@@ -126,6 +126,7 @@
 									<label style="display: inline-block; width:130px;" class="mr-sm-2 font-weight-bold">
 												<i class="fas fa-user"></i>  &nbsp&nbsp작성자</label>
 									<span id="nickname" style="font-size:18px;">${ b.nickname }</span>
+									<input id="writer" name="writer" type="hidden" value='${ b.writer }'>
 									<br> 
 									<label style="display: inline-block; width:130px;" 
 										class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">
@@ -188,14 +189,15 @@
 											<div id="articlefileChange"></div>
 										</div>
 									</div>
-
+								
+								<c:if test="${ loginUser.empNo eq b.writer }">
 								<div id="btnArea" style="height:80px;"class="col-12">
 									<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정</button>
 									<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()" style="margin-top: 50px; position:absolute; right:0" >삭제</button>
 									<button id="updateBtn" class="btn btn-secondary" onclick="updateBoard()" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정완료</button>
 									<button id="updateCancelBtn" class="btn btn-secondary" onclick="updateCancel()" style="margin-top: 50px; position:absolute; right:0">취소</button>
 								</div>
-
+								</c:if>
 
 								<div class="card-footer"
 									style="margin-top: 50px; min-height: 500px; padding: 50px;">
@@ -518,7 +520,7 @@
 		      	  data : {
 		      		  bno : bno,
 		      		  content :  content,
-		      		  title : title
+		      		  title : title,
 		      	  },
 		  	      success: function () {
 		  	    	  alert('글 업데이트 ajax성공');

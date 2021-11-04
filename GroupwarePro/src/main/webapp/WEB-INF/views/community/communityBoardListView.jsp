@@ -122,8 +122,8 @@
                            <div class="col-1"></div>
                            </div> 
 	                            <div class=card-footer style="margin-top:50px;">
-	                              <nav aria-label="Page navigation example" >
-	                                                  <ul class="pagination">
+	                              <nav aria-label="Page navigation example"  >
+	                                                  <ul class="pagination" style="justify-content:center;">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
 						                			<li class="page-item">
@@ -183,8 +183,8 @@
  
  
                     
-  <!--  카테고리 신청 모달  -->                  
-   <div id="multiple-one" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-oneModalLabel" aria-hidden="true" style="display: none;">
+			<!--  카테고리 신청 모달  -->                  
+ 			<div id="multiple-one" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-oneModalLabel" aria-hidden="true" style="display: none;">
                    <div class="modal-dialog">
                        <div class="modal-content">
                            <div class="modal-header">
@@ -205,6 +205,7 @@
                        </div><!-- /.modal-content -->
                    </div><!-- /.modal-dialog -->
                </div>
+            </div>
    			<div id="multiple-two" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-twoModalLabel" aria-hidden="true" style="display: none;">
                    <div class="modal-dialog">
                        <div class="modal-content">
@@ -249,15 +250,6 @@
                        </div>
                    </div>
                </div>
-             <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center text-muted">
-                All Rights Reserved by Adminmart. Designed and Developed by <a
-                    href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
- 
  	<script>
 	$(function(){
 		$("#boardList tbody tr").click(function(){

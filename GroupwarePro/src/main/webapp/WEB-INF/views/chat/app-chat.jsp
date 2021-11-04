@@ -14,16 +14,17 @@
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
-	
+
 <style>
-.ps-scrollbar-x-rail{
-bottom:0px;
+.ps-scrollbar-x-rail {
+	bottom: 0px;
 }
-.ps-scrollbar-y-rail{
-top:0px;
+
+.ps-scrollbar-y-rail {
+	top: 0px;
 }
 </style>
-	
+
 <title>채팅</title>
 <!-- This page css -->
 
@@ -93,7 +94,7 @@ top:0px;
 		<!-- Page wrapper  -->
 		<!-- ============================================================== -->
 		<div class="page-wrapper">
-		
+
 
 			<!-- ============================================================== -->
 			<!-- Bread crumb and right sidebar toggle -->
@@ -121,7 +122,8 @@ top:0px;
 			<!-- ============================================================== -->
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
-			<div class="container-fluid" style="padding-left:70px; padding-right:70px;">
+			<div class="container-fluid"
+				style="padding-left: 70px; padding-right: 70px;">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
@@ -130,17 +132,19 @@ top:0px;
 								<!-- 주소록 -->
 								<div class="col-lg-5 col-xl-3 border-right">
 									<div class="card-body">
-										<h3 style="color: #1C2D41; font-weight: bold; display:inline;">주소록</h3>
-											<select style="height:35px; width:100px;  font-size:13px; position:absolute; right:10px; color:#5F76E8;"
-		                                        class="mr-sm-2 custom-select form-control bg-white custom-radius custom-shadow border-1"
-		                                        name="status" id="status">
-		                                        <option value="1" selected >온라인</option>
-		                                        <option value="2">부재중</option>
-		                                        <option value="3">회의중</option>
-		                                        <option value="4">식사중</option>
-		                                    </select>
-										
-										<div style="margin-top:30px;">
+										<h3
+											style="color: #1C2D41; font-weight: bold; display: inline;">주소록</h3>
+										<select
+											style="height: 35px; width: 100px; font-size: 13px; position: absolute; right: 10px; color: #5F76E8;"
+											class="mr-sm-2 custom-select form-control bg-white custom-radius custom-shadow border-1"
+											name="status" id="status">
+											<option value="1" selected>온라인</option>
+											<option value="2">부재중</option>
+											<option value="3">회의중</option>
+											<option value="4">식사중</option>
+										</select>
+
+										<div style="margin-top: 30px;">
 
 											<form>
 												<input id="searchContect" class="form-control" type="text"
@@ -149,14 +153,14 @@ top:0px;
 												<i class="icon-magnifier"></i>
 											</form>
 										</div>
-										
+
 									</div>
 									<div class="scrollable position-relative"
 										style="height: calc(100vh - 400px);">
 
 
 										<ul class="mailbox list-style-none" id="contectListArea">
-												<!-- 연락처 추가 영역 -->
+											<!-- 연락처 추가 영역 -->
 										</ul>
 									</div>
 								</div>
@@ -164,54 +168,70 @@ top:0px;
 								<div class="col-lg-7  col-xl-9">
 
 									<div class="border-bottom" style="padding: 15px; height: 90px;">
-									
-					
-												<div style="float: left;">
-													<img
-														src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg"
-														alt="user" class="rounded-circle" width="65">
-												</div>
 
-												<div style="float: left; margin-left: 10px;">
-												   <c:choose>
-													<c:when test="${not empty receiver }">
-												<span id='receiverName'
-													style="font-size: 22px; color: #1c2d41; font-weight: bold;">${ receiver.EName}</span>
-												<span id="job" style="font-size: 16px;">${ receiver.jobName}</span> <br> 
-												<span id="dept" style="font-size: 12px;"> ${ receiver.deptTitle}<span> | </span> </span>
-												<span id="email" style='font-size: 12px;'>${ receiver.email}<span> | </span></span>
-												<span id="phone" style='font-size: 12px;'>${ receiver.phone}</span>
-											    <input id="receiver" type="hidden"  name="receiver" value="${receiver.ENo }" />
-											    <input id="receiverId" type="hidden"  name="receiverId" value="${receiver.loginId }" />
-													</c:when>
-											<c:otherwise>
-											
-												<span style="font-size: 14px;"><i class="icon-clock"></i>  weCanvas 메신저의 대화기록은 48시간 보존됩니다.</span><br>
-												<span style="font-size: 14px;"> 이전 기록이 필요하시면 weCanvas 고객지원팀으로 문의주시기 바랍니다.</span>
-											</c:otherwise>
-											
-																			
-										</c:choose>
-											 </div>
-		                               </div>											
+
+										<div style="float: left;">
+											<img
+												src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg"
+												alt="user" class="rounded-circle" width="65">
+										</div>
+
+										<div style="float: left; margin-left: 10px;">
+											<c:choose>
+												<c:when test="${not empty receiver }">
+													<span id='receiverName'
+														style="font-size: 22px; color: #1c2d41; font-weight: bold;">${ receiver.EName}</span>
+													<span id="job" style="font-size: 16px;">${ receiver.jobName}</span>
+													<br>
+													<span id="dept" style="font-size: 12px;"> ${ receiver.deptTitle}<span>
+															| </span>
+													</span>
+													<span id="email" style='font-size: 12px;'>${ receiver.email}<span>
+															| </span></span>
+													<span id="phone" style='font-size: 12px;'>${ receiver.phone}</span>
+													<input id="receiver" type="hidden" name="receiver"
+														value="${receiver.ENo }" />
+													<input id="receiverId" type="hidden" name="receiverId"
+														value="${receiver.loginId }" />
+												</c:when>
+												<c:otherwise>
+
+													<span style="font-size: 14px;"><i class="icon-clock"></i>
+														weCanvas 메신저의 대화기록은 48시간 보존됩니다.</span>
+													<br>
+													<span style="font-size: 14px;"> 이전 기록이 필요하시면
+														weCanvas 고객지원팀으로 문의주시기 바랍니다.</span>
+												</c:otherwise>
+
+
+											</c:choose>
+										</div>
+									</div>
+										<div id="newAlert" style="display:none;" class="alert alert-dark alert-dismissible fade show mb-0" role="alert">
+		                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		                                        <span aria-hidden="true">×</span>
+		                                    </button>
+		                                    <strong>새로운 메세지 도착 </strong>
+		                                </div>
 									<div class="chat-box scrollable position-relative"
-										style="height: calc(100vh - 400px);">
+										style="height: calc(100vh - 400px); ">
 
 										<!--chat Row -->
 										<ul class="chat-list list-style-none px-3 pt-3">
-								
-										
-												<!-- 이전 기록 조회 -->
-											 <c:forEach items="${ chatList }" var="c">
+
+
+											<!-- 이전 기록 조회 -->
+											<c:forEach items="${ chatList }" var="c">
 												<c:if test="${ c.receiver eq loginUser.empNo }">
-						                        <li class="chat-item odd list-style-none mt-3">
-							                        <div class="chat-content text-right d-inline-block pl-3">
-							                            <div class="box msg p-2 d-inline-block mb-1">${c.msg} </div>
-							                            <br>
-							                        </div>
-							                    </li>
+													<li class="chat-item odd list-style-none mt-3">
+														<div class="chat-content text-right d-inline-block pl-3">
+															<div class="box msg p-2 d-inline-block mb-1">${c.msg}
+															</div>
+															<br>
+														</div>
+													</li>
 												</c:if>
- 												<c:if test="${ c.receiver ne loginUser.empNo }">
+												<c:if test="${ c.receiver ne loginUser.empNo }">
 													<li class="chat-item list-style-none mt-3">
 														<div class="chat-img d-inline-block">
 															<img
@@ -219,42 +239,42 @@ top:0px;
 																alt="user" class="rounded-circle" width="45">
 														</div>
 														<div class="chat-content d-inline-block pl-3">
-															<div class="msg p-2 d-inline-block mb-1">							
-																	${c.msg}
-															</div>
+															<div class="msg p-2 d-inline-block mb-1">${c.msg}</div>
 														</div>
-								
+
 													</li>
-												</c:if> 
-											
-											
+												</c:if>
+
+
 											</c:forEach>
 
-													<!-- 메시지 올라오는 화면 -->
+											<!-- 메시지 올라오는 화면 -->
 										</ul>
 									</div>
 									<c:if test="${not empty receiver }">
-																		
-									<div class="card-body border-top">
-										<div class="row">
-											<div class="col-9">
-												<div class="input-field mt-0 mb-0">
-													<c:if test="${receiver.EStatus ne '오프라인' }">
-													<input placeholder="메세지를 입력하세요."
-														class="form-control border-0" id="message" type="text">
-													</c:if>
-													<c:if test="${receiver.EStatus eq '오프라인' }">
-													<input placeholder="오프라인인 상대와는 대화가 불가합니다."
-														class="form-control border-0" id="message" type="text" readonly>
-													</c:if>
+
+										<div class="card-body border-top">
+											<div class="row">
+												<div class="col-9">
+													<div class="input-field mt-0 mb-0">
+														<c:if test="${receiver.EStatus ne '오프라인' }">
+															<input placeholder="메세지를 입력하세요."
+																class="form-control border-0" id="message" type="text">
+														</c:if>
+														<c:if test="${receiver.EStatus eq '오프라인' }">
+															<input placeholder="오프라인인 상대와는 대화가 불가합니다."
+																class="form-control border-0" id="message" type="text"
+																readonly>
+														</c:if>
+													</div>
+												</div>
+												<div class="col-3">
+													<a
+														class="btn-circle btn-lg btn-cyan float-right text-white"
+														id="sendBtn"><i class="fas fa-paper-plane"></i></a>
 												</div>
 											</div>
-											<div class="col-3">
-												<a class="btn-circle btn-lg btn-cyan float-right text-white"
-													id="sendBtn"><i class="fas fa-paper-plane"></i></a>
-											</div>
 										</div>
-									</div>
 									</c:if>
 								</div>
 							</div>
@@ -315,6 +335,8 @@ top:0px;
 	
 	
         $(function () {
+        	
+        	
     	    //스크롤바 제일 아래로 초기화
   	      $('.chat-list').parent().animate({
   	          scrollTop: $('.chat-list').height()
@@ -346,21 +368,17 @@ top:0px;
         	observer.observe(target, option);
         	
         	
-        	
-        	
         	$('.chat-box').on('resize',function(){
         		
         		console.log($(this).height);
         	})
- 
+
         	$('#message').on('keypress',function(e){
                 if (e.keyCode == 13) {
                     var msg = $(this).val();
                     var recevier = $("#receiver").val();
                     
                        sendAjax(msg);
-                      
- 
   
 				 		$(".chat-list").append(`
 		                        <li class="chat-item odd list-style-none mt-3">
@@ -384,6 +402,7 @@ top:0px;
         				$('.mailbox li').hide(); $(".mailbox li:contains('"+val+"')").show(); 
         			} 
         		});
+        
 
         var contectList = $("#contectListArea");
         
@@ -413,9 +432,8 @@ top:0px;
         	}
         })
 	
-                	
         });
-        
+      
         function selectContectList(title){
         	
         	var titleArea = $("#"+title);
@@ -440,20 +458,14 @@ top:0px;
     	    									</li>
     									</a>
     								</div>
-
     								`)
-              			
               			}
-
             		}));
-
         		}
         	})
   
         }
-        
-    
-     	
+
         var sendAjax = function(msg){
         	
         	var msg = msg;
@@ -479,14 +491,6 @@ top:0px;
             			}
             		}
             	}) 
-        		
-
-        	
-
-        	
-        }  
-        
-        
         
         $("#status").on('change',function(){
         	var eStatus = $(this).val();
@@ -507,7 +511,7 @@ top:0px;
         	
         	})
         })
- 
+ }
     </script>
 </body>
 
