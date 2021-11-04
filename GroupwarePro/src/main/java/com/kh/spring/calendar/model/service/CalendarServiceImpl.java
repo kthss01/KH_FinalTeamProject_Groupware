@@ -119,38 +119,4 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDao.deleteCalendar(sqlSession, calNo);
 	}
 
-	@Override
-	public int updateEvent(Event evt) {
-		
-		ArrayList<Attendant> oldList = calendarDao.selectAttList(sqlSession, evt.getEvtNo());
-		
-		for (Attendant att : oldList) {
-			int result = calendarDao.deleteAttendant(sqlSession, evt.getEvtNo());
-			
-			if (result < 0) {
-				throw new CommException("참석자 삭제 실패");
-			}
-		}
-		
-		ArrayList<Attendant> newList = evt.getAttendantList();
-		
-
-		
-		return calendarDao.updateEvent(sqlSession, evt);
-	}
-
-	@Override
-	public int updateCalendar(Calendar cal) {
-		
-		if (cal.getColor() != null) {
-			int result = calendarDao.updateCalendarColor(cal);
-			
-			if (result < 0) {
-				throw new CommException("캘린더 설정 수정 실패");
-			}
-		}
-		
-		return calendarDao.updateCalendar(sqlSession, cal);
-	}
-
 }

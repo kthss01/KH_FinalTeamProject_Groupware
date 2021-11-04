@@ -73,20 +73,4 @@ public class CalendarDao {
 		return sqlSession.update("calendarMapper.deleteCalendar", calNo);
 	}
 
-	public int updateEvent(SqlSessionTemplate sqlSession, Event evt) {
-		return sqlSession.update("calendarMapper.updateEvent", evt);
-	}
-
-	public int updateCalendar(SqlSessionTemplate sqlSession, Calendar cal) {
-		return sqlSession.update("calendarMapper.updateCalendar", cal);
-	}
-
-	public int updateCalendarColor(Calendar cal) {
-		return 0;
-	}
-
-	public int deleteAttendant(SqlSessionTemplate sqlSession, int evtNo) {
-		return 0;
-	}
-
 }

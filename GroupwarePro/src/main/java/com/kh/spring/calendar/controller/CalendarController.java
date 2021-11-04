@@ -23,8 +23,6 @@ public class CalendarController {
 		return "/calendar/calendar";
 	}
 	
-	/************************************************************************************************************************/
-	
 	@ResponseBody
 	@RequestMapping(value="selectEvtList.ca", produces="application/json; charset=utf-8")
 	public String selectEventList() {
@@ -43,8 +41,6 @@ public class CalendarController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
-	/************************************************************************************************************************/
-	
 	@ResponseBody
 	@RequestMapping("insertEvent.ca")
 	public String insertEvent(Event evt, int calNo) {
@@ -62,28 +58,6 @@ public class CalendarController {
 		
 		return String.valueOf(result);
 	}
-	
-	/************************************************************************************************************************/
-	
-	@ResponseBody
-	@RequestMapping("updateEvent.ca")
-	public String updateEvent(Event evt) {
-		
-		int result = calendarService.updateEvent(evt);
-		
-		return String.valueOf(result);
-	}
-	
-	@ResponseBody
-	@RequestMapping("updateCalendar.ca")
-	public String updateCalendar(Calendar cal) {
-		
-		int result = calendarService.updateCalendar(cal);
-		
-		return String.valueOf(result);
-	}
-	
-	/************************************************************************************************************************/
 	
 	@ResponseBody
 	@RequestMapping("deleteEvent.ca")
