@@ -53,9 +53,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new CommException("아이디가 없음");
 		}
 		
-		// matches(평문, 암호문) 이렇게 넣어야함
 		if (!bCryptPasswordEncoder.matches(m.getLoginPwd(), loginUser.getLoginPwd())) {
-			
 			System.out.println(m.getLoginPwd());
 			System.out.println(loginUser.getLoginPwd());
 			

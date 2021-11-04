@@ -10,8 +10,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empReg" column="EMP_REG"/>
 		<result property="phone" column="PHONE"/>
 		<result property="email" column="EMAIL"/>
-		<result property="deptCode" column="DEPT_CODE"/>
-		<result property="jobCode" column="JOB_CODE"/>
 		<result property="deptTitle" column="DEPT_TITLE"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="salCode" column="SAL_CODE"/>
@@ -38,13 +36,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'
 		-->
 		<!-- 암호화 후 -->
-		<!--  이전 query
+		<!--  
 		select * 
 		from employee a
 		left join login_info b on a.emp_no = b.emp_no
 		where b.login_id = #{loginId} and b.status = 'Y'
-		-->
 		
+		이전 sql query - 
+		
+		-->
 		
 		<!--  수정 후 sql query -->
 		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
@@ -57,20 +57,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">
-		INSERT INTO LOGIN_INFO
-		values(#{empNo}, #{loginId}, #{loginPwd}, DEFAULT)
+		insert into member
+		values(#{userId}, #{userPwd}, #{userName}, #{email}, #{gender}, #{age}, #{phone}, #{address}, sysdate, sysdate, default)
 	</insert>
 	
 	<update id="updateMember" parameterType="Member">
-		UPDATE EMPLOYEE SET
-		EMP_NAME = #{empName}, PHONE= #{phone} EMAIL = #{email}
-		WHERE EMP_NO = #{empNo}
+		update member set
+		user_NAME = #{userName}, EMAIL = #{email}, GENDER = #{gender}, AGE = #{age}, PHONE = #{phone}, ADDRESS = #{address}, modify_DATE = sysdate
+		WHERE user_ID = #{userId}
 	</update>
 	
 	<update id="deleteMember" parameterType="Member">
-		UPDATE LOGIN_INFO SET
+		update member set
 		STATUS = 'N'
-		WHERE EMP_NO = #{empNo}
+		WHERE user_ID = #{userId}
 	</update>
 	
 	<select id="getAllMember" parameterType="Member">

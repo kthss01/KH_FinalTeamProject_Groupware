@@ -23,87 +23,69 @@
 
 <style>
 
-<!--
 .loginBox{
     background-color: rgba(255,255,255,.97);
-    height: 800px;
-    width: 100%;
-    
+    height: 245px;
+    width: 342px;
     text-align: center;
-    
+    border-radius: 5px;
     
     margin-top: 400px;
     margin-bottom: 250px;
+    
+    box-shadow: 3px 3px 3px 3px rgba(0,0,0,.33);
 
 }
-
-.card{
-	height:100%;
-	text-align:center;
-	display:inline-block
-}
-
-.card-body{
-	
-	box-shadow: 10px 4px 15px 0px rgba(0,0,0,0.63);
-	hegiht: 100%px;
-	width: 600px;
-	border-radius:5px;
-	
-}
-
 
 .btn-list{
     margin: 45px 10px 15px 10px;    
 }
 
+.loginForm{
+   
+    display:inline;
+}
+#idLabel{
+    
+    padding-top: 25px;
+    margin-right: 26px;
 
+}
+#pwdLabel{
+
+    margin-right: 10px;
+}
+
+.loginId{
+    margin-left: 40px;
+}
+.loginPwd{
+    margin-left: 20px;
+}
 
 .loginBtn{
+    border-radius: 4px;
     font-size: 16px;
     width: 80px;
 }
 .cancleBtn{
+    border-radius: 4px;
     font-size: 16px;
     width: 80px;
 }
 
-.new{
-	float:center;
-	font-size: 19px;
-}
-
 .newAcc{
-
-	text_decoration:none;
-
-}
-
-.light-logo{
+		
+	display:fixed;
+	position:right;
 	
-	height:50px;
-	width: 95px;
-	
-	margin-bottom: 30px;
-
 }
 
-
-
-.row{
-	
-	display:flex;	
-	justify-content:center;
-	text-align:center;
+.new{
+	float:right;
+	color: rgba(0,0,0,.78);
 }
 
-
-.loginId {
-	margin-left:25px;
-}
-.loginPwd {
-	margin-left:10px; 
-}
 
 </style>
 </head>
@@ -112,66 +94,37 @@
     
 
 
-    <div class="loginBox">
+    <div class="loginBox container-fluid">
     				
-        <div class="wrapper">
+        <div class="loginBox card-body">
             <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
-            <h3 class="card-title"> WE CANVAS</h3>
             <br>
-			
-			<div class="card">
-				<div class="card-body">
-	            <form id="loginForm" class="loginForm mt-5" action="login.me" method="post">
-	                   					
-					<div class="form-body">
-						
-						<div class="form-gorup">
-						
-							<div class="row">
-							
-							<label class="login-id" for="loginId">아이디 </label>
-								<div class="cold-md-5">
-									<input type="text" class="loginId form-control" name="loginId" id="loginId" placeholder="로그인 입력">
-								</div>
-							</div>
-						
-						</div>	
-						<br>
-						
-						<div class="form-gorup">
-						
-							<div class="row">
-							<label class="login-id" for="loginPwd">비밀번호 </label>
-								<div class="cold-md-5">
-									<input type="password" class="loginPwd form-control" name="loginPwd" id="loginPwd" placeholder="비밀번호 입력">
-								</div>
-							</div>
-						
-						</div>					
-					
-					</div>				          	      
+                           
+            <form id="loginForm" class="loginForm" action="login.me" method="post">
+                   					
+                
+                <label id="idLabel" class="logo-text" for="userId">아이디</label>
+                <input type="text" id="loginId" class="loginId" name="loginId" placeholder="아이디를 입력하세요">  <br>
+                
+                <label id="pwdLabel" class="logo-text" for="loginPwd">패스워드</label>
+                <input type="password" id="loginPwd" class="loginPwd" name="loginPwd" placeholder="비밀번호를 입력하세요">
+                
+                <br>
             
-          	 	 <div class="btn-list">
-           	    		<button type="submit" id="loginBtn" class="loginBtn btn waves-effect waves-light btn-secondary"> 로그인 </button>
-          	    		<button type="button" id="cancle" class="cancleBtn btn waves-effect waves-light btn-light"> 취소</button>
-         	 	 </div>
+            <div class="btn-list">
+                <button type="submit" id="loginBtn" class="loginBtn waves-effect waves-light btn-secondary"> 로그인 </button>
+                <button type="button" id="cancle" class="cancleBtn waves-effect waves-light btn-light"> 취소</button>
+            </div>
 
             </form>
-        		</div>
-        		<br>
-        		<div class="new">    
-				<a id="newAcc" class="newAcc" href="enrollForm.me" > 계정 신청</a>
-        		</div>
+        	
+        	<div class="new">    
+			<a id="newAcc" class="newAcc" href="enrollForm.me" > 계정 신청</a>
         	</div>
-        	
-        	
         
         </div>
         			
        </div>
-
-
-
 
 
             <footer class="footer text-center text-muted">
