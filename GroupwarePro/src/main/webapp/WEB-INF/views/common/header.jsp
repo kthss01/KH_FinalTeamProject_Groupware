@@ -182,8 +182,9 @@
                                 </form>
                             </a>
                         </li>
+                        
                         <!-- ============================================================== -->
-                        <!-- User profile and search -->
+                        <!-- 유저 프로필 / 메뉴 / 검색 -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                       	    <c:if test="${!empty sessionScope.loginUser}"> 
@@ -194,7 +195,7 @@
                                     
                                 <!--  헤더 로그인 구역  -->
                                 
-                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
+                                <span class="ml-2 d-none d-lg-inline-block"><span>어서오세요,</span> <span
                                         class="text-dark">${sessionScope.loginUser.loginId}</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                               
@@ -203,10 +204,10 @@
                       
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                             
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
+                                <a class="dropdown-item" href="myPage.me"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
                                     	내 정보</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
+                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="info"
                                         class="svg-icon mr-2 ml-1"></i>
                                    메뉴 2</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
@@ -217,7 +218,7 @@
                                         class="svg-icon mr-2 ml-1"></i>
                                     내 정보 수정</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)" href="logout.me"><i data-feather="power"
+                                <a class="dropdown-item" href="logout.me"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     로그아웃</a>
                                 <div class="dropdown-divider"></div>

@@ -19,8 +19,8 @@ public class Member {
 	private String empReg;
 	private String phone;
 	private String email;
-	private String deptCode;
-	private String jobCode;
+	private String deptTitle;
+	private String jobName;
 	private String salCode;
 	private int salary;
 	private double bonus;

@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -70,14 +72,11 @@ public class MemberServiceImpl implements MemberService {
 
 		int result = memberDao.updateMember(sqlSession, m);
 		
-//		memberDao.insertMember(sqlSession, m); // 일부러 에러 발생
-		
 		if (result > 0) {
 			Member loginUser = memberDao.loginMember(sqlSession, m);
 			return loginUser;
 		} else {
 			throw new Exception("회원수정 실패");
-//			throw new CommException("회원수정 실패");
 		}
 		
 	}
@@ -92,5 +91,20 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 	}
+
+	@Override
+	public ArrayList<Member> getMemberList() {
+		
+		ArrayList<Member> result = memberDao.getMemberList(sqlSession);
+		
+		if ( result == null) {
+			throw new Exception("멤버 목록 조회 실패");
+		}
+		
+		return result;
+	}
+	
+	
+	
 
 }
