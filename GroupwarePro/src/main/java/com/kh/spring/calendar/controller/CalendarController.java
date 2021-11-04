@@ -36,7 +36,7 @@ public class CalendarController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectCalList.ca", produces="application/json; charset=utf-8")
-	public String selectMyCalList(int empNo) {
+	public String selectCalList(int empNo) {
 		
 		ArrayList<Calendar> list = calendarService.selectCalList(empNo);
 		

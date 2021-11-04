@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<!-- READ -->
-	<select id="selectEventList" parameterType="_int" resultMap="eventResultSet">
+	<select id="selectCalList" parameterType="_int" resultMap="calendarResultSet">
 
 		SELECT * 
 		FROM CALENDAR2 
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="selectCalList" parameterType="_int" resultMap="calendarResultSet">
+	<select id="selectEventList" parameterType="_int" resultMap="eventResultSet">
 	
 		SELECT * 
 		FROM EVENT2 

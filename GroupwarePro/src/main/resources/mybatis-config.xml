@@ -40,6 +40,10 @@
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
     
+	    <!-- 예약 -->
+	    <typeAlias type="com.kh.spring.reservation.model.vo.Reservation" alias="Reservation"/>
+	    <typeAlias type="com.kh.spring.reservation.model.vo.Asset" alias="Asset"/>
+	    
 	</typeAliases>
 
 
@@ -51,6 +55,7 @@
 		<mapper resource="mappers/hr-mapper.xml"/> 
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
+		<mapper resource="mappers/reservation-mapper.xml"/>
 	</mappers>
 
 </configuration>

@@ -28,19 +28,19 @@ public class CalendarDao {
 	}
 
 	public int updateEvent(SqlSessionTemplate sqlSession, Event evt) {
-		return sqlSession.insert("calendarMapper.updateEvent", evt);
+		return sqlSession.update("calendarMapper.updateEvent", evt);
 	}
 
 	public int updateCalendar(SqlSessionTemplate sqlSession, Calendar cal) {
-		return sqlSession.insert("calendarMapper.updateCalendar", cal);
+		return sqlSession.update("calendarMapper.updateCalendar", cal);
 	}
 
 	public int deleteEvent(SqlSessionTemplate sqlSession, int evtNo) {
-		return sqlSession.insert("calendarMapper.deleteEvent", evtNo);
+		return sqlSession.update("calendarMapper.deleteEvent", evtNo);
 	}
 
 	public int deleteCalendar(SqlSessionTemplate sqlSession, int calNo) {
-		return sqlSession.insert("calendarMapper.deleteCalendar", calNo);
+		return sqlSession.update("calendarMapper.deleteCalendar", calNo);
 	}
 
 

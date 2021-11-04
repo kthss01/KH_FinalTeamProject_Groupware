@@ -1,4 +1,4 @@
-package com.kh.spring.calendar.model.vo;
+package com.kh.spring.reservation.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Calendar {
-	private int calNo; // 캘린더 번호
+public class Asset {
+	private int asNo; // 자산 번호
 	private String name; // 이름
 	private String color; // 색깔
-	private String status; // 상태
-	private int empNo; // 사원 번호
 }
