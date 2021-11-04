@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="calendarMapper">
+	<!-- resultMap -->
+	<resultMap id="attendantResultSet" type="Attendant">
+		<id column="ATT_NO" property="attNo" />
+		<result column="EVT_NO" property="evtNo" />
+		<result column="EMP_NO" property="empNo" />
+	</resultMap>
+
+	<resultMap id="eventResultSet" type="Event">
+		<id column="EVT_NO" property="evtNo" />
+		<result column="NAME" property="name" />
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="LOCATION" property="location" />
+		<result column="CONTENT" property="content" />
+		<result column="CAT_NO" property="catNo" />
+		<result column="CATEGORY_NAME" property="categoryName" />
+		
+		<collection property="attendantList" ofType="Attendant">
+			<id column="ATT_NO" property="attNo" />
+			<result column="EVT_NO" property="evtNo" />
+			<result column="EMP_NO" property="empNo" />	
+		</collection>
+	</resultMap>
+
+	<resultMap id="calendarResultSet" type="Calendar">
+		<id column="CAL_NO" property="calNo" />
+		<result column="NAME" property="name" />
+		<result column="COLOR" property="color" />
+		<result column="EMP_NO" property="empNo" />
+		
+		<collection property="evtNoList" ofType="Integer">
+			<result column="EVT_NO"/>
+		</collection>
+	</resultMap>
+
+	<!-- READ -->
+	<select id="selectEventList" resultMap="eventResultSet">
+
+		SELECT 
+		    EVT_NO, E.NAME, START_DATE, END_DATE, LOCATION, CONTENT, C.NAME "CATEGORY_NAME", 
+		    ATT_NO, EMP_NO, CAT_NO
+		FROM EVENT E
+		LEFT JOIN EVT_CATEGORY C USING(CAT_NO)
+		LEFT JOIN ATTENDANT A USING(EVT_NO)
+		WHERE ISDELETE = 'N'
+
+	</select>
+
+	<select id="selectAttList" parameterType="_int" resultMap="attendantResultSet">
+
+		SELECT *
+		FROM ATTENDANT
+		WHERE EVT_NO = #{evtNo} 
+
+	</select>	
+
+	<select id="selectMyCalList" parameterType="_int" resultMap="calendarResultSet">
+	
+		SELECT *
+		FROM CALENDAR C
+		LEFT JOIN CAL_REGISTRATION CR USING(CAL_NO)
+		LEFT JOIN EVT_CAL_REGISTRATION ECR USING(CAL_NO)
+		WHERE EMP_NO = #{empNo} AND ISDELETE = 'N'
+	
+	</select>
+
+	<select id="selectAttNo" resultType="_int">
+		
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_ATT'
+	
+	</select>
+
+	<select id="selectEvtNo" resultType="_int">
+	
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_EVT'
+	
+	</select>
+
+	<select id="selectCalNo" resultType="_int">
+	
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_CAL'
+	
+	</select>
+
+	<!-- CREATE -->
+	
+	<insert id="insertAttendant" parameterType="Attendant">
+	
+		INSERT INTO ATTENDANT VALUES(SEQ_ATT.NEXTVAL, #{evtNo}, #{empNo})
+	
+	</insert>
+	
+	<insert id="insertEvent" parameterType="Event">
+	
+		<selectKey keyProperty="evtNo" resultType="int" order="BEFORE">
+			SELECT SEQ_EVT.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO EVENT VALUES(#{evtNo}, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo}, DEFAULT)
+		
+	</insert>
+	
+	<insert id="insertEvtCalReg" parameterType="hashMap">
+	
+		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, #{calNo}, #{evtNo})
+	
+	</insert>
+	
+	<insert id="insertCalendar" parameterType="Calendar">
+	
+		INSERT INTO CALENDAR VALUES(SEQ_CAL.NEXTVAL, #{name}, DEFAULT)
+	
+	</insert>
+	
+	<insert id="insertCalReg" parameterType="Calendar">
+	
+		INSERT INTO CAL_REGISTRATION VALUES(SEQ_CAL_REG.NEXTVAL, DEFAULT, #{calNo}, #{empNo})
+	
+	</insert>
+
+	<!-- UPDATE -->
+
+	<!-- DELETE -->
+	<update id="deleteEvent" parameterType="_int">
+		
+		UPDATE EVENT SET ISDELETE = 'Y' WHERE EVT_NO = #{evtNo}
+		
+	</update>
+
+	<update id="deleteCalendar" parameterType="_int">
+		
+		UPDATE CALENDAR SET ISDELETE = 'Y' WHERE CAL_NO = #{calNo}
+		
+	</update>
+
+</mapper>
