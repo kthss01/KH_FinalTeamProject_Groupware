@@ -119,12 +119,15 @@
             </form>
         	
         	<div class="new">    
-			<a id="newAcc" class="newAcc" href="enrollForm.me" > 계정 신청</a>
+			<a id="newAcc" class="newAcc" href="#" > 계정 신청</a>
         	</div>
         
         </div>
         			
        </div>
+
+
+
 
 
             <footer class="footer text-center text-muted">
