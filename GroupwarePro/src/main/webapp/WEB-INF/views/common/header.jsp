@@ -31,7 +31,7 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
                         <!-- Logo icon -->
-                        <a href="index.html">
+                        <a href="${ pageContext.servletContext.contextPath }">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
@@ -158,19 +158,7 @@
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
                         </li>
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <div class="customize-input">
-                                    <select
-                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
-                                        <option selected>EN</option>
-                                        <option value="1">AB</option>
-                                        <option value="2">AK</option>
-                                        <option value="3">BE</option>
-                                    </select>
-                                </div>
-                            </a>
-                        </li>
+
                     </ul>
                     
                     
@@ -286,10 +274,13 @@ function connectWS() {
         var alertMsg = msgArr[0];
         console.log(alertMsg);
         var msg = msgArr[1];
-        
+        var resultReceiver = str.substring(20,28)
         if(location.pathname != "/spring/chatPage.ch"){
             socketAlert.css("display",'block');
             socketAlertMsg.html(alertMsg);
+        }else if(location.search != resultReceiver){
+        	$('#newAlert').css("display",'block')
+			$('#newAlert').html(alertMsg);
         }
         
        if(alertMsg == 'error'){
@@ -300,26 +291,6 @@ function connectWS() {
         	socketAlert.css("display","none");
         }, 5000);
         */
-         $('.chat-list').append(`
-        		
-				<!--chat Row -->
-				<li class="chat-item list-style-none mt-3">
-					<div class="chat-img d-inline-block">
-						<img
-							src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
-							alt="user" class="rounded-circle" width="45">
-					</div>
-					<div class="chat-content d-inline-block pl-3">
-						<h6 class="font-weight-medium">Angelina Rhodes</h6>
-						<div class="msg p-2 d-inline-block mb-1">							
-								\${msg}
-						</div>
-					</div>
-
-				</li>
-
-        		`); 
-
 
     };
     
