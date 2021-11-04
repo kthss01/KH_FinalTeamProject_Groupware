@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NAME" property="name" />
 		<result column="START_DATE" property="startDate" />
 		<result column="END_DATE" property="endDate" />
+		<result column="LOCATION" property="location" />
 		<result column="CONTENT" property="content" />
 		<result column="CAT_NO" property="catNo" />
 		<result column="CATEGORY_NAME" property="categoryName" />
@@ -46,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM EVENT E
 		LEFT JOIN EVT_CATEGORY C USING(CAT_NO)
 		LEFT JOIN ATTENDANT A USING(EVT_NO)
+		WHERE ISDELETE = 'N'
 
 	</select>
 
@@ -53,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 		SELECT *
 		FROM ATTENDANT
-		WHERE EVT_NO = ${evtNo} 
+		WHERE EVT_NO = #{evtNo} 
 
 	</select>	
 
@@ -63,7 +65,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CALENDAR C
 		LEFT JOIN CAL_REGISTRATION CR USING(CAL_NO)
 		LEFT JOIN EVT_CAL_REGISTRATION ECR USING(CAL_NO)
-		WHERE EMP_NO = ${empNo}
+		WHERE EMP_NO = #{empNo} AND ISDELETE = 'N'
+	
+	</select>
+
+	<select id="selectAttNo" resultType="_int">
+		
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_ATT'
+	
+	</select>
+
+	<select id="selectEvtNo" resultType="_int">
+	
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_EVT'
+	
+	</select>
+
+	<select id="selectCalNo" resultType="_int">
+	
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_CAL'
 	
 	</select>
 
@@ -71,24 +97,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertAttendant" parameterType="Attendant">
 	
-		INSERT INTO ATTENDANT VALUES(SEQ_ATT.NEXTVAL, ${evtNo}, ${empNo})
+		INSERT INTO ATTENDANT VALUES(SEQ_ATT.NEXTVAL, #{evtNo}, #{empNo})
 	
 	</insert>
 	
 	<insert id="insertEvent" parameterType="Event">
 	
-		INSERT INTO EVENT VALUES(SEQ_EVT.NEXTVAL, ${name}, ${startDate}, ${endDate}, ${location}, ${content}, ${catNo})
+		<selectKey keyProperty="evtNo" resultType="int" order="BEFORE">
+			SELECT SEQ_EVT.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO EVENT VALUES(#{evtNo}, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo}, DEFAULT)
 		
 	</insert>
 	
-	<insert id="insertCalReg" parameterType="hashMap">
+	<insert id="insertEvtCalReg" parameterType="hashMap">
 	
-		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, ${calNo}, ${evtNo})
+		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, #{calNo}, #{evtNo})
+	
+	</insert>
+	
+	<insert id="insertCalendar" parameterType="Calendar">
+	
+		INSERT INTO CALENDAR VALUES(SEQ_CAL.NEXTVAL, #{name}, DEFAULT)
+	
+	</insert>
+	
+	<insert id="insertCalReg" parameterType="Calendar">
+	
+		INSERT INTO CAL_REGISTRATION VALUES(SEQ_CAL_REG.NEXTVAL, DEFAULT, #{calNo}, #{empNo})
 	
 	</insert>
 
 	<!-- UPDATE -->
 
 	<!-- DELETE -->
+	<update id="deleteEvent" parameterType="_int">
+		
+		UPDATE EVENT SET ISDELETE = 'Y' WHERE EVT_NO = #{evtNo}
+		
+	</update>
+
+	<update id="deleteCalendar" parameterType="_int">
+		
+		UPDATE CALENDAR SET ISDELETE = 'Y' WHERE CAL_NO = #{calNo}
+		
+	</update>
 
 </mapper>

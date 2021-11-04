@@ -41,5 +41,39 @@ public class CalendarController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
+	@ResponseBody
+	@RequestMapping("insertEvent.ca")
+	public String insertEvent(Event evt, int calNo) {
+		
+		int result = calendarService.insertEvent(evt, calNo);
+		
+		return String.valueOf(result);
+	}
 	
+	@ResponseBody
+	@RequestMapping("insertCalendar.ca")
+	public String insertCalendar(Calendar cal) {
+		
+		int result = calendarService.insertCalendar(cal);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteEvent.ca")
+	public String deleteEvent(int evtNo) {
+		
+		int result = calendarService.deleteEvent(evtNo);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteCalendar.ca")
+	public String deleteCalendar(int calNo) {
+		
+		int result = calendarService.deleteCalendar(calNo);
+		
+		return String.valueOf(result);
+	}
 }

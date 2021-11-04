@@ -13,5 +13,19 @@ public interface CalendarService {
 	ArrayList<Attendant> selectAttList(int evtNo);
 
 	ArrayList<Calendar> selectMyCalList(int empNo);
+	
+	int insertEvent(Event evt, int calNo);
 
+	int insertCalendar(Calendar cal);
+
+	int selectEvtNo();
+
+	int selectAttNo();
+
+	int selectCalNo();
+
+	int deleteEvent(int evtNo);
+
+	int deleteCalendar(int calNo);
+	
 }

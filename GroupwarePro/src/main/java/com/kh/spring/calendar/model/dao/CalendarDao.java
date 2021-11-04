@@ -1,6 +1,8 @@
 package com.kh.spring.calendar.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,6 +24,53 @@ public class CalendarDao {
 
 	public ArrayList<Calendar> selectMyCalList(SqlSessionTemplate sqlSession, int empNo) {
 		return (ArrayList) sqlSession.selectList("calendarMapper.selectMyCalList", empNo);
+	}
+
+	public int insertEvent(SqlSessionTemplate sqlSession, Event evt) {
+		return sqlSession.insert("calendarMapper.insertEvent", evt);
+	}
+
+	public int insertAttendant(SqlSessionTemplate sqlSession, Attendant att) {
+		return sqlSession.insert("calendarMapper.insertAttendant", att);
+	}
+
+	public int insertEvtCalReg(SqlSessionTemplate sqlSession, int calNo, int evtNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("calNo", calNo);
+		map.put("evtNo", evtNo);
+		return sqlSession.insert("calendarMapper.insertEvtCalReg", map);
+	}
+
+	public int selectEvtNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("calendarMapper.selectEvtNo");
+	}
+
+	public int selectAttCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("calendarMapper.selectAttCount");
+	}
+
+	public int selectCalNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("calendarMapper.selectCalNo");
+	}
+
+	public int insertCalendar(SqlSessionTemplate sqlSession, Calendar cal) {
+		return sqlSession.insert("calendarMapper.insertCalendar", cal);
+	}
+
+	public int insertCalReg(SqlSessionTemplate sqlSession, Calendar cal) {
+		return sqlSession.insert("calendarMapper.insertCalReg", cal);
+	}
+
+	public int selectAttNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("calendarMapper.selectAttNo");
+	}
+
+	public int deleteEvent(SqlSessionTemplate sqlSession, int evtNo) {
+		return sqlSession.update("calendarMapper.deleteEvent", evtNo);
+	}
+
+	public int deleteCalendar(SqlSessionTemplate sqlSession, int calNo) {
+		return sqlSession.update("calendarMapper.deleteCalendar", calNo);
 	}
 
 }
