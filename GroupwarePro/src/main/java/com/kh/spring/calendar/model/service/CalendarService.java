@@ -27,5 +27,9 @@ public interface CalendarService {
 	int deleteEvent(int evtNo);
 
 	int deleteCalendar(int calNo);
+
+	int updateEvent(Event evt);
+
+	int updateCalendar(Calendar cal);
 	
 }
