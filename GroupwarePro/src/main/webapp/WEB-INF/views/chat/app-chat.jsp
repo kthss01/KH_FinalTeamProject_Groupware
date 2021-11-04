@@ -14,6 +14,16 @@
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
+	
+<style>
+.ps-scrollbar-x-rail{
+bottom:0px;
+}
+.ps-scrollbar-y-rail{
+top:0px;
+}
+</style>
+	
 <title>채팅</title>
 <!-- This page css -->
 
@@ -111,20 +121,18 @@
 			<!-- ============================================================== -->
 			<!-- Container fluid  -->
 			<!-- ============================================================== -->
-			<div class="container-fluid">
+			<div class="container-fluid" style="padding-left:70px; padding-right:70px;">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
 							<div class="row no-gutters">
 
-
-
 								<!-- 주소록 -->
 								<div class="col-lg-5 col-xl-3 border-right">
 									<div class="card-body">
 										<h3 style="color: #1C2D41; font-weight: bold; display:inline;">주소록</h3>
-											<select style="height:35px; width:100px;  font-size:13px; margin-left:15px; color:#5F76E8;"
-		                                        class="custom-select form-control bg-white custom-radius custom-shadow border-1"
+											<select style="height:35px; width:100px;  font-size:13px; position:absolute; right:10px; color:#5F76E8;"
+		                                        class="mr-sm-2 custom-select form-control bg-white custom-radius custom-shadow border-1"
 		                                        name="status" id="status">
 		                                        <option value="1" selected >온라인</option>
 		                                        <option value="2">부재중</option>
@@ -144,7 +152,7 @@
 										
 									</div>
 									<div class="scrollable position-relative"
-										style="height: calc(100vh - 250px);">
+										style="height: calc(100vh - 400px);">
 
 
 										<ul class="mailbox list-style-none" id="contectListArea">
@@ -156,34 +164,43 @@
 								<div class="col-lg-7  col-xl-9">
 
 									<div class="border-bottom" style="padding: 15px; height: 90px;">
-										<div style="float: left;">
-											<img
-												src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg"
-												alt="user" class="rounded-circle" width="65">
-										</div>
+									
+					
+												<div style="float: left;">
+													<img
+														src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/1.jpg"
+														alt="user" class="rounded-circle" width="65">
+												</div>
 
-										<div style="float: left; margin-left: 10px;">
-										<c:choose>
-											<c:when test="${not empty receiver }">
-											<span id='receiverName'
-												style="font-size: 22px; color: #1c2d41; font-weight: bold;">${ receiver.EName}</span>
-											<span id="job" style="font-size: 16px;">${ receiver.jobName}</span> <br> 
-											<span id="dept" style="font-size: 16px;"> ${ receiver.deptTitle}<span> | </span> </span>
-											<span id="email" style='font-size: 16px;'>${ receiver.email}<span> | </span></span>
-											<span id="phone" style='font-size: 16px;'>${ receiver.phone}</span>
-										    <input id="receiver" type="hidden"  name="receiver" value="${receiver.ENo }" />
-										    <input id="receiverId" type="hidden"  name="receiverId" value="${receiver.loginId }" />
-											</c:when>
-										</c:choose>
+												<div style="float: left; margin-left: 10px;">
+												   <c:choose>
+													<c:when test="${not empty receiver }">
+												<span id='receiverName'
+													style="font-size: 22px; color: #1c2d41; font-weight: bold;">${ receiver.EName}</span>
+												<span id="job" style="font-size: 16px;">${ receiver.jobName}</span> <br> 
+												<span id="dept" style="font-size: 12px;"> ${ receiver.deptTitle}<span> | </span> </span>
+												<span id="email" style='font-size: 12px;'>${ receiver.email}<span> | </span></span>
+												<span id="phone" style='font-size: 12px;'>${ receiver.phone}</span>
+											    <input id="receiver" type="hidden"  name="receiver" value="${receiver.ENo }" />
+											    <input id="receiverId" type="hidden"  name="receiverId" value="${receiver.loginId }" />
+													</c:when>
+											<c:otherwise>
 											
-										</div>
-									</div>
-
+												<span style="font-size: 14px;"><i class="icon-clock"></i>  weCanvas 메신저의 대화기록은 48시간 보존됩니다.</span><br>
+												<span style="font-size: 14px;"> 이전 기록이 필요하시면 weCanvas 고객지원팀으로 문의주시기 바랍니다.</span>
+											</c:otherwise>
+											
+																			
+										</c:choose>
+											 </div>
+		                               </div>											
 									<div class="chat-box scrollable position-relative"
-										style="height: calc(100vh - 250px);">
+										style="height: calc(100vh - 400px);">
 
 										<!--chat Row -->
 										<ul class="chat-list list-style-none px-3 pt-3">
+								
+										
 												<!-- 이전 기록 조회 -->
 											 <c:forEach items="${ chatList }" var="c">
 												<c:if test="${ c.receiver eq loginUser.empNo }">
@@ -216,12 +233,20 @@
 													<!-- 메시지 올라오는 화면 -->
 										</ul>
 									</div>
+									<c:if test="${not empty receiver }">
+																		
 									<div class="card-body border-top">
 										<div class="row">
 											<div class="col-9">
 												<div class="input-field mt-0 mb-0">
+													<c:if test="${receiver.EStatus ne '오프라인' }">
 													<input placeholder="메세지를 입력하세요."
 														class="form-control border-0" id="message" type="text">
+													</c:if>
+													<c:if test="${receiver.EStatus eq '오프라인' }">
+													<input placeholder="오프라인인 상대와는 대화가 불가합니다."
+														class="form-control border-0" id="message" type="text" readonly>
+													</c:if>
 												</div>
 											</div>
 											<div class="col-3">
@@ -230,6 +255,7 @@
 											</div>
 										</div>
 									</div>
+									</c:if>
 								</div>
 							</div>
 						</div>
@@ -284,9 +310,48 @@
 
 
 	<script>
+
 	
-	//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  	
+	
+	
         $(function () {
+    	    //스크롤바 제일 아래로 초기화
+  	      $('.chat-list').parent().animate({
+  	          scrollTop: $('.chat-list').height()
+  	        }, 100);
+  	    
+        	
+        	
+        	let target = document.querySelector('.chat-list');
+
+        	// 감시자 인스턴스 만들기
+        	let observer = new MutationObserver((mutations) => {
+        	    // 노드가 변경 됐을 때의 작업
+        	    
+        	    //새로운 메세지 오면 스크롤바 제일 아래로
+        	      $('.chat-list').parent().animate({
+        	          scrollTop: $('.chat-list').height()
+        	        }, 300);
+        	    
+        	})
+
+        	// 감시자의 설정
+        	let option = {
+        	    attributes: true,
+        	    childList: true,
+        	    characterData: true
+        	};
+
+        	// 대상 노드에 감시자 전달
+        	observer.observe(target, option);
+        	
+        	
+        	
+        	
+        	$('.chat-box').on('resize',function(){
+        		
+        		console.log($(this).height);
+        	})
  
         	$('#message').on('keypress',function(e){
                 if (e.keyCode == 13) {
@@ -396,26 +461,28 @@
          	var receiverId = $("#receiverId").val();
          	var sender = '${ loginUser.empNo }';
         	var senderId = '${ loginUser.loginId }';
+			        		
+            	$.ajax({
+            		url:'sendMsg.ch',
+            		type:'post',
+            		data:{
+            			msg : msg,
+            			receiver : receiver,
+            			sender : sender
+            		},
+            		success:function(result){
+            			if(result == 1){
+    						//db에 먼저 올리고 성공하면  webSocket에 메세지 보냄 (프로토콜 : 기능, 발신자, 수신자, 발신자번호, 메세지)
+            				socket.send("chat," + senderId +"," + receiverId+","+sender +"," + msg);
+            			}else{
+            				alert("현재 서버오류로 채팅이 불가합니다.");
+            			}
+            		}
+            	}) 
+        		
 
         	
-        	$.ajax({
-        		url:'sendMsg.ch',
-        		type:'post',
-        		data:{
-        			msg : msg,
-        			receiver : receiver,
-        			sender : sender
-        		},
-        		success:function(result){
-        			console.log(result);
-        			if(result == 1){
-						//db에 먼저 올리고 성공하면  webSocket에 메세지 보냄 (프로토콜 : 기능, 발신자, 수신자, 발신자번호, 메세지)
-        				socket.send("chat," + senderId +"," + receiverId+","+sender +"," + msg);
-        			}else{
-        				alert("현재 서버오류로 채팅이 불가합니다.");
-        			}
-        		}
-        	}) 
+
         	
         }  
         
@@ -434,9 +501,8 @@
         		},
         		type:'post',
         		success:function(){
-        			alert("성공");
         		},error:function(){
-        			alert("실패");
+        			alert("서버오류 : 고객지원팀으로 문의 바랍니다.");
         		}
         	
         	})
