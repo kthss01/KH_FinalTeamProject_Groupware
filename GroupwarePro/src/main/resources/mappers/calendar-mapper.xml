@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NAME" property="name" />
 		<result column="START_DATE" property="startDate" />
 		<result column="END_DATE" property="endDate" />
+		<result column="LOCATION" property="location" />
 		<result column="CONTENT" property="content" />
 		<result column="CAT_NO" property="catNo" />
 		<result column="CATEGORY_NAME" property="categoryName" />
@@ -53,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 		SELECT *
 		FROM ATTENDANT
-		WHERE EVT_NO = ${evtNo} 
+		WHERE EVT_NO = #{evtNo} 
 
 	</select>	
 
@@ -63,7 +64,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CALENDAR C
 		LEFT JOIN CAL_REGISTRATION CR USING(CAL_NO)
 		LEFT JOIN EVT_CAL_REGISTRATION ECR USING(CAL_NO)
-		WHERE EMP_NO = ${empNo}
+		WHERE EMP_NO = #{empNo}
+	
+	</select>
+
+	<select id="selectAttCount" resultType="_int">
+		
+		SELECT COUNT(*) FROM ATTENDANT
+	
+	</select>
+
+	<select id="selectEvtNo" resultType="_int">
+	
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_EVT'
 	
 	</select>
 
@@ -71,19 +86,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertAttendant" parameterType="Attendant">
 	
-		INSERT INTO ATTENDANT VALUES(SEQ_ATT.NEXTVAL, ${evtNo}, ${empNo})
+		INSERT INTO ATTENDANT VALUES(SEQ_ATT.NEXTVAL, #{evtNo}, #{empNo})
 	
 	</insert>
 	
 	<insert id="insertEvent" parameterType="Event">
 	
-		INSERT INTO EVENT VALUES(SEQ_EVT.NEXTVAL, ${name}, ${startDate}, ${endDate}, ${location}, ${content}, ${catNo})
+		INSERT INTO EVENT VALUES(SEQ_EVT.NEXTVAL, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo})
 		
 	</insert>
 	
-	<insert id="insertCalReg" parameterType="hashMap">
+	<insert id="insertEvtCalReg" parameterType="hashMap">
 	
-		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, ${calNo}, ${evtNo})
+		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, #{calNo}, #{evtNo})
 	
 	</insert>
 

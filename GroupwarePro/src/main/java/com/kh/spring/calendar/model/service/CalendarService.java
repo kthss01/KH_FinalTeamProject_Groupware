@@ -14,4 +14,8 @@ public interface CalendarService {
 
 	ArrayList<Calendar> selectMyCalList(int empNo);
 
+	int selectAttCount();
+	
+	int insertEvent(Event evt, int calNo);
+
 }

@@ -41,5 +41,12 @@ public class CalendarController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("insertEvent.ca")
+	public String insertEvent(Event evt, int calNo) {
+		
+		int result = calendarService.insertEvent(evt, calNo);
+		
+		return String.valueOf(result);
+	}
 }
