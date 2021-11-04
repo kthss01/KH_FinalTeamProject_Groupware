@@ -207,4 +207,34 @@ public class CalendarControllerTest {
 			logger.debug(cal.toString());
 		}
 	}
+	
+	/*
+	 ****************************************************
+	 * 수정 (Update)
+	 */
+	
+	@Test
+	public void 캘린더수정() {
+		// Given
+		int calNo = 3;
+//		String name = "수정캘린더";
+		String color = "GREEN"; // 색깔만 수정 
+		Calendar cal = new Calendar();
+		int empNo = 201;
+		cal.setCalNo(calNo);
+//		cal.setName(name);
+		cal.setColor(color);
+		cal.setEmpNo(empNo);
+		
+		// When
+		service.updateCalendar(cal);
+		
+		// Then
+		ArrayList<Calendar> list = service.selectMyCalList(empNo);
+		for (Calendar calendar : list) {
+			if (calendar.getCalNo() == calNo) {
+				logger.debug(calendar.toString());
+			}
+		}
+	}
 }

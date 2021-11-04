@@ -81,12 +81,12 @@ public class CalendarDao {
 		return sqlSession.update("calendarMapper.updateCalendar", cal);
 	}
 
-	public int updateCalendarColor(Calendar cal) {
-		return 0;
+	public int updateCalRegistration(SqlSessionTemplate sqlSession, Calendar cal) {
+		return sqlSession.update("calendarMapper.updateCalRegistration", cal);
 	}
 
 	public int deleteAttendant(SqlSessionTemplate sqlSession, int evtNo) {
-		return 0;
+		return sqlSession.delete("calendarMapper.deleteAttendant", evtNo);
 	}
 
 }

@@ -131,6 +131,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- UPDATE -->
 
+	<update id="updateCalendar" parameterType="Calendar">
+	
+		UPDATE CALENDAR SET NAME = #{name} WHERE CAL_NO = #{calNo}
+	
+	</update>
+
+	<update id="updateCalRegistration" parameterType="Calendar">
+	
+		UPDATE CAL_REGISTRATION SET COLOR = #{color} WHERE CAL_NO = #{calNo}
+	
+	</update>
+
 	<!-- DELETE -->
 	<update id="deleteEvent" parameterType="_int">
 		
@@ -143,5 +155,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CALENDAR SET ISDELETE = 'Y' WHERE CAL_NO = #{calNo}
 		
 	</update>
+	
+	<delete id="deleteAttendant">
+	
+		DELETE FROM ATTENDNAT WHERE EVT_NO = #{evtNo}
+	
+	</delete>
 
 </mapper>
