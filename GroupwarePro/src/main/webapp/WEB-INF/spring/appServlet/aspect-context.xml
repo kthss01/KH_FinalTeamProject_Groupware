@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+<!-- 
+	
+		* AOP(Aspect Oriented Programming) - ppt에도 설명되어있으니 참고 바람
+		- 관점 지향 프로그래밍이다. 
+		    관심사의 분리(Seperation of Concerns)해서 필요한 주 업무에 모듈 형식으로 삽입해서 실행하는 상태
+		
+		- AOP는 OOP를 대신하는 새로운 개념이 아닌, OOP를 더욱 OOP 답게 사용할 수 있도록 도와주는 개념
+		  -> 객체를 재사용함으로써 개발자들은 반복되는 코드를 많이 줄였지만, 
+		           매 요청마다 로그, 권한체크, 인증, 예외 처리 등 필수 요소는 반복될 수 밖에 없다. 
+		  -> AOP를 통해 비즈니스 로직(주된 기능)과 공통모듈(보조기능)로 구분한 후 비즈니스 로직 외부에서 
+		           필요한 시점에 공통모듈을 삽입하여 실행되게 한다. 
+		  -> 기존 프로그래밍에서 각 객체별로 처리했던 걸 AOP에서는 각 관점별로 외부에서 접근해 처리하게 된다. 
+		  -> 즉, 개발자는 계정, 게시판, 계좌이체와 같은 주 업무 기능과, 공통적인 관심을 처리하는 보조기능을 
+		          각각 모듈로써 분리/개발 한 후, 필요한 시점에 자동으로 소스코드가 삽입되도록 함
+		    
+		 < AOP 관련 용어 >
+		 ===============================================================
+		 # 관점(Aspect)
+		 - 구현하고자 하는 횡단 관심사의 기능, 클래스 단위
+		 - 한 개 이상의 Pointcut(어느 시점에 적용할지)과 Advice(보조기능)의 조합으로 만들어진다. 
+		 
+		 선언적 AOP에서 사용하는 advisor는 하나의 advice(보조기능)와 
+		 하나의 pointcut(advice를 어디에 적용할지 결정)의 조합을 가리킴
+		 ===============================================================
+		 # Joinpoint
+		 - 관점(Aspect)를 삽입해서 Advice가 적용될 수 있는 위치를 말한다. 
+		 - 횡단 관심 모듈의 기능이 삽입되어 동작할 수 있는 시행 가능한 특정 위치
+		 
+		 - 대표적인 Joinpoint
+		 => 메소드가 호출되는 부분 또는 리턴되는 부분
+		 => 인스턴스가 만들어지는 지점
+		 => 예외가 던져지는 지점
+		 => 클래스가 초기화 되는 곳
+		 ===============================================================
+		 # Pointcut
+		 - 어느클래스의 어떤 메소드, 어느 Joinpoint를 사용할 것인가 (Jointpoint 선정 룰과 같은 개념)
+		 - AOP에서는 포인트컷을 수행할 수 잇는 다양한 접근 방법 제공, AspectJ에서는 와일드 카드를 이용한
+		      메소드 시그니처를 사용한다. 
+		 ===============================================================
+		 # Advice
+		 - 각 조인포인트에 삽입되어져 동작할 수 있는 코드
+		 - 주로 메소드 단위로 구성된 어드바이스는 포인트 컷에 의해 결정된 모듈의 조인 포인트에서 호출되어 사용됨
+		 - 일반적으로 독립적인 클래스 등으로 구현된 횡단 관심 모듈을 조인 포인트의 정보를 참조해서 이용하는 방식으로 작성
+		 
+		 - Advice 종류 (Joinpoint와 결합하여 동작하는 시점에 따라 5개로 구분됨)
+		 => BeforeAdvice : joinpoint 전에 실행
+		 => AroundAdvice : joinpoint 앞 뒤에서 실행
+		 => AfterReturningAdvice : joinpoint 메소드가 리턴될 시 실행. return된 object에 접근 가능
+		 => AfterAdvice : joinpoint 후에 무조건 실행(예외 발생시에도 실행 finally와 유사)
+		 => AfterThrowingAdvice : joinpoint 메소드 실행 중 예외 발생 시 실행(자바의 catch와 유사)
+		 ===============================================================
+		 # Weaving(= Cross-Cutting)
+		 - pointcut에 의해 결정된 joinpoint에 지정된 advice를 삽입하는 과정
+		 - Weaving은 AOP가 기존의 핵심관심 모듈의 코드에 전혀 영향을 주지 않으며 필요한 횡단 관심 기능을 추가할 수 있게
+		      해주는 핵심적인 처리 과정
+		 
+		 - Weaving 하는 3가지 방법
+		 => 컴파일시에 weaving 하기
+		 => 클래스 로딩 시에 weaving하기
+		 => 런타임시에 weaving 하기(spring)
+	
+	 -->
+	 
+	<!-- 
+	<bean id="loggerAspect1" class="com.kh.spring.common.aop.LoggerAspect"/>
+	<aop:config>
+		<aop:aspect id="loggerAspect" ref="loggerAspect1">
+			<aop:pointcut expression="execution(* com.kh.spring.member..*(..))" id="pcForAll"/>
+			<aop:around method="loggerAdvice" pointcut-ref="pcForAll"/>
+		</aop:aspect>
+	</aop:config>
+ 	-->
+	 
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> s-->	 
+	<aop:aspectj-autoproxy proxy-target-class="true" />	 
+
+</beans>

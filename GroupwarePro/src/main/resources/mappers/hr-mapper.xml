@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="hrMapper">
+
+	<resultMap id="workResultSet" type="Work">
+		<id property="wNo" column="W_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="wDate" column="W_DATE"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTme" column="END_TIME"/>
+	</resultMap>
+	
+	<select id="selectWorkList" parameterType="_int" resultMap="workResultSet">
+		SELECT 
+			*
+		FROM
+			WORK
+		WHERE 
+			EMP_NO = #{loginNo}
+		ORDER BY W_DATE ASC
+	</select>
+</mapper>
