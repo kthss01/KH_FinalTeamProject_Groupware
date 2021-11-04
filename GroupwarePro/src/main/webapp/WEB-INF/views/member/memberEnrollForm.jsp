@@ -1,222 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
-<html dir="ltr" lang="ko">
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
-    <title>GroupWare new Account</title>
-    <!-- Custom CSS -->
-    <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
-    <link href="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
-<style>
-
-
-.buttonArea{
-
-}
-
-.buttonArea> button{
-	width:95px;
-	height:45px;
-	text-align:center;
-	font-weight:bold;
-}
-
-
-.hidden{
-	display:none;
-}
-
-
-</style>
-
 <body>
-    <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div>
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <div class="page-wrapper">
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-7 align-self-center">
-                       
-                        <div class="align-items-center">
+<%--     <jsp:include page="../common/menubar.jsp"/>
+ --%>    
+    <div class="content">
+        <br><br>
+        <div class="innerOuter">
+            <h2>회원가입</h2>
+            <br>
 
-                            
-                            <br>
-                            <div class="info d-block align-items-center">
-                            		
-                            		<div class="card-body">
-                            		<h5 class="card-subtitle"> 계정 타입 선택 </h5>
-                            		
-                            		<div class="buttonArea btn-list">
-                            			<button class="btn waves-effect waves-light btn-danger"> 일반 </button><br>
-                            			<button class="btn waves-effect waves-light btn-dark"> 관리자  </button>
-                            		</div>
-                            		
-                            		</div>
-                            		
-                            
-                            </div>
-                            
-                            
-                            
-                            <div class="memberForm hidden">
-                            	<ul class="ref navbar-nav">
-									<li>
-										<div class="card-body">
-											<h4 class="card-body"> 프로필 사진</h4>
-											<img class="profile-image" src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg">
-										</div>
-									<li>
-										<div class="card-body">
-											<h3 class="card-title"> 사원 이름 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.empName }" readonly>
-										</div>
-                            		</li>
-                            		<li>
-                            			<div class="card-body">
-											<h3 class="card-title"> 연락처 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.phone}" readonly>
-										</div>
-                            		</li>
-                            		<li>
-                            			<div class="card-body">
-											<h3 class="card-title"> 이메일 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.email }" readonly>
-										</div>
-                            		</li>
-                            		</ul>
-                            </div>
-                            
-                            
-                            <div class="managerForm hidden">
-                            
-                            <div class="memberForm hidden">
-                            	<ul class="ref navbar-nav">
-									<li>
-										<div class="card-body">
-											<h4 class="card-body"> 프로필 사진</h4>
-											<img class="profile-image" src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg">
-										</div>
-									<li>
-										<div class="card-body">
-											<h3 class="card-title"> 사원 이름 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.empName }" readonly>
-										</div>
-                            		</li>
-                            		<li>
-                            			<div class="card-body">
-											<h3 class="card-title"> 연락처 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.phone}" readonly>
-										</div>
-                            		</li>
-                            		<li>
-                            			<div class="card-body">
-											<h3 class="card-title"> 이메일 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.email }" readonly>
-										</div>
-                            		</li>
-                            		</ul>
-                            </div>
-                            
-                            
-                            
-                            </div>
-                            
-                            
-                            
-                        </div>
-                            
-                            
-                            <script>
-                            	
-                            	const buttonArea = document.querySelector(".buttonArea");
-                            	const member = document.querySelector(".memberForm");
-                            	const manager = document.querySelector(".managerForm");
-                            	
-                            
-                            
-                            </script>
-                            
-	
-						<!-- 
-							<script>
-								var update = document.querySelector(".update");
-								var info = document.querySelector(".info");
-								
-								var cancle = document.querySelector(".cancle");
-								var updateBtn = document.querySelector(".updateInfo");
-									
-								var changeToUpdate =()=> {
-									update.classList.remove("hidden");
-									info.classList.add("hidden");
-								}
-								var changeToInfo =()=> {
-									info.classList.remove("hidden");
-									update.classList.add("hidden"); 								
-								}
-								
-								cancle.addEventListener("click",changeToInfo);
-								updateBtn.addEventListener("click",changeToUpdate);
-							</script>                            
-                      -->
-                        </div>
-                    </div>
+            <form id="enrollForm" action="insert.me" method="post">
+                <div class="form-group">
+                    <label for="userId">* ID :</label>
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="Please Enter ID" required>
+                    <div id="checkResult" style="display:none; font-size:0.8em"></div>
+                    <br>
+                    
+                    <label for="userPwd">* Password :</label>
+                    <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="Please Enter Password" required><br>
+                    
+                    <label for="checkPwd">* Password Check :</label>
+                    <input type="password" class="form-control" id="checkPwd" placeholder="Please Enter Password" required><br>
+                    
+                    <label for="userName">* Name :</label>
+                    <input type="text" class="form-control" id="userName" name="userName" placeholder="Please Enter Name" required><br>
+                    
+                    <label for="email"> &nbsp; Email :</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Please Enter Email"><br>
+                    
+                    <label for="age"> &nbsp; Age :</label>
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Please Enter Age"><br>
+                    
+                    <label for="phone"> &nbsp; Phone :</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Please Enter Phone (-없이)"><br>
+                    
+                    <label for="address"> &nbsp; Address :</label>
+                   <%--  <input type="text" class="form-control" id="address" name="address" placeholder="Please Enter Address"><br>--%>
+             		<div class="form-inline">
+					<label> &nbsp; 우편번호 : &nbsp;</label>
+					<input type="text"  name="post" class="form-control mr-2 postcodify_postcode5"  size="6">
+					<button type="button" class="btn btn-primary" id="postcodify_search_button">검색</button>
+					</div>
+					<br>
+					<label> &nbsp; 도로명주소 : </label>
+					<input type="text" name="address1" class="form-control postcodify_address" size="30">
+					<br>
+				    <label> &nbsp; 상세주소 : </label>
+					<input type="text" name="address2" class="form-control postcodify_extra_info"  size="30">
+					<br>
+				
+				<!-- jQuery와 Postcodify를 로딩한다. -->
+				<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+				<script>
+					// 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.
+					$(function(){
+						$("#postcodify_search_button").postcodifyPopUp();
+					});
+				</script>
+                    <label for=""> &nbsp; Gender : </label> &nbsp;&nbsp;
+                    <input type="radio" name="gender" id="Male" value="M">
+                    <label for="Male">남자</label> &nbsp;&nbsp;
+                    <input type="radio" name="gender" id="Female" value="F">
+                    <label for="Female">여자</label><br>
+                    
                 </div>
-            </div>
-            
-            
-            
-            <div class="container-fluid">
-            <footer class="footer text-center text-muted">
-                All Rights Reserved by Adminmart. Designed and Developed by <a
-                    href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
+                <br>
+                <div class="btns" align="center">
+                    <button type="submit" id="enrollBtn" class="btn btn-primary" >회원가입</button><!-- disabled  중복처리하고나서-->
+                    <button type="reset" class="btn btn-danger"> 초기화</button>
+                </div>
+            </form>
         </div>
+        <br><br>
     </div>
-    
-    
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- apps -->
-    <!-- apps -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/app-style-switcher.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/feather.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
-    <!--This page JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/d3.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script>
-</body>
-
+   
+<%--     <jsp:include page="../common/footer.jsp"/>
+ --%></body>
 </html>

@@ -1,19 +1,16 @@
 package com.kh.spring.member.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.context.annotation.SessionScope;
 
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.service.MemberServiceImpl2;
@@ -230,15 +227,9 @@ public class MemberController {
 	
 	// 로그아웃 변경 (@SessionAttributes)
 	@RequestMapping("logout.me")
-	public String hMember(HttpServletRequest request, SessionStatus status) {
+	public String logoutMember(SessionStatus status) {
 		// 현재 컨트롤러에 @SessionAttributes에 의해 저장된 오브젝트 제거
-
-		
 		status.setComplete();
-//			HttpSession session = request.getSession();
-//			session.invalidate();
-			
-		
 		return "redirect:/";
 	}
 	
@@ -250,18 +241,22 @@ public class MemberController {
 	@RequestMapping("insert.me")
 	public String insertMember(
 						@ModelAttribute Member m, 
-//						@RequestPara m("post") String post,
-//						@RequestParam("address1") String address1,
-//						@RequestParam("address2") String address2,
+						@RequestParam("post") String post,
+						@RequestParam("address1") String address1,
+						@RequestParam("address2") String address2,
 						HttpSession session
 						) {
 		
-		m.setAddress(post + "/" + address1 + "/" + address2);
+//		m.setAddress(post + "/" + address1 + "/" + address2);
 
+//		System.out.println("암호화 전 :" + m.getUserPwd());
 		String encPwd = bCryptPasswordEncoder.encode(m.getLoginPwd());
-		m.setLoginPwd(encPwd);
+		System.out.println("암호화 후 :" + encPwd);
+		
+//		m.setUserPwd(encPwd);
 		
 		memberService.insertMember(m);
+//		System.out.println(m);
 		
 		session.setAttribute("msg", "회원가입 성공");
 		
@@ -282,7 +277,7 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("myPage.me")
+	@RequestMapping("myPage")
 	public String myPage() {
 		return "member/myPage";
 	}
@@ -291,7 +286,7 @@ public class MemberController {
 	public String updateMember(
 			@ModelAttribute Member m, 
 			@RequestParam("post") String post,
-			@RequestParam("address1")	 String address1,
+			@RequestParam("address1") String address1,
 			@RequestParam("address2") String address2,
 			HttpSession session,
 			Model model) throws Exception {
@@ -299,7 +294,6 @@ public class MemberController {
 //		m.setAddress(post + "/" + address1 + "/" + address2);
 		
 		Member userInfo = memberService.updateMember(m);
-		
 //		Member userInfo = memberService2.updateMember(m);
 		
 		model.addAttribute("loginUser", userInfo);
@@ -314,7 +308,4 @@ public class MemberController {
 		
 		return "redirect:/logout.me";
 	}
-	
-
-	
 }

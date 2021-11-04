@@ -10,8 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empReg" column="EMP_REG"/>
 		<result property="phone" column="PHONE"/>
 		<result property="email" column="EMAIL"/>
-		<result property="deptTitle" column="DEPT_TITLE"/>
-		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
 		<result property="salCode" column="SAL_CODE"/>
 		<result property="salary" column="SALARY"/>
 		<result property="bonus" column="BONUS"/>
@@ -36,23 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'
 		-->
 		<!-- 암호화 후 -->
-		<!--  
 		select * 
 		from employee a
 		left join login_info b on a.emp_no = b.emp_no
 		where b.login_id = #{loginId} and b.status = 'Y'
 		
-		이전 sql query - 
-		
-		-->
-		
-		<!--  수정 후 sql query -->
-		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
-		FROM EMPLOYEE A
-		LEFT OUTER JOIN LOGIN_INFO B ON A.EMP_NO = B.EMP_NO
-		LEFT OUTER JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
-		LEFT OUTER JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
-		WHERE B.LOGIN_ID = #{loginId} AND B.STATUS = 'Y'
 		
 	</select>
 	
@@ -72,14 +60,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		STATUS = 'N'
 		WHERE user_ID = #{userId}
 	</update>
-	
-	<select id="getAllMember" parameterType="Member">
-		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
-		FROM EMPLOYEE A
-		LEFT OUTER JOIN LOGIN_INFO B ON A.EMP_NO = B.EMP_NO
-		LEFT OUTER JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
-		LEFT OUTER JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
-		WHERE A.STATEMENT = 'Y'
-	</select>
-	
 </mapper>
