@@ -62,7 +62,7 @@ public class CalendarServiceTest {
 		
 		int lastEvtNo = dao.selectEvtNo(sqlSession);
 		
-		logger.info(String.valueOf(lastEvtNo));
+		logger.debug(String.valueOf(lastEvtNo));
 		
 		assertThat(lastEvtNo).isEqualTo(nextEvtNo);
 	}
@@ -71,7 +71,7 @@ public class CalendarServiceTest {
 	void 참석자번호조회() {
 		int attNo = dao.selectAttNo(sqlSession);
 		
-		logger.info(String.valueOf(attNo));
+		logger.debug(String.valueOf(attNo));
 	}
 	
 	@Test
@@ -79,6 +79,6 @@ public class CalendarServiceTest {
 		
 		int calNo = dao.selectCalNo(sqlSession);
 		
-		logger.info(String.valueOf(calNo));
+		logger.debug(String.valueOf(calNo));
 	}
 }

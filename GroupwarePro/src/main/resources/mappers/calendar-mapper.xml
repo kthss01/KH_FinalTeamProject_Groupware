@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM EVENT E
 		LEFT JOIN EVT_CATEGORY C USING(CAT_NO)
 		LEFT JOIN ATTENDANT A USING(EVT_NO)
+		WHERE ISDELETE = 'N'
 
 	</select>
 
@@ -64,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CALENDAR C
 		LEFT JOIN CAL_REGISTRATION CR USING(CAL_NO)
 		LEFT JOIN EVT_CAL_REGISTRATION ECR USING(CAL_NO)
-		WHERE EMP_NO = #{empNo}
+		WHERE EMP_NO = #{empNo} AND ISDELETE = 'N'
 	
 	</select>
 
@@ -106,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SELECT SEQ_EVT.NEXTVAL FROM DUAL
 		</selectKey>
 	
-		INSERT INTO EVENT VALUES(#{evtNo}, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo})
+		INSERT INTO EVENT VALUES(#{evtNo}, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo}, DEFAULT)
 		
 	</insert>
 	
@@ -118,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertCalendar" parameterType="Calendar">
 	
-		INSERT INTO CALENDAR VALUES(SEQ_CAL.NEXTVAL, #{name})
+		INSERT INTO CALENDAR VALUES(SEQ_CAL.NEXTVAL, #{name}, DEFAULT)
 	
 	</insert>
 	
@@ -131,5 +132,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- UPDATE -->
 
 	<!-- DELETE -->
+	<update id="deleteEvent" parameterType="_int">
+		
+		UPDATE EVENT SET ISDELETE = 'Y' WHERE EVT_NO = #{evtNo}
+		
+	</update>
+
+	<update id="deleteCalendar" parameterType="_int">
+		
+		UPDATE CALENDAR SET ISDELETE = 'Y' WHERE CAL_NO = #{calNo}
+		
+	</update>
 
 </mapper>

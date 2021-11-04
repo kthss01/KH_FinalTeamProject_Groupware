@@ -114,4 +114,9 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDao.deleteEvent(sqlSession, evtNo);
 	}
 
+	@Override
+	public int deleteCalendar(int calNo) {
+		return calendarDao.deleteCalendar(sqlSession, calNo);
+	}
+
 }

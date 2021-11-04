@@ -65,7 +65,6 @@ public class CalendarControllerTest {
 	@Test
 	public void 이벤트리스트조회() {
 		
-		
 		ArrayList<Event> list = service.selectEventList();
 		
 		for (Event event : list) {
@@ -85,7 +84,7 @@ public class CalendarControllerTest {
 	}
 	
 	@Test
-	public void 내관심사리스트조회() {
+	public void 캘린더리스트조회() {
 		int empNo = 201;
 		
 		ArrayList<Calendar> list = service.selectMyCalList(empNo);
@@ -145,8 +144,8 @@ public class CalendarControllerTest {
 		// 등록된 이벤트 조회
 		ArrayList<Event> list = service.selectEventList();
 		Event evt2 = list.get(list.size() - 1); // 가장 마지막 Event
-		logger.info(evt.toString());
-		logger.info(evt2.toString());
+		logger.debug(evt.toString());
+		logger.debug(evt2.toString());
 	}
 	
 	@Test
@@ -166,8 +165,8 @@ public class CalendarControllerTest {
 		// Then
 		ArrayList<Calendar> list = service.selectMyCalList(empNo);
 		Calendar cal2 = list.get(list.size() - 1);
-		logger.info(cal.toString());
-		logger.info(cal2.toString());
+		logger.debug(cal.toString());
+		logger.debug(cal2.toString());
 	}
 	
 	/*
@@ -178,11 +177,34 @@ public class CalendarControllerTest {
 	@Test
 	public void 이벤트삭제() {
 		// Given
-		int evtNo = 11;
+		int evtNo = 10;
 		
 		// When
 		service.deleteEvent(evtNo);
 		
 		// Then
+		ArrayList<Event> list = service.selectEventList();
+		
+		for (Event event : list) {
+			logger.debug(event.toString());
+		}
+	}
+	
+	@Test
+	public void 캘린더삭제() {
+		// Given
+		int calNo = 3;
+		
+		// When
+		service.deleteCalendar(calNo);
+		
+		// Then
+		int empNo = 201;
+		
+		ArrayList<Calendar> list = service.selectMyCalList(empNo);
+		
+		for (Calendar cal : list) {
+			logger.debug(cal.toString());
+		}
 	}
 }

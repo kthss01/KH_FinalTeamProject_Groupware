@@ -67,4 +67,13 @@ public class CalendarController {
 		
 		return String.valueOf(result);
 	}
+	
+	@ResponseBody
+	@RequestMapping("deleteCalendar.ca")
+	public String deleteCalendar(int calNo) {
+		
+		int result = calendarService.deleteCalendar(calNo);
+		
+		return String.valueOf(result);
+	}
 }
