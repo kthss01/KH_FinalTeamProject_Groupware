@@ -39,7 +39,6 @@
 	    <!-- 일정 -->
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
-	    <typeAlias type="com.kh.spring.calendar.model.vo.Attendant" alias="Attendant"/>
     
 	</typeAliases>
 

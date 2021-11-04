@@ -27,18 +27,18 @@ public class CalendarController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectEvtList.ca", produces="application/json; charset=utf-8")
-	public String selectEventList() {
+	public String selectEventList(int calNo) {
 		
-		ArrayList<Event> list = calendarService.selectEventList(); 
+		ArrayList<Event> list = calendarService.selectEventList(calNo); 
 		
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="selectMyCalList.ca", produces="application/json; charset=utf-8")
+	@RequestMapping(value="selectCalList.ca", produces="application/json; charset=utf-8")
 	public String selectMyCalList(int empNo) {
 		
-		ArrayList<Calendar> list = calendarService.selectMyCalList(empNo);
+		ArrayList<Calendar> list = calendarService.selectCalList(empNo);
 		
 		return new GsonBuilder().create().toJson(list);
 	}
@@ -47,9 +47,9 @@ public class CalendarController {
 	
 	@ResponseBody
 	@RequestMapping("insertEvent.ca")
-	public String insertEvent(Event evt, int calNo) {
+	public String insertEvent(Event evt) {
 		
-		int result = calendarService.insertEvent(evt, calNo);
+		int result = calendarService.insertEvent(evt);
 		
 		return String.valueOf(result);
 	}

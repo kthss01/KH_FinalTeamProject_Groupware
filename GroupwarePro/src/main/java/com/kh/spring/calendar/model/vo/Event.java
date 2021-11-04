@@ -19,9 +19,6 @@ public class Event {
 	private String name; // 이벤트명
 	private Date startDate; // 이벤트 시작일 sql.Date
 	private Date endDate; // 이벤트 종료일 sql.Date
-	private String location; // 장소
-	private String content; // 내용
-	private int catNo; // 이벤트 번호
-	private String categoryName; // 이벤트 분류명
-	private ArrayList<Attendant> attendantList; // 참석자 리스트
+	private int calNo; // 캘린더 번호
+	private int rezNo; // 예약 번호
 }

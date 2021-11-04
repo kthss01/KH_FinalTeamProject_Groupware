@@ -18,5 +18,5 @@ public class Calendar {
 	private String name; // 캘린더명
 	private String color; // 색깔
 	private int empNo; // 사원 번호
-	private ArrayList<Integer> evtNoList; // 이벤트 리스트
+	private String status; // 상태
 }
