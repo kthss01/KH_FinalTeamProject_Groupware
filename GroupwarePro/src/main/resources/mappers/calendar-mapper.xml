@@ -142,6 +142,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CAL_REGISTRATION SET COLOR = #{color} WHERE CAL_NO = #{calNo}
 	
 	</update>
+	
+	<update id="updateEvent" parameterType="Event">
+	
+		UPDATE EVENT 
+		<trim prefix="SET" suffixOverrides=",">		
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="startDate != null">
+				START_DATE = #{startDate},
+			</if>
+			<if test="endDate != null">
+				END_DATE = #{endDate},
+			</if>
+			<if test="location != null">
+				LOCATION = #{location},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content},
+			</if>
+			<if test="catNo != 0">
+				CAT_NO = #{catNo}
+			</if>
+		</trim>
+		WHERE EVT_NO = #{evtNo} AND ISDELETE = 'N'
+		
+	</update>
 
 	<!-- DELETE -->
 	<update id="deleteEvent" parameterType="_int">

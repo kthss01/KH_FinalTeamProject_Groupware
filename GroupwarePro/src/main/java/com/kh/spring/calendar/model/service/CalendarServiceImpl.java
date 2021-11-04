@@ -46,7 +46,7 @@ public class CalendarServiceImpl implements CalendarService {
 		// insertEvent
 		int result = calendarDao.insertEvent(sqlSession, evt);
 
-		if (result < 0) {
+		if (result <= 0) {
 			throw new CommException("이벤트 등록 실패");
 		}
 
@@ -57,7 +57,7 @@ public class CalendarServiceImpl implements CalendarService {
 			att.setEvtNo(evtNo);
 			result = calendarDao.insertAttendant(sqlSession, att);
 
-			if (result < 0) {
+			if (result <= 0) {
 				throw new CommException("참석자 등록 실패");
 			}
 		}
@@ -65,7 +65,7 @@ public class CalendarServiceImpl implements CalendarService {
 		// insertEvtCalReg
 		result = calendarDao.insertEvtCalReg(sqlSession, calNo, evtNo);
 
-		if (result < 0) {
+		if (result <= 0) {
 			throw new CommException("캘린더 이벤트 등록 실패");
 		}
 
@@ -77,7 +77,7 @@ public class CalendarServiceImpl implements CalendarService {
 		// insertCalendar
 		int result = calendarDao.insertCalendar(sqlSession, cal);
 
-		if (result < 0) {
+		if (result <= 0) {
 			throw new CommException("캘린더 등록 실패");
 		}
 
@@ -87,7 +87,7 @@ public class CalendarServiceImpl implements CalendarService {
 		// insertCalReg
 		result = calendarDao.insertCalReg(sqlSession, cal);
 
-		if (result < 0) {
+		if (result <= 0) {
 			throw new CommException("My 캘린더 등록 실패");
 		}
 
@@ -122,13 +122,15 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public int updateEvent(Event evt) {
 
+		int result = 0;
+		
 		ArrayList<Attendant> oldList = calendarDao.selectAttList(sqlSession, evt.getEvtNo());
 
-		if (!isSameAtt(evt.getAttendantList(), oldList)) {
+		if (evt.getAttendantList() != null && !isSameAtt(evt.getAttendantList(), oldList)) {
 
-			int result = calendarDao.deleteAttendant(sqlSession, evt.getEvtNo());
+			result = calendarDao.deleteAttendant(sqlSession, evt.getEvtNo());
 
-			if (result < 0) {
+			if (result <= 0) {
 				throw new CommException("참석자 삭제 실패");
 			}
 
@@ -136,14 +138,29 @@ public class CalendarServiceImpl implements CalendarService {
 			for (Attendant att : evt.getAttendantList()) {
 				result = calendarDao.insertAttendant(sqlSession, att);
 
-				if (result < 0) {
+				if (result <= 0) {
 					throw new CommException("참석자 등록 실패");
 				}
 			}
 
 		}
+		
+		if (checkChangeEvent(evt)) {
+			result = calendarDao.updateEvent(sqlSession, evt);
+			
+			if (result <= 0) {
+				throw new CommException("이벤트 수정 실패");
+			}
+		}
 
-		return calendarDao.updateEvent(sqlSession, evt);
+		return result;
+	}
+
+	private boolean checkChangeEvent(Event evt) {
+		if (evt.getName() != null || evt.getStartDate() != null || evt.getEndDate() != null 
+				|| evt.getLocation() != null || evt.getContent() != null || evt.getCatNo() != 0)
+			return true;
+		return false;
 	}
 
 	private boolean isSameAtt(ArrayList<Attendant> newList, ArrayList<Attendant> oldList) {

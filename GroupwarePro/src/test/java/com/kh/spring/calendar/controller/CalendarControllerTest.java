@@ -233,8 +233,40 @@ public class CalendarControllerTest {
 		ArrayList<Calendar> list = service.selectMyCalList(empNo);
 		for (Calendar calendar : list) {
 			if (calendar.getCalNo() == calNo) {
+				logger.debug(cal.toString());
 				logger.debug(calendar.toString());
 			}
+		}
+	}
+	
+	@Test
+	public void 이벤트수정() {
+		// Given
+		Event evt = new Event();
+		
+		int evtNo = 7;
+		evt.setEvtNo(evtNo);
+		
+		evt.setName("수정이름2");
+//		evt.setStartDate(Date.valueOf("2021-11-11"));
+		evt.setEndDate(Date.valueOf("2021-11-25"));
+//		evt.setLocation("수정장소");
+		evt.setContent("수정내용2");
+//		evt.setCatNo(2);
+		
+		// When
+		service.updateEvent(evt);
+		
+		// Then
+		ArrayList<Event> list = service.selectEventList();
+		
+		for (Event event : list) {
+			if (event.getEvtNo() == evtNo) {
+				System.out.println("test");
+				logger.debug(evt.toString());
+				logger.debug(event.toString());
+			}
+			
 		}
 	}
 }
