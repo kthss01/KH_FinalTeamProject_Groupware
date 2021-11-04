@@ -104,11 +104,11 @@ public class CalendarControllerTest {
 	public void 이벤트등록() {
 		// Given		
 		// 이벤트
-		String name = "테스트이벤트3";
-		Date startDate = Date.valueOf("2021-11-14");
-		Date endDate = Date.valueOf("2021-11-21");
-		String location = "테스트장소3";
-		String content = "테스트내용3";
+		String name = "테스트이벤트4";
+		Date startDate = Date.valueOf("2021-11-22");
+		Date endDate = Date.valueOf("2021-11-27");
+		String location = "테스트장소4";
+		String content = "테스트내용4";
 		int catNo = 1;
 		
 		int evtNo = service.selectEventList().size() + 1;
@@ -124,7 +124,7 @@ public class CalendarControllerTest {
 		
 		// 참석자
 		int attNo = service.selectAttCount() + 1;
-		int empNo = 201;
+		int empNo = 202;
 		
 		Attendant att = new Attendant(attNo, evtNo, empNo);
 		
@@ -146,5 +146,26 @@ public class CalendarControllerTest {
 		Event evt2 = list.get(list.size() - 1); // 가장 마지막 Event
 		logger.info(evt.toString());
 		logger.info(evt2.toString());
+	}
+	
+	@Test
+	public void 캘린더등록() {
+		// Given
+		Calendar cal = new Calendar();
+		int empNo = 201;
+		int calNo = service.selectMyCalList(empNo).size() + 1;
+		String name = "테스트켈린더2";
+		cal.setCalNo(calNo);
+		cal.setEmpNo(empNo);
+		cal.setName(name);
+		
+		// When
+		service.insertCalendar(cal);
+		
+		// Then
+		ArrayList<Calendar> list = service.selectMyCalList(empNo);
+		Calendar cal2 = list.get(list.size() - 1);
+		logger.info(cal.toString());
+		logger.info(cal2.toString());
 	}
 }

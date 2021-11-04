@@ -82,6 +82,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 
+	<select id="selectCalNo" resultType="_int">
+	
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_CAL'
+	
+	</select>
+
 	<!-- CREATE -->
 	
 	<insert id="insertAttendant" parameterType="Attendant">
@@ -92,13 +100,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertEvent" parameterType="Event">
 	
-		INSERT INTO EVENT VALUES(SEQ_EVT.NEXTVAL, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo})
+		<selectKey keyProperty="evtNo" resultType="int" order="BEFORE">
+			SELECT SEQ_EVT.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO EVENT VALUES(#{evtNo}, #{name}, #{startDate}, #{endDate}, #{location}, #{content}, #{catNo})
 		
 	</insert>
 	
 	<insert id="insertEvtCalReg" parameterType="hashMap">
 	
 		INSERT INTO EVT_CAL_REGISTRATION VALUES(SEQ_EVT_CAL_REG.NEXTVAL, #{calNo}, #{evtNo})
+	
+	</insert>
+	
+	<insert id="insertCalendar" parameterType="Calendar">
+	
+		INSERT INTO CALENDAR VALUES(SEQ_CAL.NEXTVAL, #{name})
+	
+	</insert>
+	
+	<insert id="insertCalReg" parameterType="Calendar">
+	
+		INSERT INTO CAL_REGISTRATION VALUES(SEQ_CAL_REG.NEXTVAL, DEFAULT, #{calNo}, #{empNo})
 	
 	</insert>
 

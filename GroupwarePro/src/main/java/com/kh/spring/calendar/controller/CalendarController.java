@@ -49,4 +49,13 @@ public class CalendarController {
 		
 		return String.valueOf(result);
 	}
+	
+	@ResponseBody
+	@RequestMapping("insertCalendar.ca")
+	public String insertCalendar(Calendar cal) {
+		
+		int result = calendarService.insertCalendar(cal);
+		
+		return String.valueOf(result);
+	}
 }

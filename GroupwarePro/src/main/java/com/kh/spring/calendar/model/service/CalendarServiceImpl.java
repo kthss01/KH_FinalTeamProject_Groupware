@@ -77,4 +77,26 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDao.selectAttCount(sqlSession);
 	}
 
+	@Override
+	public int insertCalendar(Calendar cal) {
+		// insertCalendar
+		int result = calendarDao.insertCalendar(sqlSession, cal);
+		
+		if (result < 0) {
+			throw new CommException("캘린더 등록 실패");
+		}
+		
+		int calNo = calendarDao.selectCalNo(sqlSession) - 1;
+		cal.setCalNo(calNo);
+		
+		// insertCalReg
+		result = calendarDao.insertCalReg(sqlSession, cal);
+		
+		if (result < 0) {
+			throw new CommException("My 캘린더 등록 실패");
+		}
+		
+		return result;
+	}
+
 }

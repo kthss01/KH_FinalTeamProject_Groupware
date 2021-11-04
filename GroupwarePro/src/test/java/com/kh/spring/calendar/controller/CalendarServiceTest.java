@@ -73,4 +73,12 @@ public class CalendarServiceTest {
 		
 		logger.info(String.valueOf(attCount));
 	}
+	
+	@Test
+	void 캘린더번호조회() {
+		
+		int calNo = dao.selectCalNo(sqlSession);
+		
+		logger.info(String.valueOf(calNo));
+	}
 }

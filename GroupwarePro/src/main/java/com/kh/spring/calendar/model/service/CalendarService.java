@@ -18,4 +18,6 @@ public interface CalendarService {
 	
 	int insertEvent(Event evt, int calNo);
 
+	int insertCalendar(Calendar cal);
+	
 }

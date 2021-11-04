@@ -49,4 +49,16 @@ public class CalendarDao {
 		return sqlSession.selectOne("calendarMapper.selectAttCount");
 	}
 
+	public int selectCalNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("calendarMapper.selectCalNo");
+	}
+
+	public int insertCalendar(SqlSessionTemplate sqlSession, Calendar cal) {
+		return sqlSession.insert("calendarMapper.insertCalendar", cal);
+	}
+
+	public int insertCalReg(SqlSessionTemplate sqlSession, Calendar cal) {
+		return sqlSession.insert("calendarMapper.insertCalReg", cal);
+	}
+
 }
