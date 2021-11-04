@@ -31,7 +31,7 @@
 		<property name="password" value="KH_FINAL"/>
 		<property name="defaultAutoCommit" value="false"/> 
   	</bean>
-	
+
 	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="realDataSource"/>
 		<property name="logFormatter">
