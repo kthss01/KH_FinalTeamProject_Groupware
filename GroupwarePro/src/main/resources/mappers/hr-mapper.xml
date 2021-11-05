@@ -9,7 +9,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empNo" column="EMP_NO"/>
 		<result property="wDate" column="W_DATE"/>
 		<result property="startTime" column="START_TIME"/>
-		<result property="endTme" column="END_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+	</resultMap>
+	<resultMap id="workSInfoResultSet" type="WorkSInfo">
+		<id property="sNo" column="S_NO"/>
+		<result property="wNo" column="W_NO"/>
+		<result property="sCode" column="S_CODE"/>
+		<result property="occurTime" column="OCCUR_TIME"/>
 	</resultMap>
 	
 	<select id="selectWorkList" parameterType="_int" resultMap="workResultSet">
@@ -18,7 +24,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 			WORK
 		WHERE 
-			EMP_NO = #{loginNo}
+			EMP_NO = #{empNo}
 		ORDER BY W_DATE ASC
 	</select>
+	
+	<insert id="insertWork" parameterType="_int">
+		INSERT INTO WORK 
+		(W_NO, EMP_NO, W_DATE, START_TIME)
+		VALUES
+		('W'||#{empNo}||'-'||TO_CHAR(CURRENT_DATE, 'yyyyMMdd'), #{empNo}, CURRENT_DATE, TO_CHAR(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH24:MI:SS'))
+	</insert>
+	
+	<update id="updateWork" parameterType="string">
+		UPDATE WORK
+		SET END_TIME=TO_CHAR(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH24:MI:SS')
+		WHERE W_NO=#{wNo}
+	</update>
+	
+	<insert id="insertWorkStatus" parameterType="WorkSInfo">
+		INSERT INTO WORK_STATUS_INFO 
+		VALUES
+		('S-'||SEQ_WORK_S_INFO.NEXTVAL, #{wNo}, #{sCode}, TO_CHAR(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH24:MI:SS'))
+	</insert>
+	
+	<select id="selectVacationInfo" parameterType="_int"></select>
+	
 </mapper>

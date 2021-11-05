@@ -66,7 +66,7 @@
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">일정</span></a></li>
                                     
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="main.hr"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="work.hr"
                                 aria-expanded="false"><i data-feather="briefcase" class="feather-icon"></i><span
                                     class="hide-menu">근태관리</span></a></li> 
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="main.ap"

@@ -43,4 +43,6 @@ public interface CommunityService {
 
 	void countBoard(int bno);
 
+	ArrayList<CommunityBoard> selectBestBoardList();
+
 }
