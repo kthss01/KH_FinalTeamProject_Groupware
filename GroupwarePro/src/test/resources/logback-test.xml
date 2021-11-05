@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Console Log Setting -->
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<encoder>
+				<pattern>[%d{yyyy/MM/dd HH:mm:ss}] %highlight(%-5level)| %cyan(%-25.25logger{0}) | %msg%n</pattern>
+			</encoder>
+		</layout>
+	</appender>
+	
+	<logger name="com.kh.spring" level="DEBUG" />
+	<logger name="jdbc.resultsettable" level="INFO" /> <!-- 이렇게 설정하면 root level과 상관없이 나오는거 같음 -->
+		
+	<root level="WARN">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

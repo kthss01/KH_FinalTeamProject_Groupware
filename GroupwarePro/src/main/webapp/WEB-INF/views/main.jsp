@@ -25,6 +25,16 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+	<style>
+	
+	#boardList li:hover{
+	cursor:pointer;
+	color:#212529;
+	}
+	
+	</style>
+
 </head>
 
 <body>
@@ -66,25 +76,10 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good Morning Jason!</h3>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good Morning! ${ loginUser.empName }!</h3>
+
                     </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -97,7 +92,7 @@
                 <!-- *************************************************************** -->
                 <!-- Start First Cards -->
                 <!-- *************************************************************** -->
-                <div class="card-group">
+<!--                 <div class="card-group">
                     <div class="card border-right">
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -160,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- *************************************************************** -->
                 <!-- End First Cards -->
                 <!-- *************************************************************** -->
@@ -168,41 +163,74 @@
                 <!-- Start Sales Charts Section -->
                 <!-- *************************************************************** -->
                 <div class="row">
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-8 col-md-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Total Sales</h4>
-                                <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
-                                <ul class="list-style-none mb-0">
-                                    <li>
-                                        <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                        <span class="text-muted">Direct Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2346</span>
+							<div class="card-body">
+                                <h4 class="card-title mb-3 font-weight-bold">전사 공지사항</h4>
+                                <ul class="nav nav-tabs mb-3">
+                                    <li class="nav-item">
+                                        <a href="#home" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                            <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                                            <span class="d-none d-lg-block  font-weight-bold">공지</span>
+                                        </a>
                                     </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-danger font-10 mr-2"></i>
-                                        <span class="text-muted">Referral Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2108</span>
+                                    <li class="nav-item">
+                                        <a href="#profile" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                                            <span class="d-none d-lg-block  font-weight-bold">일정</span>
+                                        </a>
                                     </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-cyan font-10 mr-2"></i>
-                                        <span class="text-muted">Affiliate Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$1204</span>
+                                    <li class="nav-item">
+                                        <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                            <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                            <span class="d-none d-lg-block  font-weight-bold">오늘의 식단표</span>
+                                        </a>
                                     </li>
                                 </ul>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane" id="home">
+                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                            quis enim.</p>
+                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                            quis enim.</p>
+       
+                                    </div>
+                                    <div class="tab-pane show" id="profile">
+                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                                            justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                            eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
+                                            semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
+                                            eu, consequat vitae, eleifend ac, enim.</p>
+                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                                            justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                            eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
+                                            semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
+                                            eu, consequat vitae, eleifend ac, enim.</p>
+
+                                    </div>
+                                    <div class="tab-pane active" id="settings">
+                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                            quis enim.</p>
+                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                            quis enim.</p>
+
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Net Income</h4>
-                                <div class="net-income mt-4 position-relative" style="height:294px;"></div>
-                                <ul class="list-inline text-center mt-5 mb-2">
-                                    <li class="list-inline-item text-muted font-italic">Sales for this month</li>
-                                </ul>
-                            </div>
-                        </div>
+         				</div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
@@ -282,28 +310,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex align-items-start">
-                                    <h4 class="card-title mb-0">Earning Statistics</h4>
-                                    <div class="ml-auto">
-                                        <div class="dropdown sub-dropdown">
-                                            <button class="btn btn-link text-muted dropdown-toggle" type="button"
-                                                id="dd1" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <i data-feather="more-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                                <a class="dropdown-item" href="#">Insert</a>
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
+                                    <h4 class="card-title mb-0 font-weight-bold"  >실시간 커뮤니티 인기 글</h4>
+
+                                </div>
+									<div class="col-md-12 col-sm-12" style="margin-top:50px;">
+                                        <ul class="list-group" id="boardList">
+
+                                        </ul>
                                     </div>
-                                </div>
-                                <div class="pl-4 mb-5">
-                                    <div class="stats ct-charts position-relative" style="height: 315px;"></div>
-                                </div>
-                                <ul class="list-inline text-center mt-4 mb-0">
-                                    <li class="list-inline-item text-muted font-italic">Earnings for this month</li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -408,6 +422,51 @@
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script>
+	
+	
+	<script>
+	$(function(){
+		
+		$('#homeBtn').parent().addClass('selected');
+		$('#homeBtn').addClass('active');
+		
+		var boardList = $("#boardList");
+		
+		$.ajax({
+			url:'bestBoardList.co',
+			type:'post',
+			success : function(list){
+				console.log(list);
+				list.forEach((b=>{
+					
+					boardList.append(`
+							<span class="badge badge-info" style="display:inline-block; width:100px;">\${b.cName}</span>
+
+                            <li  class="list-group-item" style="text-align:center; margin-bottom:10px;">
+							<input type="hidden" value="\${b.bno}">
+							\${b.title}
+
+                            </li>
+
+							`)
+
+				}));
+				
+				
+				$("#boardList li").click(function(){
+					location.href="detail.co?bno=" + $(this).children().eq(0).val();
+				});
+				
+				
+			}
+		})
+		
+		
+		
+
+	})
+	</script>
+
 </body>
 
 </html>

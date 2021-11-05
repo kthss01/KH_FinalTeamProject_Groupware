@@ -11,12 +11,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="b_no" property="bno"/>
 		<result column="category_no" property="cno"/>
 		<result column="b_title" property="title"/>
+		<result column="b_writer" property="writer"/>
 		<result column="b_content" property="content"/>
 		<result column="b_hit" property="hit"/>
 		<result column="b_cdate" property="CDate"/>
 		<result column="b_mdate" property="MDate"/>
 		<result column="status" property="status"/>
 		<result column="nickname" property="nickname"/>
+		<result column="c_name" property="cName"/>
 	</resultMap>
 	
 	
@@ -98,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{cno},
 	#{title},
 	#{content},
-	200,
+	#{writer},
 	DEFAULT,SYSDATE,SYSDATE,'Y',#{nickname}
 	)
 	
@@ -164,5 +166,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="countBoard" parameterType="_int">
 	UPDATE COMMUNITY SET B_HIT = B_HIT+1 WHERE B_NO = #{bno}
 	</update>
+	
+	<select id="selectBestBoardList" resultMap="boardResultSet">
+	<![CDATA[
+		SELECT A.* ,C_NAME, ROWNUM FROM (SELECT * FROM COMMUNITY ORDER BY B_HIT DESC )A
+		LEFT JOIN COM_CATEGORY ON A.CATEGORY_NO = COM_CATEGORY.CATEGORY_NO
+		WHERE ROWNUM <= 5
+	]]>
+	
+	</select>
 	
 </mapper>

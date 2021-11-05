@@ -48,42 +48,23 @@
 
 </head>
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
+
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
+
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
+
          	<jsp:include page="../common/header.jsp"/>
-   
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-              <jsp:include page="../common/sidebar.jsp"/>
+            <jsp:include page="../common/sidebar.jsp"/>
       
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
      <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
+
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
@@ -98,13 +79,15 @@
                         </div>
                     </div>
                     <div class="col-5 align-self-center">
+                    <c:if test="${loginUser.empNo eq 200}">
+                    
                         <div class="customize-input float-right">
                             <button class="btn btn-primary btn-sm" type="button" style="width:220px;" 
                             		data-toggle="modal" data-target="#multiple-one">자료 등록하기
                             </button>
 
                       </div>
-                      
+                     </c:if>
                       
                         <!--  자료  등록 모달  -->                  
 			   			<div id="multiple-one" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-oneModalLabel" aria-hidden="true" style="display: none;">
@@ -157,20 +140,18 @@
                 </div>
             </div>
             <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
+
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <h4 class="card-title mt-5 font-weight-bold"><i class="fas fa-copy"></i>&nbsp;&nbsp;서류 검색</h4>
+                <h4 class="card-title mt-5 font-weight-bold"><i class="fas fa-copy"></i>&nbsp;&nbsp;양식 검색</h4>
                         <div class="card">
                             <div class="card-body" style="padding:15px;">
                             <form action="boardList.li" method="get" >
-                               <div class="form-group row">
-                               	<div class="col-3" style="display:inline-block">
-                               	 <label class=" font-weight-bold" for="">부서 별 분류</label>
-                                   <select class="custom-select mr-sm-2" id="cno" name="cno">
+                               <div class="form-group row" >
+                               	<div class="col-3" style="display:inline-block;"  style="margin-left:30px;" >
+                               	 <label class=" font-weight-bold" for=""  style="margin-left:30px;">부서 별 분류</label>
+                                   <select class="custom-select mr-sm-2" id="cno" name="cno" style="margin-left:30px;">
                                        <option selected value="0">전체 조회 </option>
                                        <option value="1">경리회계</option>
                                        <option value="2">경영지원</option>
@@ -180,12 +161,10 @@
                                	
                                	</div>
                                	<div  class=" col-6" style="display:inline-block">
-         						<label class="mr-sm-2 font-weight-bold" for="">서류 검색</label>                                  
-                                   <input type="search" name="keyword" style="display:inline-block;" class="form-control" placeholder="서류 검색">
+         						<label class="mr-sm-2 font-weight-bold" for="">양식 검색</label>                                  
+                                   <input type="search" name="keyword" style="display:inline-block;" class="form-control" placeholder="양식 검색">
                               	</div>
-                              	<div class="col-2">	
-                              		<button style="width:100px; margin-top:40px;" class="form-control btn btn-outline-secondary"><i class="icon-magnifier">검색</i></button>
-                              	</div>
+                              		<button style=" max-width:200px; margin-top:40px;" class="form-control mr-sm-2 btn btn-outline-secondary"><i class="icon-magnifier">검색</i></button>
                                </div>
                                </form>
                             </div>
@@ -202,7 +181,11 @@
 
 	                 		   <div class="card"style="height:200px"   >
 	                            <div class="card-body" >
+	                                 <c:if test="${loginUser.empNo eq 200}">
+	                            
 									<a class='deleteBtn'  onclick='deleteBoard(${l.lno});' style="color:darkgray"><i class="fas fa-trash-alt" style="font-size:13px; position:absolute; right:15px; top:10px;"></i></a>
+	                               	</c:if>
+	                               	
 	                                <h4 class="card-title" style="font-size:17px;">
 	                                <a href="fileDownLoad.do?fileName=${l.changeName }">${l.originName} &nbsp; 
 	                                <i class="fas fa-file-alt" onclick="downloadFile(${l.changeName});"></i></a></h4>
@@ -291,30 +274,10 @@
 				                
 				                </div>
 			                </div>
-		                </div>
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                                   
+		                </div>	                    
 	                </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
+
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
@@ -329,34 +292,9 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
  </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center text-muted">
-                All Rights Reserved by Adminmart. Designed and Developed by <a
-                    href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
 
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
+
+ 
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
@@ -384,21 +322,6 @@
     	  $(".upload-name").val(fileName);
     	});
     
-/*     function downloadFile(filename){
-        const encFileName = encodeURI(filename);
-        $.ajax({
-            method:"GET",
-            url : 'fileDownLoad.do',
-            success : function(data) {
-                window.location ='fileDownLoad.do?FileName=${encFileName}';
-            },
-            error:function(request,status){
-                alert("오류가 발생했습니다.");
-            }
-        });
-    }
- */
- 
 	 var deleteBoard = function(lno){
 		 var check = confirm("자료를 삭제하십니까 ?");
 		 

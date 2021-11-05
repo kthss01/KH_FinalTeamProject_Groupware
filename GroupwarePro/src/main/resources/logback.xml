@@ -9,26 +9,11 @@
 			</encoder>
 		</layout>
 	</appender>
-
-	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/logs/debug.log</file>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>[%-5level] %d{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
-		</encoder>
+	
+	<logger name="com.kh.spring" level="DEBUG" /> <!-- spring 패키지 안에있는건 다 debug 레벨로 나옴 -->
+	<logger name="jdbc.resultsettable" level="INFO" /> <!-- 이렇게 설정하면 root level과 상관없이 나옴 필요한 클래스만 추가 -->
 		
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>50MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<maxHistory>15</maxHistory>
-		</rollingPolicy>
-	</appender>
-	
-	<logger name="com.kh.spring" level="DEBUG" />
-	
-	<root level="INFO">
+	<root level="WARN">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="file" />
 	</root>
 </configuration>

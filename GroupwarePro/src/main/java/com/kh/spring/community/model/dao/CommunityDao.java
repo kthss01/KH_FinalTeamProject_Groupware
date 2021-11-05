@@ -101,4 +101,9 @@ public class CommunityDao {
 		return sqlSession.update("communityMapper.countBoard",bno);
 	}
 
+	public ArrayList<CommunityBoard> selectBestBoardList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("communityMapper.selectBestBoardList");
+	}
+
 }

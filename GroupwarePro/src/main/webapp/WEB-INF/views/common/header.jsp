@@ -8,7 +8,19 @@
 <title>Insert title here</title>
 </head>
 <body>
+
         <header class="topbar" data-navbarbg="skin6">
+        	
+				<div id="socketAlert" class="alert alert-info alert-dismissible fade show" role="alert" 
+						style="text-align:center; height:40px; padding:5px; display:none;">
+	                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:5px 30px;"
+	                			onclick='$("#socketAlert").css("display","none")'>
+	                    <span aria-hidden="true">×</span>
+	                </button>
+	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 메신저 &nbsp;- &nbsp;</span> 
+	                	<span id='socketAlertMsg' style="font-size:17px;"> 새 메세지가 도착했습니다! </span>
+                 </div>
+           
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
@@ -19,7 +31,7 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
                         <!-- Logo icon -->
-                        <a href="index.html">
+                        <a href="${ pageContext.servletContext.contextPath }">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
@@ -146,19 +158,7 @@
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
                         </li>
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <div class="customize-input">
-                                    <select
-                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
-                                        <option selected>EN</option>
-                                        <option value="1">AB</option>
-                                        <option value="2">AK</option>
-                                        <option value="3">BE</option>
-                                    </select>
-                                </div>
-                            </a>
-                        </li>
+
                     </ul>
                     
                     
@@ -208,18 +208,18 @@
                                     	내 정보</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
                                         class="svg-icon mr-2 ml-1"></i>
-                                   메뉴 2</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    메뉴 3</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    내 정보 수정</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)" href="logout.me"><i data-feather="power"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    로그아웃</a>
+					                                   메뉴 2</a>
+					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    메뉴 3</a>
+					                                <div class="dropdown-divider"></div>
+					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    내 정보 수정</a>
+					                                <div class="dropdown-divider"></div>
+					                                <a class="dropdown-item" href="logout.me"><i data-feather="power"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    로그아웃</a>
                                 <div class="dropdown-divider"></div>
                                 <!-- 
                                 <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
@@ -242,8 +242,64 @@
                         <!-- ============================================================== -->
                     </ul>
                 </div>
+                
+   
             </nav>
-        </header>
+            	             
 
+                	
+        </header>
+	<script
+		src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
 </body>
+<script>
+//자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  	
+var socket = null;
+$(document).ready( function() {
+
+    connectWS();	
+});
+function connectWS() {
+    var ws = new WebSocket("ws://localhost:8090/spring/echo");
+    socket = ws;
+    ws.onopen = function () {
+        console.log('Info: connection opened.');
+    };
+    ws.onmessage = function (event) {
+        let socketAlert = $("div#socketAlert");
+        let socketAlertMsg = $("#socketAlertMsg");
+        console.log(event.data);
+        var str = event.data;
+        var msgArr = str.split(',');
+        var alertMsg = msgArr[0];
+        console.log(alertMsg);
+        var msg = msgArr[1];
+        var resultReceiver = str.substring(20,28)
+        if(location.pathname != "/spring/chatPage.ch"){
+            socketAlert.css("display",'block');
+            socketAlertMsg.html(alertMsg);
+        }else if(location.search != resultReceiver){
+        	$('#newAlert').css("display",'block')
+			$('#newAlert').html(alertMsg);
+        }
+        
+       if(alertMsg == 'error'){
+    	   alert(msg);
+       }
+        /* 팝업은 클릭하지 않으면 5초 후에 자동으로 사라진다. 
+        setTimeout( function(){
+        	socketAlert.css("display","none");
+        }, 5000);
+        */
+
+    };
+    
+    ws.onclose = function (event) { 
+        console.log('Info: connection closed.');
+    };
+    ws.onerror = function (err) { console.log('Error:', err); };
+    
+
+}
+</script>
 </html>
