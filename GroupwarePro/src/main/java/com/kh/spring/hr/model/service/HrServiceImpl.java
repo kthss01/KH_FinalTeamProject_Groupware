@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.hr.model.dao.HrDao;
+import com.kh.spring.hr.model.vo.VacationInfo;
 import com.kh.spring.hr.model.vo.Work;
+import com.kh.spring.hr.model.vo.WorkSInfo;
 
 @Service
 public class HrServiceImpl implements HrService {
@@ -45,6 +47,24 @@ public class HrServiceImpl implements HrService {
 		if(result < 0) {
 			throw new CommException("퇴근 확인 실패");
 		}
+	}
+
+	@Override
+	public void insertWorkStatus(WorkSInfo wsi) {
+		int result = hrDao.insertWorkStatus(sqlSession, wsi);
+		
+		if(result < 0) {
+			throw new CommException("근무상태변경 실패");
+		}
+		
+	}
+
+	@Override
+	public VacationInfo selectVacationInfo(int empNo) {
+		
+		VacationInfo vi = hrDao.selectVacationInfo(sqlSession, empNo);
+		
+		return vi;
 	}
 
 

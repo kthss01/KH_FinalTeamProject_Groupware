@@ -32,8 +32,9 @@
 		<!-- 전사공지 -->
 	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
 	
-    <!-- 근태관리 -->
+    	<!-- 근태관리 -->
    		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
 
     
 	</typeAliases>

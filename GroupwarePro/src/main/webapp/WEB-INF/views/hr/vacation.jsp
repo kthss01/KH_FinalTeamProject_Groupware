@@ -216,35 +216,29 @@
 					<!------------------------------------------------------>
 					
 					<div class="col-10">
-						<h3>근태 현황</h3>
+						<h3>연차 내역</h3>
 						<div class="row">
 							<div class="m-auto">
-								<span><i data-feather="chevron-left" class="feather-icon"></i></span>
 								<span>2021.10</span>
-								<span><i data-feather="chevron-right" class="feather-icon"></i></span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12 m-auto">
-								<div class="d-flex col-12 m-auto" style="border: 1px solid rgba(0,0,0,.125); background-color: white">
-									<div class="col-2 m-auto" style="height:100%; padding:10px 0px">
+								<div class="d-flex col-11 m-auto" style="border: 1px solid rgba(0,0,0,.125); background-color: white">
+									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
 										<p class="text-center m-auto" style="font-size:12px">이번주 누적</p>
 										<p class="text-center m-auto text-primary">3h 27m 32s</p>
 									</div>
-									<div class="col-2 m-auto" style="height:100%; padding:10px 0px">
+									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
 									<p class="text-center m-auto" style="font-size:12px">이번주 초과</p>
 										<p class="text-center m-auto text-primary">3h 27m 32s</p>
 									</div>
-									<div class="col-2 m-auto" style="height:100%; padding:10px 0px">
+									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
 										<p class="text-center m-auto" style="font-size:12px">이번주 잔여</p>
 										<p class="text-center m-auto text-primary">3h 27m 32s</p>
 									</div>
-									<div class="col-2 m-auto" style="height:100%; padding:10px 0px">
+									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
 										<p class="text-center m-auto" style="font-size:12px">이번달 누적</p>
-										<p class="text-center m-auto">3h 27m 32s</p>
-									</div>
-									<div class="col-2 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">이번달 연장</p>
 										<p class="text-center m-auto">3h 27m 32s</p>
 									</div>
 								</div>
