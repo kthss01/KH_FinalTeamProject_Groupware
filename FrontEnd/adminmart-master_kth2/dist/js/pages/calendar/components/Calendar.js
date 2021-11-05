@@ -1,72 +1,25 @@
 import Component from "../core/Components.js";
+import axios from '../axios.js'
 
 export default class Calendar extends Component {
+  calendar;
+
+  constructor($target, $props) {
+    super($target, $props);
+
+    this.loadCalendar(1);
+  }
 
   setup () {
-    this.events = [{
-        title: 'All Day Event',
-        start: '2021-11-01',
-      },
-      {
-        title: 'Long Event',
-        start: '2021-11-11',
-        end: '2021-11-10'
-      },
-      {
-        groupId: 999,
-        title: 'Repeating Event',
-        start: '2021-11-09T16:00:00'
-      },
-      {
-        groupId: 999,
-        title: 'Repeating Event',
-        start: '2021-11-16T16:00:00'
-      },
-      {
-        title: 'Conference',
-        start: '2021-11-11',
-        end: '2021-11-13'
-      },
-      {
-        title: 'Meeting',
-        start: '2021-11-12T10:30:00',
-        end: '2021-11-12T12:30:00'
-      },
-      {
-        title: 'Lunch',
-        start: '2021-11-12T12:00:00'
-      },
-      {
-        title: 'Meeting',
-        start: '2021-11-12T14:30:00'
-      },
-      {
-        title: 'Happy Hour',
-        start: '2021-11-12T17:30:00'
-      },
-      {
-        title: 'Dinner',
-        start: '2021-11-12T20:00:00'
-      },
-      {
-        title: 'Birthday Party',
-        start: '2021-11-13T11:00:00'
-      },
-      {
-        title: 'Click for Google',
-        url: 'http://google.com/', // 클릭시 해당 url로 이동
-        start: '2021-11-28'
-      }
-    ];
 
     this.config = {
       height: '600px', // calendar 높이 설정
       expandRows: true, // 화면에 맞게 높이 재설정
-      slotMinTime: '08:00', // Day 캘린더에서 시작 시간
-      slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+      slotMinTime: '07:00', // Day 캘린더에서 시작 시간
+      slotMaxTime: '24:00', // Day 캘린더에서 종료 시간
       // 헤더에 표시할 툴바
       headerToolbar: {
-        start: 'timeGridDay,timeGridWeek,dayGridMonth,listYear',
+        start: 'timeGridDay,timeGridWeek,dayGridMonth',
         center: 'title',
         end: 'prev,today,next'
       },
@@ -74,7 +27,6 @@ export default class Calendar extends Component {
         day: '일간',
         week: '주간',
         month: '월간',
-        list: '목록',
       },
       views: {
         timeGridDay: {
@@ -94,33 +46,6 @@ export default class Calendar extends Component {
       nowIndicator: true, // 현재 시간 마크
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇개식으로 표현)
       locale: 'ko', // 한국어 설정
-      eventAdd: function (obj) {
-        // 이벤트가 추가되면 발생하는 이벤트
-        console.log(obj);
-      },
-      eventChange: function (obj) {
-        // 이벤트가 수정되면 발생하는 이벤트
-        console.log(obj);
-      },
-      // eventRemove: function (obj) {
-      //   // 이벤트가 삭제되면 발생하는 이벤트
-      //   console.log(obj);
-      // },
-      // select: function (arg) {
-      //   // 캘린더에서 드래그로 이벤트를 생성할 수 있음
-      //   const title = prompt('Event Title:');
-      //   if (title) {
-      //     calendar.addEvent({
-      //       title: title,
-      //       start: arg.start,
-      //       end: arg.end,
-      //       allDay: arg.allDay
-      //     });
-      //   }
-      //   calendar.unselect();
-      // },
-      // 이벤트
-      events: this.events, 
     };
 
   }
@@ -134,12 +59,73 @@ export default class Calendar extends Component {
   }
 
   mounted () {
-    const $calendar = this.$target.querySelector('#calendar');
-    const calendar = new FullCalendar.Calendar($calendar, this.config);
-    // 캘린더 랜더링
-    setTimeout(() => {
-      calendar.render();
-    }, 100);
+  
   }
 
+  loadCalendar = async (calNo) => {
+
+    this.events = await this.readEvents(calNo);
+
+    const $calendar = this.$target.querySelector('#calendar');
+    this.calendar = new FullCalendar.Calendar($calendar, this.config);
+
+    this.events.forEach(event => {
+      this.calendar.addEvent(event);
+    })
+
+    this.setCalendar();
+
+    this.calendar.render();
+
+    console.log(this);
+  }
+
+  readEvents = async (calNo) => {
+    const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
+    // console.log(res);
+
+    const events = res.data.map((evt) => {
+      return {
+        id: evt.evtNo,
+        title: evt.name,
+        start: evt.startDate,
+        end: evt.endDate,
+      }
+    });
+
+    console.log(events);
+
+    return events;
+  }
+
+  setCalendar = () => {
+    // 이벤트 생성
+    this.calendar.on('select', (info) => {
+      const title = prompt('title 입력');
+
+      console.log(this); // 이넘 자신이 calendar임
+
+      if (title) {
+        this.calendar.addEvent({
+          title,
+          start: info.start,
+          end: info.end,
+          allDay: info.view.type === 'dayGridMonth',
+        });        
+      }
+    });
+
+    // 이벤트 조회
+    this.calendar.on('eventClick', (info) => {
+      // 이벤트 수정 및 삭제가 가능하게 info에 조회라고 생각
+      console.log('Event: ' + info.event.title);
+      console.log('Color: ' + info.event.backgroundColor);
+
+      // info.event.title = 'test'; // 이런식으로 변경 후 DB 변경
+      // info.event.setProp("title", "test");
+      // info.event.setProp("backgroundColor", "green");
+    });
+
+    // 이벤트 수정, 삭제
+  }
 }

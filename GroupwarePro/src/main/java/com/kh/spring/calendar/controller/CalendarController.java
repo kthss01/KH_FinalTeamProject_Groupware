@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,15 +26,17 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value="selectEvtList.ca", produces="application/json; charset=utf-8")
 	public String selectEventList(int calNo) {
 		
 		ArrayList<Event> list = calendarService.selectEventList(calNo); 
 		
-		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(list);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value="selectCalList.ca", produces="application/json; charset=utf-8")
 	public String selectCalList(int empNo) {
