@@ -427,16 +427,18 @@
 	<script>
 	$(function(){
 		
+		//홈버튼 선택 css 자동으로 안되어서 수동으로 추가함
 		$('#homeBtn').parent().addClass('selected');
 		$('#homeBtn').addClass('active');
 		
+		
+		//인기 게시글 조회
 		var boardList = $("#boardList");
 		
 		$.ajax({
 			url:'bestBoardList.co',
 			type:'post',
 			success : function(list){
-				console.log(list);
 				list.forEach((b=>{
 					
 					boardList.append(`
@@ -460,9 +462,6 @@
 				
 			}
 		})
-		
-		
-		
 
 	})
 	</script>

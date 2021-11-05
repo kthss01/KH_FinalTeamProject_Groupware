@@ -167,7 +167,7 @@
 										<input id='title'
 											name="title" type="text" class="form-control form-control-sm"
 											style="margin-bottom: 10px;" placeholder="글 제목을 입력하세요">
-										<input id='writer' name="writer" type="hidden" class="form-control form-control-sm" value ='${loginUser.empNo}'>
+										<input id='writer' name="writer" type="hidden" class="form-control form-control-sm" value ='${loginUser.loginId}'>
 										<label style="display: inline"
 											class="mr-sm-2  font-weight-bold"
 											for="inlineFormCustomSelect">작성날짜</label>
