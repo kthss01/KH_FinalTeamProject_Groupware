@@ -69,7 +69,7 @@ public class HrController {
 		WorkSInfo wsi = new WorkSInfo(wNo, sCode);
 		hrService.insertWorkStatus(wsi);
 		
-		return "redirect:main.hr";
+		return "redirect:work.hr";
 	}
 	
 	@RequestMapping("vacation.hr")
