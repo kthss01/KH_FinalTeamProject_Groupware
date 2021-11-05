@@ -336,6 +336,13 @@
 	
         $(function () {
         	
+        	selectDeptList();
+
+        	//일정시간 마다 주소록 조회 (상태변경을 위한 반복 조회)
+        	
+       	    var timer = setInterval(function(){
+            	selectDeptList();
+		    }, 60000)
         	
     	    //스크롤바 제일 아래로 초기화
   	      $('.chat-list').parent().animate({
@@ -404,36 +411,48 @@
         		});
         
 
-        var contectList = $("#contectListArea");
-        
-         $.ajax({
-        	url:'deptList.ch',
-        	type:'post',
-        	dataType:'json',
-        	success : function(list){
-        		
-         		list.forEach((d => {
-        			contectList.append(`
-                            <li>
-	                            <a href="#"
-	                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-	                                 <i class="icon-menu" style="font-size:11px;"></i> &nbsp;&nbsp;&nbsp;
-	                                    <span class="message-title mb-0 mt-1" style="font-size:19px;">\${d.title}</span>
-	                     
-	                            </a>
-	                            <ul id="\${d.title}">
-	                            </ul>
-                            </li>
-        					`)
-   			
-        			selectContectList(d.title);
-         		}));  
 
-        	}
-        })
-	
         });
       
+        
+        var selectDeptList = function(){
+        	
+        	var contectList = $("#contectListArea");
+        	contectList.empty();
+            $.ajax({
+            	url:'deptList.ch',
+            	type:'post',
+            	dataType:'json',
+            	success : function(list){
+            		
+             		list.forEach((d => {
+            			contectList.append(`
+                                <li>
+    	                            <a href="#"
+    	                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
+    	                                 <i class="icon-menu" style="font-size:11px;"></i> &nbsp;&nbsp;&nbsp;
+    	                                    <span class="message-title mb-0 mt-1" style="font-size:19px;">\${d.title}</span>
+    	                     
+    	                            </a>
+    	                            <ul id="\${d.title}">
+    	                            </ul>
+                                </li>
+            					`)
+       			
+            			selectContectList(d.title);
+             		}));  
+
+            	}
+            })
+        	
+        	
+        }
+        
+        
+        
+        
+        
+        
         function selectContectList(title){
         	
         	var titleArea = $("#"+title);

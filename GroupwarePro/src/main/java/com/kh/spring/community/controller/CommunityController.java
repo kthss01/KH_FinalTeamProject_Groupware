@@ -177,6 +177,15 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	
+	@ResponseBody	
+	@RequestMapping(value="bestBoardList.co",produces="application/json; charset=utf-8")
+	public String selectBestBoardList() {
+		
+		
+		ArrayList<CommunityBoard> list = communityService.selectBestBoardList();
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
 	
 	
 
