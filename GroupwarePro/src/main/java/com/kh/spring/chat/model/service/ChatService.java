@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.chat.model.vo.Department;
+import com.kh.spring.chat.model.vo.Favorites;
 
 public interface ChatService {
 
@@ -20,5 +21,13 @@ public interface ChatService {
 	int updateStatus(ContectList con);
 
 	ArrayList<Chat> selectChatList(Chat chat);
+
+	ArrayList<Favorites> selectFavoriteList(int eno);
+
+	int insertFavorites(Favorites f);
+
+	void deleteFavorites(Favorites f);
+
+	Favorites checkFavorites(Favorites f);
 
 }
