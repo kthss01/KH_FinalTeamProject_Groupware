@@ -17,7 +17,7 @@
 	                			onclick='$("#socketAlert").css("display","none")'>
 	                    <span aria-hidden="true">×</span>
 	                </button>
-	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 메신저 &nbsp;- &nbsp;</span> 
+	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 알림 &nbsp;- &nbsp;</span> 
 	                	<span id='socketAlertMsg' style="font-size:17px;"> 새 메세지가 도착했습니다! </span>
                  </div>
            
@@ -271,17 +271,28 @@ function connectWS() {
         console.log(event.data);
         var str = event.data;
         var msgArr = str.split(',');
-        var alertMsg = msgArr[0];
-        console.log(alertMsg);
-        var msg = msgArr[1];
-        var resultReceiver = str.substring(20,28)
-        if(location.pathname != "/spring/chatPage.ch"){
-            socketAlert.css("display",'block');
-            socketAlertMsg.html(alertMsg);
-        }else if(location.search != resultReceiver){
-        	$('#newAlert').css("display",'block')
-			$('#newAlert').html(alertMsg);
-        }
+        console.log(msgArr[0]);
+        if(msgArr[0] == 'reply'){
+            alertMsg = msgArr[1]
+            
+             socketAlert.css("display",'block');
+             socketAlertMsg.html(alertMsg);
+             
+         }else{
+            
+             alertMsg = msgArr[0];
+
+             var resultReceiver = str.substring(20,28)
+             if(location.pathname != "/spring/chatPage.ch"){
+                 socketAlert.css("display",'block');
+                 socketAlertMsg.html(alertMsg);
+             }else if(location.search != resultReceiver){
+                $('#newAlert').css("display",'block')
+              $('#newAlert').html(alertMsg);
+             }
+             
+
+         }
         
        if(alertMsg == 'error'){
     	   alert(msg);

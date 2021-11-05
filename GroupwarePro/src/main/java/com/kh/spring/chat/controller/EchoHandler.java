@@ -28,10 +28,6 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 		String senderId = getId(session);
 		userSessions.put(senderId, session);  //연결 된 사용자의 아이디가 맵에 들어간다./ 로그인이 되어있지 않으면 세션아이디
 		
-		// forEach
-		userSessions.forEach((key, value) -> {
-			System.out.println(key + " : " + value);
-		});
 	}
 
 	//클라이언트가 웹소켓 서버로 메세지를 전송했을 때 실행
@@ -44,16 +40,36 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 			String text = "";
 			//protocol : 기능, 발신자 , 수신자 (user2가 user1에게 채팅을 보낸다면    chat,user2,user1 )
 			String msg = message.getPayload();
+			String func = "";
+			String sender = "";
+			String receiver = "";
+			String receiverNo = "";
+			String title = "";
+			
 			if(!StringUtils.isEmpty(msg)) {
 				String[] strArr = message.getPayload().split(",");
-				if(strArr != null && strArr.length == 5) {
-					String func = strArr[0];
-					String sender = strArr[1];
-					String receiver = strArr[2];
-					String receiverNo = strArr[3];
-					text = strArr[4];
+				if(strArr != null) {
 					
-					
+					func = strArr[0];
+
+					switch(func){
+					case "chat" :
+						 sender = strArr[1];
+						 receiver = strArr[2];
+						 receiverNo = strArr[3];
+						 text = strArr[4];
+
+						break;
+					case "reply" :  //프로토콜 : ( 기능, 글 제목, 글 번호,글 작성자 )
+						
+						title = strArr[1];
+						receiverNo = strArr[2];
+						receiver = strArr[3];
+						
+						break;
+
+					}
+	
 					WebSocketSession receiverSession = userSessions.get(receiver);
 					if("chat".contentEquals(func) && receiverSession != null) {   //받는 이가 로그인한 상태라면 
 						receiverSession.sendMessage(new TextMessage("<a href='chatPage.ch?eno="+String.valueOf(receiverNo)+"'>새 메세지가 도착했습니다</a>"+"," + text ));
@@ -61,9 +77,10 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 					
 					if("reply".contentEquals(func) && receiverSession != null) {
 						
-						receiverSession.sendMessage(new TextMessage("<a href='detail.co?bno="+String.valueOf(receiverNo)+"'>작성하신 글에 댓글이 달렸습니다.</a>"));
+						receiverSession.sendMessage(new TextMessage("reply,"+"<a href='detail.co?bno="+String.valueOf(receiverNo)+"'>작성하신 글 ["+title+"]에 댓글이 달렸습니다.</a>"));
 
 					}
+
 					
 					
 				}

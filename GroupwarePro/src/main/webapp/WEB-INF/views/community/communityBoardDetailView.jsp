@@ -190,7 +190,7 @@
 										</div>
 									</div>
 								
-								<c:if test="${ loginUser.empNo eq b.writer }">
+								<c:if test="${ loginUser.empNo eq b.writer or 200 eq b.writer}">
 								<div id="btnArea" style="height:80px;"class="col-12">
 									<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정</button>
 									<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()" style="margin-top: 50px; position:absolute; right:0" >삭제</button>
@@ -535,23 +535,34 @@
 				 });  
   				 
 		 } 
+		 
+		    var bTitle= '${b.title}';
+		    var bno = ${b.bno};
+			var wirter= '${b.writer}';
+		 
+		 
   	 		function insertComment(){
-  	 			
-  	 			var formData = $("#replyForm").serialize();
+	
+  	 			var formData = $("#replyForm").serialize();  	 			
   	 			
   	 			$.ajax({
   	 				type:'post',
   	 				url : 'insertReply.co',
   	 				data : formData,
+  	 				ansyc :false,
   	 				dataType : 'json',
   	 				success : function (result){
 						if(result > 0){
-						alert("댓글이 성공적으로 등록되었습니다.");
 						$("#replyNickname  ").val("");
 						$("#replyPwd").val("");
 						$("#comment").val("");
-						selectReplyList(${b.bno});
-						 
+        				selectReplyList(${b.bno});
+
+        				if(${loginUser.loginId} != writer){
+             				socket.send("reply," + bTitle +"," + bno + "," + wirter);
+        				}
+        				
+ 
 						}else{
 							alert("댓글등록실패");
 						}
@@ -562,13 +573,15 @@
   	 					console.log("status"+status);
   	 					console.log("error"+error);
   	 				}
-  	 			})	
+  	 			})
+  	 			
+
   	 		}
   	 		
   	 		function insertReComment(){
   	 			
   	 			var formData = $("#reCommentForm").serialize();
-  	 			
+  	 			console.log("==" + formData);
   	 			$.ajax({
   	 				type:'post',
   	 				url : 'insertReply.co',
@@ -576,7 +589,8 @@
   	 				success : function (result){
 						if(result > 0){
 							alert("답글이 성공적으로 등록되었습니다.");
-							$("#reCommentBox").hide();
+							$("#reCommentBox").hide();							
+							
 							selectReplyList(${b.bno});
 							
 						}else{
@@ -603,7 +617,10 @@
   	 				dataType : 'json',
   	 				success:function(list){		 	 					
   	 					$("#rcount").text(list.length);
+	 						commentBox.empty();
+
   	 					list.forEach((r => {
+  	 						
   	 						commentBox.append(`
   	 								<br>
   	 								<b class='font-weight-bold'>\${r.name}</b>님의 한마디 
@@ -620,9 +637,7 @@
   	 								
   	 							
   	 							 selectReComentList(r.cno, bno); 
-  	 						
 
-					
   	 					}));
 
   	 			   	 	$(".reComment").on("click",function(){
@@ -680,12 +695,8 @@
 		   	 	}
 				
 
-
-
-				
 				 function selectReComentList(pno,bno){
-
-					 
+	 
 						$.ajax({
 							
 							url : 'selectReComentList.co',
@@ -696,8 +707,6 @@
 								bno : bno
 							},
 							success :  function(list){
-								console.log("통신성공");
-								console.log("답글 : " + list);
 							
 								list.forEach((r => {
 									

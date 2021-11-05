@@ -96,18 +96,21 @@ public class CommunityController {
 		int nextBno = communityService.selectSeqBno();
 		at.setBno(nextBno-1);
 
-		if (!multipartFile.get(0).getOriginalFilename().equals("")) {
-			for (MultipartFile file : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
-				System.out.println("originName : " + file.getOriginalFilename());
-				String changeName = saveFile(file, request);
-				System.out.println("changeName : " + changeName);
-				if (changeName != null) {
-					at.setOriginName(file.getOriginalFilename());
-					at.setChangeName(changeName);
-					communityService.insertCommunityAttachment(at);
-				}
+		if(!multipartFile.isEmpty()) {
+			if (!multipartFile.get(0).getOriginalFilename().equals("")) {
+				for (MultipartFile file : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
+					System.out.println("originName : " + file.getOriginalFilename());
+					String changeName = saveFile(file, request);
+					System.out.println("changeName : " + changeName);
+					if (changeName != null) {
+						at.setOriginName(file.getOriginalFilename());
+						at.setChangeName(changeName);
+						communityService.insertCommunityAttachment(at);
+					}
 
+				}
 			}
+
 		}
 	}
 
