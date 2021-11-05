@@ -22,7 +22,7 @@ import com.kh.spring.member.model.vo.Member;
 @Controller
 public class MemberController {
 
-	
+	@Autowired
 	private MemberService memberService;
 	
 	@Autowired

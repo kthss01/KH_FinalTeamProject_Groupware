@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -89,6 +91,12 @@ public class MemberServiceImpl implements MemberService {
 			throw new CommException("회원탈퇴 실패");
 		}
 		
+	}
+
+	@Override
+	public ArrayList<Member> getMemberList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
