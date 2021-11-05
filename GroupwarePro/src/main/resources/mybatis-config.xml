@@ -35,6 +35,7 @@
 	
    		<!-- 근태관리 -->
    		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
 
 	    <!-- 일정 -->
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
