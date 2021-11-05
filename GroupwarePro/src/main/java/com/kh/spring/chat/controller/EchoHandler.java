@@ -58,6 +58,14 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 					if("chat".contentEquals(func) && receiverSession != null) {   //받는 이가 로그인한 상태라면 
 						receiverSession.sendMessage(new TextMessage("<a href='chatPage.ch?eno="+String.valueOf(receiverNo)+"'>새 메세지가 도착했습니다</a>"+"," + text ));
 					}
+					
+					if("reply".contentEquals(func) && receiverSession != null) {
+						
+						receiverSession.sendMessage(new TextMessage("<a href='detail.co?bno="+String.valueOf(receiverNo)+"'>작성하신 글에 댓글이 달렸습니다.</a>"));
+
+					}
+					
+					
 				}
 				
 			}

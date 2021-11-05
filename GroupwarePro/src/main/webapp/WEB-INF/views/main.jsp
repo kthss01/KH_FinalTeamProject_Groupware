@@ -25,6 +25,16 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+	<style>
+	
+	#boardList li:hover{
+	cursor:pointer;
+	color:#212529;
+	}
+	
+	</style>
+
 </head>
 
 <body>
@@ -300,27 +310,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex align-items-start">
-                                    <h4 class="card-title mb-0 font-weight-bold" >실시간 커뮤니티 인기 글</h4>
-                                    <div class="ml-auto">
-       
-                                    </div>
+                                    <h4 class="card-title mb-0 font-weight-bold"  >실시간 커뮤니티 인기 글</h4>
+
                                 </div>
-                                <div class="pl-4 mb-5">
-                                
-                                
-                                
-                                    <div class="position-relative" style="height: 315px;">
-                                    
-                                    
-                                    
-                                    
-                                    
+									<div class="col-md-12 col-sm-12" style="margin-top:50px;">
+                                        <ul class="list-group" id="boardList">
+
+                                        </ul>
                                     </div>
-                                
-                                
-                                
-                                
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -433,16 +430,40 @@
 		$('#homeBtn').parent().addClass('selected');
 		$('#homeBtn').addClass('active');
 		
-		
+		var boardList = $("#boardList");
 		
 		$.ajax({
-		
-			url:'bestBoardList'
-			
+			url:'bestBoardList.co',
+			type:'post',
+			success : function(list){
+				console.log(list);
+				list.forEach((b=>{
+					
+					boardList.append(`
+							<span class="badge badge-info" style="display:inline-block; width:100px;">\${b.cName}</span>
+
+                            <li  class="list-group-item" style="text-align:center; margin-bottom:10px;">
+							<input type="hidden" value="\${b.bno}">
+							\${b.title}
+
+                            </li>
+
+							`)
+
+				}));
+				
+				
+				$("#boardList li").click(function(){
+					location.href="detail.co?bno=" + $(this).children().eq(0).val();
+				});
+				
+				
+			}
 		})
 		
 		
 		
+
 	})
 	</script>
 

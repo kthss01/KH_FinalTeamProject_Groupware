@@ -17,6 +17,7 @@ public class CommunityBoard {
 	
 	private int bno;
 	private int cno;
+	private String cName;
 	private String title;
 	private String content;
 	private String writer;

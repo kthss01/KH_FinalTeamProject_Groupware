@@ -150,4 +150,10 @@ public class CommunityServiceImpl implements CommunityService {
 		}
 	}
 
+	@Override
+	public ArrayList<CommunityBoard> selectBestBoardList() {
+		ArrayList<CommunityBoard> list = communityDao.selectBestBoardList(sqlSession);		
+		return list;
+	}
+
 }
