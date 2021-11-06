@@ -2,18 +2,11 @@ import Component from "../core/Components.js";
 import axios from '../axios.js'
 
 export default class Calendar extends Component {
-  calendar;
-
-  constructor($target, $props) {
-    super($target, $props);
-
-    this.loadCalendar(1);
-  }
 
   setup () {
 
     this.config = {
-      height: '600px', // calendar 높이 설정
+      height: '625px', // calendar 높이 설정
       expandRows: true, // 화면에 맞게 높이 재설정
       slotMinTime: '07:00', // Day 캘린더에서 시작 시간
       slotMaxTime: '24:00', // Day 캘린더에서 종료 시간
@@ -48,84 +41,82 @@ export default class Calendar extends Component {
       locale: 'ko', // 한국어 설정
     };
 
-  }
+    this.$props.$calendar = new FullCalendar.Calendar(this.$target, this.config);
 
-  template () {
-    return `
-      <div class="card-body">
-        <div id="calendar"></div>
-      </div>
-    `;
+    // 이벤트 읽어오는 함수
+    this.readEvents = async (calNo) => {
+      const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
+      // console.log(res);
+  
+      const events = res.data.map((evt) => {
+        return {
+          id: evt.evtNo,
+          title: evt.name,
+          start: evt.startDate,
+          end: evt.endDate,
+        }
+      });
+  
+      return events;
+    }
+
+    // 캘린더 렌더를 위한 함수
+    this.loadCalendar = async (calNo) => {
+
+      const { $calendar } = this.$props;
+
+      this.events = await this.readEvents(calNo);
+  
+      this.events.forEach(event => {
+        $calendar.addEvent(event);
+      })
+  
+      $calendar.render();
+    }
+
   }
 
   mounted () {
+    this.loadCalendar(1);
+  }
+
+  setEvent() {
+
+      const { $calendar } = this.$props;
+
+      // 이벤트 생성
+      $calendar.on('select', (info) => {
+        const title = prompt('title 입력');
   
-  }
-
-  loadCalendar = async (calNo) => {
-
-    this.events = await this.readEvents(calNo);
-
-    const $calendar = this.$target.querySelector('#calendar');
-    this.calendar = new FullCalendar.Calendar($calendar, this.config);
-
-    this.events.forEach(event => {
-      this.calendar.addEvent(event);
-    })
-
-    this.setCalendar();
-
-    this.calendar.render();
-
-    console.log(this);
-  }
-
-  readEvents = async (calNo) => {
-    const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
-    // console.log(res);
-
-    const events = res.data.map((evt) => {
-      return {
-        id: evt.evtNo,
-        title: evt.name,
-        start: evt.startDate,
-        end: evt.endDate,
-      }
-    });
-
-    console.log(events);
-
-    return events;
-  }
-
-  setCalendar = () => {
-    // 이벤트 생성
-    this.calendar.on('select', (info) => {
-      const title = prompt('title 입력');
-
-      console.log(this); // 이넘 자신이 calendar임
-
-      if (title) {
-        this.calendar.addEvent({
-          title,
-          start: info.start,
-          end: info.end,
-          allDay: info.view.type === 'dayGridMonth',
-        });        
-      }
-    });
-
-    // 이벤트 조회
-    this.calendar.on('eventClick', (info) => {
-      // 이벤트 수정 및 삭제가 가능하게 info에 조회라고 생각
-      console.log('Event: ' + info.event.title);
-      console.log('Color: ' + info.event.backgroundColor);
-
-      // info.event.title = 'test'; // 이런식으로 변경 후 DB 변경
-      // info.event.setProp("title", "test");
-      // info.event.setProp("backgroundColor", "green");
-    });
-
-    // 이벤트 수정, 삭제
+        //console.log(this); // 이넘 자신이 calendar임
+  
+        if (title) {
+          $calendar.addEvent({
+            title,
+            start: info.start,
+            end: info.end,
+            allDay: info.view.type === 'dayGridMonth',
+          });        
+        }
+      });
+  
+      // 이벤트 조회
+      $calendar.on('eventClick', (info) => {
+        // console.log(info.event);
+        // console.log(info);
+  
+        // 이벤트 수정 및 삭제가 가능하게 info에 조회라고 생각
+        console.log('Event: ' + info.event.title);
+        console.log('Start: ' + info.event.start);
+        console.log('End: ' + info.event.end);
+        console.log('Color: ' + info.event.backgroundColor);
+  
+        // info.event.title = 'test'; // 이런식으로 변경 후 DB 변경
+        // info.event.setProp("title", "test");
+        // info.event.setProp("backgroundColor", "green");
+        
+        // 이벤트 수정, 삭제
+      });
+  
   }
 }

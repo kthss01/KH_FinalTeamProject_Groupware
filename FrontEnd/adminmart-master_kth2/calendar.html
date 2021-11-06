@@ -78,19 +78,7 @@
                         </div>
                     </div>
                     <div class="col-4 align-self-center">
-                        <!-- <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
-                        </div> -->
-                        <div class="input-group">
-                            <input type="text" size="1" class="form-control" placeholder="캘린더 검색">
-                            <div class="input-group-apend">
-                                <button class="btn btn-info"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -163,13 +151,30 @@
 
     <script>
         $(function() {
-          $('input[name="datetimes"]').daterangepicker({
+          $('input[name="startDate"], input[name="endDate"]').daterangepicker({
             timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
             locale: {
               format: 'M/DD hh:mm A'
-            }
+            },
+            autoApply: true,
+            autoUpdateInput: false
+          }, function(start, end, label) {
+              const selectedStartDate = start.format('M/DD hh:mm A');
+              const selectedEndDate = end.format('M/DD hh:mm A');
+              
+              const startInput = $('input[name="startDate"]');
+              const endInput = $('input[name="endDate"]');
+
+              const startInputData = startInput.data('daterangepicker');
+              startInputData.setStartDate(selectedStartDate);
+              startInputData.setEndDate(selectedEndDate);
+
+              const endInputData = endInput.data('daterangepicker');
+              endInputData.setStartDate(selectedStartDate);
+              endInputData.setEndDate(selectedEndDate);
+
+              startInput.val(selectedStartDate);
+              endInput.val(selectedEndDate);
           });
         });
     </script>
