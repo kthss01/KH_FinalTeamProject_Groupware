@@ -36,32 +36,26 @@ export default class DateRangePicker extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { date=null } = this.$state;
+    console.log(this.$state);
 
-    if (date) {
+    const { start:startDate, end:endDate, allDay } = this.$state;
 
-      const { date } = this.$state;
+    const start = moment(startDate).format('M/DD HH:mm');
+    const end = allDay ? moment(endDate).subtract(1, 'milliseconds').format('M/DD HH:mm') : moment(endDate).format('M/DD HH:mm');
 
-      const start = moment(date.start).format('M/DD HH:mm');
-      const end = date.allDay ? moment(date.end).subtract(1, 'milliseconds').format('M/DD HH:mm') : moment(date.end).format('M/DD HH:mm');
+    const startInput = $('input[name="startDate"]');
+    const endInput = $('input[name="endDate"]');
 
-      // console.log(start, end);
+    const startInputData = startInput.data('daterangepicker');
+    startInputData.setStartDate(start);
+    startInputData.setEndDate(end);
 
-      const startInput = $('input[name="startDate"]');
-      const endInput = $('input[name="endDate"]');
+    const endInputData = endInput.data('daterangepicker');
+    endInputData.setStartDate(start);
+    endInputData.setEndDate(end);
 
-      const startInputData = startInput.data('daterangepicker');
-      startInputData.setStartDate(start);
-      startInputData.setEndDate(end);
-
-      const endInputData = endInput.data('daterangepicker');
-      endInputData.setStartDate(start);
-      endInputData.setEndDate(end);
-
-      startInput.val(start);
-      endInput.val(end);
-
-    } 
+    startInput.val(start);
+    endInput.val(end);
 
     this.render();
   }

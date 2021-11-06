@@ -18,11 +18,11 @@ export default class SideMenu extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { date=null, title=null } = this.$state;
+    const { event=null } = this.$state;
 
-    if (date || title) {
+    if (event) {
       const { edit } = this.$children;
-      edit.setState({ date, title });
+      edit.setState({ ...event });
     } else {
       this.render();
     }
@@ -47,4 +47,7 @@ export default class SideMenu extends Component {
     
   }
 
+  setEvent () {
+    
+  }
 }

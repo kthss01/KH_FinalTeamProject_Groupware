@@ -92,11 +92,15 @@ export default class Calendar extends Component {
 
   setEvent() {
 
-    const { selectDate, selectEvent } = this.$props;
+    const { selectEvent } = this.$props;
 
     // 이벤트 생성
     this.$calendar.on('select', (info) => {
-      selectDate({
+
+      // console.log(info.title); // undefined
+
+      selectEvent({
+        title: '',
         start: info.start,
         end: info.end,
         allDay: info.allDay,
@@ -109,14 +113,12 @@ export default class Calendar extends Component {
       // info.event.title = 'test'; // 이런식으로 변경 후 DB 변경
       // info.event.setProp("title", "test");
       // info.event.setProp("backgroundColor", "green");
-      
+
       selectEvent({
         title: info.event.title,
-        date: {
-          start: info.event.start,
-          end: info.event.end,
-          allDay: info.event.allDay,
-        },
+        start: info.event.start,
+        end: info.event.end,
+        allDay: info.event.allDay,
       })
     });
   

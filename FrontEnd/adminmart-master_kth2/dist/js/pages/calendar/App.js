@@ -24,7 +24,7 @@ export default class App extends Component {
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');
     const $calendarMain = this.$target.querySelector('[data-component="calendar-main"]');
 
-    const { selectDate, selectEvent } = this;
+    const { selectEvent } = this;
 
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
     this.$children = {
@@ -33,26 +33,16 @@ export default class App extends Component {
       }),
       calendar: new Calendar($calendarMain, { 
         ...this.$state,
-        selectDate: selectDate.bind(this),
         selectEvent: selectEvent.bind(this),
       })
     };
   }
-
-  selectDate (date) {
-    // console.log(date);
-
-    const { sideMenu } = this.$children;
-
-    sideMenu.setState({ date });
-  }
-
   selectEvent (event) {
 
-    console.log(event);
+    // console.log(event);
 
     const { sideMenu } = this.$children;
 
-    sideMenu.setState({ ...event });
+    sideMenu.setState({ event });
   }
 }
