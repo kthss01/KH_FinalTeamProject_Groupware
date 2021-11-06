@@ -92,6 +92,14 @@ export default class Calendar extends Component {
         case 'insert':
           this.$calendar.addEvent(event);
         break;
+        case 'update':
+          const evt = this.$calendar.getEventById(event.id);
+          evt.setProp("title", event.title);
+          evt.setDates(event.start, event.end);
+        break;
+        case 'delete':
+          this.$calendar.getEventById(event.id).remove();
+        break;
       }
 
       console.log(this.$calendar);

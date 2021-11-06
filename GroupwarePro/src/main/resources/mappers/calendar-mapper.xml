@@ -107,13 +107,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- DELETE -->
 	<update id="deleteEvent" parameterType="_int">
 		
-		UPDATE EVENT2 SET ISDELETE = 'Y' WHERE EVT_NO = #{evtNo}
+		UPDATE EVENT2 SET IS_DELETE = 'Y' WHERE EVT_NO = #{evtNo}
 		
 	</update>
 
 	<update id="deleteCalendar" parameterType="_int">
 		
-		UPDATE CALENDAR2 SET ISDELETE = 'Y' WHERE CAL_NO = #{calNo}
+		UPDATE CALENDAR2 SET IS_DELETE = 'Y' WHERE CAL_NO = #{calNo}
 		
 	</update>
 

@@ -55,21 +55,26 @@ export default class App extends Component {
 
     console.log('app', event);
 
-    console.log(new Date(event.start), new Date(event.end));
+    // console.log(new Date(event.start), new Date(event.end));
 
-    const res = await axios.post(`insertEvent.ca`, null, {
-      params: {
-        name: event.title,
-        startDate: new Date(event.start + ' UTC'),
-        endDate: new Date(event.end + ' UTC'),
-        calNo: 1,
-      }
-    });
+    try {
+      const res = await axios.post(`insertEvent.ca`, null, {
+        params: {
+          name: event.title,
+          startDate: new Date(event.start + ' UTC'),
+          endDate: new Date(event.end + ' UTC'),
+          calNo: 1,
+        }
+      });
 
-    // console.log(res);
-    event.id = res.data;
+      // console.log(res);
+      event.id = res.data;
 
-    calendar.setState({ event, status: 'insert' });
+      calendar.setState({ event, status: 'insert' });
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async editEvent (event) {
@@ -77,14 +82,37 @@ export default class App extends Component {
 
     console.log('app', event);
 
-    // calendar.setState({ event });
+    try {
+      await axios.put(`updateEvent.ca`, null, {
+        params: {
+          evtNo: event.id,
+          name: event.title,
+          startDate: new Date(event.start + ' UTC'),
+          endDate: new Date(event.end + ' UTC'),
+          calNo: 1,
+        }
+      });
+
+      calendar.setState({ event, status: 'update' });
+
+    } catch (err) {
+      console.log(err);
+    }
+
   }
 
   async deleteEvent (event) {
     const { calendar } = this.$children;
 
     console.log('app', event);
+
+    try {
+      await axios.delete(`deleteEvent.ca?evtNo=${event.id}`);
+
+      calendar.setState({ event, status: 'delete' });
+    } catch (err) {
+      console.log(err);
+    }
     
-    // calendar.setState({ event });
   }
 }

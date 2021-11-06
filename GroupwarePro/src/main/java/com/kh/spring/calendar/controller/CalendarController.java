@@ -62,8 +62,8 @@ public class CalendarController {
 		
 		int result = 0;
 		
-		System.out.println(evt.getStartDate());
-		System.out.println(evt.getEndDate());
+//		System.out.println(evt.getStartDate());
+//		System.out.println(evt.getEndDate());
 		
 		if (evt.getCalNo() != 0) {
 			result = calendarService.insertEvent(evt);
@@ -89,7 +89,13 @@ public class CalendarController {
 	@RequestMapping(value="updateEvent.ca", method=RequestMethod.PUT)
 	public String updateEvent(Event evt) {
 		
-		int result = calendarService.updateEvent(evt);
+		int result = 0;
+		
+//		logger.debug(evt.toString());
+		
+		if (evt.getEvtNo() != 0) {
+			result = calendarService.updateEvent(evt);
+		}
 		
 		return String.valueOf(result);
 	}
@@ -111,7 +117,13 @@ public class CalendarController {
 	@RequestMapping(value="deleteEvent.ca", method=RequestMethod.DELETE)
 	public String deleteEvent(int evtNo) {
 		
-		int result = calendarService.deleteEvent(evtNo);
+		int result = 0;
+		
+		logger.debug(String.valueOf(evtNo));
+		
+		if (evtNo != 0) {			
+			result = calendarService.deleteEvent(evtNo);
+		}
 		
 		return String.valueOf(result);
 	}
