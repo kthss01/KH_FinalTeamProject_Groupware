@@ -15,6 +15,18 @@ export default class SideMenu extends Component {
     `;
   }
 
+  setState (newState) {
+    this.$state = { ...this.$state, ...newState };
+
+    if (this.$state.date) {
+      const { edit } = this.$children;
+      edit.setState({ ...this.$state });
+    } else {
+      this.render();
+    }
+
+  }
+
   mounted () {
     const $sideMenuHeader = this.$target.querySelector('[data-component="sidemenu-header"]');
     $sideMenuHeader.classList.add("card-body", "border-bottom");
@@ -25,9 +37,12 @@ export default class SideMenu extends Component {
     const $sideMenuCal = this.$target.querySelector('[data-component="sidemenu-cal"]');
     $sideMenuCal.classList.add("row", "pt-3");
 
-    new SideMenuHeader($sideMenuHeader, {});
-    new SideMenuEdit($sideMenuEdit, {});
-    new SideMenuCal($sideMenuCal, {});
+    this.$children = {
+      header: new SideMenuHeader($sideMenuHeader, {}),
+      edit: new SideMenuEdit($sideMenuEdit, {}),
+      cal: new SideMenuCal($sideMenuCal, {}),
+    }
+    
   }
 
 }

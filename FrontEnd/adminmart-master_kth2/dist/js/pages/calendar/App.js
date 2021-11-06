@@ -5,9 +5,8 @@ import Calendar from './components/Calendar.js';
 export default class App extends Component {
   
   setup() {
-    this.$state = {
-      $calendar: null, // fullcalendar
-    };
+    this.$state = {};
+
   }
 
   template () {
@@ -23,17 +22,27 @@ export default class App extends Component {
 
   mounted () {
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');
-
     const $calendarMain = this.$target.querySelector('[data-component="calendar-main"]');
 
+    const { selectDate } = this;
+
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
-    new SideMenu($calendarSidemenu, { 
-      ...this.$state,
-    });
-    new Calendar($calendarMain, { 
-      ...this.$state,
-    });
+    this.$childreb = {
+      sideMenu: new SideMenu($calendarSidemenu, { 
+        ...this.$state,
+      }),
+      calendar: new Calendar($calendarMain, { 
+        ...this.$state,
+        selectDate: selectDate.bind(this),
+      })
+    };
   }
 
+  selectDate (date) {
+    // console.log(date);
 
+    const { sideMenu } = this.$childreb;
+
+    sideMenu.setState({ date })
+  }
 }

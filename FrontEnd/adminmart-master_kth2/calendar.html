@@ -15,13 +15,8 @@
     <!-- 최신 fullcalendar 관련 cdn으로 처리 -->
     <!-- fullcalendar CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-    
     <!-- daterangepicker CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-    <!-- Axios CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <!-- Custom CSS -->
     <link href="dist/css/style.min.css" rel="stylesheet">
 </head>
@@ -136,48 +131,20 @@
     <script src="dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="dist/js/custom.min.js"></script>
-    <!--This page JavaScript -->
-    <script src="assets/libs/moment/min/moment.min.js"></script>
 
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- fullcalendar CDN -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
     <!-- fullcalendar 언어 CDN -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
-    <!-- daterangepicker CDN -->
+    <!-- dateragnepicker CDN -->
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- calendar.js 내 자바스크립트 코드 -->
     <script src="dist/js/pages/calendar/main.js" type="module"></script>
 
-    <script>
-        $(function() {
-          $('input[name="startDate"], input[name="endDate"]').daterangepicker({
-            timePicker: true,
-            locale: {
-              format: 'M/DD hh:mm A'
-            },
-            autoApply: true,
-            autoUpdateInput: false
-          }, function(start, end, label) {
-              const selectedStartDate = start.format('M/DD hh:mm A');
-              const selectedEndDate = end.format('M/DD hh:mm A');
-              
-              const startInput = $('input[name="startDate"]');
-              const endInput = $('input[name="endDate"]');
-
-              const startInputData = startInput.data('daterangepicker');
-              startInputData.setStartDate(selectedStartDate);
-              startInputData.setEndDate(selectedEndDate);
-
-              const endInputData = endInput.data('daterangepicker');
-              endInputData.setStartDate(selectedStartDate);
-              endInputData.setEndDate(selectedEndDate);
-
-              startInput.val(selectedStartDate);
-              endInput.val(selectedEndDate);
-          });
-        });
-    </script>
+    <script id="jquery"></script>
 </body>
 
 </html>

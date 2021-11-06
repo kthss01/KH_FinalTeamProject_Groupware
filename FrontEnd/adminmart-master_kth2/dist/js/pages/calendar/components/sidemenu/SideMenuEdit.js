@@ -1,8 +1,9 @@
 import Component from "../../core/Components.js";
+import DateRangePicker from "./daterangepicker/DateRangePicker.js";
 
 export default class SideMenuEdit extends Component {
 
-  template() {
+  template () {
     return `
       <div class="col-12">
         <button type="button" class="btn btn-outline-dark btn-block mb-1">일정 등록</button>
@@ -16,5 +17,23 @@ export default class SideMenuEdit extends Component {
       </div>
     `;
   } 
+
+  setState (newState) {
+    this.$state = { ...this.$state, ...newState };
+
+    if (this.$state.date) {
+      const { daterangepicker } = this.$children;
+      // console.log(daterangepicker);
+      daterangepicker.setState({...this.$state});
+    } else {
+      this.render();
+    }
+  }
+
+  mounted () {
+    this.$children = {
+      daterangepicker: new DateRangePicker(document.getElementById('jquery'), {}),
+    }
+  }
 
 }
