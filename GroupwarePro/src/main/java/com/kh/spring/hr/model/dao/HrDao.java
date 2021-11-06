@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.hr.model.vo.VRequest;
 import com.kh.spring.hr.model.vo.VacationInfo;
 import com.kh.spring.hr.model.vo.Work;
 import com.kh.spring.hr.model.vo.WorkSInfo;
@@ -34,7 +35,12 @@ public class HrDao {
 
 	public VacationInfo selectVacationInfo(SqlSessionTemplate sqlSession, int empNo) {
 		
-		return sqlSession.selectOne("hrMapper.selectVacationInfo", empNo);
+		return (VacationInfo)sqlSession.selectOne("hrMapper.selectVacationInfo", empNo);
+	}
+
+	public ArrayList<VRequest> selectVRequestList(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return (ArrayList)sqlSession.selectList("hrMapper.selectVRequestList", empNo);
 	}
 
 

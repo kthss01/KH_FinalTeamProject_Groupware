@@ -17,6 +17,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sCode" column="S_CODE"/>
 		<result property="occurTime" column="OCCUR_TIME"/>
 	</resultMap>
+	<resultMap id="VacationInfoResultSet" type="VacationInfo">
+		<id property="empNo" column="EMP_NO"/>
+		<result property="allDays" column="ALL_DAYS"/>
+		<result property="usedDays" column="USED_DAYS"/>
+		<result property="leftDays" column="LEFT_DAYS"/>
+	</resultMap>
+	<resultMap id="VRequestResultSet" type="VRequest">
+		<id property="reqNo" column="REQ_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="vCode" column="V_CODE"/>
+		<result property="firstDate" column="FIRST_DATE"/>
+		<result property="lastDate" column="LAST_DATE"/>
+		<result property="usingDay" column="USING_DAY"/>
+		<result property="reason" column="REASON"/>
+		<result property="vName" column="V_NAME"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptTitle" column="DEPT_TITLE"/>
+	</resultMap>
 	
 	<select id="selectWorkList" parameterType="_int" resultMap="workResultSet">
 		SELECT 
@@ -47,6 +65,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		('S-'||SEQ_WORK_S_INFO.NEXTVAL, #{wNo}, #{sCode}, TO_CHAR(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH24:MI:SS'))
 	</insert>
 	
-	<select id="selectVacationInfo" parameterType="_int"></select>
+	<select id="selectVacationInfo" parameterType="_int" resultMap="VacationInfoResultSet">
+		SELECT 
+			*
+		FROM
+			EMP_VACATION_INFO
+		WHERE
+			EMP_NO = #{empNo}
+	</select>
 	
+	<select id="selectVRequestList" parameterType="_int" resultMap="VRequestResultSet">
+		SELECT
+		    A.*, 
+		    B.V_NAME, 
+		    C.EMP_NAME, 
+		    D.DEPT_TITLE
+		FROM
+		    EMP_VACATION_REQ A
+		JOIN VACATION B ON A.V_CODE = B.V_CODE
+		JOIN EMPLOYEE C ON A.EMP_NO = C.EMP_NO
+		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
+		WHERE 
+		    A.EMP_NO = #{empNo}
+	    ORDER BY A.FIRST_DATE ASC
+	</select>
 </mapper>

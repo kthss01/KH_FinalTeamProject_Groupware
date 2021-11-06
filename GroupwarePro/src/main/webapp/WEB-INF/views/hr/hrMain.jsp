@@ -25,16 +25,20 @@
 			
 			if(wDate.equals(nowsf)){
 				w = wlist.get(i);
-				wNo = w.getWNo();
+				System.out.println(w);
 			}
 		}
 		
-		if(w.getStartTime() != null) {
-			start = w.getStartTime().substring(11, w.getStartTime().length());
-		}
-		
-		if(w.getEndTime() != null) {
-			end = w.getEndTime().substring(11, w.getEndTime().length());
+		if(w != null) {
+			wNo = w.getWNo();
+			
+			if(w.getStartTime() != null) {
+				start = w.getStartTime().substring(11, w.getStartTime().length());
+			}
+			
+			if(w.getEndTime() != null) {
+				end = w.getEndTime().substring(11, w.getEndTime().length());
+			}
 		}
 	}
 	

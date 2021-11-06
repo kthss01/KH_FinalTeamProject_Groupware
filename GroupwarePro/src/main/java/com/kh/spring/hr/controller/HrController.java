@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.spring.hr.model.service.HrService;
+import com.kh.spring.hr.model.vo.VRequest;
 import com.kh.spring.hr.model.vo.VacationInfo;
 import com.kh.spring.hr.model.vo.Work;
 import com.kh.spring.hr.model.vo.WorkSInfo;
@@ -85,8 +86,15 @@ public class HrController {
 		
 		//사원의 휴가정보 가져오기 
 		VacationInfo vi = hrService.selectVacationInfo(empNo);
-		 
+		System.out.println("=============================");
+		System.out.println(vi);
 		model.addAttribute("vi", vi);
+		
+		//휴가사용 리스트 가져오기
+		ArrayList<VRequest> vrList = hrService.selectVRequestList(empNo);
+		System.out.println("=============================");
+		System.out.println(vrList);
+		model.addAttribute("vrList", vrList);
 		
 		return "/hr/vacation";
 	}
