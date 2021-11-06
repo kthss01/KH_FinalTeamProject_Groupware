@@ -21,10 +21,18 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    if (this.$state.date) {
-      const { daterangepicker } = this.$children;
-      // console.log(daterangepicker);
-      daterangepicker.setState({...this.$state});
+    const { date=null, title=null } = this.$state;
+
+    if (date || title) {
+      if (date) {
+        const { daterangepicker } = this.$children;
+        daterangepicker.setState({ date });
+      }
+      console.log('test', title);
+      if (title) {        
+        const inputTitle = this.$target.querySelector('input[name="title"]');
+        inputTitle.value = title;
+      }
     } else {
       this.render();
     }

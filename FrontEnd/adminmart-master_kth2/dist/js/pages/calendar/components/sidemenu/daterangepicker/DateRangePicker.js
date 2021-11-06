@@ -30,22 +30,22 @@ export default class DateRangePicker extends Component {
           endInput.val(selectedEndDate);
       });
     });
+
   }
 
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    if (this.$state.date) {
+    const { date=null } = this.$state;
+
+    if (date) {
 
       const { date } = this.$state;
-
-      console.log(date);
 
       const start = moment(date.start).format('M/DD HH:mm');
       const end = date.allDay ? moment(date.end).subtract(1, 'milliseconds').format('M/DD HH:mm') : moment(date.end).format('M/DD HH:mm');
 
-
-      console.log(start, end);
+      // console.log(start, end);
 
       const startInput = $('input[name="startDate"]');
       const endInput = $('input[name="endDate"]');

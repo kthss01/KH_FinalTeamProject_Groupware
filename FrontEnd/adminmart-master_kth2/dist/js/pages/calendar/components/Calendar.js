@@ -92,7 +92,7 @@ export default class Calendar extends Component {
 
   setEvent() {
 
-    const { selectDate } = this.$props;
+    const { selectDate, selectEvent } = this.$props;
 
     // 이벤트 생성
     this.$calendar.on('select', (info) => {
@@ -105,20 +105,19 @@ export default class Calendar extends Component {
 
     // 이벤트 조회
     this.$calendar.on('eventClick', (info) => {
-      // console.log(info.event);
-      // console.log(info);
-
-      // 이벤트 수정 및 삭제가 가능하게 info에 조회라고 생각
-      console.log('Event: ' + info.event.title);
-      console.log('Start: ' + info.event.start);
-      console.log('End: ' + info.event.end);
-      console.log('Color: ' + info.event.backgroundColor);
-
+   
       // info.event.title = 'test'; // 이런식으로 변경 후 DB 변경
       // info.event.setProp("title", "test");
       // info.event.setProp("backgroundColor", "green");
       
-      // 이벤트 수정, 삭제
+      selectEvent({
+        title: info.event.title,
+        date: {
+          start: info.event.start,
+          end: info.event.end,
+          allDay: info.event.allDay,
+        },
+      })
     });
   
   }
