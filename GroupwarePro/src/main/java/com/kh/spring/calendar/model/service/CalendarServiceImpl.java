@@ -38,7 +38,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throw new CommException("이벤트 생성 실패");
 		}
 		
-		return result;
+		return evt.getEvtNo();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throw new CommException("캘린더 생성 실패");
 		}
 		
-		return result;
+		return cal.getCalNo();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throw new CommException("이벤트 수정 실패");
 		}
 		
-		return result;
+		return evt.getEvtNo();
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throw new CommException("캘린더 수정 실패");
 		}
 		
-		return result;
+		return cal.getCalNo();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throw new CommException("이벤트 삭제 실패");
 		}
 		
-		return result;
+		return evtNo;
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throw new CommException("캘린더 삭제 실패");
 		}
 		
-		return result;
+		return calNo;
 	}
 
 

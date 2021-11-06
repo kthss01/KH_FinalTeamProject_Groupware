@@ -2,10 +2,14 @@ package com.kh.spring.calendar.controller;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -16,6 +20,8 @@ import com.kh.spring.calendar.model.vo.Event;
 @Controller
 public class CalendarController {
 
+	private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
+	
 	@Autowired
 	private CalendarService calendarService;
 	
@@ -48,17 +54,27 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("insertEvent.ca")
+	@RequestMapping(value="insertEvent.ca", method=RequestMethod.POST)
 	public String insertEvent(Event evt) {
+//		logger.debug(evt.toString());
 		
-		int result = calendarService.insertEvent(evt);
+		int result = 0;
+		
+		System.out.println(evt.getStartDate());
+		System.out.println(evt.getEndDate());
+		
+		if (evt.getCalNo() != 0) {
+			result = calendarService.insertEvent(evt);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("insertCalendar.ca")
+	@RequestMapping(value="insertCalendar.ca", method=RequestMethod.POST)
 	public String insertCalendar(Calendar cal) {
 		
 		int result = calendarService.insertCalendar(cal);
@@ -68,8 +84,9 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("updateEvent.ca")
+	@RequestMapping(value="updateEvent.ca", method=RequestMethod.PUT)
 	public String updateEvent(Event evt) {
 		
 		int result = calendarService.updateEvent(evt);
@@ -77,8 +94,9 @@ public class CalendarController {
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("updateCalendar.ca")
+	@RequestMapping(value="updateCalendar.ca", method=RequestMethod.PUT)
 	public String updateCalendar(Calendar cal) {
 		
 		int result = calendarService.updateCalendar(cal);
@@ -88,8 +106,9 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("deleteEvent.ca")
+	@RequestMapping(value="deleteEvent.ca", method=RequestMethod.DELETE)
 	public String deleteEvent(int evtNo) {
 		
 		int result = calendarService.deleteEvent(evtNo);
@@ -97,8 +116,9 @@ public class CalendarController {
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("deleteCalendar.ca")
+	@RequestMapping(value="deleteCalendar.ca", method=RequestMethod.DELETE)
 	public String deleteCalendar(int calNo) {
 		
 		int result = calendarService.deleteCalendar(calNo);

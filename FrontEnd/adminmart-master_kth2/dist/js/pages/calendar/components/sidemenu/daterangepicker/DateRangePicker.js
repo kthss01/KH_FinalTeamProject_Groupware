@@ -7,13 +7,13 @@ export default class DateRangePicker extends Component {
       $('input[name="startDate"], input[name="endDate"]').daterangepicker({
         timePicker: true,
         locale: {
-          format: 'M/DD HH:mm'
+          format: 'YYYY-MM-DD HH:mm'
         },
         autoApply: true,
         autoUpdateInput: false
       }, function(start, end, label) {
-          const selectedStartDate = start.format('M/DD HH:mm');
-          const selectedEndDate = end.format('M/DD HH:mm');
+          const selectedStartDate = start.format('YYYY-MM-DD HH:mm');
+          const selectedEndDate = end.format('YYYY-MM-DD HH:mm');
           
           const startInput = $('input[name="startDate"]');
           const endInput = $('input[name="endDate"]');
@@ -36,12 +36,12 @@ export default class DateRangePicker extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    console.log(this.$state);
+    // console.log(this.$state);
 
     const { start:startDate, end:endDate, allDay } = this.$state;
 
-    const start = moment(startDate).format('M/DD HH:mm');
-    const end = allDay ? moment(endDate).subtract(1, 'milliseconds').format('M/DD HH:mm') : moment(endDate).format('M/DD HH:mm');
+    const start = moment(startDate).format('YYYY-MM-DD HH:mm');
+    const end = allDay ? moment(endDate).subtract(1, 'milliseconds').format('YYYY-MM-DD HH:mm') : moment(endDate).format('YYYY-MM-DD HH:mm');
 
     const startInput = $('input[name="startDate"]');
     const endInput = $('input[name="endDate"]');

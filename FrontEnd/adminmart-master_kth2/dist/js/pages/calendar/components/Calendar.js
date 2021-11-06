@@ -78,6 +78,30 @@ export default class Calendar extends Component {
 
   }
 
+  setState (newState) {
+    this.$state = { ...this.$state, ...newState };
+
+    const { event, status } = this.$state;
+
+    if (status) {
+
+      console.log(status);
+      console.log(event);
+
+      switch (status) {
+        case 'insert':
+          this.$calendar.addEvent(event);
+        break;
+      }
+
+      console.log(this.$calendar);
+
+    } else {
+      this.render();
+    }
+
+  }
+
   render () {
     this.$target.innerHTML = this.template();
 
@@ -100,6 +124,7 @@ export default class Calendar extends Component {
       // console.log(info.title); // undefined
 
       selectEvent({
+        id: '',
         title: '',
         start: info.start,
         end: info.end,
@@ -115,6 +140,7 @@ export default class Calendar extends Component {
       // info.event.setProp("backgroundColor", "green");
 
       selectEvent({
+        id: info.event.id,
         title: info.event.title,
         start: info.event.start,
         end: info.event.end,
