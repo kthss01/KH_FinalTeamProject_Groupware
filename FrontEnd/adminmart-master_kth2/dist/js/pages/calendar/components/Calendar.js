@@ -40,6 +40,7 @@ export default class Calendar extends Component {
       nowIndicator: true, // 현재 시간 마크
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇개식으로 표현)
       locale: 'ko', // 한국어 설정
+      allDayMaintainDuration: true,
     };
 
     // fullcalendar 객체 생성
@@ -50,12 +51,15 @@ export default class Calendar extends Component {
       const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
       // console.log(res);
   
+      
       const events = res.data.map((evt) => {
+        console.log(evt);
         return {
           id: evt.evtNo,
           title: evt.name,
           start: evt.startDate,
           end: evt.endDate,
+          allDay: evt.allDay === '1' ? true : false,
         }
       });
   
@@ -96,6 +100,7 @@ export default class Calendar extends Component {
           const evt = this.$calendar.getEventById(event.id);
           evt.setProp("title", event.title);
           evt.setDates(event.start, event.end);
+          evt.setAllDay(event.allDay);
         break;
         case 'delete':
           this.$calendar.getEventById(event.id).remove();
@@ -124,7 +129,7 @@ export default class Calendar extends Component {
 
   setEvent() {
 
-    const { selectEvent } = this.$props;
+    const { selectEvent, editEvent } = this.$props;
 
     // 이벤트 생성
     this.$calendar.on('select', (info) => {
@@ -156,5 +161,24 @@ export default class Calendar extends Component {
       })
     });
   
+    // 이벤트 드랍 (일정에서 드래그로 이동)
+    this.$calendar.on('eventDrop', (info) => {
+      const { id, title, start, end, allDay } = info.event;
+      console.log('eventDrop', id, title, start, end, allDay);
+
+      editEvent({
+        id, title, start, end, allDay: allDay ? '1' : '0',
+      });
+    });
+
+    // 이벤트 리사이즈 (일정에서 이벤트 기간 조정)
+    this.$calendar.on('eventResize', (info) => {
+      const { id, title, start, end, allDay } = info.event;
+      console.log('eventResize', id, title, start, end, allDay);
+
+      editEvent({
+        id, title, start, end, allDay: allDay ? '1' : '0',
+      });
+    });
   }
 }

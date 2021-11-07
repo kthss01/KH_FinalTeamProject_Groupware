@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="END_DATE" property="endDate" />
 		<result column="CAL_NO" property="calNo" />
 		<result column="REZ_NO" property="rezNo" />
+		<result column="ALLDAY" property="allDay" />
 		
 	</resultMap>
 
@@ -49,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 	
 		INSERT INTO EVENT2 
-		VALUES (#{evtNo}, #{name}, #{startDate}, #{endDate}, DEFAULT, #{calNo}, #{rezNo})
+		VALUES (#{evtNo}, #{name}, #{startDate}, #{endDate}, DEFAULT, #{calNo}, #{rezNo}, #{allDay})
 		
 	</insert>
 	
@@ -98,6 +99,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="endDate != null">
 				END_DATE = #{endDate},
+			</if>
+			<if test="allDay != null">
+				ALLDAY = #{allDay},
 			</if>
 		</trim>
 		WHERE EVT_NO = #{evtNo} AND IS_DELETE = 'N'

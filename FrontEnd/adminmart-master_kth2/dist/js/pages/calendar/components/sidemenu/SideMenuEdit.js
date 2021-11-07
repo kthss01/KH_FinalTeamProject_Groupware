@@ -7,8 +7,17 @@ export default class SideMenuEdit extends Component {
     return `
       <div class="col-12">
         <button id="addEventBtn" type="button" class="btn btn-outline-dark btn-block mb-1">일정 등록</button>
+        <select name="calendar" class="custom-select custom-select-sm mb-1">
+          <option selected value="1">일반</option>
+          <option value="2">부서</option>
+          <option value="3">전사</option>
+        </select>
         <input type="hidden" name="id" class="form-control">
         <input type="text" name="title" class="form-control text-center mb-1" placeholder="일정명">
+        <div class="custom-control custom-control-sm custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="allDay" id="allDayCheck">
+          <label class="custom-control-label" for="allDayCheck">AllDay</label>
+        </div>
         <input type="text" name="startDate" class="form-control form-control-sm text-center mb-1" placeholder="시작일">
         <input type="text" name="endDate" class="form-control form-control-sm text-center mb-1" placeholder="종료일">
         <div class="btn-group btn-group-sm d-flex">
@@ -22,7 +31,7 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { id, title, start, end } = this.$state;
+    const { id, title, start, end, allDay } = this.$state;
 
     console.log(this.$state);
 
@@ -41,6 +50,9 @@ export default class SideMenuEdit extends Component {
 
       const inputTitle = this.$target.querySelector('input[name="title"]');
       inputTitle.value = title;
+
+      const checkAllDay = this.$target.querySelector('input[name="allDay"]');
+      checkAllDay.checked = allDay;
     
     } else {
       this.render();
@@ -64,10 +76,11 @@ export default class SideMenuEdit extends Component {
       const title = this.$target.querySelector('input[name="title"]').value;
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
+      const allDay = this.$target.querySelector('input[name="allDay"]').checked;
 
       // console.log('add', id, title, start, end);
 
-      insertEvent({ id:'', title, start, end });
+      insertEvent({ id:'', title, start, end, allDay });
     });
 
     // 이벤트 수정
@@ -76,10 +89,11 @@ export default class SideMenuEdit extends Component {
       const title = this.$target.querySelector('input[name="title"]').value;
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
+      const allDay = this.$target.querySelector('input[name="allDay"]').checked;
 
-      console.log('edit', id, title, start, end);
+      console.log('edit', id, title, start, end, allDay);
 
-      editEvent({ id, title, start, end });
+      editEvent({ id, title, start, end, allDay });
     });
 
     // 이벤트 삭제
@@ -88,10 +102,11 @@ export default class SideMenuEdit extends Component {
       const title = this.$target.querySelector('input[name="title"]').value;
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
+      const allDay = this.$target.querySelector('input[name="allDay"]').checked;
 
       // console.log('delete', id, title, start, end);
 
-      deleteEvent({ id, title, start, end });
+      deleteEvent({ id, title, start, end, allDay });
     });
 
   }

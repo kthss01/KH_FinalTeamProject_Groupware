@@ -38,6 +38,7 @@ export default class App extends Component {
       calendar: new Calendar($calendarMain, { 
         ...this.$state,
         selectEvent: selectEvent.bind(this),
+        editEvent: editEvent.bind(this),
       })
     };
   }
@@ -53,7 +54,7 @@ export default class App extends Component {
   async insertEvent (event) {
     const { calendar } = this.$children;
 
-    // console.log('app', event);
+    console.log('app', event);
 
     // console.log(new Date(event.start), new Date(event.end));
 
@@ -63,6 +64,7 @@ export default class App extends Component {
           name: event.title,
           startDate: new Date(event.start + ' UTC'),
           endDate: new Date(event.end + ' UTC'),
+          allDay: event.allDay ? '1' : '0',
           calNo: 1,
         }
       });
@@ -89,6 +91,7 @@ export default class App extends Component {
           name: event.title,
           startDate: new Date(event.start + ' UTC'),
           endDate: new Date(event.end + ' UTC'),
+          allDay: event.allDay ? '1' : '0',
           calNo: 1,
         }
       });

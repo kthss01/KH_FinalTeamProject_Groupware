@@ -41,7 +41,7 @@ export default class DateRangePicker extends Component {
     const { start:startDate, end:endDate, allDay } = this.$state;
 
     const start = moment(startDate).format('YYYY-MM-DD HH:mm');
-    const end = allDay ? moment(endDate).subtract(1, 'milliseconds').format('YYYY-MM-DD HH:mm') : moment(endDate).format('YYYY-MM-DD HH:mm');
+    const end = moment(endDate).format('YYYY-MM-DD HH:mm');
 
     const startInput = $('input[name="startDate"]');
     const endInput = $('input[name="endDate"]');
