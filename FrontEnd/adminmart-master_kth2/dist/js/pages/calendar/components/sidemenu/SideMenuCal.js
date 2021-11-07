@@ -1,33 +1,34 @@
 import Component from "../../core/Components.js";
 
-export default class SideMenuMyCal extends Component {
+export default class SideMenuCal extends Component {
 
   template () {
     return `
-      <div class="col-9">
-          <button class="btn btn-link btn btn-block font-weight-bold text-left" data-toggle="collapse" data-target="#myCalendar">내 캘린더</button>
-      </div>
-      <div class="col-3">
-          <button class="btn btn-outline-secondary btn-sm rounded-circle"><i class="fas fa-pencil-alt"></i></button>
-      </div>
-      <div class="col-12">
-          <div id="myCalendar" class="collapse show pl-2">
-              <div class="custom-control custom-checkbox">
-                  <div class="row">
-                      <div class="col-10">
-                          <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                          <label class="custom-control-label" for="customCheck">내 일정 (기본)</label>
-                      </div>
-                      <div class="col-2">
-                          <i class="fa fa-circle" style="color: rgba(12, 160, 12, 0.705);"></i>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="col-12 mt-1 pl-4">
-          <button class="btn btn-link btn-sm btn-block text-muted text-left">+ 내 캘린더 추가</button>
-      </div>
+    <div class="col-12 pb-1 mb-2 border-bottom">
+        <button id="addCalendarBtn" type="button" class="btn btn-outline-dark btn-block mb-1">캘린더 추가</button>
+        <div id="editCalendarBtnGroup" class="btn-group d-none mb-1">
+          <button id="editCalendarBtn" type="button" class="btn btn-outline-primary" disabled>수정</button>
+          <button id="deleteCalendarBtn" type="button" class="btn btn-outline-danger" disabled>삭제</button>
+        </div>
+        <div class="input-group mb-1">
+            <input type="text" class="form-control" placeholder="캘린더명" style="width: 90px;">
+            <input type="color" class="form-control">
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="row">
+            <div class="input-group border">
+                <div class="input-group-prepend">
+                    <div class="input-group-text border-0 bg-white">
+                        <input type="checkbox">
+                    </div>
+                </div>
+                <input type="text" class="form-control border-0" style="width: 80px;">
+                <input type="color" class="form-control border-0">
+            </div>
+        </div>
+    </div>
     `;
   }
 

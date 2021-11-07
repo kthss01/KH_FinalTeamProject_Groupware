@@ -7,23 +7,23 @@ export default class SideMenuEdit extends Component {
     return `
       <div class="col-12">
         <button id="addEventBtn" type="button" class="btn btn-outline-dark btn-block mb-1">일정 등록</button>
+        <div id="editEventBtnGroup" class="btn-group d-none mb-1">
+          <button id="editEventBtn" type="button" class="btn btn-outline-primary" disabled>수정</button>
+          <button id="deleteEventBtn" type="button" class="btn btn-outline-danger" disabled>삭제</button>
+        </div>
         <select name="calendar" class="custom-select custom-select-sm mb-1">
-          <option selected value="1">일반</option>
-          <option value="2">부서</option>
-          <option value="3">전사</option>
+          <option selected value="1">기본 캘린더</option>
+          <option value="2">부서 캘린더</option>
+          <option value="3">전사 캘린더</option>
         </select>
         <input type="hidden" name="id" class="form-control">
-        <input type="text" name="title" class="form-control text-center mb-1" placeholder="일정명">
+        <input type="text" name="title" class="form-control form-control-sm text-center mb-1" placeholder="일정명">
         <div class="custom-control custom-control-sm custom-checkbox">
           <input type="checkbox" class="custom-control-input" name="allDay" id="allDayCheck">
           <label class="custom-control-label" for="allDayCheck">AllDay</label>
         </div>
         <input type="text" name="startDate" class="form-control form-control-sm text-center mb-1" placeholder="시작일">
         <input type="text" name="endDate" class="form-control form-control-sm text-center mb-1" placeholder="종료일">
-        <div class="btn-group btn-group-sm d-flex">
-          <button id="editEventBtn" type="button" class="btn btn-outline-primary" disabled>수정</button>
-          <button id="deleteEventBtn" type="button" class="btn btn-outline-danger" disabled>삭제</button>
-        </div>
       </div>
     `;
   } 
@@ -36,11 +36,18 @@ export default class SideMenuEdit extends Component {
     console.log(this.$state);
 
     if (title || start || end) {
+      const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
+      const addEventBtn = this.$target.querySelector('#addEventBtn');
 
-      const editEventBtn = this.$target.querySelector('#editEventBtn');
-      const deleteEventBtn = this.$target.querySelector('#deleteEventBtn');
-      editEventBtn.disabled = id === '';
-      deleteEventBtn.disabled = id === '';
+      if (id === '') {
+        addEventBtn.classList.remove("d-none");
+        editEventBtnGroup.classList.remove("d-flex");
+        editEventBtnGroup.classList.add("d-none");
+      } else {
+        addEventBtn.classList.add("d-none");
+        editEventBtnGroup.classList.remove("d-none");
+        editEventBtnGroup.classList.add("d-flex");
+      }
 
       const { daterangepicker } = this.$children;
       daterangepicker.setState({ ...this.$state });

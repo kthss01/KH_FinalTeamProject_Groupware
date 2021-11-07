@@ -66,16 +66,30 @@ export default class Calendar extends Component {
       return events;
     }
 
-    // 캘린더 렌더를 위한 함수
-    this.loadCalendar = async (calNo) => {
+    // 캘린더 DB로부터 읽어오는 함수
+    this.readCalendars = async (empNo) => {
+      const res = await axios.get(`selectCalList.ca?empNo=${empNo}`);
 
-      this.events = await this.readEvents(calNo);
-  
-      // fullcalendar 객체에 읽어온 이벤트 추가
-      this.events.forEach(event => {
-        this.$calendar.addEvent(event);
+      console.log(res.data);
+
+      return res.data;
+    }
+
+    // 캘린더 렌더를 위한 함수
+    this.loadCalendar = async (empNo) => {
+
+      this.calendars = await this.readCalendars(empNo);
+
+      this.calendars.forEach(async calendar => {
+        const { calNo } = calendar;
+        this.calendars.events = await this.readEvents(calNo);
+
+        // fullcalendar 객체에 읽어온 이벤트 추가
+        this.calendars.events.forEach(event => {
+          this.$calendar.addEvent(event);
+        })
       })
-  
+
       // fullcalendar 렌더
       this.$calendar.render();
     }
@@ -118,7 +132,7 @@ export default class Calendar extends Component {
   render () {
     this.$target.innerHTML = this.template();
 
-    this.loadCalendar(1);
+    this.loadCalendar(201); // 임시로 사원번호 넣음
 
     this.mounted(); 
   }
