@@ -20,7 +20,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="CAL_NO" property="calNo" />
 		<result column="NAME" property="name" />
 		<result column="COLOR" property="color" />
-		<result column="STATUS" property="status" />
 		<result column="EMP_NO" property="empNo" />
 	</resultMap>
 
@@ -61,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 	
 		INSERT INTO CALENDAR2 
-		VALUES (#{calNo}, #{name}, #{color}, DEFAULT, DEFAULT, #{empNo})
+		VALUES (#{calNo}, #{name}, #{color}, DEFAULT, #{empNo})
 	
 	</insert>
 	
@@ -77,9 +76,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="color != null">
 				COLOR = #{color},
-			</if>
-			<if test="status != null">
-				STATUS = #{status},
 			</if>
 		</trim>
 		WHERE CAL_NO = #{calNo} AND IS_DELETE = 'N'
