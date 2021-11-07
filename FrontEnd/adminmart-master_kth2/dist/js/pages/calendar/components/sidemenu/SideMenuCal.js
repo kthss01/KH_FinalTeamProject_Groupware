@@ -12,21 +12,18 @@ export default class SideMenuCal extends Component {
         </div>
         <div class="input-group mb-1">
             <input type="text" class="form-control" placeholder="캘린더명" style="width: 90px;">
-            <input type="color" class="form-control">
+            <input type="color" class="form-control" value="#0275d8">
         </div>
     </div>
     
     <div class="col-12">
-        <div class="row">
-            <div class="input-group border">
-                <div class="input-group-prepend">
-                    <div class="input-group-text border-0 bg-white">
-                        <input type="checkbox">
-                    </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <input type="checkbox">
                 </div>
-                <input type="text" class="form-control border-0" style="width: 80px;">
-                <input type="color" class="form-control border-0">
             </div>
+            <input type="text" class="form-control text-white text-center" style="cursor: pointer; background-color: #0275d8;" readonly value="기본 캘린더">
         </div>
     </div>
     `;
