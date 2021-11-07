@@ -12,8 +12,8 @@ export default class SideMenuEdit extends Component {
         <input type="text" name="startDate" class="form-control form-control-sm text-center mb-1" placeholder="시작일">
         <input type="text" name="endDate" class="form-control form-control-sm text-center mb-1" placeholder="종료일">
         <div class="btn-group btn-group-sm d-flex">
-          <button id="editEventBtn" type="button" class="btn btn-outline-primary">수정</button>
-          <button id="deleteEventBtn" type="button" class="btn btn-outline-danger">삭제</button>
+          <button id="editEventBtn" type="button" class="btn btn-outline-primary" disabled>수정</button>
+          <button id="deleteEventBtn" type="button" class="btn btn-outline-danger" disabled>삭제</button>
         </div>
       </div>
     `;
@@ -24,9 +24,14 @@ export default class SideMenuEdit extends Component {
 
     const { id, title, start, end } = this.$state;
 
-    // console.log(this.$state);
+    console.log(this.$state);
 
     if (title || start || end) {
+
+      const editEventBtn = this.$target.querySelector('#editEventBtn');
+      const deleteEventBtn = this.$target.querySelector('#deleteEventBtn');
+      editEventBtn.disabled = id === '';
+      deleteEventBtn.disabled = id === '';
 
       const { daterangepicker } = this.$children;
       daterangepicker.setState({ ...this.$state });
@@ -60,7 +65,7 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
 
-      console.log('add', id, title, start, end);
+      // console.log('add', id, title, start, end);
 
       insertEvent({ id:'', title, start, end });
     });
@@ -72,7 +77,7 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
 
-      console.log('add', id, title, start, end);
+      console.log('edit', id, title, start, end);
 
       editEvent({ id, title, start, end });
     });
@@ -84,7 +89,7 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
 
-      console.log('add', id, title, start, end);
+      // console.log('delete', id, title, start, end);
 
       deleteEvent({ id, title, start, end });
     });

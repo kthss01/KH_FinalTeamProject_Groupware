@@ -85,8 +85,8 @@ export default class Calendar extends Component {
 
     if (status) {
 
-      console.log(status);
-      console.log(event);
+      // console.log(status);
+      // console.log(event);
 
       switch (status) {
         case 'insert':
@@ -102,7 +102,7 @@ export default class Calendar extends Component {
         break;
       }
 
-      console.log(this.$calendar);
+      // console.log(this.$calendar);
 
     } else {
       this.render();
