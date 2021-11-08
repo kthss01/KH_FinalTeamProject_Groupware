@@ -32,6 +32,8 @@
 	
 		<!-- 전사공지 -->
 	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
+	    <typeAlias type="com.kh.spring.notice.model.vo.NoReply" alias="NoReply"/>
+	    <typeAlias type="com.kh.spring.notice.model.vo.Notify" alias="Notify"/>
 	
    		<!-- 근태관리 -->
    		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
@@ -41,6 +43,9 @@
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Attendant" alias="Attendant"/>
+	    
+	    
+	    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMeals" alias="TblMeals"/>
     
 	</typeAliases>
 
@@ -53,6 +58,7 @@
 		<mapper resource="mappers/hr-mapper.xml"/> 
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
+		<mapper resource="mappers/tblMeals-mapper.xml"/>
 	</mappers>
 
 </configuration>

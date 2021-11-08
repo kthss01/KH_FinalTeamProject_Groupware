@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tblMealsMapper">
+
+	<insert id="insertT" parameterType="TblMeals">
+    	INSERT INTO TBL_MEALS
+    	VALUES(SEQ_T_NO.NEXTVAL,#{tblDate},#{categoryNo},#{lnc},#{dnr})
+    </insert>
+
+
+
+
+
+	<!-- <resultMap id="noticeResultSet" type="CompanyNotice"> 
+      <id column="n_no" property="nNo"/>
+      <result column="n_title" property="nTitle"/>
+      <result column="emp_no" property="empNo"/>
+      <result column="create_date" property="createDate"/>
+      <result column="n_content" property="nContent"/>
+      <result column="count" property="count"/>
+   </resultMap>
+  
+   
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMPANY_NOTICE
+	</select>
+	
+	
+	<select id="selectNoticeList" resultMap="noticeResultSet">
+		SELECT *
+		FROM COMPANY_NOTICE
+	</select>
+	
+	<insert id="insertNotice" parameterType="CompanyNotice">
+		INSERT INTO COMPANY_NOTICE 
+		VALUES (SEQ_N_NO.NEXTVAL,#{nTitle}, #{empNo},SYSDATE,#{nContent},DEFAULT,#{originName},#{changeName})
+	</insert>
+	
+	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE COMPANY_NOTICE
+		SET COUNT=COUNT+1
+		WHERE N_NO=#{nno}
+	</update>
+	
+	
+	<select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+		SELECT *
+		FROM COMPANY_NOTICE
+		WHERE N_NO=#{nno}
+	</select>
+	
+	<insert id="insertReply" parameterType="NoReply">
+    	INSERT INTO NO_REPLY
+    	VALUES(SEQ_REPLY_NO.NEXTVAL,#{replyContent},#{replyWriter},DEFAULT,#{refNo},#{originName},#{changeName})
+    </insert>  -->
+    
+    
+    
+    
+    
+	
+</mapper>
