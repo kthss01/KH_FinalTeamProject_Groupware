@@ -34,6 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="C_TIME" property="time"/>
 	
 	</resultMap>
+	<resultMap id="chatFavoriteResultSet" type="Favorites">
+			<result column="EMP_ID" property="eno"/>
+			<result column="EMP_NO" property="fno"/>
+			<result column="EMP_NAME" property="fName"/>
+			<result column="STATUS" property="status"/>
+	
+	</resultMap>
 	
 	
 	<select id="selectDeptList" resultMap="departmentResultSet">
@@ -78,6 +85,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND ROUND((SYSDATE-TO_DATE(C_TIME,'YYYY-MM-DD HH24:MI:SS'))*24,2) <= 48
 		ORDER BY C_TIME
 		]]>
+	</select>
+	
+	<select id="selectFavoriteList" parameterType="_int" resultMap = "chatFavoriteResultSet">
+		SELECT * FROM VW_CONTECT_FAVORITES
+		WHERE EMP_ID = #{eno}
+	</select>
+	
+	<insert id ="insertFavorites" parameterType="Favorites">
+		INSERT INTO CON_FAVORITES VALUES(SEQ_FAVORITES_NO.NEXTVAL,#{eno},#{fno})
+	</insert>
+	
+	<delete id ="deleteFavorites" parameterType="Favorites">
+		DELETE FROM CON_FAVORITES WHERE EMP_ID = #{eno} AND FAVORITES=#{fno}
+	</delete>
+	
+	<select id="checkFavorites" parameterType="Favorites" resultMap = "chatFavoriteResultSet">
+		SELECT * FROM CON_FAVORITES WHERE EMP_ID = #{eno} AND FAVORITES=#{fno}
+	
 	</select>
 
 </mapper>

@@ -10,6 +10,7 @@ import com.kh.spring.chat.model.dao.ChatDao;
 import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.chat.model.vo.Department;
+import com.kh.spring.chat.model.vo.Favorites;
 import com.kh.spring.common.exception.CommException;
 
 @Service
@@ -72,6 +73,41 @@ public class ChatServiceImpl implements ChatService {
 	public ArrayList<Chat> selectChatList(Chat chat) {
 		ArrayList<Chat> list = chatDao.selectChatList(sqlSession,chat);
 		return list;
+	}
+
+	@Override
+	public ArrayList<Favorites> selectFavoriteList(int eno) {
+		ArrayList<Favorites> list = chatDao.selectFavoriteList(sqlSession,eno);
+		return list;
+	}
+
+	@Override
+	public int insertFavorites(Favorites f) {
+		int result = chatDao.insertFavorites(sqlSession,f);
+		
+		if(result < 0) {
+			throw new CommException("즐겨찾기 등록 실패");
+		}		
+	
+		return result;
+	}
+
+	@Override
+	public void deleteFavorites(Favorites f) {
+		int result = chatDao.deleteFavorites(sqlSession,f);
+		
+		if(result < 0) {
+			throw new CommException("즐겨찾기 해제 실패");
+		}		
+	
+	}
+
+	@Override
+	public Favorites checkFavorites(Favorites f) {
+
+		Favorites resultF = chatDao.checkFavorites(sqlSession,f);
+		
+		return resultF;
 	}
 
 

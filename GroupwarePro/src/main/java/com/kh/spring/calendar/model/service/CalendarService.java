@@ -2,34 +2,25 @@ package com.kh.spring.calendar.model.service;
 
 import java.util.ArrayList;
 
-import com.kh.spring.calendar.model.vo.Attendant;
 import com.kh.spring.calendar.model.vo.Calendar;
 import com.kh.spring.calendar.model.vo.Event;
 
 public interface CalendarService {
 
-	ArrayList<Event> selectEventList();
+	ArrayList<Event> selectEventList(int calNo);
 
-	ArrayList<Attendant> selectAttList(int evtNo);
+	ArrayList<Calendar> selectCalList(int empNo);
 
-	ArrayList<Calendar> selectMyCalList(int empNo);
-	
-	int insertEvent(Event evt, int calNo);
+	int insertEvent(Event evt);
 
 	int insertCalendar(Calendar cal);
 
-	int selectEvtNo();
+	int updateEvent(Event evt);
 
-	int selectAttNo();
-
-	int selectCalNo();
+	int updateCalendar(Calendar cal);
 
 	int deleteEvent(int evtNo);
 
 	int deleteCalendar(int calNo);
 
-	int updateEvent(Event evt);
-
-	int updateCalendar(Calendar cal);
-	
 }

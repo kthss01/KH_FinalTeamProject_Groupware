@@ -2,7 +2,6 @@ package com.kh.spring.community.model.vo;
 
 import java.sql.Date;
 
-import com.kh.spring.common.Attachment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
