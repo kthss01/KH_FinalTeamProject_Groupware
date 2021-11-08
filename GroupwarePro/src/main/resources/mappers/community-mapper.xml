@@ -176,4 +176,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 	
+	<delete id="deleteCommunityAttachment" parameterType="CommunityAttachment">
+	
+		DELETE FROM COM_ATTACHMENT WHERE B_NO=#{bno} AND ORIGIN_NAME=#{originName}
+	
+	</delete>
+	
+	
+		
+	<insert id="updateCommunityAttachment" parameterType="CommunityAttachment">
+		INSERT INTO COM_ATTACHMENT VALUES
+		(SEQ_COM_ATTACH.NEXTVAL,
+		#{bno},
+		#{originName},#{changeName},SYSDATE
+		)	
+	</insert>
+	
+	<select id="selectAttachment" parameterType="CommunityAttachment" resultMap = "attachmentResultSet">
+	SELECT * FROM COM_ATTACHMENT WHERE ORIGIN_NAME=#{originName} AND B_NO=#{bno}
+	</select>
+	
 </mapper>

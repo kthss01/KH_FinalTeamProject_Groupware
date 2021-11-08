@@ -329,28 +329,6 @@
 			$(".upload-name").val(fileName);
 		});
 
-		
-		
-		/*  // 서머노트에 text 쓰기
-		    $('#summernote').summernote('insertText', 써머노트에 쓸 텍스트);
-
-
-		    // 서머노트 쓰기 비활성화
-		    $('#summernote').summernote('disable');
-
-		    // 서머노트 쓰기 활성화
-		    $('#summernote').summernote('enable');
-
-
-		    // 서머노트 리셋
-		    $('#summernote').summernote('reset');
-
-
-		    // 마지막으로 한 행동 취소 ( 뒤로가기 )
-		    $('#summernote').summernote('undo');
-		    // 앞으로가기
-		    $('#summernote').summernote('redo');
-		 */
 		 
 		 /**
 		  * 첨부파일로직

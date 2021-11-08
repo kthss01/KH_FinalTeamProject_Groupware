@@ -2,17 +2,13 @@ package com.kh.spring.community.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +43,6 @@ public class CommunityController {
 
 		int listCount = communityService.selectListCount(cno);
 
-
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
 
 		SelectBoardListInfo info = new SelectBoardListInfo(cno, pi);
@@ -55,7 +50,7 @@ public class CommunityController {
 		ArrayList<CommunityBoard> list = communityService.selectBoardList(info);
 
 		CommunityCategory category = communityService.selectCategory(cno);
-				
+
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		model.addAttribute("category", category);
@@ -64,11 +59,11 @@ public class CommunityController {
 	}
 
 	@GetMapping("enrollBoardForm.co")
-	public ModelAndView enrollBoardFrom(ModelAndView mv , int cno) {
-		
+	public ModelAndView enrollBoardFrom(ModelAndView mv, int cno) {
+
 		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
-		mv.addObject("categoryList",list).setViewName("/community/enrollBoardForm");
-		mv.addObject("cno",cno);
+		mv.addObject("categoryList", list).setViewName("/community/enrollBoardForm");
+		mv.addObject("cno", cno);
 		return mv;
 	}
 
@@ -76,15 +71,24 @@ public class CommunityController {
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
 
 		CommunityBoard b = communityService.selectBoard(bno);
-		
-		//조회수 증가
+
+		// 조회수 증가
 		communityService.countBoard(bno);
-		
-		ArrayList<CommunityAttachment> at = communityService.selectAttachmentList(bno);
+
 		mv.addObject("b", b);
-		mv.addObject("at",at);
-		mv.setViewName("/community/communityBoardDetailView");
+		/*
+		 * mv.addObject("at", at);
+		 */ mv.setViewName("/community/communityBoardDetailView");
 		return mv;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "selectAttachmentList.co", produces = "application/json; charset=utf-8")
+	public String selectAttachmentList(int bno) {
+
+		ArrayList<CommunityAttachment> list = communityService.selectAttachmentList(bno);
+
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
 	@ResponseBody
@@ -92,11 +96,10 @@ public class CommunityController {
 	public void insertAttachment(CommunityAttachment at, HttpServletRequest request,
 			@RequestParam("article_file") List<MultipartFile> multipartFile) {
 
-		System.out.println("업로드한 파일 : " + multipartFile);
 		int nextBno = communityService.selectSeqBno();
-		at.setBno(nextBno-1);
+		at.setBno(nextBno - 1);
 
-		if(!multipartFile.isEmpty()) {
+		if (!multipartFile.isEmpty()) {
 			if (!multipartFile.get(0).getOriginalFilename().equals("")) {
 				for (MultipartFile file : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
 					System.out.println("originName : " + file.getOriginalFilename());
@@ -114,84 +117,165 @@ public class CommunityController {
 		}
 	}
 
-	@RequestMapping(value = "insertBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
-	public String insertBoard(CommunityBoard b,HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping("originFileCheck.co")
+	public void checkOriginFiles(@RequestParam(value = "origin_files[]",required = false) List<String> originFiles, int bno , HttpServletRequest request) {
+		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(bno);
 
-		 communityService.insertBoard(b);
+		
+		System.out.println("넘어온 파일 리스트" + originFiles);
+		
+		if(originFiles==null) {  // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제 
+		
+			for(CommunityAttachment at : originFileList) {
+				communityService.deleteCommunityAttachment(at); 	//DB 파일 삭제
+				deleteFile(at.getChangeName(),request);				//실제 파일 삭제
+			}
+		}else {
+			if (!originFiles.isEmpty()) {
+				for (String file : originFiles) {
+		
+						if ((originFileList.contains(file))) { 
+							
+							//기존에 있던 파일과 수정되서 올라온 기존파일배열 비교
+							//기존 파일리스트와 비교해서 사라진 게 있으며 db에서 지워줌
+							
+							//현재 파일명과 글 번호 정보를 담고 있는 첨부파일 info객체 생성
+							CommunityAttachment info = new CommunityAttachment();
+							info.setOriginName(file);
+							info.setBno(bno);
+							
+							//info 객체로 서버에 올라간 변경 파일명을 조회해옴
+							CommunityAttachment result = communityService.selectAttachment(info);
+							String deleteFileChangeName = result.getChangeName();
 
-		return "redirect:/boardList.co";
+							//info 객체 넘겨서 DB에 있는 첨부파일 삭제
+							communityService.deleteCommunityAttachment(info);
+							//서버에 있는 파일 삭제 
+							deleteFile(deleteFileChangeName,request);
+						}
+					
+				}
+			}
+			
+		}
+		
+		
+
+
 	}
+
 	@RequestMapping(value = "updateBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateBoard(CommunityBoard b,  HttpServletRequest request) {
-		
+	public String updateBoard(CommunityBoard b, HttpServletRequest request,
+			@RequestParam("article_file") List<MultipartFile> multipartFile) {
 
-		communityService.updateBoard(b);
 		
+		System.out.println("넘어온 새로운 파일 : " + multipartFile);
+		
+		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(b.getBno());
+
+		System.out.println("originFileList :" +  originFileList );
+		
+		
+		String changeName = "";
+		CommunityAttachment at = null;
+
+		
+		 communityService.updateBoard(b);
+		 
+		if (!multipartFile.isEmpty()) {
+			if (!multipartFile.get(0).getOriginalFilename().equals("")) {
+				for (MultipartFile newFile : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
+
+					if (!(originFileList.contains(newFile.getOriginalFilename()))
+								|| originFileList.isEmpty()) {  //기존 파일리스트에 존재하지 않는 파일이면 새로 db에 insert해줌
+						
+						changeName = saveFile(newFile, request);
+						
+						at = new CommunityAttachment();
+						if (changeName != null) {
+							at.setOriginName(newFile.getOriginalFilename());
+							at.setChangeName(changeName);
+							at.setBno(b.getBno());
+							
+							System.out.println("등록될 첨부파일 : " + at);
+							
+							int result = communityService.updateCommunityAttachment(at);
+							System.out.println(result+">>>>>");
+						}
+					}
+				}
+			}
+
+		}
+
 		return "redirect:/boardList.co";
 	}
-	
+
+	@RequestMapping(value = "insertBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
+	public String insertBoard(CommunityBoard b, HttpServletRequest request) {
+
+		communityService.insertBoard(b);
+
+		return "redirect:/boardList.co";
+	}
+
 	@ResponseBody
 	@RequestMapping("insertReply.co")
 	public String insertReply(CommunityReply r) {
-				
-		
-		 int result = communityService.insertReply(r);
-	
-		 return String.valueOf(result);
+
+		int result = communityService.insertReply(r);
+
+		return String.valueOf(result);
 	}
-	
-	
+
 	@ResponseBody
-	@RequestMapping(value="selectReplyList.co",produces="application/json; charset=utf-8")
+	@RequestMapping(value = "selectReplyList.co", produces = "application/json; charset=utf-8")
 	public String selectReplyList(int bno) {
-		
+
 		ArrayList<CommunityReply> list = communityService.selectReplyList(bno);
-		
+
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value="selectReComentList.co",produces="application/json; charset=utf-8")
+	@RequestMapping(value = "selectReComentList.co", produces = "application/json; charset=utf-8")
 	public String selectReComentList(CommunityReply r) {
-		
-		
+
 		ArrayList<CommunityReply> list = communityService.selectReComentList(r);
-		
+
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("deleteReply.co")
 	public String deleteReply(CommunityReply r) {
-				
-		
-		 int result = communityService.deleteReply(r);
-	
-		 return String.valueOf(result);
+
+		int result = communityService.deleteReply(r);
+
+		return String.valueOf(result);
 	}
-	
-	@ResponseBody	
-	@RequestMapping(value="categoryList.co",produces="application/json; charset=utf-8")
+
+	@ResponseBody
+	@RequestMapping(value = "categoryList.co", produces = "application/json; charset=utf-8")
 	public String selectCategoryList(CommunityCategory r) {
-		
-		
+
 		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
-		
+
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
-	
-	@ResponseBody	
-	@RequestMapping(value="bestBoardList.co",produces="application/json; charset=utf-8")
+
+	@ResponseBody
+	@RequestMapping(value = "bestBoardList.co", produces = "application/json; charset=utf-8")
 	public String selectBestBoardList() {
-		
-		
+
 		ArrayList<CommunityBoard> list = communityService.selectBestBoardList();
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
-	
-	
-	
 
+	/*
+	 * @RequestMapping("selectAttachment.co") public ArrayList
+	 */
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		// 저장 경로
