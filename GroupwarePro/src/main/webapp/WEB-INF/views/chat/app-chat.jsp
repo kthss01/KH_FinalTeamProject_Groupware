@@ -23,6 +23,13 @@
 .ps-scrollbar-y-rail {
 	top: 0px;
 }
+
+.nameList:hover{
+
+	font-weight:bold;
+	
+}
+
 </style>
 
 <title>채팅</title>
@@ -51,6 +58,8 @@
 .accordion-button {
 	height: 60px;
 }
+
+
 </style>
 
 </head>
@@ -161,6 +170,7 @@
 
 										<ul class="mailbox list-style-none" id="contectListArea">
 											<!-- 연락처 추가 영역 -->
+
 										</ul>
 									</div>
 								</div>
@@ -193,6 +203,10 @@
 														value="${receiver.ENo }" />
 													<input id="receiverId" type="hidden" name="receiverId"
 														value="${receiver.loginId }" />
+													<button type="button" class="btn btn-outline-warning" id="favoritesBtn" 
+													style="font-size:15px; position:absolute; right:10px; top:10px;" onclick="favorites();">
+														 <i class="fa fa-star" ></i>즐겨찾기
+													 </button>
 												</c:when>
 												<c:otherwise>
 
@@ -337,6 +351,14 @@
         $(function () {
         	
         	selectDeptList();
+        	
+  
+        	if($("#receiver").val() != null){
+            	checkFavorites();
+
+        	}
+        	
+        	
 
         	//일정시간 마다 주소록 조회 (상태변경을 위한 반복 조회)
         	
@@ -412,6 +434,7 @@
         
 
 
+        	
         });
       
         
@@ -419,6 +442,58 @@
         	
         	var contectList = $("#contectListArea");
         	contectList.empty();
+        	
+        	contectList.append(`
+        			
+					<li>
+                    <a href="#"
+                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
+                         <i class="fas fa-star" style="font-size:18px; color:orange;"></i> &nbsp;&nbsp;&nbsp;
+                            <span class="message-title mb-0 mt-1 font-weight-bold" style="font-size:19px; color:#5F76E8;">즐겨찾기</span>
+             
+                    </a>
+	                    <ul id="favorites">
+	                    </ul>
+                  </li>
+        			
+        			
+        			`)
+        			
+        	var eno = '${ loginUser.empNo }';
+
+        	$.ajax({
+        		url:'favorites.ch',
+        		type:'post',
+        		data : { eno : eno },
+        		dataType:'json',
+        		success: function(list){
+        			list.forEach((f => {
+        				$("#favorites").append(`
+        						
+							    <div style="margin-left:20px;">
+								<a class="fas fa-minus deleteFavorites" href="delteFavorites.ch?fno=\${f.fno}&eno=\${eno}" style="font-size:14px; position:absolute; right:30px; margin-top:10px;"></a>
+
+	    							<a href="chatPage.ch?eno=\${f.fno}">
+
+	        								<li class="nameList">
+
+	    											<span style="font-size:16px; color:#1C2D41;">\${f.fName}</span>
+	    											<span style="font-size:10px; color:#005600; display:inline-block; margin-left:10px;">( \${f.status})</span>
+	    									</li>
+									</a>
+
+								</div>
+
+        						`)
+
+        			}));
+        			
+        		}
+        		
+        	}) 
+        	
+        	
+        	
             $.ajax({
             	url:'deptList.ch',
             	type:'post',
@@ -471,7 +546,7 @@
     						titleArea.append(`
     								<div style="margin-left:20px;">
             							<a href="chatPage.ch?eno=\${c.eNo}">
-    	        								<li>
+    	        								<li class="nameList">
     	    											<span style="font-size:16px; color:#1C2D41;">\${c.eName}</span>
     	    											<span style="font-size:10px; color:#005600; display:inline-block; margin-left:10px;">( \${c.eStatus})</span>
     	    									</li>
@@ -529,9 +604,71 @@
         		}
         	
         	})
-        })
+        });
+
  }
-    </script>
+
+        
+        var favorites = function(){
+        	
+
+        	var fno = $("#receiver").val();
+        	var eno = ${loginUser.empNo};
+        	
+         	$.ajax({
+         		url:"insertFavorites.ch",
+         		type:'post',
+         		data : {
+         			fno : fno,
+         			eno : eno
+         		},
+         		success : function (result){
+         			
+         		console.log("result : " + result);
+          			if(result != null  ){
+         				location.reload();
+
+         			}else{
+         				alert("서버오류 : 고객지원팀으로 문의 바랍니다.")
+
+         			} 
+         			
+
+         		}
+        		
+        	});
+        	
+        	
+        	
+        }    	
+    	
+    	
+    	var checkFavorites = function(){
+    		
+    		var eno = '${ loginUser.empNo }';
+        	var fno = $("#receiver").val();
+        	
+        	
+        	$.ajax({
+        		url:'checkFavorites.ch',
+        		type:'post',
+        		data:{eno : eno, fno : fno},
+        		success : function(result){
+        			if(result == 1){
+        				
+        				$("#favoritesBtn").css("display","none");
+        				
+        			}else{
+        				$("#favoritesBtn").css("display","block");
+
+        			}
+        		}
+        	});
+
+
+    	}
+        
+        </script>
 </body>
 
 </html>

@@ -17,6 +17,7 @@ import com.kh.spring.chat.model.service.ChatService;
 import com.kh.spring.chat.model.vo.Chat;
 import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.chat.model.vo.Department;
+import com.kh.spring.chat.model.vo.Favorites;
 import com.kh.spring.member.model.vo.Member;
 
 @Controller
@@ -87,6 +88,50 @@ public class ChatController {
 
 		
 		return String.valueOf(result);
+	}
+	@ResponseBody
+	@RequestMapping(value="favorites.ch",produces="application/json; charset=utf-8")
+	public String selectFavoriteList(int eno) {
+		
+		ArrayList<Favorites> list = chatService.selectFavoriteList(eno);
+		
+		
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping("insertFavorites.ch")
+	public String insertFavorites(Favorites f) {
+		int result = chatService.insertFavorites(f);
+		
+		return String.valueOf(result);
+	}
+	
+	@RequestMapping("delteFavorites.ch")
+	public String delteFavorites(int fno, int eno) {
+		
+		Favorites f = new Favorites();
+		f.setEno(eno);
+		f.setFno(fno);
+		
+		chatService.deleteFavorites(f);
+		
+		return "redirect:chatPage.ch";
+	}
+	
+	@ResponseBody
+	@RequestMapping("checkFavorites.ch")
+	public String checkFavorites(Favorites f) {
+		
+		Favorites resultF = chatService.checkFavorites(f);
+		String result = "";
+
+		if(resultF != null) {
+			result ="1";
+		}else {
+			result = "0";
+		}
+		return result;
 	}
 	
 }

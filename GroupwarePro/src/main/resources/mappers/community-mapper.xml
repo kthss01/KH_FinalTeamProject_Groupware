@@ -139,12 +139,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id ="selectReplyList" parameterType="_int" resultMap="replyResultSet">
-	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO IS NULL
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO IS NULL ORDER BY C_NO ASC
 	
 	</select>
 	
 	<select id ="selectReCommnetList" parameterType="CommunityReply" resultMap="replyResultSet">
-	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO = #{pno}
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO = #{pno} ORDER BY C_NO ASC
 	
 	</select>
 	
