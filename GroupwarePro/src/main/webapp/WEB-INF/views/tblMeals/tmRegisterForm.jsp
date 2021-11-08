@@ -60,7 +60,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">전사공지사항</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">식단표 등록</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -78,9 +78,9 @@
                                 <option value="2">Jun 19</option>
                             </select> -->
                             
-                             <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="enroll();">글쓰기</button>
-                             </div>
+                             <!-- <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" href="">글쓰기</button>
+                             </div> -->
                         </div>
                     </div>
                 </div>
@@ -101,155 +101,130 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                	<!-- 공지로 등록 -->
-                                    <i class="icon-bell"></i><a onclick="call();">공지로 등록</a>
-                                    
-                                      <table id="noticeList" class="table table-hover" align="center">
-                <thead>
-                  <tr>
-                  	<th></th>
-                    <th>No.</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                  </tr>
-                </thead>
-                <tbody>
-                   <c:forEach items="${ list }" var="n">
-                       <tr onclick="location.href='detail.bo?nno='+${ n.NNo }">
-                       	   <td onclick="event.cancelBubble=true">
-                       			<input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="inlineCheckbox1" value="${n.NNo}">
-                                <i class="fas fa-star"></i>
-                       	   </td>
-                           <td>${ n.NNo }</td>
-                           <td>${ n.NTitle }</td>
-                           <td>${ n.empNo }</td>
-                           <td>${ n.createDate }</td>
-                           <td>${ n.count }</td>
-                       </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                                    <!-- Column -->
+                                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                                        <div class="card card-hover">
+                                            <div class="p-2 bg-primary text-center">
+                                                <h1 class="font-light text-white">2,064</h1>
+                                                <h6 class="text-white">Total Tickets</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Column -->
+                                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                                        <div class="card card-hover">
+                                            <div class="p-2 bg-cyan text-center">
+                                                <h1 class="font-light text-white">1,738</h1>
+                                                <h6 class="text-white">Responded</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Column -->
+                                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                                        <div class="card card-hover">
+                                            <div class="p-2 bg-success text-center">
+                                                <h1 class="font-light text-white">1100</h1>
+                                                <h6 class="text-white">Resolve</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Column -->
+                                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                                        <div class="card card-hover">
+                                            <div class="p-2 bg-danger text-center">
+                                                <h1 class="font-light text-white">964</h1>
+                                                <h6 class="text-white">Pending</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Column -->
                                 </div>
-                                <!-- <div class="table-responsive"> -->
                                 
-                             
-           
-                             
+                                <!-- enctype="multipart/form-data" -->
+                                <!-- <form id="enrollForm" method="post" action="insertT.bo" > -->
                                 
-                       
+                                
+                                
+                                <!-- <div class="card-body">
+                                <h4 class="card-title">작성자</h4>
+                                <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
+                                <form class="mt-3">
+                                    <label class="form-control-label" for="inputSuccess1">Input with success</label>
+                                    <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo() }">
+                                    <div class="valid-feedback">
+                                        Success! You've done it.
+                                    </div>
+                                </form>
+                            </div> -->
+                            
+                            	<label class="form-control-label" for="tblDate">날짜</label>
+                                <div class="form-group">
+                                        <input type="date" class="form-control" name="tblDate">
+                                    </div>
                                     
-                                     <div id="pagingArea">
-                <ul class="pagination">
-                   <c:choose>
-                      <c:when test="${ pi.currentPage ne 1 }">
-                         <li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">Previous</a></li>
-                      </c:when>
-                      <c:otherwise> <!-- 현재페이지 1 -->
-                         <li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
-                      </c:otherwise>
-                   </c:choose>
-                               
-                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                       <c:choose>
-                         <c:when test="${ pi.currentPage ne p }">
-                             <li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
-                         </c:when>
-                         <c:otherwise>
-                            <li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
-                         </c:otherwise>
-                      </c:choose>
-                    </c:forEach>
-                    
-                    
-                    <c:choose>
-                      <c:when test="${ pi.currentPage ne pi.maxPage }">
-                         <li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
-                      </c:when>
-                      <c:otherwise>
-                         <li class="page-item disabled"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
-                      </c:otherwise>
-                   </c:choose>
-                </ul>
-            </div>
+                                <label class="mr-sm-2" for="categoryNo">카테고리</label>
+                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="categoryNo">
+                                            <option selected>Choose...</option>
+                                            <option value="1">한식</option>
+                                            <option value="2">양식</option>
+                                            <option value="3">분식</option>
+                                            <option value="4">채식</option>
+                                        </select>
+                                        
+                                 <label>중식</label>
+                                 <div class="form-group">
+                                        <textarea class="form-control" rows="3" name="lnc" placeholder="식단 작성"></textarea>
+                                    </div>
+                                    
+                                    
+                                    <label>석식</label>
+                                 <div class="form-group">
+                                        <textarea class="form-control" rows="3" name="dnr" placeholder="식단 작성"></textarea>
+                                    </div>
+                           
+                            
+                
+                      
+								
+						
                                 
+                                <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" onclick="register();">등록하기</button>
+                                            
+                             	</div>
+                                
+                                
+                                
+                               <!--  </form> -->
+                                
+                                <div class="table-responsive">
+                                    
+                                    <!--<ul class="pagination float-right">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>  -->
+                                    
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-          
+        
+            
+            
          
-   <!-- <script>
-   $(function(){
-      $("#noticeList tbody tr").click(function(){
-    	  
-         location.href="detail.bo?nno=" + $(this).children().eq(0).text();
-         
-         
-         //tr에다가 이벤트 주고
-      });
-   });
-    
-    </script> -->
-    
-      
-    
-    <script>
-       function enroll(){
-    	   
-    	   location.href="enrollForm.bo"; 
-          
-       }
-    </script>
-    
-    <script>
-    	function call(){
-    		if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
-     		   alert("전체 항목 중 1가지만 선택해주세요.");
-     	   }else if($('input:checkbox[name=inlineCheckbox1]:checked').length < 1){
-     		   alert("선택된 게시물이 없습니다.");
-     	   }else{
-     		   confirm("선택 항목을 공지로 등록하시겠습니까?");
-     		   
-     		   var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
-     		   
-     		   //parseInt(nno);
-     		   
-     		   console.log(nno);
-     		   console.log(typeof nno);
-     		   
-     		  $.ajax({
-     				url:"notify.bo",
-     				data:{nno:nno},
-     				type:"post",
-     				success:function(result){
-     					
-     					if(result>0){
-     						alert("'공지로 등록'성공");
-     					}else{
-     						alert("'공지로 등록'실패");
-     					}
-     				},error:function(){
-     					console.log("ajax 통신 실패");
-     				}
-     			});
-     		   
-     		   
-     	   }
-    		
-    	}
-    	
-    	
-    
-          
-          
-          
-       
-    </script>
-    
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

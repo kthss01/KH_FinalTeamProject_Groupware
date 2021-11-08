@@ -21,7 +21,8 @@ public class CompanyNotice {
 	private String nContent;//공지사항내용
 	private int count;//조회수
 	//private int replyNo; //댓글번호
-	
+	private String originName;
+	private String changeName;
 	
 
 	

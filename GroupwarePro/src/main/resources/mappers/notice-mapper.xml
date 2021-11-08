@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="noticeMapper">
+
 	<resultMap id="noticeResultSet" type="CompanyNotice"> 
       <id column="n_no" property="nNo"/>
       <result column="n_title" property="nTitle"/>
@@ -10,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="create_date" property="createDate"/>
       <result column="n_content" property="nContent"/>
       <result column="count" property="count"/>
+      <result column="origin_name" property="originName"/>
+      <result column="change_name" property="changeName"/>
    </resultMap>
   
    
@@ -23,8 +26,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		FROM COMPANY_NOTICE
 	</select>
-
+	
+	<insert id="insertNotice" parameterType="CompanyNotice">
+		INSERT INTO COMPANY_NOTICE 
+		VALUES (SEQ_N_NO.NEXTVAL,#{nTitle}, #{empNo},SYSDATE,#{nContent},DEFAULT,#{originName},#{changeName})
+	</insert>
 	
 	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE COMPANY_NOTICE
+		SET COUNT=COUNT+1
+		WHERE N_NO=#{nno}
+	</update>
+	
+	
+	<select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+		SELECT *
+		FROM COMPANY_NOTICE
+		WHERE N_NO=#{nno}
+	</select>
+	
+	<insert id="insertReply" parameterType="NoReply">
+    	INSERT INTO NO_REPLY
+    	VALUES(SEQ_REPLY_NO.NEXTVAL,#{replyContent},#{replyWriter},DEFAULT,#{refNo},#{originName},#{changeName})
+    </insert>
+    
+    
+    
+    <select id="selectNotify" parameterType="_int" resultMap="noticeResultSet">
+    	SELECT *
+    	FROM COMPANY_NOTICE
+    	WHERE N_NO=#{nno}
+    </select>
+    
+    <insert id="insertNotify" parameterType="Notify">
+    	INSERT INTO NOTIFY
+    	VALUES(SEQ_NTF_NO.NEXTVAL,#{nNo})
+    </insert>
+    
 	
 </mapper>

@@ -31,20 +31,26 @@
 		<typeAlias type="com.kh.spring.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.spring.chat.model.vo.Favorites" alias="Favorites"/>
 	
-		<!-- 전사공지 -->
-	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
-	
-   		<!-- 근태관리 -->
-   		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
-   		<typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
+    <!-- 전사공지 -->
+    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
+    <typeAlias type="com.kh.spring.notice.model.vo.NoReply" alias="NoReply"/>
+    <typeAlias type="com.kh.spring.notice.model.vo.Notify" alias="Notify"/>
 
-	    <!-- 일정 -->
-	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
-	    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
+    <!-- 근태관리 -->
+    <typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
+    <typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
+
+    <!-- 일정 -->
+    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
+    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
+    <typeAlias type="com.kh.spring.calendar.model.vo.Attendant" alias="Attendant"/>
+
+    <!-- 예약 -->
+    <typeAlias type="com.kh.spring.reservation.model.vo.Reservation" alias="Reservation"/>
+    <typeAlias type="com.kh.spring.reservation.model.vo.Asset" alias="Asset"/>
     
-	    <!-- 예약 -->
-	    <typeAlias type="com.kh.spring.reservation.model.vo.Reservation" alias="Reservation"/>
-	    <typeAlias type="com.kh.spring.reservation.model.vo.Asset" alias="Asset"/>
+    <!-- 식단 -->
+    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMeals" alias="TblMeals"/>
 	    
 	</typeAliases>
 
@@ -58,6 +64,7 @@
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/reservation-mapper.xml"/>
+    <mapper resource="mappers/tblMeals-mapper.xml"/>
 	</mappers>
 
 </configuration>

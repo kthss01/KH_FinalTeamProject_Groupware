@@ -140,30 +140,46 @@
                                     <!-- Column -->
                                 </div>
                                 
-                                <div class="card-body">
+                                <!-- enctype="multipart/form-data" -->
+                                <form id="enrollForm" method="post" action="enroll.bo" enctype="multipart/form-data">
+                                
+                                
+                                <h4 class="card-title">작성자</h4>
+                                <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo()}">     
+                                <!-- <div class="card-body">
                                 <h4 class="card-title">작성자</h4>
                                 <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
                                 <form class="mt-3">
                                     <label class="form-control-label" for="inputSuccess1">Input with success</label>
-                                    <input type="text" class="form-control is-valid" id="inputSuccess1">
+                                    <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo() }">
                                     <div class="valid-feedback">
                                         Success! You've done it.
                                     </div>
                                 </form>
-                            </div>
+                            </div> -->
                             
-                            
-                            <div class="card-body">
+                            <h4 class="card-title">제목</h4>
+                            <input type="text" class="form-control is-valid" id="inputSuccess2" name="nTitle">
+                            <br>
+                            <!-- <div class="card-body">
                                 <h4 class="card-title">제목</h4>
                                 <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
                                 <form class="mt-3">
                                     <label class="form-control-label" for="inputSuccess1">Input with success</label>
-                                    <input type="text" class="form-control is-valid" id="inputSuccess1">
+                                    <input type="text" class="form-control is-valid" id="inputSuccess2" name="nTitle">
                                     <div class="valid-feedback">
                                         Success! You've done it.
                                     </div>
                                 </form>
-                            </div>
+                            </div> -->
+                            
+                            <!--<h4 class="card-title">파일첨부</h4>
+                            <input type="file" class="" id="inputSuccess4" name="upfiles">-->
+                            
+                            <h4 class="card-title">파일첨부</h4>
+                            <input type="file" class="form-control-file" id="inputSuccess4" name="upfiles">
+                            <br>
+                            
                             
                             
                             <!--<div class="card-body">
@@ -175,18 +191,19 @@
                                 </form>
                             </div> -->
                                 
-                                <label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect"></label>
+                                <label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>
+                                <textarea class="form-control" rows="3" name="nContent" id="inputSuccess3"></textarea>
 
-								<div class="card">
+								<!-- <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Textarea</h4>
                                 <form class="mt-3">
                                     <div class="form-group">
-                                        <textarea class="form-control" rows="3"></textarea>
+                                        <textarea class="form-control" rows="3" name="nContent" id="inputSuccess3"></textarea>
                                     </div>
                                 </form>
                             </div>
-                        </div>
+                        </div>-->
 								
 								<br><br>
 								
@@ -222,193 +239,17 @@
                                
                                 <br>
                                 
+                                <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">등록</button>
+                                            
+                             	</div>
+                                
+                                
+                                
+                                </form>
                                 
                                 <div class="table-responsive">
-                                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>제목</th>
-                                                <th>작성자</th>
-                                                <th>작성일</th>
-                                                <th>조회수</th>
-                                                <!-- <th>좋아요</th>
-                                                <th>Agent</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach items="${ list }" var="n">
-	                    					<tr>
-	                        					<td>${ n.NNo }</td>
-	                        					<td>${ n.NTitle }</td>
-	                        					<td>${ n.empNo }</td>
-	                        					<td>${ n.createDate }</td>
-	                        					<td>${ n.count }</td>
-	                        					<!--<c:if test="${ !empty b.originName }">
-	                        						<td>★</td>
-	                        					</c:if>
-	                        					<c:if test="${ empty b.originName }">
-	                        						<td>&nbsp;</td>
-	                        					</c:if>-->
-	                    					</tr>
-                    					</c:forEach>
-                                        	
-                                            <!--<tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">276377</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/01</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1234251</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/05/11</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1020345</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/04/01</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">7810203</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/01/01</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">2103450</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/05/01</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">2140530</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/07/01</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">4500123</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/10</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1230450</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/14</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1240503</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/02/01</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1250304</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/05/21</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1470250</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/11</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1450023</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/05/13</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1420530</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/10/01</td>
-                                                <td>Fazz</td>
-                                            </tr> -->
-                                        </tbody>
-                                        <!--<tfoot>
-                                            <tr>
-                                                <th>Status</th>
-                                                <th>Title</th>
-                                                <th>ID</th>
-                                                <th>Product</th>
-                                                <th>Created by</th>
-                                                <th>Date</th>
-                                                <th>Agent</th>
-                                            </tr>
-                                        </tfoot> -->
-                                    </table>
+                                    
                                     <!--<ul class="pagination float-right">
                                         <li class="page-item disabled">
                                             <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -423,14 +264,7 @@
                                         </li>
                                     </ul>  -->
                                     
-                                    <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="enrollSuc();">등록</button>
-                                            <button class="btn btn-outline-secondary" type="button" href="#">임시저장</button>
-                             </div>
                                     
-                                     <div id="pagingArea">
-               
-            							</div>
                                 </div>
                             </div>
                         </div>
@@ -438,19 +272,42 @@
                 </div>
             </div>
             
-            <script>
-            	function enrollSuc(){
-            		location.href="enroll.bo";
+            <!-- <script>
+            	function insert(){
+            		
+            		var empNo=$('inputSuccess1').val();
+            		var nTitle=$('inputSuccess2').val();
+            		var nContent=$('#inputSuccess3').val();
+            		
+            		$.ajax({
+        				url: 'enroll.bo',
+        				data : {
+        					empNo : empNo,
+        					nTitle : nTitle,
+        					nContent :  nContent
+      	        	  	},
+      	        	  success: function(data){
+      	        		  alert("INSERT SUCCESS");
+      	        	  },
+      	        	error: function (xhr, status, error) {
+		    	    	alert("INSERT FAILED");
+
+		    	      }
+        				
+        			});
             	}
-            </script>
+            </script> -->
             
-            <script>
+            
+            
+            
+            <!-- <script>
        $(function(){
           $("#boardList tbody tr").click(function(){
              location.href="detail.bo?bno=" + $(this).children().eq(0).text();
           });
        });
-    </script>
+    </script> -->
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

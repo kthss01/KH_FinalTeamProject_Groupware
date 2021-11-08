@@ -71,7 +71,33 @@
                                     class="hide-menu">근태관리</span></a></li> 
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="main.ap"
                                 aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
-                                    class="hide-menu">전자결재</span></a></li>               
+                                    class="hide-menu">전자결재</span></a></li>   
+                                    
+                                    
+                                    <!--  <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="noticeList.bo"
+                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu">전사게시판</span></a></li>     -->
+                                    
+                                    
+                                    <li class="sidebar-item">
+                         <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                         	<i data-feather="file-text" class="feather-icon"></i>
+                         	<span class="hide-menu">전사게시판 </span></a>
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                <li class="sidebar-item"><a href="noticeList.bo" class="sidebar-link"><span
+                                            class="hide-menu">공지사항
+                                        </span></a>
+                                </li>
+                                <li class="sidebar-item"><a href="tblMeals.bo" class="sidebar-link"><span
+                                            class="hide-menu">월간식단표
+                                        </span></a>
+                                </li>
+
+                            </ul>
+                        </li>
+                                    
+                                  <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  
+                                    
 
                       
                         <li class="list-divider"></li>
@@ -113,6 +139,13 @@
 			})
 			
 		})
+	</script>
+	
+	<script>
+		function apply(){
+			
+			location.href="applyForm.bo";
+		}
 	</script>
 
 	
