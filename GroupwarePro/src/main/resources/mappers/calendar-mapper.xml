@@ -4,7 +4,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="calendarMapper">
 	<!-- resultMap -->
-
 	<resultMap id="eventResultSet" type="Event">
 		<id column="EVT_NO" property="evtNo" />
 		<result column="NAME" property="name" />
