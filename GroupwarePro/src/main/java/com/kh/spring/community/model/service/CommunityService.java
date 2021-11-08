@@ -45,4 +45,10 @@ public interface CommunityService {
 
 	ArrayList<CommunityBoard> selectBestBoardList();
 
+	void deleteCommunityAttachment(CommunityAttachment at);
+
+	int updateCommunityAttachment(CommunityAttachment at);
+
+	CommunityAttachment selectAttachment(CommunityAttachment info);
+
 }

@@ -36,6 +36,10 @@
 	position:absolute;
 	right:0;
 }
+
+.icon-close:hover{
+	cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -152,7 +156,6 @@
 
 								<div id="summernote" style="min-height: 200px; padding-left:40px;">
 									${b.content }</div>
-								<c:if test="${not empty at}">
 									<div id="imgBox" style="margin-bottom: 50px;">
 										<c:forEach items="${ at }" var="at">
 											<img class="col-5" style="margin: auto;"
@@ -161,19 +164,18 @@
 										</c:forEach>
 									</div>
 
-								</c:if>
 								
 									<div id="imgUpdate" style="margin-top: 50px; ">
 										<h4>첨부파일 수정</h4>
 
-										<c:forEach items="${ at }" var="at" varStatus="status">
+			<%-- 							<c:forEach items="${ at }" var="at" varStatus="status">
 
 											<div style="font-size: 12px;">
 												<span class="current_file">기존 파일 ${status.count} <i
 													class="icon-close"></i></span> <br />
 												<p>${at.originName}</p>
 											</div>
-										</c:forEach>
+										</c:forEach> --%>
 
 										<button id="btn-upload" type="button" class="btn btn-sm"
 											style="border: 1px solid #ddd; outline: none;"><i class="fas fa-link"></i> 파일 추가</button>
@@ -185,7 +187,7 @@
 											style="margin: 40px;">
 
 
-											<span>추가 파일</span> <br />
+											<span>파일 목록</span> <br />
 											<div id="articlefileChange"></div>
 										</div>
 									</div>
@@ -450,6 +452,45 @@
 		/* 첨부파일 로직 */
 
 	 $(function () {
+		 
+		 
+		 var bno = ${b.bno};
+		 
+		 
+		 //현재 게시글의 파일정보 가져오기
+		 
+		 $.ajax({
+			
+			 url:'selectAttachmentList.co',
+			 dataType:'json',
+			 post:'post',
+			 data:{bno :  bno},
+			 success:function(list){
+				 
+				 list.forEach((f=>{
+			         $('#imgBox').append(`
+			        		 <img class="col-5" style="margin: auto;"
+									src="${ pageContext.servletContext.contextPath }/resources/upload_files/\${f.changeName}">
+
+				 		`);
+
+			         origin_files.push(f.originName);
+			         $('#articlefileChange').append(
+			         		'<div id="file' + fileNum + '">'
+			        		+ '<span style="font-size:12px">' + f.originName + '</span>'  
+			        		+ '<i style="font-size:10px;" class="icon-close"onclick="originfileDelete(\'file' + fileNum + '\')"'+'></i>' 
+			        		+ '<div/>'
+			 		);
+			         
+			         fileNum ++;
+			         
+			         
+				 }));
+				 
+			 }
+		 }) 
+		 
+
 	     $('#btn-upload').click(function (e) {
 	         e.preventDefault();
 	         $('#input_file').click();
@@ -464,6 +505,7 @@
 	 var fileNum = 0;
 	 // 첨부파일 배열
 	 var content_files = new Array();
+	 var origin_files = new Array();
 
 
 	 function fileCheck(e) {
@@ -482,15 +524,16 @@
 	     
 	     // 각각의 파일 배열담기 및 기타
 	     filesArr.forEach(function (f) {
+	    	 console.log(f);
 	       var reader = new FileReader();
 	       reader.onload = function (e) {
 	         content_files.push(f);
 	         $('#articlefileChange').append(
-	        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
-	        		+ '<font style="font-size:12px">' + f.name + '</font>'  
-	        		+ '<i style="font-size:10px;" class="icon-close"></i>' 
-	        		+ '<div/>'
-	 		);
+		         		'<div id="file' + fileNum + '">'
+		        		+ '<span style="font-size:12px">' + f.name + '</span>'  
+		        		+ '<i style="font-size:10px;" class="icon-close"onclick="fileDelete(\'file' + fileNum + '\')"'+'></i>' 
+		        		+ '<div/>'
+		 		);
 	         fileNum ++;
 	       };
 	       reader.readAsDataURL(f);
@@ -502,39 +545,84 @@
 
 	 // 파일 부분 삭제 함수
 	 function fileDelete(fileNum){
+		 console.log(fileNum);
 	     var no = fileNum.replace(/[^0-9]/g, "");
 	     content_files[no].is_delete = true;
+	     origin_files[no].is_delete = true;
 	 	$('#' + fileNum).remove();
 	 	fileCount --;
 	     console.log(content_files);
+	     
+	 }
+	 //기존 파일 부분 삭제 함수
+	 function originfileDelete(fileNum){
+	     console.log(origin_files);
+		 console.log(fileNum);
+	     var no = fileNum.replace(/[^0-9]/g, "");
+ 		origin_files.splice(origin_files.indexOf(origin_files[fileNum]),1);
+ 	 	$('#' + fileNum).remove();
+	 	fileCount --;
+	     console.log(origin_files);
+	     
 	 }			 
 
+	 
 		 function updateBoard(){
-			    var bno= ${b.bno};
-			   	var content = $('#summernote').summernote('code');
-			   	var title = $('#updateTitle').val();
+			
+			  	var formData = new FormData();
+			  	var bno = ${b.bno};
+		 		for (var x = 0; x < content_files.length; x++) {
+		 			// 삭제 안한것만 담아 준다. 
+		 			if(!content_files[x].is_delete){
+		 				 formData.append("article_file", content_files[x]);
+		 			}
+		 		}
 
-  				 $.ajax({				 
-				type: "POST",
-		  	      url: 'updateBoard.co',
-		      	  data : {
-		      		  bno : bno,
-		      		  content :  content,
-		      		  title : title,
-		      	  },
-		  	      success: function () {
-		  	    	  alert('글 업데이트 ajax성공');
-		 				  registerAction();
-	
-		  	      },
-		  	      error: function (xhr, status, error) {
-		  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-	
-		  	      }
-					 
-				 });  
+	 			console.log(origin_files);
+
+		 		formData.append("bno", bno);
+		 		formData.append("content", $('#summernote').summernote('code'));
+		 		formData.append("title", $('#updateTitle').val());
+
+
+   				 $.ajax({		
+						type: "POST",
+			  	     	url: 'updateBoard.co',
+		    	   	  	enctype: "multipart/form-data",
+			      	  	data : formData,
+			  	     	async:false,
+		        	  	processData: false,
+		    	      	contentType: false,
+			  	      	success: function () {
+			  	    	  alert('글 업데이트 ajax성공');
+		
+			  	      },
+			  	      error: function (xhr, status, error) {
+			  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+		
+			  	      }
+						 
+					 });  
+			   	
+			   
+   				 $.ajax({		
+  					 
+						type: "POST",
+			  	     	url: 'originFileCheck.co',
+			      	  	data : {origin_files : origin_files, 
+			      	  			bno : bno},
+			  	      	success: function (data) {
+							alert("성공 ?");
+			  	      },
+			  	      error: function (xhr, status, error) {
+			  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+		
+			  	      }
+						 
+					 });   
   				 
 		 } 
+		 
 		 
 		    var bTitle= '${b.title}';
 		    var bno = ${b.bno};
