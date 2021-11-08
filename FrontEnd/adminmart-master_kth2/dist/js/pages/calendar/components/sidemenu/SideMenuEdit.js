@@ -8,8 +8,9 @@ export default class SideMenuEdit extends Component {
       <div class="col-12">
         <button id="addEventBtn" type="button" class="btn btn-outline-dark btn-block mb-1">일정 등록</button>
         <div id="editEventBtnGroup" class="btn-group d-none mb-1">
-          <button id="editEventBtn" type="button" class="btn btn-outline-primary" disabled>수정</button>
-          <button id="deleteEventBtn" type="button" class="btn btn-outline-danger" disabled>삭제</button>
+          <button id="editEventBtn" type="button" class="btn btn-outline-primary">수정</button>
+          <button id="cancelEventBtn" type="button" class="btn btn-outline-dark"><i class="far fa-hand-point-up"></i></button>
+          <button id="deleteEventBtn" type="button" class="btn btn-outline-danger">삭제</button>
         </div>
         <select name="calendar" class="custom-select custom-select-sm mb-1">
           <option selected value="1">기본 캘린더</option>
@@ -22,8 +23,8 @@ export default class SideMenuEdit extends Component {
           <input type="checkbox" class="custom-control-input" name="allDay" id="allDayCheck">
           <label class="custom-control-label" for="allDayCheck">AllDay</label>
         </div>
-        <input type="text" name="startDate" class="form-control form-control-sm text-center mb-1" placeholder="시작일">
-        <input type="text" name="endDate" class="form-control form-control-sm text-center mb-1" placeholder="종료일">
+        <input type="text" name="startDate" class="form-control form-control-sm text-center mb-1" placeholder="시작일" autocomplete="off">
+        <input type="text" name="endDate" class="form-control form-control-sm text-center mb-1" placeholder="종료일" autocomplete="off">
       </div>
     `;
   } 
@@ -31,11 +32,18 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { id, title, start, end, allDay } = this.$state;
+    const { id=null, title=null, allDay=null, start=null, end=null, calendars=null } = newState;
 
-    console.log(this.$state);
+    // console.log(this.$state);
 
-    if (title || start || end) {
+    if (calendars) {
+      const selectCalendar = this.$target.querySelector('select[name="calendar"]');
+
+      selectCalendar.innerHTML = calendars.map((calendar, index) => {
+        return `<option ${index === 0 ? "selected" : ""} value="${calendar.calNo}">${calendar.name}</option>`
+      }).join('');
+
+    } else if (title || allDay || start || end) {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');
 
@@ -84,10 +92,11 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
+      const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
       // console.log('add', id, title, start, end);
 
-      insertEvent({ id:'', title, start, end, allDay });
+      insertEvent({ id:'', title, start, end, allDay, calNo });
     });
 
     // 이벤트 수정
@@ -97,10 +106,11 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
+      const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
       console.log('edit', id, title, start, end, allDay);
 
-      editEvent({ id, title, start, end, allDay });
+      editEvent({ id, title, start, end, allDay, calNo });
     });
 
     // 이벤트 삭제
@@ -110,12 +120,22 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
+      const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
       // console.log('delete', id, title, start, end);
 
-      deleteEvent({ id, title, start, end, allDay });
+      deleteEvent({ id, title, start, end, allDay, calNo });
     });
 
+    // 이벤트 등록버튼으로 되돌리기
+    this.addEvent('click', '#cancelEventBtn', ({ target }) => {
+      const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
+      const addEventBtn = this.$target.querySelector('#addEventBtn');
+
+      addEventBtn.classList.remove("d-none");
+      editEventBtnGroup.classList.remove("d-flex");
+      editEventBtnGroup.classList.add("d-none");
+    });
   }
 
 }

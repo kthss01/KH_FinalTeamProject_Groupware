@@ -18,11 +18,16 @@ export default class SideMenu extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { event=null } = this.$state;
+    const { event=null, calendars=null } = newState;
+
+    // console.log(this.$state);
+    const { edit, cal } = this.$children;
 
     if (event) {
-      const { edit } = this.$children;
       edit.setState({ ...event });
+    } else if (calendars) {
+      edit.setState({ calendars });
+      cal.setState({ calendars });
     } else {
       this.render();
     }
@@ -39,14 +44,16 @@ export default class SideMenu extends Component {
     const $sideMenuCal = this.$target.querySelector('[data-component="sidemenu-cal"]');
     $sideMenuCal.classList.add("row", "pt-3");
 
-    const { insertEvent, editEvent, deleteEvent } = this.$props;
+    const { insertEvent, editEvent, deleteEvent, insertCalendar, editCalendar, deleteCalendar } = this.$props;
 
     this.$children = {
       header: new SideMenuHeader($sideMenuHeader, {}),
       edit: new SideMenuEdit($sideMenuEdit, {
         insertEvent, editEvent, deleteEvent,
       }),
-      cal: new SideMenuCal($sideMenuCal, {}),
+      cal: new SideMenuCal($sideMenuCal, {
+        insertCalendar, editCalendar, deleteCalendar,
+      }),
     }
     
   }

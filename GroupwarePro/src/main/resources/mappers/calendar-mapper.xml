@@ -99,6 +99,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="allDay != null">
 				ALLDAY = #{allDay},
 			</if>
+			<if test="calNo != null">
+				CAL_NO = #{calNo},
+			</if>
 		</trim>
 		WHERE EVT_NO = #{evtNo} AND IS_DELETE = 'N'
 		

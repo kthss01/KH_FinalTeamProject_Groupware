@@ -25,7 +25,7 @@ export default class App extends Component {
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');
     const $calendarMain = this.$target.querySelector('[data-component="calendar-main"]');
 
-    const { selectEvent, insertEvent, editEvent, deleteEvent } = this;
+    const { selectEvent, insertEvent, editEvent, deleteEvent, renderCalendar, insertCalendar, editCalendar, deleteCalendar } = this;
 
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
     this.$children = {
@@ -34,11 +34,15 @@ export default class App extends Component {
         insertEvent: insertEvent.bind(this),
         editEvent: editEvent.bind(this),
         deleteEvent: deleteEvent.bind(this),
+        insertCalendar: insertCalendar.bind(this),
+        editCalendar: editCalendar.bind(this),
+        deleteCalendar: deleteCalendar.bind(this),
       }),
       calendar: new Calendar($calendarMain, { 
         ...this.$state,
         selectEvent: selectEvent.bind(this),
         editEvent: editEvent.bind(this),
+        renderCalendar: renderCalendar.bind(this),
       })
     };
   }
@@ -65,7 +69,7 @@ export default class App extends Component {
           startDate: new Date(event.start + ' UTC'),
           endDate: new Date(event.end + ' UTC'),
           allDay: event.allDay ? '1' : '0',
-          calNo: 1,
+          calNo: event.calNo,
         }
       });
 
@@ -92,7 +96,7 @@ export default class App extends Component {
           startDate: new Date(event.start + ' UTC'),
           endDate: new Date(event.end + ' UTC'),
           allDay: event.allDay ? '1' : '0',
-          calNo: 1,
+          calNo: event.calNo,
         }
       });
 
@@ -107,7 +111,7 @@ export default class App extends Component {
   async deleteEvent (event) {
     const { calendar } = this.$children;
 
-    console.log('app', event);
+    // console.log('app', event);
 
     try {
       await axios.delete(`deleteEvent.ca?evtNo=${event.id}`);
@@ -117,5 +121,73 @@ export default class App extends Component {
       console.log(err);
     }
     
+  }
+
+  renderCalendar (calendars) {
+    const { sideMenu } = this.$children;
+
+    sideMenu.setState({ calendars });
+  }
+
+  async insertCalendar (cal) {
+    const { calendar } = this.$children;
+
+    console.log(cal);
+
+    try {
+      const res = await axios.post(`insertCalendar.ca`, null, {
+        params: { 
+          name: cal.name, 
+          color: cal.color,
+          empNo: 201, 
+        }
+      });
+
+      console.log(res.data);
+
+      cal.calNo = res.data;
+
+      calendar.setState({ calendar: cal, status: 'insert' });
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async editCalendar (cal) {
+    const { calendar } = this.$children;
+
+    // console.log(cal);
+
+    try {
+      await axios.put(`updateCalendar.ca`, null, {
+        params: { 
+          name: cal.name, 
+          color: cal.color,
+          calNo: cal.calNo,
+          empNo: 201,           
+        }
+      });
+
+      calendar.setState({ calendar: cal, status: 'update' });
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async deleteCalendar (cal) {
+    const { calendar } = this.$children;
+
+    // console.log(cal);
+
+    try {
+      await axios.delete(`deleteCalendar.ca?calNo=${cal.calNo}`);
+
+      calendar.setState({ calendar: cal, status: 'delete' });
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

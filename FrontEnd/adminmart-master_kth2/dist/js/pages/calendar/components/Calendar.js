@@ -48,82 +48,157 @@ export default class Calendar extends Component {
 
     // 이벤트 DB로부터 읽어오는 함수
     this.readEvents = async (calNo) => {
-      const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
-      // console.log(res);
-  
-      
-      const events = res.data.map((evt) => {
-        console.log(evt);
-        return {
-          id: evt.evtNo,
-          title: evt.name,
-          start: evt.startDate,
-          end: evt.endDate,
-          allDay: evt.allDay === '1' ? true : false,
-        }
-      });
-  
-      return events;
+      try {
+        const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
+        // console.log(res);
+        
+        const events = res.data.map((evt) => {
+          // console.log(evt);
+          return {
+            id: evt.evtNo,
+            title: evt.name,
+            start: evt.startDate,
+            end: evt.endDate,
+            allDay: evt.allDay === '1' ? true : false,
+          }
+        });
+    
+        return events;
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     // 캘린더 DB로부터 읽어오는 함수
     this.readCalendars = async (empNo) => {
-      const res = await axios.get(`selectCalList.ca?empNo=${empNo}`);
+      try {
+        const res = await axios.get(`selectCalList.ca?empNo=${empNo}`);
 
-      console.log(res.data);
+        // console.log(res.data);
+  
+        return res.data;
 
-      return res.data;
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     // 캘린더 렌더를 위한 함수
     this.loadCalendar = async (empNo) => {
-
-      this.calendars = await this.readCalendars(empNo);
-
-      this.calendars.forEach(async calendar => {
-        const { calNo } = calendar;
-        this.calendars.events = await this.readEvents(calNo);
-
-        // fullcalendar 객체에 읽어온 이벤트 추가
-        this.calendars.events.forEach(event => {
-          this.$calendar.addEvent(event);
+      try {
+        const { renderCalendar } = this.$props;
+  
+        this.calendars = await this.readCalendars(empNo);
+  
+        // console.log(this.calendars);
+  
+        renderCalendar(this.calendars);
+  
+        this.calendars.forEach(async (calendar, i) => {
+          const { calNo } = calendar;
+          this.calendars[i].events = await this.readEvents(calNo);
+  
+          // fullcalendar 객체에 읽어온 이벤트 추가
+          this.calendars[i].events.forEach(event => {
+            this.$calendar.addEvent({ ...event, backgroundColor: this.calendars[i].color });
+          })
         })
-      })
-
-      // fullcalendar 렌더
-      this.$calendar.render();
+  
+        // fullcalendar 렌더
+        this.$calendar.render();
+      } catch (err) {
+        console.log(err);
+      }
     }
-
   }
 
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { event, status } = this.$state;
+    const { event=null, calendar=null, status } = newState;
 
-    if (status) {
+    const { renderCalendar } = this.$props;
+
+    console.log(status, calendar);
+
+    if (event) {
 
       // console.log(status);
-      // console.log(event);
+      console.log(event);
 
       switch (status) {
         case 'insert':
-          this.$calendar.addEvent(event);
+          var targetCal = this.calendars.find((cal) => cal.calNo == event.calNo);
+          targetCal.events.push(event);
+          this.$calendar.addEvent({ ...event, backgroundColor: targetCal.color });
         break;
         case 'update':
+          let isFind = false;
+          this.calendars.forEach((cal) => {
+            cal.events.forEach((evt, i) => {
+              if (evt.evtNo == event.evtNo) {
+                cal.events.splice(i, 1);
+                isFind = true;
+                return false;
+              }
+            });
+            if (isFind) {
+              return false;
+            }
+          });
+          var targetCal = this.calendars.find((cal) => cal.calNo == event.calNo);
+          event.backgroundColor = targetCal.color;
+          targetCal.events.push(event);
           const evt = this.$calendar.getEventById(event.id);
           evt.setProp("title", event.title);
+          evt.setProp("backgroundColor", targetCal.color);
           evt.setDates(event.start, event.end);
           evt.setAllDay(event.allDay);
         break;
         case 'delete':
+          var targetCal = this.calendars.find((cal) => cal.calNo == event.calNo);
+          targetCal.events = targetCal.events.filter((evt) => evt.evtNo != event.evtno);
           this.$calendar.getEventById(event.id).remove();
         break;
       }
 
       // console.log(this.$calendar);
 
-    } else {
+    } else if (calendar) {
+      switch (status) {
+        case 'insert':
+          console.log(this.calendars);
+          this.calendars.push(calendar);
+          console.log(this.calendars);
+          renderCalendar(this.calendars);
+        break;
+        case 'update':
+          var targetCal = this.calendars.find((cal) => cal.calNo == calendar.calNo);
+          console.log(targetCal);
+          if (targetCal.events) {
+            targetCal.events.forEach((event) => {
+              this.$calendar.getEventById(event.id).setProp('backgroundColor', calendar.color);
+            });
+          }  
+          targetCal.name = calendar.name;
+          targetCal.color = calendar.color;
+          console.log(this.calendars);
+          renderCalendar(this.calendars);
+        break;
+        case 'delete':
+          var targetCal = this.calendars.find((cal) => cal.calNo == calendar.calNo);
+          if (targetCal.events) {
+            targetCal.events.forEach((event) => {
+              this.$calendar.getEventById(event.id).remove();
+            });
+          }
+          this.calendars = this.calendars.filter((cal) => cal.calNo != calendar.calNo);
+          console.log(this.calendars);
+          renderCalendar(this.calendars);
+        break;
+      }
+    }
+    else {
       this.render();
     }
 
