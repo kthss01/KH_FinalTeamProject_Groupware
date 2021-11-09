@@ -17,7 +17,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sCode" column="S_CODE"/>
 		<result property="occurTime" column="OCCUR_TIME"/>
 	</resultMap>
-	
+	<resultMap id="VacationInfoResultSet" type="VacationInfo">
+		<id property="empNo" column="EMP_NO"/>
+		<result property="allDays" column="ALL_DAYS"/>
+		<result property="usedDays" column="USED_DAYS"/>
+		<result property="leftDays" column="LEFT_DAYS"/>
+	</resultMap>
+	<resultMap id="VRequestResultSet" type="VRequest">
+		<id property="reqNo" column="REQ_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="vCode" column="V_CODE"/>
+		<result property="firstDate" column="FIRST_DATE"/>
+		<result property="lastDate" column="LAST_DATE"/>
+		<result property="usingDay" column="USING_DAY"/>
+		<result property="reason" column="REASON"/>
+		<result property="vName" column="V_NAME"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptTitle" column="DEPT_TITLE"/>
+	</resultMap>
+	<resultMap id="VOccurResultSet" type="VOccur">
+		<id property="occurNo" column="OCCUR_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="vCode" column="V_CODE"/>
+		<result property="occurDate" column="OCCUR_DATE"/>
+		<result property="expiryDate" column="EXPIRY_DATE"/>
+		<result property="occurDays" column="OCCUR_DAYS"/>
+		<result property="reason" column="REASON"/>
+	</resultMap>
+	<resultMap id="EmpInfoResultSet" type="EmpInfo">
+		<id property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptTitle" column="DEPT_TITLE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="position" column="POSITION"/>
+		<result property="exNumber" column="EX_NUMBER"/>
+		<result property="phone" column="PHONE"/>
+		<result property="mainNumber" column="MAIN_NUMBER"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="duty" column="DUTY"/>
+		<result property="occupation" column="OCCUPATION"/>
+		<result property="jobGroup" column="JOB_GROUP"/>
+		<result property="recruitName" column="RECRUIT_CODE"/>
+		<result property="empDiv" column="EMP_CODE"/>
+		<result property="salCode" column="SAL_CODE"/>
+		<result property="recommender" column="RECOMMENDER"/>
+		<result property="statement" column="STATEMENT"/>
+		<result property="empReg" column="EMP_REG"/>
+		<result property="gender" column="GENDER"/>
+		<result property="marriageYn" column="MARRIAGE_YN"/>
+		<result property="disabilityYn" column="DISABILITY_YN"/>
+		<result property="veteranYn" column="VETERAN_YN"/>
+		<result property="retireDate" column="RETIRE_DATE"/>
+		<result property="retireReason" column="RETIRE_REASON"/>
+	</resultMap>
 	<select id="selectWorkList" parameterType="_int" resultMap="workResultSet">
 		SELECT 
 			*
@@ -47,6 +100,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		('S-'||SEQ_WORK_S_INFO.NEXTVAL, #{wNo}, #{sCode}, TO_CHAR(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH24:MI:SS'))
 	</insert>
 	
-	<select id="selectVacationInfo" parameterType="_int"></select>
+	<select id="selectVacationInfo" parameterType="_int" resultMap="VacationInfoResultSet">
+		SELECT 
+			*
+		FROM
+			EMP_VACATION_INFO
+		WHERE
+			EMP_NO = #{empNo}
+	</select>
 	
+	<select id="selectVRequestList" parameterType="_int" resultMap="VRequestResultSet">
+		SELECT
+		    A.*, 
+		    B.V_NAME, 
+		    C.EMP_NAME, 
+		    D.DEPT_TITLE
+		FROM
+		    EMP_VACATION_REQ A
+		JOIN VACATION B ON A.V_CODE = B.V_CODE
+		JOIN EMPLOYEE C ON A.EMP_NO = C.EMP_NO
+		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
+		WHERE 
+		    A.EMP_NO = #{empNo}
+	    ORDER BY A.FIRST_DATE ASC
+	</select>
+	
+	<select id="selectVOccurList" parameterType="_int" resultMap="VOccurResultSet">
+		SELECT 
+			*
+		FROM
+			EMP_VACATION_OCC
+		WHERE EMP_NO = #{empNo}
+		ORDER BY OCCUR_NO ASC
+	</select>
+	
+	<select id="selectEmpInfo" parameterType="_int" resultMap="EmpInfoResultSet">
+		SELECT 
+    	A.*, B.*, C.DEPT_TITLE, D.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN EMP_INFO B ON A.EMP_NO = B.EMP_NO
+		JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
+		WHERE A.EMP_NO = #{empNo}
+	</select>
 </mapper>

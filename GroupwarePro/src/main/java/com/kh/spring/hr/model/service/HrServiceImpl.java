@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.hr.model.dao.HrDao;
+import com.kh.spring.hr.model.vo.EmpInfo;
+import com.kh.spring.hr.model.vo.VOccur;
+import com.kh.spring.hr.model.vo.VRequest;
 import com.kh.spring.hr.model.vo.VacationInfo;
 import com.kh.spring.hr.model.vo.Work;
 import com.kh.spring.hr.model.vo.WorkSInfo;
@@ -65,6 +68,30 @@ public class HrServiceImpl implements HrService {
 		VacationInfo vi = hrDao.selectVacationInfo(sqlSession, empNo);
 		
 		return vi;
+	}
+
+	@Override
+	public ArrayList<VRequest> selectVRequestList(int empNo) {
+		
+		ArrayList<VRequest> vrList = hrDao.selectVRequestList(sqlSession, empNo);
+		
+		return vrList;
+	}
+
+	@Override
+	public ArrayList<VOccur> selectVOccurList(int empNo) {
+		
+		ArrayList<VOccur> voList = hrDao.selectVOccurList(sqlSession, empNo);
+		
+		return voList;
+	}
+
+	@Override
+	public EmpInfo selectEmpInfo(int empNo) {
+		
+		EmpInfo empInfo = hrDao.selectEmpInfo(sqlSession, empNo);
+		
+		return empInfo;
 	}
 
 

@@ -1,15 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList, com.kh.spring.hr.model.vo.Work, com.kh.spring.hr.model.vo.VacationInfo, com.kh.spring.hr.model.vo.VRequest, com.kh.spring.hr.model.vo.VOccur" %>
+<%@ page import="java.util.ArrayList, com.kh.spring.hr.model.vo.Work" %>
+<%@ page import="java.util.ArrayList, com.kh.spring.hr.model.vo.EmpInfo" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%	
 	ArrayList<Work> wlist = (ArrayList<Work>)request.getAttribute("wlist"); 
-	VacationInfo vi = (VacationInfo)request.getAttribute("vi");
-	ArrayList<VRequest> vrList = (ArrayList<VRequest>)request.getAttribute("vrList"); 
-	ArrayList<VOccur> volist = (ArrayList<VOccur>)request.getAttribute("volist"); 
 	String start = "미등록";
 	String end = "미등록";
 	
@@ -46,6 +44,9 @@
 		}
 	}
 	
+	EmpInfo empInfo = (EmpInfo)request.getAttribute("empInfo");
+	System.out.println("==================empInfoView==================");
+	System.out.println(empInfo);
 %>
 <!DOCTYPE html>
 <html>
@@ -224,145 +225,203 @@
 					<!------------------------------------------------------>
 					
 					<div class="col-10">
-						<h3>연차 내역</h3>
+						<h3>인사정보</h3>
 						<div class="row">
-							<div class="m-auto">
-								<span>2021.10</span>
-							</div>
+							<table class="table col-11 m-auto">
+								<tbody>
+									<tr>
+										<th rowspan="4">사진</th>
+										<th>이름</th>
+										<th>소속</th>
+										<td colspan="3"><%=empInfo.getDeptTitle() %></td>
+									</tr>
+									<tr>
+										<td rowspan="3"><%=empInfo.getEmpName() %></td>
+										<th>사번</th>
+										<td><%=empInfo.getEmpNo() %></td>
+										<th>내선번호</th>
+										<td><%=empInfo.getExNumber() %></td>
+									</tr>
+									<tr>
+										<th>이메일</th>
+										<td><%=empInfo.getEmail() %></td>
+										<th>휴대번호</th>
+										<td><%=empInfo.getPhone() %></td>
+									</tr>
+									<tr>
+										<th>직위/직책</th>
+										<td><%=empInfo.getJobName() %>/<%=empInfo.getPosition() %></td>
+										<th>대표전화</th>
+										<td><%=empInfo.getMainNumber() %></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
+						
+						<!-- 탭 메뉴 -->
 						<div class="row">
-							<div class="col-md-12 m-auto">
-								<div class="d-flex col-11 m-auto" style="border: 1px solid rgba(0,0,0,.125); background-color: white">
-									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">관리자 사원</p>
-									</div>
-									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">총 연차</p>
-										<p class="text-center m-auto text-primary"><%=vi.getAllDays() %></p>
-									</div>
-									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">사용 연차</p>
-										<p class="text-center m-auto text-primary"><%=vi.getUsedDays() %></p>
-									</div>
-									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">잔여 연차</p>
-										<p class="text-center m-auto text-primary"><%=vi.getLeftDays() %></p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<br><br>
-						
-						<!-- 연차 사용 내역 -->
-						<div class="row" style="border-bottom: 2px solid rgba(0,0,0,.125);">
-						
-							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 2px solid rgba(0,0,0,.125);">
-								<div class="text-left col-2">
-									<h5>사용내역</h5>
-								</div>
-							</div>
-							
-							<!-- 헤더 표시 -->
-							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="col-1">
-									<span>이름</span>
-								</div>
-								<div class="col-2">
-									<span>부서명</span>
-								</div>
-								<div class="col-2">
-									<span>휴가종류</span>
-								</div>
-								<div class="col-3">
-									<span>연차 사용기간</span>
-								</div>
-								<div class="col-2">
-									<span>사용 연차</span>
-								</div>
-								<div class="col-2">
-									<span>내용</span>
-								</div>
-							</div>
-							
-							<!-- 사용내역 리스트 -->
-							<%if(vrList.size() > 0) {%>
-								<%for(int i = 0; i < vrList.size(); i++) { VRequest vr = vrList.get(i);%>
-									<div class="d-flex col-12">
-										<div class="col-1">
-											<span><%=vr.getEmpName() %></span>
-										</div>
-										<div class="col-2">
-											<span><%=vr.getDeptTitle() %></span>
-										</div>
-										<div class="col-2">
-											<span><%=vr.getVName() %></span>
-										</div>
-										<div class="col-3">
-											<span><%=sf2.format(vr.getFirstDate()) %> ~ <%=sf2.format(vr.getLastDate()) %></span>
-										</div>
-										<div class="col-2">
-											<span><%=vr.getUsingDay() %></span>
-										</div>
-										<div class="col-2">
-											<span><%=vr.getReason() %></span>
-										</div>
-									</div>
-								<%} %>
-							<%}else { %>
-								<div class="d-flex col-12">
-									<span class="m-auto">연차 사용내역이 없습니다</span>
-								</div>
-							<%} %>
-						</div>
-						<br><br><br><br>
-						
-						<!-- 연차 생성 내역 -->
-						<div class="row" style="border-bottom: 2px solid rgba(0,0,0,.125);">
-							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 2px solid rgba(0,0,0,.125);">
-								<div class="text-left col-2">
-									<h5>생성내역</h5>
-								</div>
-							</div>
-							
-							<!-- 헤더 표시 -->
-							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="col-3">
-									<span>등록일</span>
-								</div>
-								<div class="col-3">
-									<span>사용기간</span>
-								</div>
-								<div class="col-3">
-									<span>발생일수</span>
-								</div>
-								<div class="col-3">
-									<span>내용</span>
-								</div>
-							</div>
-							
-							<!-- 생성내역 리스트 -->
-							<%if(vrList.size() > 0) {%>
-								<%for(int i = 0; i < volist.size(); i++) { VOccur vo = volist.get(i);%>
-									<div class="d-flex col-12">
-										<div class="col-3">
-											<span><%=sf2.format(vo.getOccurDate()) %></span>
-										</div>
-										<div class="col-3">
-											<span><%=sf2.format(vo.getExpiryDate()) %></span>
-										</div>
-										<div class="col-3">
-											<span><%=vo.getOccurDays() %></span>
-										</div>
-										<div class="col-3">
-											<span><%=vo.getReason() %></span>
-										</div>
-									</div>
-								<%} %>
-							<%}else { %>
-								<div class="d-flex col-12">
-									<span class="m-auto">연차 생성내역이 없습니다</span>
-								</div>
-							<%} %>
+                           <ul class="nav nav-tabs mb-3">
+                               <li class="nav-item">
+                                   <a href="#basic" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                       <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">기본</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#detail" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                       <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">신상</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#duty" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">직무/담당</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#appoint" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">발령</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#carrer" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">경력</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#reward" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">포상/징계</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#evaluation" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">인사평가</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#edu" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">교육</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#license" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">자격</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#language" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">어학</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#military" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">병역</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#abroad" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">해외출장</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#academic" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">학력</span>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="#family" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                       <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                       <span class="d-none d-lg-block">가족</span>
+                                   </a>
+                               </li>
+                           </ul>
+
+                           <div class="tab-content" style="padding: 0px 15px;">
+                               <div class="tab-pane active" id="basic">
+                               		<table class="table">
+                               			<tr>
+                               				<th>입사일</th>
+                               				<td><%=sf2.format(empInfo.getEnrollDate()) %></td>
+                               				<th>직무</th>
+                               				<td><%=empInfo.getDuty() %></td>
+                               				<th>직종</th>
+                               				<td><%=empInfo.getOccupation() %></td>
+                               				<th>직군</th>
+                               				<td><%=empInfo.getJobGroup() %></td>
+                               			</tr>
+                               			<tr>
+                               				<th>채용구분</th>
+                               				<td><%=empInfo.getRecruitName() %></td>
+                               				<th>직원구분</th>
+                               				<td><%=empInfo.getEmpDiv() %></td>
+                               				<th>급여구분</th>
+                               				<td><%=empInfo.getSalCode() %></td>
+                               				<th>추천자</th>
+                               				<td><%=empInfo.getRecommender() %></td>
+                               			</tr>
+                               			<tr>
+                               				<th>상태</th>
+                               				<td><%=empInfo.getStatement() %></td>
+                               				<th>생년월일</th>
+                               				<td>생년월일내용</td>
+                               				<th>성별</th>
+                               				<td><%=empInfo.getGender() %></td>
+                               				<th>결혼여부</th>
+                               				<td><%=empInfo.getMarriageYn() %></td>
+                               			</tr>
+                               			<tr>
+                               				<th>장애여부</th>
+                               				<td><%=empInfo.getDisabilityYn() %></td>
+                               				<th>보훈여부</th>
+                               				<td><%=empInfo.getVeteranYn() %></td>
+                               				<th>퇴사일</th>
+                               				<%if(empInfo.getRetireDate() == null) {%>
+                               				<td>null</td>
+                               				<%} else{ %>
+                               				<td><%=sf2.format(empInfo.getRetireDate()) %></td>
+                               				<%} %>
+                               				
+                               				<th>퇴직사유</th>
+                               				<td><%=empInfo.getRetireReason() %></td>
+                               			</tr>
+                               		</table>
+                               </div>
+                               <div class="tab-pane" id="detail">
+                                   <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                                       justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                       eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
+                                       semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
+                                       eu, consequat vitae, eleifend ac, enim.</p>
+                                   <p class="mb-0">Food truck quinoa dolor sit amet, consectetuer adipiscing elit.
+                                       Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
+                                       et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                       ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                       quis enim.</p>
+                               </div>
+                               <div class="tab-pane" id="duty">
+                                   <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                       commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                       magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                       ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                       quis enim.</p>
+                                   <p class="mb-0">Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
+                                       arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
+                                       dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus
+                                       elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                                       porttitor eu, consequat vitae, eleifend ac, enim.</p>
+                               </div>
+                           </div>
 						</div>
 					</div>
 				</div>

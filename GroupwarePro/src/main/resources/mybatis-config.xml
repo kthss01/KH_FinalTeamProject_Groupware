@@ -36,10 +36,14 @@
 	    <typeAlias type="com.kh.spring.notice.model.vo.NoReply" alias="NoReply"/>
 	    <typeAlias type="com.kh.spring.notice.model.vo.Notify" alias="Notify"/>
 	
-	    <!-- 근태관리 -->
-	    <typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
-	    <typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
-	
+   		<!-- 근태관리 -->
+   		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.VacationInfo" alias="VacationInfo"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.VRequest" alias="VRequest"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.VOccur" alias="VOccur"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.EmpInfo" alias="EmpInfo"/>
+
 	    <!-- 일정 -->
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Event" alias="Event"/>
