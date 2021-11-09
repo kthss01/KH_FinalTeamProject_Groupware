@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.hr.model.vo.EmpInfo;
+import com.kh.spring.hr.model.vo.VOccur;
 import com.kh.spring.hr.model.vo.VRequest;
 import com.kh.spring.hr.model.vo.VacationInfo;
 import com.kh.spring.hr.model.vo.Work;
@@ -41,6 +43,16 @@ public class HrDao {
 	public ArrayList<VRequest> selectVRequestList(SqlSessionTemplate sqlSession, int empNo) {
 		
 		return (ArrayList)sqlSession.selectList("hrMapper.selectVRequestList", empNo);
+	}
+
+	public ArrayList<VOccur> selectVOccurList(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return (ArrayList)sqlSession.selectList("hrMapper.selectVOccurList", empNo);
+	}
+
+	public EmpInfo selectEmpInfo(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return (EmpInfo)sqlSession.selectOne("hrMapper.selectEmpInfo", empNo);
 	}
 
 

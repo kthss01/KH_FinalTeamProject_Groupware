@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.spring.hr.model.service.HrService;
+import com.kh.spring.hr.model.vo.EmpInfo;
+import com.kh.spring.hr.model.vo.VOccur;
 import com.kh.spring.hr.model.vo.VRequest;
 import com.kh.spring.hr.model.vo.VacationInfo;
 import com.kh.spring.hr.model.vo.Work;
@@ -86,16 +88,34 @@ public class HrController {
 		
 		//사원의 휴가정보 가져오기 
 		VacationInfo vi = hrService.selectVacationInfo(empNo);
-		System.out.println("=============================");
-		System.out.println(vi);
 		model.addAttribute("vi", vi);
 		
 		//휴가사용 리스트 가져오기
 		ArrayList<VRequest> vrList = hrService.selectVRequestList(empNo);
-		System.out.println("=============================");
-		System.out.println(vrList);
 		model.addAttribute("vrList", vrList);
 		
+		//휴가생성 리스트 가져오기
+		ArrayList<VOccur> volist = hrService.selectVOccurList(empNo);
+		model.addAttribute("volist", volist);
+		
 		return "/hr/vacation";
+	}
+	
+	@RequestMapping("empInfo.hr")
+	public String selectEmpInfo(Model model, HttpSession session, HttpServletRequest request) {
+		
+		//현재 로그인 중인 사원의 사원번호
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int empNo = Integer.parseInt(loginUser.getEmpNo());
+		
+		//사원의 모든 근무정보 가져오기
+		ArrayList<Work> wlist = hrService.selectWorkList(empNo);
+
+		model.addAttribute("wlist", wlist);
+		
+		EmpInfo empInfo = hrService.selectEmpInfo(empNo);
+		model.addAttribute("empInfo", empInfo);
+		
+		return "/hr/empInfoView";
 	}
 }

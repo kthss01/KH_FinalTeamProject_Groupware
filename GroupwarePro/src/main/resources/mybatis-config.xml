@@ -38,6 +38,8 @@
    		<typeAlias type="com.kh.spring.hr.model.vo.WorkSInfo" alias="WorkSInfo"/>
    		<typeAlias type="com.kh.spring.hr.model.vo.VacationInfo" alias="VacationInfo"/>
    		<typeAlias type="com.kh.spring.hr.model.vo.VRequest" alias="VRequest"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.VOccur" alias="VOccur"/>
+   		<typeAlias type="com.kh.spring.hr.model.vo.EmpInfo" alias="EmpInfo"/>
 
 	    <!-- 일정 -->
 	    <typeAlias type="com.kh.spring.calendar.model.vo.Calendar" alias="Calendar"/>
