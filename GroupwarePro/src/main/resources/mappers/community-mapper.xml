@@ -196,4 +196,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT * FROM COM_ATTACHMENT WHERE ORIGIN_NAME=#{originName} AND B_NO=#{bno}
 	</select>
 	
+	<delete id="deleteBoard" parameterType="_int">	
+	DELETE FROM COMMUNITY WHERE B_NO = #{bno}
+	</delete>
+	
 </mapper>

@@ -66,6 +66,24 @@ public class CommunityController {
 		mv.addObject("cno", cno);
 		return mv;
 	}
+	
+	@ResponseBody
+	@RequestMapping("delete.co")
+	public String deleteBoard(int bno,HttpServletRequest request) {
+		
+		
+		ArrayList<CommunityAttachment> atList = communityService.selectAttachmentList(bno);
+		
+		for(CommunityAttachment at : atList) {
+			deleteFile(at.getChangeName(),request);
+		}
+
+	    int result =  communityService.deleteBoard(bno);
+		
+		return String.valueOf(result);
+
+	}
+	
 
 	@GetMapping("detail.co")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
@@ -76,9 +94,8 @@ public class CommunityController {
 		communityService.countBoard(bno);
 
 		mv.addObject("b", b);
-		/*
-		 * mv.addObject("at", at);
-		 */ mv.setViewName("/community/communityBoardDetailView");
+		mv.setViewName("/community/communityBoardDetailView");
+		
 		return mv;
 	}
 
@@ -124,8 +141,6 @@ public class CommunityController {
 		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(bno);
 		ArrayList<CommunityAttachment> resultList = new ArrayList();;
 
-		System.out.println("넘어온 파일 리스트" + requestFiles);
-		System.out.println("기존 파일 리스트 " + originFileList); 
 
 		if (requestFiles == null) { // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제
 
@@ -168,7 +183,6 @@ public class CommunityController {
 	public void updateBoard(CommunityBoard b, HttpServletRequest request,
 			@RequestParam("article_file") List<MultipartFile> multipartFile) {
 
-		System.out.println("넘어온 새로운 파일 : " + multipartFile);
 
 		String changeName = "";
 		CommunityAttachment at = null;
@@ -180,8 +194,6 @@ public class CommunityController {
 				for (MultipartFile newFile : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
 
 					changeName = saveFile(newFile, request);
-					System.out.println(changeName);
-					System.out.println(b.getBno());
 					at = new CommunityAttachment();
 					if (changeName != null) {
 						at.setOriginName(newFile.getOriginalFilename());
@@ -256,9 +268,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
-	/*
-	 * @RequestMapping("selectAttachment.co") public ArrayList
-	 */
+
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		// 저장 경로
