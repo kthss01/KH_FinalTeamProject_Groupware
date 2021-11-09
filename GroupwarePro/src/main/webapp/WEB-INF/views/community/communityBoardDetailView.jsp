@@ -594,7 +594,26 @@
 		        	  	processData: false,
 		    	      	contentType: false,
 			  	      	success: function () {
-			  	    	  alert('글 업데이트 ajax성공');
+			  	      		
+			 			   
+			   				 $.ajax({		
+			  					 
+									type: "POST",
+						  	     	url: 'originFileCheck.co',
+						  	     	async:false,
+						      	  	data : {origin_files : origin_files, 
+						      	  			bno : bno},
+						  	      	success: function (data) {
+										alert("성공");
+						  	      },
+						  	      error: function (xhr, status, error) {
+						  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+					
+						  	      }
+									 
+								 }); 
+			  	      		
+			  	      		
 		
 			  	      },
 			  	      error: function (xhr, status, error) {
@@ -604,22 +623,7 @@
 						 
 					 });  
 			   	
-			   
-   				 $.ajax({		
-  					 
-						type: "POST",
-			  	     	url: 'originFileCheck.co',
-			      	  	data : {origin_files : origin_files, 
-			      	  			bno : bno},
-			  	      	success: function (data) {
-							alert("성공 ?");
-			  	      },
-			  	      error: function (xhr, status, error) {
-			  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-		
-			  	      }
-						 
-					 });   
+  
   				 
 		 } 
 		 
