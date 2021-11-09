@@ -9,7 +9,7 @@
 	 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
-	<title>위캔버스 - 일정</title>
+	<title>위캔버스 - 예약</title>
 
     <!-- fullcalendar CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
@@ -59,12 +59,12 @@
                 <div class="row">
                 	               
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">일정관리</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">예약관리</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html" class="text-muted">Home</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Calendar</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Reservation</li>
                                 </ol>
                             </nav>
                         </div>
@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <!-- 캘린더 App -->
+                            <!-- 예약 App -->
                             <div id="app" class="row">
                             </div>
                         </div>
