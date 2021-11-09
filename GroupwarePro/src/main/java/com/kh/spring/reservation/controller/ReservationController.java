@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -25,15 +27,17 @@ public class ReservationController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value="selectReservationList.rez", produces="application/json; charset=utf-8")
 	public String selectReservationList(int empNo) {
 		
 		ArrayList<Reservation> list = reservationService.selectReservationList(empNo); 
 		
-		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(list);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value="selectAsList.rez", produces="application/json; charset=utf-8")
 	public String selectAsList() {
@@ -45,60 +49,90 @@ public class ReservationController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("insertReservation.rez")
+	@RequestMapping(value="insertReservation.rez", method=RequestMethod.POST)
 	public String insertReservation(Reservation rez) {
 		
-		int result = reservationService.insertReservation(rez);
+		int result = 0;
+		
+		if (rez.getRezNo() != 0) {			
+			result = reservationService.insertReservation(rez);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("insertAsset.rez")
+	@RequestMapping(value="insertAsset.rez", method=RequestMethod.POST)
 	public String insertAsset(Asset as) {
 		
-		int result = reservationService.insertAsset(as);
+		int result = 0;
+		
+		if (as.getAsNo() != 0) {
+			result = reservationService.insertAsset(as);
+		}
 		
 		return String.valueOf(result);
 	}
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("updateReservation.rez")
+	@RequestMapping(value="updateReservation.rez", method=RequestMethod.PUT)
 	public String updateReservation(Reservation rez) {
 		
-		int result = reservationService.updateReservation(rez);
+		int result = 0;
+		
+		if (rez.getRezNo() != 0) {
+			result = reservationService.updateReservation(rez);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("updateAsset.rez")
+	@RequestMapping(value="updateAsset.rez", method=RequestMethod.PUT)
 	public String updateAsset(Asset as) {
+
+		int result = 0;
 		
-		int result = reservationService.updateAsset(as);
+		if (as.getAsNo() != 0) {
+			result = reservationService.updateAsset(as);
+		}
 		
 		return String.valueOf(result);
 	}
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("deleteReservation.rez")
+	@RequestMapping(value="deleteReservation.rez", method=RequestMethod.DELETE)
 	public String deleteReservation(int rezNo) {
 		
-		int result = reservationService.deleteReservation(rezNo);
+		int result = 0;
+		
+		if (rezNo != 0) {
+			result = reservationService.deleteReservation(rezNo);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("deleteAsset.rez")
+	@RequestMapping(value="deleteAsset.rez", method=RequestMethod.DELETE)
 	public String deleteAsset(int asNo) {
 		
-		int result = reservationService.deleteAsset(asNo);
+		int result = 0;
+		
+		if (asNo != 0) {
+			result = reservationService.deleteAsset(asNo);
+		}
 		
 		return String.valueOf(result);
 	}

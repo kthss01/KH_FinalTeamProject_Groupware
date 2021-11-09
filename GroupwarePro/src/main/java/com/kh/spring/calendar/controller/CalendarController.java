@@ -77,7 +77,11 @@ public class CalendarController {
 	@RequestMapping(value="insertCalendar.ca", method=RequestMethod.POST)
 	public String insertCalendar(Calendar cal) {
 		
-		int result = calendarService.insertCalendar(cal);
+		int result = 0;
+		
+		if (cal.getCalNo() != 0) {
+			result = calendarService.insertCalendar(cal);
+		}
 		
 		return String.valueOf(result);
 	}
@@ -105,7 +109,11 @@ public class CalendarController {
 	@RequestMapping(value="updateCalendar.ca", method=RequestMethod.PUT)
 	public String updateCalendar(Calendar cal) {
 		
-		int result = calendarService.updateCalendar(cal);
+		int result = 0;
+		
+		if (cal.getCalNo() != 0) {
+			result = calendarService.updateCalendar(cal);
+		}
 		
 		return String.valueOf(result);
 	}
@@ -119,7 +127,7 @@ public class CalendarController {
 		
 		int result = 0;
 		
-		logger.debug(String.valueOf(evtNo));
+//		logger.debug(String.valueOf(evtNo));
 		
 		if (evtNo != 0) {			
 			result = calendarService.deleteEvent(evtNo);
@@ -133,7 +141,11 @@ public class CalendarController {
 	@RequestMapping(value="deleteCalendar.ca", method=RequestMethod.DELETE)
 	public String deleteCalendar(int calNo) {
 		
-		int result = calendarService.deleteCalendar(calNo);
+		int result = 0;
+		
+		if (calNo != 0) {
+			result = calendarService.deleteCalendar(calNo);
+		}
 		
 		return String.valueOf(result);
 	}
