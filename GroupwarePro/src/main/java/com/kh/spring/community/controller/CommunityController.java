@@ -125,7 +125,7 @@ public class CommunityController {
 		ArrayList<CommunityAttachment> resultList = new ArrayList();;
 
 		System.out.println("넘어온 파일 리스트" + requestFiles);
-		System.out.println("기존 파일 리스트 " + originFileList);
+		System.out.println("기존 파일 리스트 " + originFileList); 
 
 		if (requestFiles == null) { // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제
 
@@ -165,7 +165,7 @@ public class CommunityController {
 	
 	@ResponseBody
 	@RequestMapping(value = "updateBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateBoard(CommunityBoard b, HttpServletRequest request,
+	public void updateBoard(CommunityBoard b, HttpServletRequest request,
 			@RequestParam("article_file") List<MultipartFile> multipartFile) {
 
 		System.out.println("넘어온 새로운 파일 : " + multipartFile);
@@ -193,7 +193,6 @@ public class CommunityController {
 				}
 			}
 		}
-		return "redirect:/boardList.co";
 	}
 
 	@RequestMapping(value = "insertBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
