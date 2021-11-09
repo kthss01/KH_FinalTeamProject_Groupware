@@ -121,4 +121,9 @@ public class CommunityDao {
 		return sqlSession.selectOne("communityMapper.selectAttachment",info);
 	}
 
+	public int deleteBoard(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("communityMapper.deleteBoard",bno);
+	}
+
 }

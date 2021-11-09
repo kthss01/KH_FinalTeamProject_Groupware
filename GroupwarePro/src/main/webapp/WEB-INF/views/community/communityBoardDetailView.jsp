@@ -399,7 +399,8 @@
 
     
     var updateCancel = function(){
-    	 $('#summernote').summernote('destroy');
+    	
+    	$('#summernote').summernote('destroy');
  		$('.card-footer').show();
 		$('#updateCancelBtn').hide();
 		$('#updateBtn').hide();
@@ -444,18 +445,30 @@
 		};
 		
 	var deleteBoard = function(){
-		
-		var pwd = prompt("삭제는 작성 시 입력한 암호가 필요합니다.");
+		 var bno = ${b.bno};
+
+		$.ajax({
+			
+			url:'delete.co',
+			type:'post',
+			data: {bno : bno},
+			success:function(result){
+				if(result > 0){
+					alert("글이 삭제되었습니다.");
+					location.href="boardList.co?cno=" + ${b.cno};
+				}
+			}
+			
+			
+		})
 		
 	}
 	
-		/* 첨부파일 로직 */
+	 /* 첨부파일 로직 */
 
 	 $(function () {
 		 
-		 
 		 var bno = ${b.bno};
-		 
 		 
 		 //현재 게시글의 파일정보 가져오기
 		 
@@ -463,7 +476,7 @@
 			
 			 url:'selectAttachmentList.co',
 			 dataType:'json',
-			 post:'post',
+			 type:'post',
 			 data:{bno :  bno},
 			 success:function(list){
 				 
@@ -584,44 +597,43 @@
 		 		formData.append("content", $('#summernote').summernote('code'));
 		 		formData.append("title", $('#updateTitle').val());
 
-
-   				 $.ajax({		
+  				 $.ajax({		
+  					 
 						type: "POST",
-			  	     	url: 'updateBoard.co',
-		    	   	  	enctype: "multipart/form-data",
-			      	  	data : formData,
+			  	     	url: 'originFileCheck.co',
 			  	     	async:false,
-		        	  	processData: false,
-		    	      	contentType: false,
-			  	      	success: function () {
+			      	  	data : {origin_files : origin_files, 
+			      	  			bno : bno},
+			  	      	success: function (data) {
 			  	      		
-			 			   
+
 			   				 $.ajax({		
-			  					 
 									type: "POST",
-						  	     	url: 'originFileCheck.co',
+						  	     	url: 'updateBoard.co',
+					    	   	  	enctype: "multipart/form-data",
+						      	  	data : formData,
 						  	     	async:false,
-						      	  	data : {origin_files : origin_files, 
-						      	  			bno : bno},
+					        	  	processData: false,
+					    	      	contentType: false,
 						  	      	success: function (data) {
-										alert("성공");
+										location.href="detail.co?bno=" + bno;
 						  	      },
 						  	      error: function (xhr, status, error) {
 						  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
 					
 						  	      }
 									 
-								 }); 
+								 });  
+
 			  	      		
-			  	      		
-		
 			  	      },
 			  	      error: function (xhr, status, error) {
 			  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
 		
 			  	      }
 						 
-					 });  
+					 }); 
+
 			   	
   
   				 
