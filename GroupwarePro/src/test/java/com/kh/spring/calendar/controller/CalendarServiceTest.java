@@ -31,54 +31,28 @@ import com.kh.spring.example.ControllerExampleTest.ContextConfig;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { CalendarDao.class, ContextConfig.class })
 public class CalendarServiceTest {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CalendarServiceTest.class);
 
 	// Session DI 하기 위한 Configuration 클래스위에 annotation 형태가 아니고 xml로 되어있어서 따로 추가
 	@Configuration
 	@ImportResource(locations = { "file:src/main/resources/root-context.xml" })
 	public static class ContextConfig {
-		
+
 		@Inject
 		private SqlSessionFactory sqlFactory;
-		
+
 		@Bean
 		public SqlSession sqlSession() {
 			return sqlFactory.openSession();
 		}
-		
+
 	}
-	
+
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	
+
 	@Autowired
 	CalendarDao dao;
-	
-	@Test
-	void 이벤트번호조회() {
-		ArrayList<Event> list = dao.selectEventList(sqlSession);
-		int nextEvtNo = list.size() + 1;
-		
-		int lastEvtNo = dao.selectEvtNo(sqlSession);
-		
-		logger.debug(String.valueOf(lastEvtNo));
-		
-		assertThat(lastEvtNo).isEqualTo(nextEvtNo);
-	}
-	
-	@Test
-	void 참석자번호조회() {
-		int attNo = dao.selectAttNo(sqlSession);
-		
-		logger.debug(String.valueOf(attNo));
-	}
-	
-	@Test
-	void 캘린더번호조회() {
-		
-		int calNo = dao.selectCalNo(sqlSession);
-		
-		logger.debug(String.valueOf(calNo));
-	}
+
 }

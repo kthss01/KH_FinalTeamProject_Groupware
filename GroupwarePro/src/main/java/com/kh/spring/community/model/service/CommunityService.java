@@ -27,7 +27,6 @@ public interface CommunityService {
 
 	ArrayList<CommunityAttachment> selectAttachmentList(int bno);
 
-	void updateBoard(CommunityBoard b);
 
 	int insertReply(CommunityReply r);
 
@@ -44,5 +43,13 @@ public interface CommunityService {
 	void countBoard(int bno);
 
 	ArrayList<CommunityBoard> selectBestBoardList();
+
+	void deleteCommunityAttachment(CommunityAttachment at);
+
+	void updateBoard(CommunityBoard b);
+	
+	int updateCommunityAttachment(CommunityAttachment at);
+
+	CommunityAttachment selectAttachment(CommunityAttachment info);
 
 }

@@ -156,4 +156,30 @@ public class CommunityServiceImpl implements CommunityService {
 		return list;
 	}
 
+	@Override
+	public void deleteCommunityAttachment(CommunityAttachment at) {
+
+		int result = communityDao.deleteCommunityAttachment(sqlSession, at);
+		
+		if(result < 0) {
+			throw new CommException("기존 첨부파일 삭제 실패");
+		}
+		
+	}
+
+	@Override
+	public int updateCommunityAttachment(CommunityAttachment at) {
+		int result = communityDao.updateCommunityAttachment(sqlSession, at);
+		if(result < 0) {
+			throw new CommException("첨부파일 수정 업로드 실패");
+		}
+		return result;		
+	}
+
+	@Override
+	public CommunityAttachment selectAttachment(CommunityAttachment info) {
+
+		return communityDao.selectAttachment(sqlSession,info);
+	}
+
 }

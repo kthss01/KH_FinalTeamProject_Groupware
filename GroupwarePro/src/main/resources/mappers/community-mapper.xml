@@ -139,12 +139,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id ="selectReplyList" parameterType="_int" resultMap="replyResultSet">
-	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO IS NULL
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO IS NULL ORDER BY C_NO ASC
 	
 	</select>
 	
 	<select id ="selectReCommnetList" parameterType="CommunityReply" resultMap="replyResultSet">
-	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO = #{pno}
+	SELECT * FROM COM_REPLY WHERE B_NO=#{bno} AND PARENT_NO = #{pno} ORDER BY C_NO ASC
 	
 	</select>
 	
@@ -174,6 +174,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE ROWNUM <= 5
 	]]>
 	
+	</select>
+	
+	<delete id="deleteCommunityAttachment" parameterType="CommunityAttachment">
+	
+		DELETE FROM COM_ATTACHMENT WHERE B_NO=#{bno} AND ORIGIN_NAME=#{originName}
+	
+	</delete>
+	
+	
+		
+	<insert id="updateCommunityAttachment" parameterType="CommunityAttachment">
+		INSERT INTO COM_ATTACHMENT VALUES
+		(SEQ_COM_ATTACH.NEXTVAL,
+		#{bno},
+		#{originName},#{changeName},SYSDATE
+		)	
+	</insert>
+	
+	<select id="selectAttachment" parameterType="CommunityAttachment" resultMap = "attachmentResultSet">
+	SELECT * FROM COM_ATTACHMENT WHERE ORIGIN_NAME=#{originName} AND B_NO=#{bno}
 	</select>
 	
 </mapper>

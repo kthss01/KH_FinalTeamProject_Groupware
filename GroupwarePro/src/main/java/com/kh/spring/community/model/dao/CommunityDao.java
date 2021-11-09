@@ -106,4 +106,19 @@ public class CommunityDao {
 		return (ArrayList)sqlSession.selectList("communityMapper.selectBestBoardList");
 	}
 
+	public int deleteCommunityAttachment(SqlSessionTemplate sqlSession, CommunityAttachment at) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("communityMapper.deleteCommunityAttachment",at);
+	}
+
+	public int updateCommunityAttachment(SqlSessionTemplate sqlSession, CommunityAttachment at) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("communityMapper.updateCommunityAttachment",at);
+	}
+
+	public CommunityAttachment selectAttachment(SqlSessionTemplate sqlSession, CommunityAttachment info) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("communityMapper.selectAttachment",info);
+	}
+
 }

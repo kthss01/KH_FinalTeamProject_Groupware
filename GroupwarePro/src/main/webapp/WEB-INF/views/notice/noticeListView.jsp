@@ -40,16 +40,23 @@
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
+        <jsp:include page="../common/header.jsp"/>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
         
-
-
-
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <jsp:include page="../common/sidebar.jsp"/>
+      
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
+        
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
@@ -101,243 +108,44 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-primary text-center">
-                                                <h1 class="font-light text-white">2,064</h1>
-                                                <h6 class="text-white">Total Tickets</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-cyan text-center">
-                                                <h1 class="font-light text-white">1,738</h1>
-                                                <h6 class="text-white">Responded</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-success text-center">
-                                                <h1 class="font-light text-white">1100</h1>
-                                                <h6 class="text-white">Resolve</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-danger text-center">
-                                                <h1 class="font-light text-white">964</h1>
-                                                <h6 class="text-white">Pending</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
+                                	<!-- 공지로 등록 -->
+                                    <i class="icon-bell"></i><a onclick="call();">공지로 등록</a>
+                                    
+                                      <table id="noticeList" class="table table-hover" align="center">
+                <thead>
+                  <tr>
+                  	<th></th>
+                    <th>No.</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <c:forEach items="${ list }" var="n">
+                       <tr onclick="location.href='detail.bo?nno='+${ n.NNo }">
+                       	   <td onclick="event.cancelBubble=true">
+                       			<input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="inlineCheckbox1" value="${n.NNo}">
+                                <i class="fas fa-star"></i>
+                       	   </td>
+                           <td>${ n.NNo }</td>
+                           <td>${ n.NTitle }</td>
+                           <td>${ n.empNo }</td>
+                           <td>${ n.createDate }</td>
+                           <td>${ n.count }</td>
+                       </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
                                 </div>
-                                <div class="table-responsive">
-                                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>제목</th>
-                                                <th>작성자</th>
-                                                <th>작성일</th>
-                                                <th>조회수</th>
-                                                <!-- <th>좋아요</th>
-                                                <th>Agent</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach items="${ list }" var="n">
-	                    					<tr>
-	                        					<td>${ n.NNo }</td>
-	                        					<td>${ n.NTitle }</td>
-	                        					<td>${ n.empNo }</td>
-	                        					<td>${ n.createDate }</td>
-	                        					<td>${ n.count }</td>
-	                        					<!--<c:if test="${ !empty b.originName }">
-	                        						<td>★</td>
-	                        					</c:if>
-	                        					<c:if test="${ empty b.originName }">
-	                        						<td>&nbsp;</td>
-	                        					</c:if>-->
-	                    					</tr>
-                    					</c:forEach>
-                                        	
-                                            <!--<tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">276377</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/01</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1234251</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/05/11</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1020345</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/04/01</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">7810203</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/01/01</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">2103450</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/05/01</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">2140530</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/07/01</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">4500123</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/10</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1230450</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/14</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1240503</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/02/01</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1250304</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/05/21</td>
-                                                <td>Fazz</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-success">Opened</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Elegant
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1470250</a></td>
-                                                <td>Elegant Admin</td>
-                                                <td>Eric Pratt</td>
-                                                <td>2018/05/11</td>
-                                                <td>John</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-danger">Closed</span></td>
-                                                <td><a href="javascript:void(0)"
-                                                        class="font-weight-medium link">Admin-Pro
-                                                        Theme Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1450023</a></td>
-                                                <td>Admin-Pro</td>
-                                                <td>Vishal Bhatt</td>
-                                                <td>2018/05/13</td>
-                                                <td>Steve</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="badge badge-light-warning">In Progress</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">AdminX
-                                                        Theme
-                                                        Side Menu Open OnClick</a></td>
-                                                <td><a href="javascript:void(0)" class="font-bold link">1420530</a></td>
-                                                <td>AdminX Admin</td>
-                                                <td>Nirav Joshi</td>
-                                                <td>2018/10/01</td>
-                                                <td>Fazz</td>
-                                            </tr> -->
-                                        </tbody>
-                                        <!--<tfoot>
-                                            <tr>
-                                                <th>Status</th>
-                                                <th>Title</th>
-                                                <th>ID</th>
-                                                <th>Product</th>
-                                                <th>Created by</th>
-                                                <th>Date</th>
-                                                <th>Agent</th>
-                                            </tr>
-                                        </tfoot> -->
-                                    </table>
-                                    <!--<ul class="pagination float-right">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>  -->
+                                <!-- <div class="table-responsive"> -->
+                                
+                             
+           
+                             
+                                
+                       
                                     
                                      <div id="pagingArea">
                 <ul class="pagination">
@@ -345,7 +153,7 @@
                       <c:when test="${ pi.currentPage ne 1 }">
                          <li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">Previous</a></li>
                       </c:when>
-                      <c:otherwise> <!-- 현제페이지가 1 -->
+                      <c:otherwise> <!-- 현재페이지 1 -->
                          <li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
                       </c:otherwise>
                    </c:choose>
@@ -372,28 +180,83 @@
                    </c:choose>
                 </ul>
             </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            
-            <script>
-       $(function(){
-          $("#boardList tbody tr").click(function(){
-             location.href="detail.bo?bno=" + $(this).children().eq(0).text();
-          });
-       });
-    </script>
+          
+         
+   <!-- <script>
+   $(function(){
+      $("#noticeList tbody tr").click(function(){
+    	  
+         location.href="detail.bo?nno=" + $(this).children().eq(0).text();
+         
+         
+         //tr에다가 이벤트 주고
+      });
+   });
     
+    </script> -->
+    
+      
     
     <script>
-    	function enroll(){
-    		location.href="enrollForm.bo";
-    	}
+       function enroll(){
+    	   
+    	   location.href="enrollForm.bo"; 
+          
+       }
     </script>
+    
+    <script>
+    	function call(){
+    		if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
+     		   alert("전체 항목 중 1가지만 선택해주세요.");
+     	   }else if($('input:checkbox[name=inlineCheckbox1]:checked').length < 1){
+     		   alert("선택된 게시물이 없습니다.");
+     	   }else{
+     		   confirm("선택 항목을 공지로 등록하시겠습니까?");
+     		   
+     		   var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+     		   
+     		   //parseInt(nno);
+     		   
+     		   console.log(nno);
+     		   console.log(typeof nno);
+     		   
+     		  $.ajax({
+     				url:"notify.bo",
+     				data:{nno:nno},
+     				type:"post",
+     				success:function(result){
+     					
+     					if(result>0){
+     						alert("'공지로 등록'성공");
+     					}else{
+     						alert("'공지로 등록'실패");
+     					}
+     				},error:function(){
+     					console.log("ajax 통신 실패");
+     				}
+     			});
+     		   
+     		   
+     	   }
+    		
+    	}
+    	
+    	
+    
+          
+          
+          
+       
+    </script>
+    
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

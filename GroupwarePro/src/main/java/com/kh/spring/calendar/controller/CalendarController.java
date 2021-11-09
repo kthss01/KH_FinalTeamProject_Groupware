@@ -2,9 +2,14 @@ package com.kh.spring.calendar.controller;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -15,6 +20,8 @@ import com.kh.spring.calendar.model.vo.Event;
 @Controller
 public class CalendarController {
 
+	private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
+	
 	@Autowired
 	private CalendarService calendarService;
 	
@@ -25,37 +32,49 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value="selectEvtList.ca", produces="application/json; charset=utf-8")
-	public String selectEventList() {
+	public String selectEventList(int calNo) {
 		
-		ArrayList<Event> list = calendarService.selectEventList(); 
+		ArrayList<Event> list = calendarService.selectEventList(calNo); 
 		
-		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(list);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping(value="selectMyCalList.ca", produces="application/json; charset=utf-8")
-	public String selectMyCalList(int empNo) {
+	@RequestMapping(value="selectCalList.ca", produces="application/json; charset=utf-8")
+	public String selectCalList(int empNo) {
 		
-		ArrayList<Calendar> list = calendarService.selectMyCalList(empNo);
+		ArrayList<Calendar> list = calendarService.selectCalList(empNo);
 		
 		return new GsonBuilder().create().toJson(list);
 	}
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("insertEvent.ca")
-	public String insertEvent(Event evt, int calNo) {
+	@RequestMapping(value="insertEvent.ca", method=RequestMethod.POST)
+	public String insertEvent(Event evt) {
+//		logger.debug(evt.toString());
 		
-		int result = calendarService.insertEvent(evt, calNo);
+		int result = 0;
+		
+//		System.out.println(evt.getStartDate());
+//		System.out.println(evt.getEndDate());
+		
+		if (evt.getCalNo() != 0) {
+			result = calendarService.insertEvent(evt);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("insertCalendar.ca")
+	@RequestMapping(value="insertCalendar.ca", method=RequestMethod.POST)
 	public String insertCalendar(Calendar cal) {
 		
 		int result = calendarService.insertCalendar(cal);
@@ -65,17 +84,25 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("updateEvent.ca")
+	@RequestMapping(value="updateEvent.ca", method=RequestMethod.PUT)
 	public String updateEvent(Event evt) {
 		
-		int result = calendarService.updateEvent(evt);
+		int result = 0;
+		
+//		logger.debug(evt.toString());
+		
+		if (evt.getEvtNo() != 0) {
+			result = calendarService.updateEvent(evt);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("updateCalendar.ca")
+	@RequestMapping(value="updateCalendar.ca", method=RequestMethod.PUT)
 	public String updateCalendar(Calendar cal) {
 		
 		int result = calendarService.updateCalendar(cal);
@@ -85,17 +112,25 @@ public class CalendarController {
 	
 	/************************************************************************************************************************/
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("deleteEvent.ca")
+	@RequestMapping(value="deleteEvent.ca", method=RequestMethod.DELETE)
 	public String deleteEvent(int evtNo) {
 		
-		int result = calendarService.deleteEvent(evtNo);
+		int result = 0;
+		
+		logger.debug(String.valueOf(evtNo));
+		
+		if (evtNo != 0) {			
+			result = calendarService.deleteEvent(evtNo);
+		}
 		
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
 	@ResponseBody
-	@RequestMapping("deleteCalendar.ca")
+	@RequestMapping(value="deleteCalendar.ca", method=RequestMethod.DELETE)
 	public String deleteCalendar(int calNo) {
 		
 		int result = calendarService.deleteCalendar(calNo);
