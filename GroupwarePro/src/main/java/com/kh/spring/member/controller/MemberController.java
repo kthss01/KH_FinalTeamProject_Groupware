@@ -51,9 +51,7 @@ public class MemberController {
 //		session.invalidate();
 		status.setComplete();
 		
-		
-		
-		return "redirect:/";
+		return "member/memberLoginForm";
 	}
 	
 	@RequestMapping("enrollForm.me")
@@ -103,7 +101,7 @@ public class MemberController {
 		
 		model.addAttribute("loginUser", loginUser);
 		
-		return "redirect:/";
+		return "main";
 		
 	}
 	
