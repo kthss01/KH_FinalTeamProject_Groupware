@@ -139,8 +139,7 @@ public class CommunityController {
 	public void checkOriginFiles(@RequestParam(value = "origin_files[]", required = false) List<String> requestFiles,
 			int bno, HttpServletRequest request) {
 		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(bno);
-		ArrayList<CommunityAttachment> resultList = new ArrayList();;
-
+		ArrayList<CommunityAttachment> resultList = new ArrayList();
 
 		if (requestFiles == null) { // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제
 
