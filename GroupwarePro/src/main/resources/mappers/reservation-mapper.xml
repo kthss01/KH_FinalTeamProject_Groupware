@@ -21,12 +21,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="COLOR" property="color" />
 	</resultMap>
 	
-	<resultMap id="assetResultSet" type="Asset">
-		<id column="AS_NO" property="asNo" />
-		<result column="NAME" property="name" />
-		<result column="COLOR" property="color" />
-	</resultMap>
-	
 	<resultMap id="assetCategoryResultSet" type="AssetCategory">
 		<id column="ASC_NO" property="ascNo" />
 		<result column="NAME" property="name" />
