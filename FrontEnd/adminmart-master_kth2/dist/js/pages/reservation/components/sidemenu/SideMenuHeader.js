@@ -4,7 +4,7 @@ export default class SideMenuHeader extends Component {
 
   template () {
     return `
-      <h4 class="card-title font-weight-bold">일정</h4>
+      <h4 class="card-title font-weight-bold">예약</h4>
     `
   }
 
