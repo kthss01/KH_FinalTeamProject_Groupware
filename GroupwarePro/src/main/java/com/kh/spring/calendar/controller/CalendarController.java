@@ -76,11 +76,15 @@ public class CalendarController {
 	@RequestMapping(value="insertCalendar.ca", method=RequestMethod.POST)
 	public String insertCalendar(Calendar cal) {
 		
+//		logger.debug(cal.toString());
+		
 		int result = 0;
 		
-		if (cal.getCalNo() != 0) {
+		if (cal.getEmpNo() != 0) {
 			result = calendarService.insertCalendar(cal);
 		}
+		
+//		logger.debug(cal.toString());
 		
 		return String.valueOf(result);
 	}

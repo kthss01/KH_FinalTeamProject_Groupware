@@ -67,7 +67,7 @@ export default class Calendar extends Component {
                 start: evt.startDate,
                 end: evt.endDate,
                 allDay: evt.allDay === '1' ? true: false,
-                backgroundColor: resource.eventBackgroundColor, // 이렇게 안해도될거 같은데 일단 이렇게 하자
+                backgroundColor: resource.extendedProps.color,
               };
               // console.log(event);
               // console.log(this.$calendar.getResources(), calNo);
@@ -96,7 +96,9 @@ export default class Calendar extends Component {
           this.$calendar.addResource({
             id: calendar.calNo,
             title: calendar.name,
-            eventBackgroundColor: calendar.color,
+            extendedProps: {
+              color: calendar.color,
+            },
           });
         });
 
@@ -149,7 +151,7 @@ export default class Calendar extends Component {
 
           this.$calendar.addEvent( {
             ...event,
-            backgroundColor: resource.eventBackgroundColor,
+            backgroundColor: resource.extendedProps.color,
           } );
           this.$calendar.getEventById(event.id).setResources([resource]);
         break;
@@ -167,38 +169,36 @@ export default class Calendar extends Component {
       // console.log(this.$calendar);
 
     } else if (calendar) {
+      const resource = this.$calendar.getResourceById(calendar.calNo);
+
       switch (status) {
         case 'insert':
-          console.log(this.calendars);
-          this.calendars.push(calendar);
-          console.log(this.calendars);
-          renderCalendar(this.calendars);
+          this.$calendar.addResource({
+            id: calendar.calNo,
+            title: calendar.name,
+            extendedProps: {
+              color: calendar.color,
+            },
+          });
+          
         break;
         case 'update':
-          var targetCal = this.calendars.find((cal) => cal.calNo == calendar.calNo);
-          console.log(targetCal);
-          if (targetCal.events) {
-            targetCal.events.forEach((event) => {
-              this.$calendar.getEventById(event.id).setProp('backgroundColor', calendar.color);
-            });
-          }  
-          targetCal.name = calendar.name;
-          targetCal.color = calendar.color;
-          console.log(this.calendars);
-          renderCalendar(this.calendars);
+          resource.setProp('title', calendar.name);
+          resource.setExtendedProp('color', calendar.color);
+
+          resource.getEvents().forEach((event) => {
+            event.setProp('backgroundColor', calendar.color);
+          });
         break;
         case 'delete':
-          var targetCal = this.calendars.find((cal) => cal.calNo == calendar.calNo);
-          if (targetCal.events) {
-            targetCal.events.forEach((event) => {
-              this.$calendar.getEventById(event.id).remove();
-            });
-          }
-          this.calendars = this.calendars.filter((cal) => cal.calNo != calendar.calNo);
-          console.log(this.calendars);
-          renderCalendar(this.calendars);
+          resource.getEvents().forEach((event) => {
+            event.remove();
+          })
+          resource.remove();
         break;
       }
+
+      renderCalendar({ calendars: this.$calendar.getResources() });
     }
     else {
       this.render();

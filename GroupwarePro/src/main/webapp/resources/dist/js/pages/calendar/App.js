@@ -143,7 +143,7 @@ export default class App extends Component {
         }
       });
 
-      console.log(res.data);
+      // console.log(res.data);
 
       cal.calNo = res.data;
 
