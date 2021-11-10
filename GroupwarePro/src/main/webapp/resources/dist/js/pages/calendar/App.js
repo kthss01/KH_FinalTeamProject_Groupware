@@ -86,7 +86,7 @@ export default class App extends Component {
   async editEvent (event) {
     const { calendar } = this.$children;
 
-    // console.log('app', event);
+    console.log('app', event);
 
     try {
       await axios.put(`updateEvent.ca`, null, {

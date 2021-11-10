@@ -142,10 +142,10 @@ export default class Calendar extends Component {
 
       switch (status) {
         case 'insert':
-          console.log('insert', event);
+          // console.log('insert', event);
 
           const resource = this.$calendar.getResourceById(event.calNo);
-          console.log(resource);
+          // console.log(resource);
 
           this.$calendar.addEvent( {
             ...event,
@@ -154,31 +154,12 @@ export default class Calendar extends Component {
           this.$calendar.getEventById(event.id).setResources([resource]);
         break;
         case 'update':
-          let isFind = false;
-          this.calendars.forEach((cal) => {
-            cal.events.forEach((evt, i) => {
-              if (evt.evtNo == event.evtNo) {
-                cal.events.splice(i, 1);
-                isFind = true;
-                return false;
-              }
-            });
-            if (isFind) {
-              return false;
-            }
-          });
-          var targetCal = this.calendars.find((cal) => cal.calNo == event.calNo);
-          event.backgroundColor = targetCal.color;
-          targetCal.events.push(event);
           const evt = this.$calendar.getEventById(event.id);
           evt.setProp("title", event.title);
-          evt.setProp("backgroundColor", targetCal.color);
           evt.setDates(event.start, event.end);
           evt.setAllDay(event.allDay);
         break;
         case 'delete':
-          var targetCal = this.calendars.find((cal) => cal.calNo == event.calNo);
-          targetCal.events = targetCal.events.filter((evt) => evt.evtNo != event.evtno);
           this.$calendar.getEventById(event.id).remove();
         break;
       }
@@ -279,20 +260,22 @@ export default class Calendar extends Component {
     // 이벤트 드랍 (일정에서 드래그로 이동)
     this.$calendar.on('eventDrop', (info) => {
       const { id, title, start, end, allDay } = info.event;
-      console.log('eventDrop', id, title, start, end, allDay);
+      const { id: calNo } = info.event.getResources()[0];
+      console.log('eventDrop', id, title, start, end, allDay, calNo);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0',
+        id, title, start, end, allDay: allDay ? '1' : '0', calNo,
       });
     });
 
     // 이벤트 리사이즈 (일정에서 이벤트 기간 조정)
     this.$calendar.on('eventResize', (info) => {
       const { id, title, start, end, allDay } = info.event;
-      console.log('eventResize', id, title, start, end, allDay);
+      const { id: calNo } = info.event.getResources()[0];
+      console.log('eventResize', id, title, start, end, allDay, calNo);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0',
+        id, title, start, end, allDay: allDay ? '1' : '0', calNo,
       });
     });
   }

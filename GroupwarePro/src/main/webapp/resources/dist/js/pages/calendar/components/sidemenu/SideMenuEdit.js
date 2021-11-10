@@ -115,7 +115,7 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
-      console.log('edit', id, title, start, end, allDay);
+      // console.log('edit', id, title, start, end, allDay);
 
       editEvent({ id, title, start, end, allDay, calNo });
     });
@@ -134,7 +134,7 @@ export default class SideMenuEdit extends Component {
       deleteEvent({ id, title, start, end, allDay, calNo });
     });
 
-    // 이벤트 등록버튼으로 되돌리기
+    // 이벤트 등록 버튼으로 되돌리기
     this.addEvent('click', '#cancelEventBtn', ({ target }) => {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');
