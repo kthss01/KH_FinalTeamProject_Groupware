@@ -32,12 +32,13 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { id=null, title=null, allDay=null, start=null, end=null, groupdId=null, calendars=null } = newState;
+    const { id=null, title=null, allDay=null, start=null, end=null, calNo=null, calendars=null } = newState;
 
     // console.log(this.$state);
 
+    const selectCalendar = this.$target.querySelector('select[name="calendar"]');
+
     if (calendars) {
-      const selectCalendar = this.$target.querySelector('select[name="calendar"]');
 
       // console.log(calendars);
 
@@ -48,6 +49,10 @@ export default class SideMenuEdit extends Component {
     } else if (title || allDay || start || end) {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');
+
+      if (calNo) {
+        selectCalendar.value = calNo;    
+      }
 
       if (id === '') {
         addEventBtn.classList.remove("d-none");

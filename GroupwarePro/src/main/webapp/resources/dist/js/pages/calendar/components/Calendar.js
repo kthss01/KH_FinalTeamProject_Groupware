@@ -249,7 +249,7 @@ export default class Calendar extends Component {
       // info.event.setProp("title", "test");
       // info.event.setProp("backgroundColor", "green");
 
-      console.log(info.event);
+      // console.log(info.event);
       const resources = this.$calendar.getEventById(info.event.id).getResources();
       console.log(resources);
 
@@ -259,7 +259,7 @@ export default class Calendar extends Component {
         start: info.event.start,
         end: info.event.end,
         allDay: info.event.allDay,
-        groupId: info.event.groupId,
+        calNo: resources[0].id,
       })
     });
   
