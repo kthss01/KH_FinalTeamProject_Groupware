@@ -168,15 +168,6 @@
 									<div id="imgUpdate" style="margin-top: 50px; ">
 										<h4>첨부파일 수정</h4>
 
-			<%-- 							<c:forEach items="${ at }" var="at" varStatus="status">
-
-											<div style="font-size: 12px;">
-												<span class="current_file">기존 파일 ${status.count} <i
-													class="icon-close"></i></span> <br />
-												<p>${at.originName}</p>
-											</div>
-										</c:forEach> --%>
-
 										<button id="btn-upload" type="button" class="btn btn-sm"
 											style="border: 1px solid #ddd; outline: none;"><i class="fas fa-link"></i> 파일 추가</button>
 										<input id="input_file" multiple="multiple" type="file"
@@ -192,7 +183,7 @@
 										</div>
 									</div>
 								
-								<c:if test="${ loginUser.empNo eq b.writer or loginUser.empNo eq 200}">
+								<c:if test="${ loginUser.loginId eq b.writer or loginUser.empNo eq 200}">
 								<div id="btnArea" style="height:80px;"class="col-12">
 									<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정</button>
 									<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()" style="margin-top: 50px; position:absolute; right:0" >삭제</button>
@@ -646,7 +637,8 @@
 		 
 		 
   	 		function insertComment(){
-	
+				console.log(${loginUser.empNo});
+
   	 			var formData = $("#replyForm").serialize();  	 			
   	 			
   	 			$.ajax({
@@ -662,7 +654,7 @@
 						$("#comment").val("");
         				selectReplyList(${b.bno});
 
-        				if(${loginUser.loginId} != writer){
+        				if('${loginUser.loginId}' != writer){
              				socket.send("reply," + bTitle +"," + bno + "," + wirter);
         				}
         				
@@ -839,10 +831,8 @@
 			
 				function deleteReply(cno, pwd){
 					
-					console.log("삭제비번 :" + pwd);
-							
 					 var checkPwd = prompt("댓글 암호를 입력하세요");
-					 console.log("입력 비번 :" + checkPwd);
+					 
 					 if(checkPwd == pwd){
 						$.ajax({
 							url:'deleteReply.co',
