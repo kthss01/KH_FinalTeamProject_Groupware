@@ -63,7 +63,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</insert>
 	
-
 	<!-- UPDATE -->
 
 	<update id="updateCalendar" parameterType="Calendar">
@@ -81,7 +80,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</update>
 
-	
 	<update id="updateEvent" parameterType="Event">
 	
 		UPDATE EVENT2 

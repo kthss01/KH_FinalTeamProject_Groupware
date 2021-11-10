@@ -9,20 +9,15 @@
 	 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
-	<title>위캔버스 - 일정</title>
+	<title>위캔버스 - 예약</title>
 
-    <!-- fullcalendar-scheduler CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.css">
+    <!-- fullcalendar CDN -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
     <!-- daterangepicker CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-    
-    <script>
-    	const empNo = ${ loginUser.empNo };
-    	//console.log(empNo);
-    </script>
 </head>
 <body>
     <!-- ============================================================== -->
@@ -64,12 +59,12 @@
                 <div class="row">
                 	               
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">일정관리</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-bold mb-1">예약관리</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html" class="text-muted">Home</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Calendar</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Reservation</li>
                                 </ol>
                             </nav>
                         </div>
@@ -90,7 +85,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <!-- 캘린더 App -->
+                            <!-- 예약 App -->
                             <div id="app" class="row">
                             </div>
                         </div>
@@ -136,10 +131,10 @@
 
     <!-- Axios CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- fullcalendar-scheduler CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.js"></script>
-    <!-- fullcalendar-scheduler 언어 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/locales-all.min.js"></script>
+    <!-- fullcalendar CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+    <!-- fullcalendar 언어 CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
     <!-- dateragnepicker CDN -->
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

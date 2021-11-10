@@ -48,7 +48,7 @@ export default class App extends Component {
   }
   selectEvent (event) {
 
-    // console.log(event);
+    console.log(event);
 
     const { sideMenu } = this.$children;
 
@@ -73,7 +73,7 @@ export default class App extends Component {
         }
       });
 
-      // console.log(res);
+      console.log(res);
       event.id = res.data;
 
       calendar.setState({ event, status: 'insert' });
@@ -86,7 +86,7 @@ export default class App extends Component {
   async editEvent (event) {
     const { calendar } = this.$children;
 
-    // console.log('app', event);
+    console.log('app', event);
 
     try {
       await axios.put(`updateEvent.ca`, null, {
@@ -126,7 +126,7 @@ export default class App extends Component {
   renderCalendar (calendars) {
     const { sideMenu } = this.$children;
 
-    sideMenu.setState({ calendars });
+    sideMenu.setState({ ...calendars });
   }
 
   async insertCalendar (cal) {
@@ -139,11 +139,11 @@ export default class App extends Component {
         params: { 
           name: cal.name, 
           color: cal.color,
-          empNo: 201, 
+          empNo: empNo, 
         }
       });
 
-      console.log(res.data);
+      // console.log(res.data);
 
       cal.calNo = res.data;
 
@@ -165,7 +165,7 @@ export default class App extends Component {
           name: cal.name, 
           color: cal.color,
           calNo: cal.calNo,
-          empNo: 201,           
+          empNo: empNo,           
         }
       });
 

@@ -13,7 +13,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="AS_NO" property="asNo" />
 		<result column="EMP_NO" property="empNo" />
 		<result column="EVT_NO" property="evtNo" />
-		
 	</resultMap>
 
 	<resultMap id="assetResultSet" type="Asset">
@@ -21,9 +20,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="NAME" property="name" />
 		<result column="COLOR" property="color" />
 	</resultMap>
+	
+	<resultMap id="assetCategoryResultSet" type="AssetCategory">
+		<id column="ASC_NO" property="ascNo" />
+		<result column="NAME" property="name" />
+	</resultMap>
 
 	<!-- READ -->
-	<select id="selectReservationList" parameterType="_int" resultMap="reservationResultSet">
+	<select id="selectRezList" parameterType="_int" resultMap="reservationResultSet">
 
 		SELECT * 
 		FROM RESERVATION2 
@@ -31,10 +35,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="selectAssetList" resultMap="assetResultSet">
+	<select id="selectAsList" resultMap="assetResultSet">
 	
 		SELECT * 
 		FROM ASSET2 
+		WHERE IS_DELETE = 'N'
+	
+	</select>
+	
+	<select id="selectAsCatList" resultMap="assetCategoryResultSet">
+	
+		SELECT * 
+		FROM ASSET_CATEGORY 
 		WHERE IS_DELETE = 'N'
 	
 	</select>
@@ -63,25 +75,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</insert>
 	
-
+	<insert id="insertAssetCategory" parameterType="AssetCategory">
+	
+		<selectKey keyProperty="ascNo" resultType="int" order="BEFORE">
+			SELECT SEQ_ASC_ID.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO ASSET_CATEGORY 
+		VALUES (#{ascNo}, #{name}, DEFAULT)
+	
+	</insert>
+	
 	<!-- UPDATE -->
 
-	<update id="updateAsset" parameterType="Asset">
-	
-		UPDATE ASSET2
-		<trim prefix="SET" suffixOverrides=",">		
-			<if test="name != null">
-				NAME = #{name},
-			</if>
-			<if test="color != null">
-				COLOR = #{color},
-			</if>
-		</trim>
-		WHERE AS_NO = #{asNo} AND IS_DELETE = 'N'
-	
-	</update>
-
-	
 	<update id="updateReservation" parameterType="Reservation">
 	
 		UPDATE RESERVATION2 
@@ -100,16 +106,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</update>
 
+	<update id="updateAsset" parameterType="Asset">
+	
+		UPDATE ASSET2
+		<trim prefix="SET" suffixOverrides=",">		
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="color != null">
+				COLOR = #{color},
+			</if>
+		</trim>
+		WHERE AS_NO = #{asNo} AND IS_DELETE = 'N'
+	
+	</update>
+
+	<update id="updateAssetCategory" parameterType="AssetCategory">
+	
+		UPDATE ASSET_CATEGORY
+		<trim prefix="SET" suffixOverrides=",">		
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+		</trim>
+		WHERE ASC_NO = #{ascNo} AND IS_DELETE = 'N'
+	
+	</update>
+
 	<!-- DELETE -->
 	<update id="deleteReservation" parameterType="_int">
 		
-		UPDATE RESERVATION2 SET ISDELETE = 'Y' WHERE REZ_NO = #{rezNo}
+		UPDATE RESERVATION2 SET IS_DELETE = 'Y' WHERE REZ_NO = #{rezNo}
 		
 	</update>
 
 	<update id="deleteAsset" parameterType="_int">
 		
 		UPDATE ASSET2 SET ISDELETE = 'Y' WHERE AS_NO = #{asNo}
+		
+	</update>
+	
+	<update id="deleteAssetCategory" parameterType="_int">
+		
+		UPDATE ASSET_CATEGORY SET IS_DELETE = 'Y' WHERE ASC_NO = #{ascNo}
 		
 	</update>
 

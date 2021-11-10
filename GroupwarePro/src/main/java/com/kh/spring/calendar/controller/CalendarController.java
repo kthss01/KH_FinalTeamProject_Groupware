@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,7 +76,15 @@ public class CalendarController {
 	@RequestMapping(value="insertCalendar.ca", method=RequestMethod.POST)
 	public String insertCalendar(Calendar cal) {
 		
-		int result = calendarService.insertCalendar(cal);
+//		logger.debug(cal.toString());
+		
+		int result = 0;
+		
+		if (cal.getEmpNo() != 0) {
+			result = calendarService.insertCalendar(cal);
+		}
+		
+//		logger.debug(cal.toString());
 		
 		return String.valueOf(result);
 	}
@@ -105,7 +112,11 @@ public class CalendarController {
 	@RequestMapping(value="updateCalendar.ca", method=RequestMethod.PUT)
 	public String updateCalendar(Calendar cal) {
 		
-		int result = calendarService.updateCalendar(cal);
+		int result = 0;
+		
+		if (cal.getCalNo() != 0) {
+			result = calendarService.updateCalendar(cal);
+		}
 		
 		return String.valueOf(result);
 	}
@@ -119,7 +130,7 @@ public class CalendarController {
 		
 		int result = 0;
 		
-		logger.debug(String.valueOf(evtNo));
+//		logger.debug(String.valueOf(evtNo));
 		
 		if (evtNo != 0) {			
 			result = calendarService.deleteEvent(evtNo);
@@ -133,7 +144,11 @@ public class CalendarController {
 	@RequestMapping(value="deleteCalendar.ca", method=RequestMethod.DELETE)
 	public String deleteCalendar(int calNo) {
 		
-		int result = calendarService.deleteCalendar(calNo);
+		int result = 0;
+		
+		if (calNo != 0) {
+			result = calendarService.deleteCalendar(calNo);
+		}
 		
 		return String.valueOf(result);
 	}

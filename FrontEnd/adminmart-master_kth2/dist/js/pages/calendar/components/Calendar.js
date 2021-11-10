@@ -216,7 +216,7 @@ export default class Calendar extends Component {
     
   }
 
-  setEvent() {
+  setEvent () {
 
     const { selectEvent, editEvent } = this.$props;
 

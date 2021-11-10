@@ -46,6 +46,9 @@ export default class App extends Component {
       })
     };
   }
+
+  // events
+
   selectEvent (event) {
 
     // console.log(event);
