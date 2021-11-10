@@ -12,12 +12,25 @@ import com.kh.spring.community.model.vo.CommunityReply;
 public interface CommunityService {
 
 
-
-	int selectListCount(int cno);
-
 	ArrayList<CommunityBoard> selectBoardList(SelectBoardListInfo info);
+	
+	ArrayList<CommunityAttachment> selectAttachmentList(int bno);
+
+	ArrayList<CommunityReply> selectReplyList(int bno);
+
+	ArrayList<CommunityReply> selectReComentList(CommunityReply r);
+
+	ArrayList<CommunityCategory> selectCategoryList();
+	
+	ArrayList<CommunityBoard> selectBestBoardList();
 
 	CommunityBoard selectBoard(int bno);
+
+	CommunityCategory selectCategory(int cno);
+	
+	CommunityAttachment selectAttachment(CommunityAttachment info);
+
+	int selectListCount(int cno);
 
 	int selectSeqBno();
 
@@ -25,30 +38,21 @@ public interface CommunityService {
 
 	void insertCommunityAttachment(CommunityAttachment at);
 
-	ArrayList<CommunityAttachment> selectAttachmentList(int bno);
-
-	void updateBoard(CommunityBoard b);
-
 	int insertReply(CommunityReply r);
 
-	ArrayList<CommunityReply> selectReplyList(int bno);
-
-	ArrayList<CommunityReply> selectReComentList(CommunityReply r);
-
-	int deleteReply(CommunityReply r);
-
-	ArrayList<CommunityCategory> selectCategoryList();
-
-	CommunityCategory selectCategory(int cno);
-
 	void countBoard(int bno);
-
-	ArrayList<CommunityBoard> selectBestBoardList();
-
-	void deleteCommunityAttachment(CommunityAttachment at);
+	
+	void updateBoard(CommunityBoard b);
 
 	int updateCommunityAttachment(CommunityAttachment at);
 
-	CommunityAttachment selectAttachment(CommunityAttachment info);
+	void deleteCommunityAttachment(CommunityAttachment at);
+	
+	int deleteReply(CommunityReply r);
+	
+	int deleteBoard(int bno);
+	
+
+
 
 }

@@ -34,7 +34,7 @@
                         <a href="${ pageContext.servletContext.contextPath }">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon7.png" alt="homepage" class="dark-logo" />
                                 <!-- Light Logo icon -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
                             </b>
@@ -42,7 +42,7 @@
                             <!-- Logo text -->
                             <span class="logo-text">		
                                 <!-- dark Logo text -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text3.png" alt="homepage" class="dark-logo" />
                                 <!-- Light Logo text -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
                             </span>
@@ -213,9 +213,12 @@
 					                                        class="svg-icon mr-2 ml-1"></i>
 					                                    메뉴 3</a>
 					                                <div class="dropdown-divider"></div>
-					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
+					                     
+					                     <c:if test="${sessionScope.loginUser.loginId eq 'admin' }">
+					                                <a class="dropdown-item" href="menagerMain.me"><i data-feather="settings"
 					                                        class="svg-icon mr-2 ml-1"></i>
-					                                    내 정보 수정</a>
+					                                 관리자 페이지</a>
+					                     </c:if>          
 					                                <div class="dropdown-divider"></div>
 					                                <a class="dropdown-item" href="logout.me"><i data-feather="power"
 					                                        class="svg-icon mr-2 ml-1"></i>

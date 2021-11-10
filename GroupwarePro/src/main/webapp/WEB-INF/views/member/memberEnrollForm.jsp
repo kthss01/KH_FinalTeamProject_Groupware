@@ -142,7 +142,18 @@
                             	const member = document.querySelector(".memberForm");
                             	const manager = document.querySelector(".managerForm");
                             	
-                            
+								
+                            	const newMemberForm =()=> {
+                            		
+                            		member.classList.remove("hidden");
+                            	}
+                            	const newMananagerForm =()=> {
+                            		manager.classList.remove("hidden");
+                            	}
+                            	
+                            	buttonArea.addEvenetListener("click").newMemberForm);
+                            	buttonArea.addEvenetListener("click").newManagerForm);
+                                
                             
                             </script>
                             
@@ -172,7 +183,6 @@
                     </div>
                 </div>
                 </div>
-            
             
             
             <div class="container-fluid">

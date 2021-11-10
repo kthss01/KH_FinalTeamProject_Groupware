@@ -98,6 +98,13 @@
 
                             </ul>
                         </li>
+                        
+                       	<li class="sidebar-item">
+                       		<a class="sidebar-link" href="javascript:void(0)" aria-expanded="true">
+                       			<i data-feater="survey" class="icon-chart"></i>
+                       			<span> 설문</span>
+                       			</a>
+                       	</li>
                                     
                                   <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  
                                     
@@ -105,7 +112,7 @@
                       
                         <li class="list-divider"></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="logout.me"
                      aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
                          class="hide-menu">Logout</span></a></li>
              

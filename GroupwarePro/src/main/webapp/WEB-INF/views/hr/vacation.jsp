@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "java.util.ArrayList, com.kh.spring.hr.model.vo.Work, org.springframework.ui.Model"%>
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, com.kh.spring.hr.model.vo.Work, com.kh.spring.hr.model.vo.VacationInfo, com.kh.spring.hr.model.vo.VRequest, com.kh.spring.hr.model.vo.VOccur" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%	
 	ArrayList<Work> wlist = (ArrayList<Work>)request.getAttribute("wlist"); 
-	
+	VacationInfo vi = (VacationInfo)request.getAttribute("vi");
+	ArrayList<VRequest> vrList = (ArrayList<VRequest>)request.getAttribute("vrList"); 
+	ArrayList<VOccur> volist = (ArrayList<VOccur>)request.getAttribute("volist"); 
 	String start = "미등록";
 	String end = "미등록";
 	
@@ -15,26 +18,31 @@
 	String wDate = null;
 	
 	Date now = new Date();
-	SimpleDateFormat sf = new SimpleDateFormat("yy/MM/dd");
-	String nowsf = sf.format(now);
+	SimpleDateFormat sf1 = new SimpleDateFormat("yy/MM/dd");
+	SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd");
+	String nowsf = sf1.format(now);
 	
 	if(wlist.size() > 0) {
 		for(int i = 0 ; i <= wlist.size() - 1; i++) {
 			
-			wDate=sf.format(wlist.get(i).getWDate());
+			wDate=sf1.format(wlist.get(i).getWDate());
 			
 			if(wDate.equals(nowsf)){
 				w = wlist.get(i);
-				wNo = w.getWNo();
+				System.out.println(w);
 			}
 		}
 		
-		if(w.getStartTime() != null) {
-			start = w.getStartTime().substring(11, w.getStartTime().length());
-		}
-		
-		if(w.getEndTime() != null) {
-			end = w.getEndTime().substring(11, w.getEndTime().length());
+		if(w != null) {
+			wNo = w.getWNo();
+			
+			if(w.getStartTime() != null) {
+				start = w.getStartTime().substring(11, w.getStartTime().length());
+			}
+			
+			if(w.getEndTime() != null) {
+				end = w.getEndTime().substring(11, w.getEndTime().length());
+			}
 		}
 	}
 	
@@ -226,179 +234,136 @@
 							<div class="col-md-12 m-auto">
 								<div class="d-flex col-11 m-auto" style="border: 1px solid rgba(0,0,0,.125); background-color: white">
 									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">이번주 누적</p>
-										<p class="text-center m-auto text-primary">3h 27m 32s</p>
+										<p class="text-center m-auto" style="font-size:12px">관리자 사원</p>
 									</div>
 									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-									<p class="text-center m-auto" style="font-size:12px">이번주 초과</p>
-										<p class="text-center m-auto text-primary">3h 27m 32s</p>
+										<p class="text-center m-auto" style="font-size:12px">총 연차</p>
+										<p class="text-center m-auto text-primary"><%=vi.getAllDays() %></p>
 									</div>
 									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">이번주 잔여</p>
-										<p class="text-center m-auto text-primary">3h 27m 32s</p>
+										<p class="text-center m-auto" style="font-size:12px">사용 연차</p>
+										<p class="text-center m-auto text-primary"><%=vi.getUsedDays() %></p>
 									</div>
 									<div class="col-3 m-auto" style="height:100%; padding:10px 0px">
-										<p class="text-center m-auto" style="font-size:12px">이번달 누적</p>
-										<p class="text-center m-auto">3h 27m 32s</p>
+										<p class="text-center m-auto" style="font-size:12px">잔여 연차</p>
+										<p class="text-center m-auto text-primary"><%=vi.getLeftDays() %></p>
 									</div>
 								</div>
 							</div>
 						</div>
 						<br><br>
 						
-						<!-- 1 주차 -->
+						<!-- 연차 사용 내역 -->
 						<div class="row" style="border-bottom: 2px solid rgba(0,0,0,.125);">
-							<!-- 주차 표시 -->
+						
 							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 2px solid rgba(0,0,0,.125);">
 								<div class="text-left col-2">
-									<h5><i data-feather="chevron-down" class="feather-icon inner"></i>&nbsp;&nbsp;1주차</h5>
-								</div>
-								<div class="text-right col-10">
-									<span>누적 근무시간 00h 00m 00s (초과 근무시간 00h 00m 00s)</span>
+									<h5>사용내역</h5>
 								</div>
 							</div>
 							
 							<!-- 헤더 표시 -->
 							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="col-1 text-center">
-									<span>일차</span>
+								<div class="col-1">
+									<span>이름</span>
 								</div>
 								<div class="col-2">
-									<span>업무시작</span>
+									<span>부서명</span>
 								</div>
 								<div class="col-2">
-									<span>업무종료</span>
+									<span>휴가종류</span>
+								</div>
+								<div class="col-3">
+									<span>연차 사용기간</span>
 								</div>
 								<div class="col-2">
-									<span>총 근무시간</span>
+									<span>사용 연차</span>
 								</div>
-								<div class="col-5">
-									<span>근무시간 상세</span>
+								<div class="col-2">
+									<span>내용</span>
 								</div>
 							</div>
 							
-							<!-- 일자 표시 (7일) -->
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 월</span>
+							<!-- 사용내역 리스트 -->
+							<%if(vrList.size() > 0) {%>
+								<%for(int i = 0; i < vrList.size(); i++) { VRequest vr = vrList.get(i);%>
+									<div class="d-flex col-12">
+										<div class="col-1">
+											<span><%=vr.getEmpName() %></span>
+										</div>
+										<div class="col-2">
+											<span><%=vr.getDeptTitle() %></span>
+										</div>
+										<div class="col-2">
+											<span><%=vr.getVName() %></span>
+										</div>
+										<div class="col-3">
+											<span><%=sf2.format(vr.getFirstDate()) %> ~ <%=sf2.format(vr.getLastDate()) %></span>
+										</div>
+										<div class="col-2">
+											<span><%=vr.getUsingDay() %></span>
+										</div>
+										<div class="col-2">
+											<span><%=vr.getReason() %></span>
+										</div>
+									</div>
+								<%} %>
+							<%}else { %>
+								<div class="d-flex col-12">
+									<span class="m-auto">연차 사용내역이 없습니다</span>
 								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 화</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 수</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 목</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 금</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 토</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 일</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
+							<%} %>
 						</div>
-						<!-- 1 주차 끝 -->
+						<br><br><br><br>
+						
+						<!-- 연차 생성 내역 -->
+						<div class="row" style="border-bottom: 2px solid rgba(0,0,0,.125);">
+							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 2px solid rgba(0,0,0,.125);">
+								<div class="text-left col-2">
+									<h5>생성내역</h5>
+								</div>
+							</div>
+							
+							<!-- 헤더 표시 -->
+							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+								<div class="col-3">
+									<span>등록일</span>
+								</div>
+								<div class="col-3">
+									<span>사용기간</span>
+								</div>
+								<div class="col-3">
+									<span>발생일수</span>
+								</div>
+								<div class="col-3">
+									<span>내용</span>
+								</div>
+							</div>
+							
+							<!-- 생성내역 리스트 -->
+							<%if(vrList.size() > 0) {%>
+								<%for(int i = 0; i < volist.size(); i++) { VOccur vo = volist.get(i);%>
+									<div class="d-flex col-12">
+										<div class="col-3">
+											<span><%=sf2.format(vo.getOccurDate()) %></span>
+										</div>
+										<div class="col-3">
+											<span><%=sf2.format(vo.getExpiryDate()) %></span>
+										</div>
+										<div class="col-3">
+											<span><%=vo.getOccurDays() %></span>
+										</div>
+										<div class="col-3">
+											<span><%=vo.getReason() %></span>
+										</div>
+									</div>
+								<%} %>
+							<%}else { %>
+								<div class="d-flex col-12">
+									<span class="m-auto">연차 생성내역이 없습니다</span>
+								</div>
+							<%} %>
+						</div>
 					</div>
 				</div>
 			</div>

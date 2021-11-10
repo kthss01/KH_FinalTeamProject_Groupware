@@ -66,6 +66,24 @@ public class CommunityController {
 		mv.addObject("cno", cno);
 		return mv;
 	}
+	
+	@ResponseBody
+	@RequestMapping("delete.co")
+	public String deleteBoard(int bno,HttpServletRequest request) {
+		
+		
+		ArrayList<CommunityAttachment> atList = communityService.selectAttachmentList(bno);
+		
+		for(CommunityAttachment at : atList) {
+			deleteFile(at.getChangeName(),request);
+		}
+
+	    int result =  communityService.deleteBoard(bno);
+		
+		return String.valueOf(result);
+
+	}
+	
 
 	@GetMapping("detail.co")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
@@ -76,9 +94,8 @@ public class CommunityController {
 		communityService.countBoard(bno);
 
 		mv.addObject("b", b);
-		/*
-		 * mv.addObject("at", at);
-		 */ mv.setViewName("/community/communityBoardDetailView");
+		mv.setViewName("/community/communityBoardDetailView");
+		
 		return mv;
 	}
 
@@ -119,97 +136,74 @@ public class CommunityController {
 
 	@ResponseBody
 	@RequestMapping("originFileCheck.co")
-	public void checkOriginFiles(@RequestParam(value = "origin_files[]",required = false) List<String> originFiles, int bno , HttpServletRequest request) {
+	public void checkOriginFiles(@RequestParam(value = "origin_files[]", required = false) List<String> requestFiles,
+			int bno, HttpServletRequest request) {
 		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(bno);
+		ArrayList<CommunityAttachment> resultList = new ArrayList();
 
-		
-		System.out.println("넘어온 파일 리스트" + originFiles);
-		
-		if(originFiles==null) {  // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제 
-		
-			for(CommunityAttachment at : originFileList) {
-				communityService.deleteCommunityAttachment(at); 	//DB 파일 삭제
-				deleteFile(at.getChangeName(),request);				//실제 파일 삭제
-			}
-		}else {
-			if (!originFiles.isEmpty()) {
-				for (String file : originFiles) {
-		
-						if ((originFileList.contains(file))) { 
-							
-							//기존에 있던 파일과 수정되서 올라온 기존파일배열 비교
-							//기존 파일리스트와 비교해서 사라진 게 있으며 db에서 지워줌
-							
-							//현재 파일명과 글 번호 정보를 담고 있는 첨부파일 info객체 생성
-							CommunityAttachment info = new CommunityAttachment();
-							info.setOriginName(file);
-							info.setBno(bno);
-							
-							//info 객체로 서버에 올라간 변경 파일명을 조회해옴
-							CommunityAttachment result = communityService.selectAttachment(info);
-							String deleteFileChangeName = result.getChangeName();
+		if (requestFiles == null) { // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제
 
-							//info 객체 넘겨서 DB에 있는 첨부파일 삭제
-							communityService.deleteCommunityAttachment(info);
-							//서버에 있는 파일 삭제 
-							deleteFile(deleteFileChangeName,request);
-						}
-					
-				}
+			for (CommunityAttachment at : originFileList) {
+				communityService.deleteCommunityAttachment(at); // DB 파일 삭제
+				deleteFile(at.getChangeName(), request); // 실제 파일 삭제
 			}
-			
+
+		} else if (!requestFiles.isEmpty()) { // 넘어온 파일리스트가 있다면
+
+			for (String requestFile : requestFiles) { // 넘어온 파일명 리스트들로 
+
+				CommunityAttachment info = new CommunityAttachment();
+				info.setOriginName(requestFile);
+				info.setBno(bno);
+
+				// db에 올라가있는 파일 객체들 만들어와서 resultList에 먼저 올려주고
+				resultList.add(communityService.selectAttachment(info)); 
+
+			}
+
+			for (CommunityAttachment keepFile : resultList) { //db객체들 리스트들을
+				originFileList.remove(keepFile); // 기존 파일리스트에서 지워주면 남은 파일은 삭제되야할 파일이다. 
+
+			}
+
+			for (CommunityAttachment deleteFile : originFileList) { // 남은 파일들 포문 돌려서 삭제 진행 
+
+				communityService.deleteCommunityAttachment(deleteFile); // 서버에 있는 파일 삭제
+				deleteFile(deleteFile.getChangeName(), request);
+
+			}
+
 		}
-		
-		
-
 
 	}
-
+	
+	@ResponseBody
 	@RequestMapping(value = "updateBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateBoard(CommunityBoard b, HttpServletRequest request,
+	public void updateBoard(CommunityBoard b, HttpServletRequest request,
 			@RequestParam("article_file") List<MultipartFile> multipartFile) {
 
-		
-		System.out.println("넘어온 새로운 파일 : " + multipartFile);
-		
-		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(b.getBno());
 
-		System.out.println("originFileList :" +  originFileList );
-		
-		
 		String changeName = "";
 		CommunityAttachment at = null;
 
-		
-		 communityService.updateBoard(b);
-		 
+		communityService.updateBoard(b);
+
 		if (!multipartFile.isEmpty()) {
 			if (!multipartFile.get(0).getOriginalFilename().equals("")) {
 				for (MultipartFile newFile : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
 
-					if (!(originFileList.contains(newFile.getOriginalFilename()))
-								|| originFileList.isEmpty()) {  //기존 파일리스트에 존재하지 않는 파일이면 새로 db에 insert해줌
-						
-						changeName = saveFile(newFile, request);
-						
-						at = new CommunityAttachment();
-						if (changeName != null) {
-							at.setOriginName(newFile.getOriginalFilename());
-							at.setChangeName(changeName);
-							at.setBno(b.getBno());
-							
-							System.out.println("등록될 첨부파일 : " + at);
-							
-							int result = communityService.updateCommunityAttachment(at);
-							System.out.println(result+">>>>>");
-						}
+					changeName = saveFile(newFile, request);
+					at = new CommunityAttachment();
+					if (changeName != null) {
+						at.setOriginName(newFile.getOriginalFilename());
+						at.setChangeName(changeName);
+						at.setBno(b.getBno());
+
+						communityService.updateCommunityAttachment(at);
 					}
 				}
 			}
-
 		}
-
-		return "redirect:/boardList.co";
 	}
 
 	@RequestMapping(value = "insertBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
@@ -273,9 +267,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
-	/*
-	 * @RequestMapping("selectAttachment.co") public ArrayList
-	 */
+
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		// 저장 경로
