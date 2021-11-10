@@ -32,15 +32,17 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { id=null, title=null, allDay=null, start=null, end=null, calendars=null } = newState;
+    const { id=null, title=null, allDay=null, start=null, end=null, groupdId=null, calendars=null } = newState;
 
     // console.log(this.$state);
 
     if (calendars) {
       const selectCalendar = this.$target.querySelector('select[name="calendar"]');
 
+      // console.log(calendars);
+
       selectCalendar.innerHTML = calendars.map((calendar, index) => {
-        return `<option ${index === 0 ? "selected" : ""} value="${calendar.calNo}">${calendar.name}</option>`
+        return `<option ${index === 0 ? "selected" : ""} value="${calendar.id}">${calendar.title}</option>`
       }).join('');
 
     } else if (title || allDay || start || end) {

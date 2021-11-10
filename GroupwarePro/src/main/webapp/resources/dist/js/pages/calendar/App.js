@@ -48,7 +48,7 @@ export default class App extends Component {
   }
   selectEvent (event) {
 
-    // console.log(event);
+    console.log(event);
 
     const { sideMenu } = this.$children;
 
@@ -126,7 +126,7 @@ export default class App extends Component {
   renderCalendar (calendars) {
     const { sideMenu } = this.$children;
 
-    sideMenu.setState({ calendars });
+    sideMenu.setState({ ...calendars });
   }
 
   async insertCalendar (cal) {
@@ -139,7 +139,7 @@ export default class App extends Component {
         params: { 
           name: cal.name, 
           color: cal.color,
-          empNo: 201, 
+          empNo: empNo, 
         }
       });
 
@@ -165,7 +165,7 @@ export default class App extends Component {
           name: cal.name, 
           color: cal.color,
           calNo: cal.calNo,
-          empNo: 201,           
+          empNo: empNo,           
         }
       });
 

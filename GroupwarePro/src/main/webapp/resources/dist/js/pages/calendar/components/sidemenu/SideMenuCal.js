@@ -4,6 +4,7 @@ export default class SideMenuCal extends Component {
 
   setup() {
     this.calendarTemplate = (calendar) => {
+      // console.log(calendar.id, calendar.eventBackgroundColor, calendar.title);
       return `
       <div class="col-12 mb-2">
           <div class="input-group">
@@ -12,8 +13,8 @@ export default class SideMenuCal extends Component {
                       <input type="checkbox">
                   </div>
               </div>
-              <input type="hidden" name="calNo" value="${calendar.calNo}">
-              <button class="btn btn-sm text-white text-center calMenu" style="background-color: ${calendar.color}; width: 120px; transition: all .35s; opacity: 0.75;">${calendar.name}</button>
+              <input type="hidden" name="calNo" value="${calendar.id}">
+              <button class="btn btn-sm text-white text-center calMenu" style="background-color: ${calendar.eventBackgroundColor}; width: 120px; transition: all .35s; opacity: 0.75;">${calendar.title}</button>
           </div>
       </div>
       `;

@@ -41,6 +41,7 @@ export default class Calendar extends Component {
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇개식으로 표현)
       locale: 'ko', // 한국어 설정
       allDayMaintainDuration: true,
+      schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     };
 
     // fullcalendar 객체 생성
@@ -49,21 +50,27 @@ export default class Calendar extends Component {
     // 이벤트 DB로부터 읽어오는 함수
     this.readEvents = async (calNo) => {
       try {
-        const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
-        // console.log(res);
-        
-        const events = res.data.map((evt) => {
-          // console.log(evt);
-          return {
-            id: evt.evtNo,
-            title: evt.name,
-            start: evt.startDate,
-            end: evt.endDate,
-            allDay: evt.allDay === '1' ? true : false,
-          }
-        });
-    
-        return events;
+          const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
+          // console.log(res);
+
+          res.data.forEach((evt) => {
+            const event = {
+              id: evt.evtNo,
+              title: evt.name,
+              start: evt.startDate,
+              end: evt.endDate,
+              allDay: evt.allDay === '1' ? true: false,
+            };
+            // console.log(event);
+            // console.log(this.$calendar.getResources(), calNo);
+
+            const resource = this.$calendar.getResourceById(calNo);
+            // console.log(resource);
+
+            this.$calendar.addEvent(event);
+            this.$calendar.getEventById(event.id).setResources([resource]);
+          });
+
       } catch (err) {
         console.log(err);
       }
@@ -75,8 +82,14 @@ export default class Calendar extends Component {
         const res = await axios.get(`selectCalList.ca?empNo=${empNo}`);
 
         // console.log(res.data);
-  
-        return res.data;
+
+        res.data.forEach((calendar) => {
+          this.$calendar.addResource({
+            id: calendar.calNo,
+            title: calendar.name,
+            eventBackgroundColor: calendar.color,
+          });
+        });
 
       } catch (err) {
         console.log(err);
@@ -88,21 +101,16 @@ export default class Calendar extends Component {
       try {
         const { renderCalendar } = this.$props;
   
-        this.calendars = await this.readCalendars(empNo);
+        await this.readCalendars(empNo);
   
-        // console.log(this.calendars);
+        // console.log(this.$calendar.getResources());
   
-        renderCalendar(this.calendars);
-  
-        this.calendars.forEach(async (calendar, i) => {
-          const { calNo } = calendar;
-          this.calendars[i].events = await this.readEvents(calNo);
-  
-          // fullcalendar 객체에 읽어온 이벤트 추가
-          this.calendars[i].events.forEach(event => {
-            this.$calendar.addEvent({ ...event, backgroundColor: this.calendars[i].color });
-          })
-        })
+        renderCalendar({ calendars: this.$calendar.getResources() });
+
+        this.$calendar.getResources().forEach(async (resource) => {
+          // console.log(resource);
+          await this.readEvents(resource.id); // resource id에 calNo를 넣음
+        });
   
         // fullcalendar 렌더
         this.$calendar.render();
@@ -124,7 +132,7 @@ export default class Calendar extends Component {
     if (event) {
 
       // console.log(status);
-      console.log(event);
+      // console.log(event);
 
       switch (status) {
         case 'insert':
@@ -207,7 +215,7 @@ export default class Calendar extends Component {
   render () {
     this.$target.innerHTML = this.template();
 
-    this.loadCalendar(201); // 임시로 사원번호 넣음
+    this.loadCalendar(empNo); // 임시로 사원번호 넣음
 
     this.mounted(); 
   }
@@ -241,12 +249,17 @@ export default class Calendar extends Component {
       // info.event.setProp("title", "test");
       // info.event.setProp("backgroundColor", "green");
 
+      console.log(info.event);
+      const resources = this.$calendar.getEventById(info.event.id).getResources();
+      console.log(resources);
+
       selectEvent({
         id: info.event.id,
         title: info.event.title,
         start: info.event.start,
         end: info.event.end,
         allDay: info.event.allDay,
+        groupId: info.event.groupId,
       })
     });
   
