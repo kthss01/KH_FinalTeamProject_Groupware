@@ -53,7 +53,7 @@
                         <h2 class="mt-3 text-center">LOGIN</h2>
                         <p class="text-center" style="font-size:15px; margin-bottom:0px;">여러 개의 붓이 모여</p>
                         <p class="text-center" style="font-size:15px;">하나의 캔버스 위에 그림이 되다.</p>
-                        <form class="mt-4">
+                        <form class="mt-4" action="login.me">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
