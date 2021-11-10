@@ -6,10 +6,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+
+header>*{
+
+background-color: rgba(0,0,0,.78);
+color: white;
+
+
+}
+
+
+</style>
+
+
+
+
 </head>
 <body>
 
-        <header class="topbar" data-navbarbg="skin6">
+        <header class="topbar " data-navbarbg="skin6">
         	
 				<div id="socketAlert" class="alert alert-info alert-dismissible fade show" role="alert" 
 						style="text-align:center; height:40px; padding:5px; display:none;">
@@ -18,34 +35,22 @@
 	                    <span aria-hidden="true">×</span>
 	                </button>
 	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 알림 &nbsp;- &nbsp;</span> 
-	                	<span id='socketAlertMsg' style="font-size:17px;"> 새 메세지가 도착했습니다! </span>
+	                	<span id='socketAlertMsg' style="font-size:17px;"> ---al</span>
                  </div>
-           
-            <nav class="navbar top-navbar navbar-expand-md">
-                <div class="navbar-header" data-logobg="skin6">
+
+            <nav class="navbar top-navbar navbar-expand-md" style="border:none;">
+                <div class="head" data-logobg="skin6" style="padding: 0px 0px 0px 35px">
+          
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <!-- 
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
-                            class="ti-menu ti-close"></i></a>
-                    <!-- ============================================================== -->
-                    <!-- Logo -->
-                    <!-- ============================================================== -->
-                    <div class="navbar-brand">
+                            class="ti-menu ti-close"></i></a>  -->
+                    <div class="navbar-brand" style="border:none;">
                         <!-- Logo icon -->
-                        <a href="${ pageContext.servletContext.contextPath }">
-                            <b class="logo-icon">
-                                <!-- Dark Logo icon -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo icon -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
-                            </b>
-                            <!--End Logo icon -->
-                            <!-- Logo text -->
-                            <span class="logo-text">		
-                                <!-- dark Logo text -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo text -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
-                            </span>
+                        <a href="menagerMain.me">
+                            <span class="logo-text" style="color:rgba(255,255,255,0.75); opacity:0.75;">		
+                               MANAGEMENT
+	                        </span>
                         </a>
                     </div>
                     <!-- ============================================================== -->
@@ -161,41 +166,21 @@
 
                     </ul>
                     
-                    
-                    
-                    
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-right">
                         <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <form>
-                                    <div class="customize-input">
-                                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
-                                            type="search" placeholder="Search" aria-label="Search">
-                                        <i class="form-control-icon" data-feather="search"></i>
-                                    </div>
-                                </form>
-                            </a>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                       	    <c:if test="${!empty sessionScope.loginUser}"> 
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
-                                    width="40">
                                     
                                 <!--  헤더 로그인 구역  -->
                                 
-                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">${sessionScope.loginUser.loginId}</span> <i data-feather="chevron-down"
+                                <span class="ml-2 d-none d-lg-inline-block">
+                                 <span style="color:rgba(255,255,255,.75);">${sessionScope.loginUser.loginId} </span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                               
                                 
@@ -214,11 +199,9 @@
 					                                    메뉴 3</a>
 					                                <div class="dropdown-divider"></div>
 					                     
-					                     <c:if test="${sessionScope.loginUser.loginId eq 'admin' }">
-					                                <a class="dropdown-item" href="menagerMain.me"><i data-feather="settings"
-					                                        class="svg-icon mr-2 ml-1"></i>
-					                                 관리자 페이지</a>
-					                     </c:if>          
+					                                <a class="dropdown-item" href="${pageContext.servletContext.contextPath }"><i data-feather="backToMain"
+					                                        class="fas fa-arrow-alt-circle-left mr-2 ml-1"></i>
+					                                메인</a>
 					                                <div class="dropdown-divider"></div>
 					                                <a class="dropdown-item" href="logout.me"><i data-feather="power"
 					                                        class="svg-icon mr-2 ml-1"></i>
@@ -231,14 +214,6 @@
                             </div>
                              </c:if>
                             
-                            <c:if test="${empty sessionScope.loginUser}">
-                                
-                                <a class="ml-2 d-none d-lg-inline-block" href="loginForm.me">
-                                		<br>
-                            			로그인
-                                </a>
-                                
-                                </c:if>
                         </li>
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
