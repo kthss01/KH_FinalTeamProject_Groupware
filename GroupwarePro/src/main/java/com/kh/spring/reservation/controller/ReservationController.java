@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.GsonBuilder;
 import com.kh.spring.reservation.model.service.ReservationService;
 import com.kh.spring.reservation.model.vo.Asset;
+import com.kh.spring.reservation.model.vo.AssetCategory;
 import com.kh.spring.reservation.model.vo.Reservation;
 
 @Controller
@@ -47,6 +48,16 @@ public class ReservationController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="selectAsCatList.rez", produces="application/json; charset=utf-8")
+	public String selectAsCatList() {
+		
+		ArrayList<AssetCategory> list = reservationService.selectAsCatList();
+		
+		return new GsonBuilder().create().toJson(list);
+	}
+	
 	/************************************************************************************************************************/
 	
 	@CrossOrigin
@@ -72,6 +83,20 @@ public class ReservationController {
 		
 		if (as.getAsNo() != 0) {
 			result = reservationService.insertAsset(as);
+		}
+		
+		return String.valueOf(result);
+	}
+	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="insertAssetCategory.rez", method=RequestMethod.POST)
+	public String insertAssetCategory(AssetCategory asc) {
+		
+		int result = 0;
+		
+		if (asc.getAscNo() != 0) {
+			result = reservationService.insertAssetCategory(asc);
 		}
 		
 		return String.valueOf(result);
@@ -107,6 +132,20 @@ public class ReservationController {
 		return String.valueOf(result);
 	}
 	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="updateAssetCategory.rez", method=RequestMethod.PUT)
+	public String updateAssetCategory(AssetCategory asc) {
+
+		int result = 0;
+		
+		if (asc.getAscNo() != 0) {
+			result = reservationService.updateAssetCategory(asc);
+		}
+		
+		return String.valueOf(result);
+	}
+	
 	/************************************************************************************************************************/
 	
 	@CrossOrigin
@@ -132,6 +171,20 @@ public class ReservationController {
 		
 		if (asNo != 0) {
 			result = reservationService.deleteAsset(asNo);
+		}
+		
+		return String.valueOf(result);
+	}
+	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="deleteAssetCategory.rez", method=RequestMethod.DELETE)
+	public String deleteAssetCategory(int ascNo) {
+		
+		int result = 0;
+		
+		if (ascNo != 0) {
+			result = reservationService.deleteAssetCategory(ascNo);
 		}
 		
 		return String.valueOf(result);
