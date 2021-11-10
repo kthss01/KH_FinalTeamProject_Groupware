@@ -73,7 +73,7 @@ export default class App extends Component {
         }
       });
 
-      // console.log(res);
+      console.log(res);
       event.id = res.data;
 
       calendar.setState({ event, status: 'insert' });

@@ -48,29 +48,38 @@ export default class Calendar extends Component {
     this.$calendar = new FullCalendar.Calendar(this.$target, this.config);
 
     // 이벤트 DB로부터 읽어오는 함수
-    this.readEvents = async (calNo) => {
+    this.readEvents = async () => {
       try {
-          const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
-          // console.log(res);
+          this.$calendar.getResources().forEach(async (resource) => { 
+            const calNo = resource.id;
+            const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
+            // console.log(res);
 
-          res.data.forEach((evt) => {
-            const event = {
-              id: evt.evtNo,
-              title: evt.name,
-              start: evt.startDate,
-              end: evt.endDate,
-              allDay: evt.allDay === '1' ? true: false,
-            };
-            // console.log(event);
-            // console.log(this.$calendar.getResources(), calNo);
+            res.data.forEach((evt) => {
+              // console.log(evt);
+              
+              const resource = this.$calendar.getResourceById(calNo);
+              // console.log(resource);
 
-            const resource = this.$calendar.getResourceById(calNo);
-            // console.log(resource);
+              const event = {
+                id: evt.evtNo,
+                title: evt.name,
+                start: evt.startDate,
+                end: evt.endDate,
+                allDay: evt.allDay === '1' ? true: false,
+                backgroundColor: resource.eventBackgroundColor, // 이렇게 안해도될거 같은데 일단 이렇게 하자
+              };
+              // console.log(event);
+              // console.log(this.$calendar.getResources(), calNo);
 
-            this.$calendar.addEvent(event);
-            this.$calendar.getEventById(event.id).setResources([resource]);
+              this.$calendar.addEvent(event);
+              this.$calendar.getEventById(event.id).setResources([resource]);
+              // console.log(this.$calendar.getEventById(event.id));
+            });
+
+            // console.log('events', this.$calendar.getEvents());
+            
           });
-
       } catch (err) {
         console.log(err);
       }
@@ -107,11 +116,8 @@ export default class Calendar extends Component {
   
         renderCalendar({ calendars: this.$calendar.getResources() });
 
-        this.$calendar.getResources().forEach(async (resource) => {
-          // console.log(resource);
-          await this.readEvents(resource.id); // resource id에 calNo를 넣음
-        });
-  
+        await this.readEvents(); // resource id에 calNo를 넣음
+
         // fullcalendar 렌더
         this.$calendar.render();
       } catch (err) {
@@ -127,7 +133,7 @@ export default class Calendar extends Component {
 
     const { renderCalendar } = this.$props;
 
-    console.log(status, calendar);
+    // console.log(status, calendar);
 
     if (event) {
 
@@ -136,9 +142,16 @@ export default class Calendar extends Component {
 
       switch (status) {
         case 'insert':
-          var targetCal = this.calendars.find((cal) => cal.calNo == event.calNo);
-          targetCal.events.push(event);
-          this.$calendar.addEvent({ ...event, backgroundColor: targetCal.color });
+          console.log('insert', event);
+
+          const resource = this.$calendar.getResourceById(event.calNo);
+          console.log(resource);
+
+          this.$calendar.addEvent( {
+            ...event,
+            backgroundColor: resource.eventBackgroundColor,
+          } );
+          this.$calendar.getEventById(event.id).setResources([resource]);
         break;
         case 'update':
           let isFind = false;
