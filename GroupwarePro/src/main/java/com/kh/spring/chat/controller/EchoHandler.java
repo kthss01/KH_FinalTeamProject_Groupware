@@ -77,7 +77,8 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 					
 					if("reply".contentEquals(func) && receiverSession != null) {
 						
-						receiverSession.sendMessage(new TextMessage("reply,"+"<a href='detail.co?bno="+String.valueOf(receiverNo)+"'>작성하신 글 ["+title+"]에 댓글이 달렸습니다.</a>"));
+						receiverSession.sendMessage(new TextMessage("reply,"+"<a href='detail.co?bno="
+						+String.valueOf(receiverNo)+"'>작성하신 글 ["+title+"]에 댓글이 달렸습니다.</a>"));
 
 					}
 
