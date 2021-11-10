@@ -17,7 +17,7 @@ public interface MemberService {
 	Member updateMember(Member m) throws Exception;
 
 	void deleteMember(String userId);
-	
-	ArrayList<Member> getMemberList();
+
+	ArrayList<Member> selectMemberList();
 
 }

@@ -26,9 +26,12 @@ public class MemberDao {
 	public int deleteMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.update("memberMapper.deleteMember", userId);
 	}
-
+	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList<Member> getMemberList(SqlSessionTemplate sqlSession) {
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("memberMapper.getAllMember");
 	}
+	
+	
 }

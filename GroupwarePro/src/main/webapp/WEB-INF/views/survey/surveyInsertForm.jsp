@@ -7,11 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- 
-	<jsp:forward page="WEB-INF/views/main.jsp"/>
-	 -->
-	 
-	<jsp:forward page="WEB-INF/member/memberLoginForm.jsp"/>
-		
+
+	<jsp:include page="${pageCOntext.servletContext.contextPath}/WEB-INF/views/common/m_header.jsp"/>
+	<jsp:include page="${pageCOntext.servletContext.contextPath}/WEB-INF/views/common/m_sidebar.jsp"/>
+
+
 </body>
 </html>

@@ -16,7 +16,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="sidebar-item"> 
-	                        <a id="homeBtn" class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }" aria-expanded="false">
+	                        <a id="homeBtn" class="sidebar-link sidebar-link" href="managerMain.me" aria-expanded="false">
 		                        <i data-feather="home" class="feather-icon"></i>
 		                        <span class="hide-menu">HOME</span>
 	                        </a>
@@ -28,10 +28,10 @@
                         <li class="sidebar-item">
                          <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                          	<i data-feather="file-text" class="feather-icon"></i>
-                         	<span class="hide-menu">자료실 </span></a>
+                         	<span class="hide-menu"> 메뉴 1</span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 <li class="sidebar-item"><a href="boardList.li" class="sidebar-link"><span
-                                            class="hide-menu"> 공통 문서양식 모음
+                                            class="hide-menu"> 
                                         </span></a>
                                 </li>
 
@@ -41,75 +41,32 @@
                         <li class="sidebar-item" id="categoryMenuBtn">
                          <a class="sidebar-link has-arrow" href="javascript:void(0)"  aria-expanded="false">
                          <i data-feather="file-text" class="feather-icon"></i>
-                         <span  class="hide-menu">커뮤니티 </span></a>
+                         <span  class="hide-menu"> 메뉴 2 </span></a>
                             <ul aria-expanded="false" class="collapse first-level base-level-line" id="categroyMenu">
 										<!-- 커뮤니티 메뉴 (카테고리) 리스트 출력 -->
                                 
                             </ul>
                         </li>
                        
-                       	<c:choose>
-                       		<c:when test="${empty sessionScope.loginUser}">
                        		    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="loginForm.me"
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">메신저</span></a></li>
-                       		
-                       		</c:when>
-                       		<c:otherwise>
-                       		                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chatPage.ch"
-                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">메신저</span></a></li>
-                       		</c:otherwise>
-                       	</c:choose>
+                                    class="hide-menu"> 메뉴 3</span></a></li>
 
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }/calendar.ca"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
-                                    class="hide-menu">일정</span></a></li>
+                                    class="hide-menu"> 메뉴 4</span></a></li>
                                     
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="work.hr"
                                 aria-expanded="false"><i data-feather="briefcase" class="feather-icon"></i><span
-                                    class="hide-menu">근태관리</span></a></li> 
+                                    class="hide-menu"> 메뉴 5</span></a></li> 
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="main.ap"
                                 aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
-                                    class="hide-menu">전자결재</span></a></li>   
-                                    
-                                    
-                                    <!--  <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="noticeList.bo"
-                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu">전사게시판</span></a></li>     -->
-                                    
-                                    
-                                    <li class="sidebar-item">
-                         <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                         	<i data-feather="file-text" class="feather-icon"></i>
-                         	<span class="hide-menu">전사게시판 </span></a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="noticeList.bo" class="sidebar-link"><span
-                                            class="hide-menu">공지사항
-                                        </span></a>
-                                </li>
-                                <li class="sidebar-item"><a href="tblMeals.bo" class="sidebar-link"><span
-                                            class="hide-menu">월간식단표
-                                        </span></a>
-                                </li>
-
-                            </ul>
-                        </li>
-                        
-                       	<li class="sidebar-item">
-                       		<a class="sidebar-link" href="javascript:void(0)" aria-expanded="true">
-                       			<i data-feater="survey" class="icon-chart"></i>
-                       			<span> 설문</span>
-                       			</a>
-                       	</li>
-                                    
-                                  <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  
-                                    
+                                    class="hide-menu"> 메뉴 6</span></a></li>               
 
                       
                         <li class="list-divider"></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="logout.me"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
                      aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
                          class="hide-menu">Logout</span></a></li>
              
@@ -146,13 +103,6 @@
 			})
 			
 		})
-	</script>
-	
-	<script>
-		function apply(){
-			
-			location.href="applyForm.bo";
-		}
 	</script>
 
 	

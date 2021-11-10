@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.kh.spring.community.model.service.CommunityService;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.service.MemberServiceImpl2;
 import com.kh.spring.member.model.vo.Member;
@@ -21,7 +23,11 @@ import com.kh.spring.member.model.vo.Member;
 @SessionAttributes("loginUser") 
 @Controller
 public class MemberController {
-
+	
+	
+	@Autowired
+	private CommunityService communityService;
+	
 	@Autowired
 	private MemberService memberService;
 	
@@ -125,6 +131,8 @@ public class MemberController {
 		
 		return "member/myPage";
 	}
+	
+	
 	
 	@RequestMapping("delete.me")
 	public String deleteMember(String userId) {
