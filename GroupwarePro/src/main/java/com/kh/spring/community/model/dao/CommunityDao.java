@@ -126,4 +126,34 @@ public class CommunityDao {
 		return sqlSession.delete("communityMapper.deleteBoard",bno);
 	}
 
+	public int insertCategory(SqlSessionTemplate sqlSession, CommunityCategory c) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("communityMapper.insertCategory",c);
+	}
+
+	public ArrayList<CommunityCategory> selectApplyCategoryList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("communityMapper.selectApplyCategoryList");
+	}
+
+	public int openCategory(SqlSessionTemplate sqlSession, int cno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("communityMapper.openCategory",cno);
+	}
+
+	public int closeCategory(SqlSessionTemplate sqlSession, int cno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("communityMapper.closeCategory",cno);
+	}
+
+	public int selectNewApplyCategory(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("communityMapper.selectNewApplyCategory");
+	}
+
+	public int reserveCategory(SqlSessionTemplate sqlSession, int cno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("communityMapper.reserveCategory",cno);
+	}
+
 }

@@ -15,7 +15,9 @@ public class CommunityCategory {
 
 	private int cno;
 	private String cname;
+	private String discription;
 	private String manager;
+	private String managerName;
 	private String status;
 	
 }

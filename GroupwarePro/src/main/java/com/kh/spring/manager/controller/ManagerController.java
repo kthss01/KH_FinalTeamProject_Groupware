@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.community.model.service.CommunityService;
 import com.kh.spring.community.model.vo.CommunityCategory;
@@ -64,21 +65,21 @@ public class ManagerController {
 	}
 	
 	@RequestMapping("managerCommProposal.me")
-	public String managerProposalList(Model model) {
+	public ModelAndView managerProposalList(ModelAndView mv) {
 		
 		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
-		model.addAttribute(list);
-		
-		return "manager/managerCommProposal";
+		mv.addObject("list",list);
+		mv.setViewName("/manager/managerCommProposal");
+		return mv;
 	}
 	
 	@RequestMapping("managerCommunityList.me")
-	public String managerCommunityList(Model model) {
+	public ModelAndView managerCommunityList(ModelAndView mv) {
 		
 		ArrayList<CommunityCategory> list = communityService.selectCategoryList();
-		model.addAttribute(list);
-		
-		return "manager/managerCommunityList";
+		mv.addObject("list",list);
+		mv.setViewName("/manager/managerCommunityList");		
+		return mv;
 		
 	}
 	

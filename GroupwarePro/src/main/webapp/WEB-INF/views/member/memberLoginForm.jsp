@@ -47,13 +47,12 @@
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
                         <div class="text-center">
-<%--                                 <img style="weight:58px; height:65px;" src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon-big.png" alt="logo" class="dark-logo" />
- --%>                                <img style="weight:110px; height:110px;" src="${ pageContext.servletContext.contextPath }/resources/assets/images/big/logo-icon2.png" alt="logo" class="dark-logo" />
+                           <img style="weight:110px; height:110px;" src="${ pageContext.servletContext.contextPath }/resources/assets/images/big/logo-icon2.png" alt="logo" class="dark-logo" />
                         </div>
                         <h2 class="mt-3 text-center">LOGIN</h2>
                         <p class="text-center" style="font-size:15px; margin-bottom:0px;">여러 개의 붓이 모여</p>
                         <p class="text-center" style="font-size:15px;">하나의 캔버스 위에 그림이 되다.</p>
-                        <form class="mt-4" action="login.me">
+                        <form class="mt-4" action="login.me" method="post">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">

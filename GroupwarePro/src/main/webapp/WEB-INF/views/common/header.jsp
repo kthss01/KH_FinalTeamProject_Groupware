@@ -260,7 +260,33 @@
 var socket = null;
 $(document).ready( function() {
 
-    connectWS();	
+    connectWS();
+    
+    console.log(${loginUser.empNo});
+    
+    if(${loginUser.empNo} == 200){
+        let socketAlert = $("div#socketAlert");
+        let socketAlertMsg = $("#socketAlertMsg");
+    	$.ajax({
+    		url:'selectNewApplyCategory.co',
+    		type:'post',
+    		async:false,
+    		success:function(result){
+    			if(result > 0){
+    				  socketAlert.css("display",'block');
+    		          socketAlertMsg.html("<a href='managerCommProposal.me'>새로운 게시판 개설 신청이 있습니다.<a>");
+    			} 
+    			
+    		},error:function(){
+    			
+    			console.log("error");
+    		}
+    	})
+    		
+    }
+    
+    
+
 });
 function connectWS() {
     var ws = new WebSocket("ws://localhost:8090/spring/echo");

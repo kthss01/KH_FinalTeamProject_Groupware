@@ -51,6 +51,18 @@ public interface CommunityService {
 	int deleteReply(CommunityReply r);
 	
 	int deleteBoard(int bno);
+
+	int insertCategory(CommunityCategory c);
+
+	ArrayList<CommunityCategory> selectApplyCategoryList();
+
+	void openCategory(int cno);
+
+	void closeCategory(int cno);
+
+	int selectNewApplyCategory();
+
+	void reserveCategory(int cno);
 	
 
 
