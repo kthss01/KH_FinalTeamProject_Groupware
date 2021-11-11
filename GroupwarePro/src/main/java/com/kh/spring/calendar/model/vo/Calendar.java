@@ -1,16 +1,14 @@
 package com.kh.spring.calendar.model.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
-@ToString
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Setter
+//@Getter
+//@ToString
+// @Data : @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode 한꺼번에 설정 
+@Data 
 public class Calendar {
 	private int calNo; // 캘린더 번호
 	private String name; // 이름
