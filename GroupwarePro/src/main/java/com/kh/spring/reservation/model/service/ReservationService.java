@@ -14,6 +14,8 @@ public interface ReservationService {
 
 	ArrayList<AssetCategory> selectAsCatList();
 	
+	ArrayList<Asset> selectAsWithCatList();
+	
 	int insertReservation(Reservation rez);
 
 	int insertAsset(Asset as);

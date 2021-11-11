@@ -17,8 +17,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap id="assetResultSet" type="Asset">
 		<id column="AS_NO" property="asNo" />
-		<result column="NAME" property="name" />
+		<result column="AS_NAME" property="name" />
 		<result column="COLOR" property="color" />
+		<association property="category">
+			<id column="ASC_NO" property="ascNo"/>
+			<result column="ASC_NAME" property="name"/>
+		</association>
 	</resultMap>
 	
 	<resultMap id="assetCategoryResultSet" type="AssetCategory">
@@ -49,6 +53,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM ASSET_CATEGORY 
 		WHERE IS_DELETE = 'N'
 	
+	</select>
+
+	<select id="selectAsWithCatList" resultMap="assetResultSet">
+		
+		SELECT 
+		    AS_NO,
+		    A.NAME "AS_NAME",
+		    COLOR,
+		    ASC_NO,
+		    AC.NAME "ASC_NAME"
+		FROM ASSET2 A 
+		LEFT JOIN ASSET_CATEGORY AC USING(ASC_NO)
+		WHERE AC.IS_DELETE = 'N' AND A.IS_DELETE = 'N'
+		
 	</select>
 
 	<!-- CREATE -->
