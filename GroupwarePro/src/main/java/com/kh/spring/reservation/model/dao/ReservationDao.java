@@ -24,6 +24,10 @@ public class ReservationDao {
 		return (ArrayList) sqlSession.selectList("reservationMapper.selectAsCatList");
 	}
 	
+	public ArrayList<Asset> selectAsWithCatList(SqlSessionTemplate sqlSession) {
+		return (ArrayList) sqlSession.selectList("reservationMapper.selectAsWithCatList");
+	}
+	
 	public int insertReservation(SqlSessionTemplate sqlSession, Reservation rez) {
 		return sqlSession.insert("reservationMapper.insertReservation", rez);
 	}

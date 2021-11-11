@@ -58,6 +58,17 @@ public class ReservationController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="selectAsWithCatList.rez", produces="application/json; charset=utf-8")
+	public String selectAsWithCatList() {
+		
+		ArrayList<Asset> list = reservationService.selectAsWithCatList();
+		
+		return new GsonBuilder().create().toJson(list);
+		
+	}
+	
 	/************************************************************************************************************************/
 	
 	@CrossOrigin

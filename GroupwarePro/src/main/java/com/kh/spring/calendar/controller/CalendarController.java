@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.kh.spring.calendar.model.service.CalendarService;
 import com.kh.spring.calendar.model.vo.Calendar;
 import com.kh.spring.calendar.model.vo.Event;
+import com.kh.spring.hr.model.vo.VRequest;
 
 @Controller
 public class CalendarController {
@@ -85,6 +86,18 @@ public class CalendarController {
 		}
 		
 //		logger.debug(cal.toString());
+		
+		return String.valueOf(result);
+	}
+	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="insertVacation.ca", method=RequestMethod.POST)
+	public String insertVacation(VRequest vr) {
+		
+		int result = 0;
+		
+		// 휴가 결제 시 휴가 일정 등록 하는 컨트롤러
 		
 		return String.valueOf(result);
 	}
