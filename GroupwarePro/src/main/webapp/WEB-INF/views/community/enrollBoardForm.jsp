@@ -120,7 +120,6 @@
 				<!-- Start Page Content -->
 				<!-- ============================================================== -->
 				<div class="row">
-					<button class="btn btn-primary " onclick="">카테고리 신청하기</button>
 
 					<div class="col-12">
 						<div class="card">

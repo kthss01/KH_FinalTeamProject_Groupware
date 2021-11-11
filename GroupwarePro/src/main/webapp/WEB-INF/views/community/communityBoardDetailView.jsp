@@ -220,15 +220,21 @@
 										<textarea id="comment" name="comment"
 											class="comment form-control form-control-sm" maxlength="1000"
 											style="resize: none; height: 100px; margin-top: 10px;"> </textarea>
-
+										<div class="col-12">
 										<input class="btn btn-orange" type="button" id="commentBtn"
-											style="margin-top: 30px;" onclick="insertComment();"
+											style="margin-top: 30px; position:absolute; right:0px;" onclick="insertComment();"
 											value="등록">
+										</div>
+										
+										
 									</form>
 
 
 								</div>
 							</div>
+							
+							
+							
 						</div>
 					</div>
 				</div>
@@ -309,7 +315,8 @@
                                        <label for="description" class="font-weight-bold">주제 부가설명</label>
                                        <input class="form-control" style="height:120px;" type="text" id="description" name="description" placeholder="간단하게  작성해주세요.">
                                    </div>
-
+      								<input type="hidden" name="manager" value="${ loginUser.empNo }">
+                                    <input type="hidden" name="managerName" value="${ loginUser.empName }">
                                    <div class="form-group">
                                        <div class="custom-control custom-checkbox">
                                            <input type="checkbox" class="custom-control-input" id="customCheck1">

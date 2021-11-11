@@ -135,15 +135,20 @@
 				post:'post',
 				dataType:'json',
 				success:function(list){
+					
 					$.each(list,function(i,obj){
-
-						categoryBox.append(`
-								<li class="sidebar-item">
-                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
-                                	<span class="hide-menu"> \${ obj.cname } </span>
-                                </a>
-                                </li>
-								`) 
+ 						if(obj.status == 'Y'){
+							
+							categoryBox.append(`
+									<li class="sidebar-item">
+	                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
+	                                	<span class="hide-menu"> \${ obj.cname } </span>
+	                                </a>
+	                                </li>
+									`); 
+						 } 
+						
+			
 			 		}) 				
 				}
 			})
