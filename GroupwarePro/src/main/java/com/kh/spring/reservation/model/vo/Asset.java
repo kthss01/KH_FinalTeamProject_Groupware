@@ -12,5 +12,6 @@ public class Asset {
 	private int asNo; // 자산 번호
 	private String name; // 이름
 	private String color; // 색깔
+	private int ascNo; // 자산 목록 번호
 	private AssetCategory category; // 자산 목록
 }

@@ -13,12 +13,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="AS_NO" property="asNo" />
 		<result column="EMP_NO" property="empNo" />
 		<result column="EVT_NO" property="evtNo" />
+		<result column="ALLDAY" property="allDay" />
 	</resultMap>
 
 	<resultMap id="assetResultSet" type="Asset">
 		<id column="AS_NO" property="asNo" />
 		<result column="AS_NAME" property="name" />
 		<result column="COLOR" property="color" />
+		<result column="ASC_NO" property="ascNo" />
 		<association property="category">
 			<id column="ASC_NO" property="ascNo"/>
 			<result column="ASC_NAME" property="name"/>
@@ -78,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 	
 		INSERT INTO RESERVATION2 
-		VALUES (#{rezNo}, #{name}, #{startDate}, #{endDate}, DEFAULT, #{asNo}, #{empNo}, #{evtNo})
+		VALUES (#{rezNo}, #{name}, #{startDate}, #{endDate}, DEFAULT, #{asNo}, #{empNo}, #{evtNo}, #{allDay})
 		
 	</insert>
 	
@@ -89,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 	
 		INSERT INTO ASSET2 
-		VALUES (#{asNo}, #{name}, #{color}, DEFAULT)
+		VALUES (#{asNo}, #{name}, #{color}, DEFAULT, #{ascNo})
 	
 	</insert>
 	
@@ -119,6 +121,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="endDate != null">
 				END_DATE = #{endDate},
 			</if>
+			<if test="asNo != null">
+				AS_NO = #{asNo},
+			</if>
 		</trim>
 		WHERE REZ_NO = #{rezNo} AND IS_DELETE = 'N'
 		
@@ -133,6 +138,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="color != null">
 				COLOR = #{color},
+			</if>
+			<if test="ascNo != null">
+				ASC_NO = #{ascNo},
 			</if>
 		</trim>
 		WHERE AS_NO = #{asNo} AND IS_DELETE = 'N'
