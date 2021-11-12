@@ -1,7 +1,7 @@
 import Component from "../core/Components.js";
 import SideMenuHeader from "./sidemenu/SideMenuHeader.js";
 import SideMenuEdit from "./sidemenu/SideMenuEdit.js";
-import SideMenuAssetCategory from "./sidemenu/SideMenuAssetCategory.js";
+import SideMenuCategory from "./sidemenu/SideMenuCategory.js";
 import SideMenuAsset from "./sidemenu/SideMenuAsset.js";
 
 export default class SideMenu extends Component {
@@ -11,7 +11,7 @@ export default class SideMenu extends Component {
       <div data-component="sidemenu-header"></div>
       <div class="card-body">
         <div data-component="sidemenu-edit"></div>
-        <div data-component="sidemenu-ascat"></div>
+        <div data-component="sidemenu-category"></div>
         <div data-component="sidemenu-asset"></div>
       </div>
     `;
@@ -20,16 +20,22 @@ export default class SideMenu extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { event=null, calendars=null } = newState;
+    const { event=null, assets=null, categories=null, cat=null, as=null } = newState;
 
     // console.log(this.$state);
-    const { edit, asset } = this.$children;
+    const { edit, asset, category } = this.$children;
 
+    
     if (event) {
       edit.setState({ ...event });
-    } else if (calendars) {
-      edit.setState({ calendars });
-      // asset.setState({ calendars });
+    } else if (assets) {
+      edit.setState({ assets });
+    } else if (as) {
+      asset.setState({ asset: as })
+    } else if (categories) {
+      asset.setState({ categories });
+    } else if (cat) {
+      category.setState({ category: cat });
     } else {
       this.render();
     }
@@ -43,24 +49,25 @@ export default class SideMenu extends Component {
     const $sideMenuEdit = this.$target.querySelector('[data-component="sidemenu-edit"]');
     $sideMenuEdit.classList.add("row", "pb-3", "border-bottom");
 
-    const $sideMenuAssetCategory = this.$target.querySelector('[data-component="sidemenu-ascat"]');
-    $sideMenuAssetCategory.classList.add("row", "pt-3");
+    const $sideMenuCategory = this.$target.querySelector('[data-component="sidemenu-category"]');
+    $sideMenuCategory.classList.add("row", "pt-3");
 
     const $sideMenuAsset = this.$target.querySelector('[data-component="sidemenu-asset"]');
     $sideMenuAsset.classList.add("row", "pt-3");
 
-    const { insertEvent, editEvent, deleteEvent, insertCalendar, editCalendar, deleteCalendar } = this.$props;
+    const { insertEvent, editEvent, deleteEvent } = this.$props;
+    const { insertAsset, editAsset, deleteAsset } = this.$props;
 
     this.$children = {
       header: new SideMenuHeader($sideMenuHeader, {}),
       edit: new SideMenuEdit($sideMenuEdit, {
         insertEvent, editEvent, deleteEvent,
       }),
-      ascat: new SideMenuAssetCategory($sideMenuAssetCategory, {
+      category: new SideMenuCategory($sideMenuCategory, {
 
       }),
       asset: new SideMenuAsset($sideMenuAsset, {
-        insertCalendar, editCalendar, deleteCalendar,
+        insertAsset, editAsset, deleteAsset,
       }),
     }
     

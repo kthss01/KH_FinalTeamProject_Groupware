@@ -170,7 +170,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="deleteAsset" parameterType="_int">
 		
-		UPDATE ASSET2 SET ISDELETE = 'Y' WHERE AS_NO = #{asNo}
+		UPDATE ASSET2 SET IS_DELETE = 'Y' WHERE AS_NO = #{asNo}
 		
 	</update>
 	

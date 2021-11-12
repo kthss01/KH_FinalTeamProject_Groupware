@@ -24,7 +24,9 @@ export default class App extends Component {
         const $reservationSidemenu = this.$target.querySelector('[data-component="reservation-sidemenu"]');
         const $reservationMain = this.$target.querySelector('[data-component="reservation-main"]');
 
-        const { selectEvent, insertEvent, editEvent, deleteEvent, renderCalendar, insertCalendar, editCalendar, deleteCalendar } = this;
+        const { selectEvent, insertEvent, editEvent, deleteEvent } = this;
+        const { renderAsset, selectAsset, insertAsset, editAsset, deleteAsset } = this;
+        const { renderCategories, selectCategory, insertCategory, editCategory, deleteCategory } = this;
 
         this.$children = {
             sideMenu: new SideMenu($reservationSidemenu, {
@@ -32,15 +34,21 @@ export default class App extends Component {
                 insertEvent: insertEvent.bind(this),
                 editEvent: editEvent.bind(this),
                 deleteEvent: deleteEvent.bind(this),
-                insertCalendar: insertCalendar.bind(this),
-                editCalendar: editCalendar.bind(this),
-                deleteCalendar: deleteCalendar.bind(this),
+                insertAsset: insertAsset.bind(this),
+                editAsset: editAsset.bind(this),
+                deleteAsset: deleteAsset.bind(this),
+                insertCategory: insertCategory.bind(this),
+                editCategory: editCategory.bind(this),
+                deleteCategory: deleteCategory.bind(this),
             }),
             calendar: new Reservation($reservationMain, {
                 ...this.$state,
                 selectEvent: selectEvent.bind(this),
                 editEvent: editEvent.bind(this),
-                renderCalendar: renderCalendar.bind(this),
+                renderAsset: renderAsset.bind(this),
+                selectAsset: selectAsset.bind(this),
+                renderCategories: renderCategories.bind(this),
+                selectCategory: selectCategory.bind(this),
             })
         };
     }
@@ -123,13 +131,97 @@ export default class App extends Component {
     
     }
 
-    renderCalendar (calendars) {
+    renderAsset (assets) {
         const { sideMenu } = this.$children;
 
-        sideMenu.setState({ ...calendars });
+        sideMenu.setState({ ...assets });
     }
 
-    async insertCalendar (cal) {
+    async selectAsset (as) {
+        console.log(as);
+        
+        const { sideMenu } = this.$children;
+
+        sideMenu.setState({ as });
+    }
+
+    async insertAsset (as) {
+        const { calendar } = this.$children;
+    
+        console.log(as);
+    
+        try {
+          const res = await axios.post(`insertAsset.rez`, null, {
+            params: { 
+              name: as.name, 
+              color: as.color,
+              ascNo: as.ascNo,
+            }
+          });
+    
+          // console.log(res.data);
+    
+          as.asNo = res.data;
+    
+          calendar.setState({ asset: as, status: 'insert' });
+    
+        } catch (err) {
+          console.log(err);
+        }
+    }
+    
+    async editAsset (as) {
+        const { calendar } = this.$children;
+    
+        // console.log(as);
+    
+        try {
+          await axios.put(`updateAsset.rez`, null, {
+            params: { 
+              name: as.name, 
+              color: as.color,
+              ascNo: as.calNo,
+              asNo: as.asNo,           
+            }
+          });
+    
+          calendar.setState({ asset: as, status: 'update' });
+    
+        } catch (err) {
+          console.log(err);
+        }
+    }
+    
+    async deleteAsset (as) {
+        const { calendar } = this.$children;
+    
+        // console.log(as);
+    
+        try {
+          await axios.delete(`deleteAsset.rez?asNo=${as.asNo}`);
+    
+          calendar.setState({ asset: as, status: 'delete' });
+    
+        } catch (err) {
+          console.log(err);
+        }
+    }
+
+    async renderCategories (categories) {
+        const { sideMenu } = this.$children;
+
+        sideMenu.setState({ ...categories });
+    }
+
+    async selectCategory (cat) {
+        console.log(cat);
+
+        const { sideMenu } = this.$children;
+
+        sideMenu.setState({ cat });
+    }
+
+    async insertCategory (cat) {
         const { calendar } = this.$children;
     
         console.log(cal);
@@ -153,7 +245,7 @@ export default class App extends Component {
         }
     }
     
-    async editCalendar (cal) {
+    async editCategory (cat) {
         const { calendar } = this.$children;
     
         // console.log(cal);
@@ -175,7 +267,7 @@ export default class App extends Component {
         }
     }
     
-    async deleteCalendar (cal) {
+    async deleteCategory (cat) {
         const { calendar } = this.$children;
     
         // console.log(cal);

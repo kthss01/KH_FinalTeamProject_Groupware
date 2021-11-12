@@ -37,7 +37,7 @@ export default class Reservation extends Component {
           dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇개식으로 표현)
           locale: 'ko', // 한국어 설정
           allDayMaintainDuration: true,
-          resourceAreaHeaderContent: '예약 목록',
+          resourceAreaHeaderContent: '자산 목록',
           resourceGroupField: 'category',
           selectOverlap: function(event) {
             return event.rendering === 'background';
@@ -108,17 +108,34 @@ export default class Reservation extends Component {
           console.log(err);
         }
       }
+
+      this.readCategories = async () => {
+        try {
+          const res = await axios.get(`selectAsCatList.rez`);
+
+          this.categories = res.data;
+
+          // console.log(this.categories);
+
+        } catch (err) {
+          console.log(err);
+        }
+      }
   
       // 캘린더 렌더를 위한 함수
       this.loadCalendar = async () => {
         try {
-          const { renderCalendar } = this.$props;
+          const { renderAsset, renderCategories } = this.$props;
     
+          await this.readCategories();
+
           await this.readCalendars();
     
           // console.log(this.$calendar.getResources());
     
-          renderCalendar({ calendars: this.$calendar.getResources() });
+          renderCategories({ categories: this.categories });
+
+          renderAsset({ assets: this.$calendar.getResources() });
   
           await this.readEvents(); // resource id에 calNo를 넣음
   
@@ -133,11 +150,11 @@ export default class Reservation extends Component {
     setState (newState) {
       this.$state = { ...this.$state, ...newState };
 
-      const { event=null, calendar=null, status } = newState;
+      const { event=null, asset=null, status } = newState;
 
-      const { renderCalendar } = this.$props;
+      const { renderAsset } = this.$props;
   
-      // console.log(status, calendar);
+      // console.log(status, asset);
   
       if (event) {
   
@@ -178,26 +195,31 @@ export default class Reservation extends Component {
   
         // console.log(this.$calendar);
   
-      } else if (calendar) {
-        const resource = this.$calendar.getResourceById(calendar.calNo);
+      } else if (asset) {
+        const resource = this.$calendar.getResourceById(asset.asNo);
   
         switch (status) {
           case 'insert':
+            console.log(this.$calendar.getResources());
             this.$calendar.addResource({
-              id: calendar.calNo,
-              title: calendar.name,
+              id: asset.asNo,
+              category: asset.ascName,
+              title: asset.name,
               extendedProps: {
-                color: calendar.color,
+                ascNo: asset.ascNo,
+                color: asset.color,
               },
             });
-            
+            console.log(this.$calendar.getResources());
           break;
           case 'update':
-            resource.setProp('title', calendar.name);
-            resource.setExtendedProp('color', calendar.color);
+            resource.setProp('title', asset.name);
+            resource.setProp('category', asset.ascName);
+            resource.setExtendedProp('color', asset.color);
+            resource.setExtendedProp('ascNo', asset.ascNo);
   
             resource.getEvents().forEach((event) => {
-              event.setProp('backgroundColor', calendar.color);
+              event.setProp('backgroundColor', asset.color);
             });
           break;
           case 'delete':
@@ -208,7 +230,9 @@ export default class Reservation extends Component {
           break;
         }
   
-        renderCalendar({ calendars: this.$calendar.getResources() });
+        this.$calendar.refetchResources();
+
+        renderAsset({ assets: this.$calendar.getResources() });
       }
       else {
         this.render();
@@ -228,7 +252,7 @@ export default class Reservation extends Component {
     }
 
     setEvent () {
-      const { selectEvent, editEvent } = this.$props;
+      const { selectEvent, editEvent, selectAsset, selectCategory } = this.$props;
 
       // 이벤트 생성
       this.$calendar.on('select', (info) => {
@@ -284,6 +308,35 @@ export default class Reservation extends Component {
         editEvent({
           id, title, start, end, allDay, asNo,
         });
+      });
+
+      // 자산 조회
+      this.$calendar.setOption('resourceLabelDidMount', (arg) => {
+        arg.el.addEventListener('click', () => {
+          // console.log(arg.resource);
+          const { id, title,  } = arg.resource;
+          const { ascNo, color, category, } = arg.resource.extendedProps;
+          // console.log(id, title, category, ascNo, color);
+
+          selectAsset({
+            id, title, color, ascNo, category, 
+          });
+        })
+      });
+
+      // 카테고리 조회
+      this.$calendar.setOption('resourceGroupLabelDidMount', (arg) => {
+        arg.el.addEventListener('click', () => {
+          // console.log(arg);
+          // console.log(arg.groupValue);
+
+          const name = arg.groupValue;
+          const ascNo = this.categories.find((category) => category.name === name);
+
+          selectCategory({
+            name, ascNo
+          });
+        })
       });
     }
 }

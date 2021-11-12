@@ -12,7 +12,7 @@ export default class SideMenuEdit extends Component {
           <button id="cancelEventBtn" type="button" class="btn btn-outline-dark"><i class="far fa-hand-point-up"></i></button>
           <button id="deleteEventBtn" type="button" class="btn btn-outline-danger">삭제</button>
         </div>
-        <select name="calendar" class="custom-select custom-select-sm mb-1">
+        <select name="asset" class="custom-select custom-select-sm mb-1">
         </select>
         <input type="hidden" name="id" class="form-control">
         <input type="text" name="title" class="form-control form-control-sm text-center mb-1" placeholder="예약명">
@@ -29,18 +29,17 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { id=null, title=null, allDay=null, start=null, end=null, asNo=null, calendars=null, empName=null, display=null } = newState;
+    const { id=null, title=null, allDay=null, start=null, end=null, asNo=null, assets=null, empName=null, display=null } = newState;
 
     // console.log(this.$state);
 
-    const selectCalendar = this.$target.querySelector('select[name="calendar"]');
+    const selectAsset = this.$target.querySelector('select[name="asset"]');
 
-    if (calendars) {
+    if (assets) {
+      console.log(assets);
 
-      // console.log(calendars);
-
-      selectCalendar.innerHTML = calendars.map((calendar, index) => {
-        return `<option ${index === 0 ? "selected" : ""} value="${calendar.id}">${calendar.title}</option>`
+      selectAsset.innerHTML = assets.map((asset, index) => {
+        return `<option ${index === 0 ? "selected" : ""} value="${asset.id}">${asset.title} - ${asset.extendedProps.category}</option>`
       }).join('');
 
     } else if (title || allDay || start || end) {
@@ -50,7 +49,7 @@ export default class SideMenuEdit extends Component {
       const deleteEventBtn = this.$target.querySelector('#deleteEventBtn');
 
       if (asNo) {
-        selectCalendar.value = asNo;    
+        selectAsset.value = asNo;    
       }
 
       if (id === '') {
