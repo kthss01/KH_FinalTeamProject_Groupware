@@ -23,13 +23,13 @@ export default class SideMenu extends Component {
     const { event=null, calendars=null } = newState;
 
     // console.log(this.$state);
-    const { edit, cal } = this.$children;
+    const { edit, asset } = this.$children;
 
     if (event) {
       edit.setState({ ...event });
     } else if (calendars) {
       edit.setState({ calendars });
-      cal.setState({ calendars });
+      // asset.setState({ calendars });
     } else {
       this.render();
     }

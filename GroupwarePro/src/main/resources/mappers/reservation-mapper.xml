@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="END_DATE" property="endDate" />
 		<result column="AS_NO" property="asNo" />
 		<result column="EMP_NO" property="empNo" />
+		<result column="EMP_NAME" property="empName" />
 		<result column="EVT_NO" property="evtNo" />
 		<result column="ALLDAY" property="allDay" />
 	</resultMap>
@@ -35,8 +36,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- READ -->
 	<select id="selectRezList" resultMap="reservationResultSet">
 
-		SELECT * 
-		FROM RESERVATION2 
+		SELECT R.*, E.EMP_NAME
+		FROM RESERVATION2 R
+		LEFT JOIN EMPLOYEE E ON R.EMP_NO = E.EMP_NO
 		WHERE IS_DELETE = 'N'
 
 	</select>

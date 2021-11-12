@@ -256,7 +256,7 @@ export default class Calendar extends Component {
       console.log('eventDrop', id, title, start, end, allDay);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0',
+        id, title, start, end, allDay,
       });
     });
 
@@ -266,7 +266,7 @@ export default class Calendar extends Component {
       console.log('eventResize', id, title, start, end, allDay);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0',
+        id, title, start, end, allDay,
       });
     });
   }

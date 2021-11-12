@@ -264,7 +264,7 @@ export default class Calendar extends Component {
       console.log('eventDrop', id, title, start, end, allDay, calNo);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0', calNo,
+        id, title, start, end, allDay, calNo,
       });
     });
 
@@ -275,7 +275,7 @@ export default class Calendar extends Component {
       console.log('eventResize', id, title, start, end, allDay, calNo);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0', calNo,
+        id, title, start, end, allDay, calNo,
       });
     });
   }

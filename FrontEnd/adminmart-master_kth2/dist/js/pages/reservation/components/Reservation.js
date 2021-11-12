@@ -39,6 +39,9 @@ export default class Reservation extends Component {
           allDayMaintainDuration: true,
           resourceAreaHeaderContent: '예약 목록',
           resourceGroupField: 'category',
+          selectOverlap: function(event) {
+            return event.rendering === 'background';
+          },
           schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
       };
 
@@ -63,6 +66,10 @@ export default class Reservation extends Component {
                   backgroundColor: resource.extendedProps.color,
                   resourceId: resource.id,
                   overlap: false,
+                  extendedProps: {
+                    empNo: as.empNo,
+                    empName: as.empName,
+                  },
                 };
                 // console.log(event);
 
@@ -111,7 +118,7 @@ export default class Reservation extends Component {
     
           // console.log(this.$calendar.getResources());
     
-          // renderCalendar({ calendars: this.$calendar.getResources() });
+          renderCalendar({ calendars: this.$calendar.getResources() });
   
           await this.readEvents(); // resource id에 calNo를 넣음
   
@@ -125,7 +132,87 @@ export default class Reservation extends Component {
 
     setState (newState) {
       this.$state = { ...this.$state, ...newState };
-      this.render();
+
+      const { event=null, calendar=null, status } = newState;
+
+      const { renderCalendar } = this.$props;
+  
+      // console.log(status, calendar);
+  
+      if (event) {
+  
+        console.log(status);
+        console.log(event);
+        
+        const resource = this.$calendar.getResourceById(event.asNo);
+
+        switch (status) {
+          case 'insert':
+            // console.log('insert', event);
+
+            this.$calendar.addEvent( {
+              ...event,
+              backgroundColor: resource.extendedProps.color,
+              overlap: false,
+              extendedProps: {
+                empNo: event.empNo,
+                empName: event.empName,
+              },
+            } );
+
+            this.$calendar.getEventById(event.id).setResources([resource]);
+          break;
+          case 'update':
+            const evt = this.$calendar.getEventById(event.id);
+            evt.setProp("title", event.title);
+            evt.setDates(event.start, event.end);
+            evt.setAllDay(event.allDay);
+            evt.setProp('backgroundColor', resource.extendedProps.color);
+
+            this.$calendar.getEventById(event.id).setResources([resource]);
+          break;
+          case 'delete':
+            this.$calendar.getEventById(event.id).remove();
+          break;
+        }
+  
+        // console.log(this.$calendar);
+  
+      } else if (calendar) {
+        const resource = this.$calendar.getResourceById(calendar.calNo);
+  
+        switch (status) {
+          case 'insert':
+            this.$calendar.addResource({
+              id: calendar.calNo,
+              title: calendar.name,
+              extendedProps: {
+                color: calendar.color,
+              },
+            });
+            
+          break;
+          case 'update':
+            resource.setProp('title', calendar.name);
+            resource.setExtendedProp('color', calendar.color);
+  
+            resource.getEvents().forEach((event) => {
+              event.setProp('backgroundColor', calendar.color);
+            });
+          break;
+          case 'delete':
+            resource.getEvents().forEach((event) => {
+              event.remove();
+            })
+            resource.remove();
+          break;
+        }
+  
+        renderCalendar({ calendars: this.$calendar.getResources() });
+      }
+      else {
+        this.render();
+      }      
     }
 
     render () {
@@ -141,6 +228,62 @@ export default class Reservation extends Component {
     }
 
     setEvent () {
+      const { selectEvent, editEvent } = this.$props;
 
+      // 이벤트 생성
+      this.$calendar.on('select', (info) => {
+  
+        console.log(info);
+  
+        selectEvent({
+          id: '',
+          title: '',
+          start: info.start,
+          end: info.end,
+          allDay: info.allDay,
+          asNo: info.resource.id,
+        });
+      });
+  
+      // 이벤트 조회
+      this.$calendar.on('eventClick', (info) => {
+  
+        // console.log(info.event);
+        const resources = this.$calendar.getEventById(info.event.id).getResources();
+        // console.log(resources);
+  
+        selectEvent({
+          id: info.event.id,
+          title: info.event.title,
+          start: info.event.start,
+          end: info.event.end,
+          allDay: info.event.allDay,
+          asNo: resources[0].id,
+          display: info.event.display,
+          empName: info.event.extendedProps.empName,
+        })
+      });
+    
+      // 이벤트 드랍 (일정에서 드래그로 이동)
+      this.$calendar.on('eventDrop', (info) => {
+        const { id, title, start, end, allDay } = info.event;
+        const { id: asNo } = info.event.getResources()[0];
+        console.log('eventDrop', id, title, start, end, allDay, asNo);
+  
+        editEvent({
+          id, title, start, end, allDay, asNo,
+        });
+      });
+  
+      // 이벤트 리사이즈 (일정에서 이벤트 기간 조정)
+      this.$calendar.on('eventResize', (info) => {
+        const { id, title, start, end, allDay } = info.event;
+        const { id: asNo } = info.event.getResources()[0];
+        console.log('eventResize', id, title, start, end, allDay, asNo);
+  
+        editEvent({
+          id, title, start, end, allDay, asNo,
+        });
+      });
     }
 }
