@@ -30,10 +30,10 @@ public class ReservationController {
 	
 	@CrossOrigin
 	@ResponseBody
-	@RequestMapping(value="selectReservationList.rez", produces="application/json; charset=utf-8")
-	public String selectReservationList(int empNo) {
+	@RequestMapping(value="selectRezList.rez", produces="application/json; charset=utf-8")
+	public String selectRezList() {
 		
-		ArrayList<Reservation> list = reservationService.selectReservationList(empNo); 
+		ArrayList<Reservation> list = reservationService.selectRezList(); 
 		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(list);
 	}

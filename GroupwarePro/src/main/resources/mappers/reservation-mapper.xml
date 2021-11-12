@@ -33,11 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<!-- READ -->
-	<select id="selectRezList" parameterType="_int" resultMap="reservationResultSet">
+	<select id="selectRezList" resultMap="reservationResultSet">
 
 		SELECT * 
 		FROM RESERVATION2 
-		WHERE EMP_NO = #{empNo} AND IS_DELETE = 'N'
+		WHERE IS_DELETE = 'N'
 
 	</select>
 

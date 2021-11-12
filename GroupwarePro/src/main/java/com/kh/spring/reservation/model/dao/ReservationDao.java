@@ -12,8 +12,8 @@ import com.kh.spring.reservation.model.vo.Reservation;
 @Repository
 public class ReservationDao {
 
-	public ArrayList<Reservation> selectReservationList(SqlSessionTemplate sqlSession, int empNo) {
-		return (ArrayList) sqlSession.selectList("reservationMapper.selectReservationList", empNo);
+	public ArrayList<Reservation> selectRezList(SqlSessionTemplate sqlSession) {
+		return (ArrayList) sqlSession.selectList("reservationMapper.selectRezList");
 	}
 
 	public ArrayList<Asset> selectAsList(SqlSessionTemplate sqlSession) {

@@ -22,8 +22,8 @@ public class ReservationServiceImpl implements ReservationService {
 	private ReservationDao reservationDao;
 
 	@Override
-	public ArrayList<Reservation> selectReservationList(int empNo) {
-		return reservationDao.selectReservationList(sqlSession, empNo);
+	public ArrayList<Reservation> selectRezList() {
+		return reservationDao.selectRezList(sqlSession);
 	}
 
 	@Override
