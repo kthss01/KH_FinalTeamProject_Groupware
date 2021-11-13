@@ -221,43 +221,36 @@
                                    </a>
                                </div>
 
-                               <form class="pl-3 pr-3" action="#">
-
+									<form id="applyCategoryForm" action="applyCategory.co" method="post">
                                    <div class="form-group">
                                        <label for="cname"  class="font-weight-bold">카테고리 주제</label>
                                        <input class="form-control" type="text" id="cname" name="cname" placeholder="OOO게시판">
                                    </div>
 
                                    <div class="form-group">
-                                       <label for="description" class="font-weight-bold">주제 부가설명</label>
-                                       <input class="form-control" style="height:120px;" type="text" id="description" name="description" placeholder="간단하게  작성해주세요.">
+                                       <label for="discription" class="font-weight-bold">주제 부가설명</label>
+                                       <input class="form-control" style="height:120px;" type="text" id="discription" name="discription" placeholder="간단하게  작성해주세요.">
                                    </div>
-
+                                   <input type="hidden" name="manager" value="${ loginUser.empNo }">
+                                   <input type="hidden" name="managerName" value="${ loginUser.empName }">
+									</form>
                                    <div class="form-group">
                                        <div class="custom-control custom-checkbox">
-                                           <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                           <label class="custom-control-label" for="customCheck1"> 주의사항을 검토하였습니다.</label>
+                                           <input type="checkbox" class="custom-control-input" id="checkCaution" name="checkCaution">
+                                           <label class="custom-control-label" for="checkCaution"> 주의사항을 검토하였습니다.</label>
                                        </div>
                                    </div>
                                    <div class="form-group text-center">
-                                       <button class="btn btn-primary" type="submit">신청서 제출하기 </button>
+                                       <button class="btn btn-primary" type="button" onclick="checkCaution();">신청서 제출하기 </button>
                                    </div>
 
-                               </form>
-
+									
                            </div>
 
                        </div>
                    </div>
                </div>
- 	<script>
-	$(function(){
-		$("#boardList tbody tr").click(function(){
-			location.href="detail.co?bno=" + $(this).children().eq(1).text();
-		});
-	});
- 	
- 	</script>
+
 
 
 
@@ -284,12 +277,34 @@
 	<script>
 		$(function(){
 			$("#categroyMenu").addClass("in");
-		})
+			
+			
+			$("#boardList tbody tr").click(function(){
+				location.href="detail.co?bno=" + $(this).children().eq(1).text();
+			});
+			
+		});
 		
+
 		$("#categoryMenuBtn").addClass("selected");
 		$("#categoryMenuBtn").children('a').addClass("active");
 
-	
+	 	
+		
+		function checkCaution(){
+			
+			var checkBox = $("input:checkbox[name=checkCaution]").is(":checked");
+			console.log(checkBox);
+			
+			if(checkBox == true){
+				
+				$("#applyCategoryForm").submit();
+				
+			}else{
+				alert("주의사항을 충분히 검토하신 후 체크해주세요");
+			}
+			 
+		}
 		
 	</script> 
 

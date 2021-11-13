@@ -266,6 +266,50 @@ public class CommunityController {
 		ArrayList<CommunityBoard> list = communityService.selectBestBoardList();
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
+	
+	@RequestMapping("applyCategory.co")
+	public String applyCategory(CommunityCategory c) {
+		
+		System.out.println(c);
+		communityService.insertCategory(c);
+		
+		return "redirect:/boardList.co";
+		
+	}
+	@ResponseBody
+	@RequestMapping("selectNewApplyCategory.co")
+	public String selectNewApplyCategory() {
+		
+		int result = communityService.selectNewApplyCategory();
+		System.out.println(result+"????????");
+		return String.valueOf(result);
+		
+	}
+	
+	@RequestMapping("openCategory.co")
+	public String openCategory(int cno) {
+		System.out.println(cno);
+		communityService.openCategory(cno);
+		
+		
+		return "redirect:/managerCommunityList.me";
+	}
+	@RequestMapping("reserveCategory.co")
+	public String reserveCategory(int cno) {
+		System.out.println(cno);
+		communityService.reserveCategory(cno);
+		
+		
+		return "redirect:/managerCommProposal.me";
+	}
+	@RequestMapping("closeCategory.co")
+	public String closeCategory(int cno) {
+		System.out.println(cno);
+		communityService.closeCategory(cno);
+		
+		
+		return "redirect:/managerCommunityList.me";
+	}
 
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
