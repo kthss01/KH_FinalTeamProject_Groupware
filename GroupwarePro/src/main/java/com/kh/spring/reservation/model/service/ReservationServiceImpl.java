@@ -49,7 +49,7 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new CommException("예약 생성 실패");
 		}
 
-		return result;
+		return rez.getRezNo();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new CommException("자산 생성 실패");
 		}
 
-		return result;
+		return as.getAsNo();
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new CommException("자산 목록 생성 실패");
 		}
 
-		return result;
+		return asc.getAscNo();
 	}
 
 	@Override

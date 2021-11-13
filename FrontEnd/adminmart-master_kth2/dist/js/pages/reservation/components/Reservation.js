@@ -56,7 +56,11 @@ export default class Reservation extends Component {
   
               res.data.forEach((as) => {
                 const resource = this.$calendar.getResourceById(as.asNo);
-  
+                // console.log(as, resource);
+                // resource 없으면 continue
+                if (!resource)
+                  return true;
+
                 const event = {
                   id: as.rezNo,
                   title: as.name,
@@ -86,20 +90,20 @@ export default class Reservation extends Component {
       }
   
       // 캘린더 DB로부터 읽어오는 함수
-      this.readCalendars = async () => {
+      this.readAssets = async () => {
         try {
           const res = await axios.get(`selectAsWithCatList.rez`);
   
           // console.log(res.data);
   
-          res.data.forEach((calendar) => {
+          res.data.forEach((asset) => {
             this.$calendar.addResource({
-              id: calendar.asNo,
-              category: calendar.category.name,
-              title: calendar.name,
+              id: asset.asNo,
+              category: asset.category.name,
+              title: asset.name,
               extendedProps: {
-                ascNo: calendar.ascNo,
-                color: calendar.color,
+                ascNo: asset.ascNo,
+                color: asset.color,
               },
             });
           });
@@ -129,7 +133,7 @@ export default class Reservation extends Component {
     
           await this.readCategories();
 
-          await this.readCalendars();
+          await this.readAssets();
     
           // console.log(this.$calendar.getResources());
     
@@ -162,13 +166,18 @@ export default class Reservation extends Component {
         console.log(event);
         
         const resource = this.$calendar.getResourceById(event.asNo);
+        console.log(resource);
 
         switch (status) {
           case 'insert':
-            // console.log('insert', event);
+            console.log('insert', event);
 
             this.$calendar.addEvent( {
-              ...event,
+              id: event.id,
+              title: event.title,
+              start: event.start,
+              end: event.end,
+              allDay: event.allDay,
               backgroundColor: resource.extendedProps.color,
               overlap: false,
               extendedProps: {
@@ -200,6 +209,7 @@ export default class Reservation extends Component {
   
         switch (status) {
           case 'insert':
+            console.log(asset);
             console.log(this.$calendar.getResources());
             this.$calendar.addResource({
               id: asset.asNo,

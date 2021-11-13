@@ -95,6 +95,7 @@ export default class SideMenuEdit extends Component {
     const { insertEvent, editEvent, deleteEvent } = this.$props;
 
     const empNo = 201; // 임시
+    const empName = '김태훈';
 
     // 이벤트 생성
     this.addEvent('click', '#addEventBtn', ({ target }) => {
@@ -103,11 +104,11 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
-      const asNo = this.$target.querySelector('select[name="calendar"]').value;
+      const asNo = this.$target.querySelector('select[name="asset"]').value;
 
       // console.log('add', id, title, start, end);
 
-      insertEvent({ id:'', title, start, end, allDay, asNo, empNo });
+      insertEvent({ id:'', title, start, end, allDay, asNo, empNo, empName });
     });
 
     // 이벤트 수정
@@ -117,7 +118,7 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
-      const asNo = this.$target.querySelector('select[name="calendar"]').value;
+      const asNo = this.$target.querySelector('select[name="asset"]').value;
 
       console.log('edit', id, title, start, end, allDay);
 
@@ -131,7 +132,7 @@ export default class SideMenuEdit extends Component {
       const start = this.$target.querySelector('input[name="startDate"]').value;
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
-      const asNo = this.$target.querySelector('select[name="calendar"]').value;
+      const asNo = this.$target.querySelector('select[name="asset"]').value;
 
       // console.log('delete', id, title, start, end);
 
