@@ -36,7 +36,7 @@ export default class SideMenuEdit extends Component {
     const selectAsset = this.$target.querySelector('select[name="asset"]');
 
     if (assets) {
-      console.log(assets);
+      // console.log(assets);
 
       selectAsset.innerHTML = assets.map((asset, index) => {
         return `<option ${index === 0 ? "selected" : ""} value="${asset.id}">${asset.title} - ${asset.extendedProps.category}</option>`
@@ -120,7 +120,7 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const asNo = this.$target.querySelector('select[name="asset"]').value;
 
-      console.log('edit', id, title, start, end, allDay);
+      // console.log('edit', id, title, start, end, allDay);
 
       editEvent({ id, title, start, end, allDay, asNo });
     });

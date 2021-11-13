@@ -162,15 +162,15 @@ export default class Reservation extends Component {
   
       if (event) {
   
-        console.log(status);
-        console.log(event);
+        // console.log(status);
+        // console.log(event);
         
         const resource = this.$calendar.getResourceById(event.asNo);
-        console.log(resource);
+        // console.log(resource);
 
         switch (status) {
           case 'insert':
-            console.log('insert', event);
+            // console.log('insert', event);
 
             this.$calendar.addEvent( {
               id: event.id,
@@ -305,7 +305,7 @@ export default class Reservation extends Component {
       // 이벤트 생성
       this.$calendar.on('select', (info) => {
   
-        console.log(info);
+        // console.log(info);
   
         selectEvent({
           id: '',
@@ -340,7 +340,7 @@ export default class Reservation extends Component {
       this.$calendar.on('eventDrop', (info) => {
         const { id, title, start, end, allDay } = info.event;
         const { id: asNo } = info.event.getResources()[0];
-        console.log('eventDrop', id, title, start, end, allDay, asNo);
+        // console.log('eventDrop', id, title, start, end, allDay, asNo);
   
         editEvent({
           id, title, start, end, allDay, asNo,
@@ -351,7 +351,7 @@ export default class Reservation extends Component {
       this.$calendar.on('eventResize', (info) => {
         const { id, title, start, end, allDay } = info.event;
         const { id: asNo } = info.event.getResources()[0];
-        console.log('eventResize', id, title, start, end, allDay, asNo);
+        // console.log('eventResize', id, title, start, end, allDay, asNo);
   
         editEvent({
           id, title, start, end, allDay, asNo,
@@ -377,7 +377,7 @@ export default class Reservation extends Component {
 
       // 카테고리 조회
       this.$calendar.setOption('resourceGroupLabelDidMount', (arg) => {
-        console.log('category mount');
+        // console.log('category mount');
         const category = this.categories.find((category) => category.name === arg.groupValue);
         category.el = arg.el;
 

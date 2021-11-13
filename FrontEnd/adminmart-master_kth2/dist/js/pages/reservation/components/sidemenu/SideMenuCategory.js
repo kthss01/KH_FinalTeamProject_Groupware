@@ -94,7 +94,7 @@ export default class SideMenuCategory extends Component {
 
     // 카테고리 선택
     this.addEvent('change', 'select[name="category"]', ({ target }) => {
-      console.log('select category');
+      // console.log('select category');
 
       const editCategoryBtnGroup = this.$target.querySelector('#editCategoryBtnGroup');
       const addCategoryBtn = this.$target.querySelector('#addCategoryBtn');

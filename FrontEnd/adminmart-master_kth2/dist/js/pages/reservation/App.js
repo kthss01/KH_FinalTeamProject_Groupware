@@ -55,7 +55,7 @@ export default class App extends Component {
 
     // events
     selectEvent (event) {
-        console.log(event);
+        // console.log(event);
     
         const { sideMenu } = this.$children;
     
@@ -65,7 +65,7 @@ export default class App extends Component {
     async insertEvent (event) {
         const { calendar } = this.$children;
 
-        console.log('app', event);
+        // console.log('app', event);
 
         // console.log(new Date(event.start), new Date(event.end));
 
@@ -81,7 +81,7 @@ export default class App extends Component {
                 }
             });
 
-            console.log(res);
+            // console.log(res);
             event.id = res.data;
 
             calendar.setState({ event, status: 'insert' });
@@ -94,7 +94,7 @@ export default class App extends Component {
     async editEvent (event) {
         const { calendar } = this.$children;
 
-        console.log('app', event);
+        // console.log('app', event);
 
         try {
             await axios.put(`updateReservation.rez`, null, {
@@ -138,7 +138,7 @@ export default class App extends Component {
     }
 
     async selectAsset (as) {
-        console.log(as);
+        // console.log(as);
         
         const { sideMenu } = this.$children;
 
@@ -148,7 +148,7 @@ export default class App extends Component {
     async insertAsset (as) {
         const { calendar } = this.$children;
     
-        console.log(as);
+        // console.log(as);
     
         try {
           const res = await axios.post(`insertAsset.rez`, null, {
@@ -159,7 +159,7 @@ export default class App extends Component {
             }
           });
     
-          console.log(res.data);
+          // console.log(res.data);
     
           as.asNo = res.data;
     
@@ -214,7 +214,7 @@ export default class App extends Component {
     }
 
     async selectCategory (cat) {
-        console.log(cat);
+        // console.log(cat);
 
         const { sideMenu } = this.$children;
 
@@ -224,7 +224,7 @@ export default class App extends Component {
     async insertCategory (cat) {
         const { calendar } = this.$children;
     
-        console.log(cat);
+        // console.log(cat);
     
         try {
           const res = await axios.post(`insertAssetCategory.rez`, null, {
