@@ -94,8 +94,8 @@ export default class SideMenuEdit extends Component {
 
     const { insertEvent, editEvent, deleteEvent } = this.$props;
 
-    const empNo = 201; // 임시
-    const empName = '김태훈';
+    // const empNo = 201; // 임시
+    // const empName = '김태훈';
 
     // 이벤트 생성
     this.addEvent('click', '#addEventBtn', ({ target }) => {

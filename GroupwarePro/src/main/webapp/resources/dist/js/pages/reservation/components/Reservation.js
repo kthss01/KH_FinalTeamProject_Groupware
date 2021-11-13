@@ -77,7 +77,7 @@ export default class Reservation extends Component {
                 };
                 // console.log(event);
 
-                const empNo = 201; // 임시
+                // const empNo = 201; // 임시
                 if (empNo !== as.empNo) {
                     event.display = 'background';
                 }

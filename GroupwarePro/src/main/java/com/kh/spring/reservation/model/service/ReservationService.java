@@ -8,7 +8,7 @@ import com.kh.spring.reservation.model.vo.Reservation;
 
 public interface ReservationService {
 
-	ArrayList<Reservation> selectReservationList(int empNo);
+	ArrayList<Reservation> selectRezList();
 
 	ArrayList<Asset> selectAsList();
 

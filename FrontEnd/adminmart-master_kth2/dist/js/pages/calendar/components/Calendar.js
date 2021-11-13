@@ -119,7 +119,7 @@ export default class Calendar extends Component {
 
     const { renderCalendar } = this.$props;
 
-    console.log(status, calendar);
+    // console.log(status, calendar);
 
     if (event) {
 
@@ -167,9 +167,9 @@ export default class Calendar extends Component {
     } else if (calendar) {
       switch (status) {
         case 'insert':
-          console.log(this.calendars);
+          // console.log(this.calendars);
           this.calendars.push(calendar);
-          console.log(this.calendars);
+          // console.log(this.calendars);
           renderCalendar(this.calendars);
         break;
         case 'update':
@@ -256,7 +256,7 @@ export default class Calendar extends Component {
       console.log('eventDrop', id, title, start, end, allDay);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0',
+        id, title, start, end, allDay,
       });
     });
 
@@ -266,7 +266,7 @@ export default class Calendar extends Component {
       console.log('eventResize', id, title, start, end, allDay);
 
       editEvent({
-        id, title, start, end, allDay: allDay ? '1' : '0',
+        id, title, start, end, allDay,
       });
     });
   }

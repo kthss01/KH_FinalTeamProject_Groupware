@@ -10,7 +10,7 @@ export default class SideMenuCal extends Component {
           <div class="input-group">
               <div class="input-group-prepend">
                   <div class="input-group-text bg-white">
-                      <input type="checkbox">
+                      <input type="checkbox" name="calNo" checked>
                   </div>
               </div>
               <input type="hidden" name="calNo" value="${calendar.id}">

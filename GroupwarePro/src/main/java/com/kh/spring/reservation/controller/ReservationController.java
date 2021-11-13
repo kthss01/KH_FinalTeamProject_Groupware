@@ -30,10 +30,10 @@ public class ReservationController {
 	
 	@CrossOrigin
 	@ResponseBody
-	@RequestMapping(value="selectReservationList.rez", produces="application/json; charset=utf-8")
-	public String selectReservationList(int empNo) {
+	@RequestMapping(value="selectRezList.rez", produces="application/json; charset=utf-8")
+	public String selectRezList() {
 		
-		ArrayList<Reservation> list = reservationService.selectReservationList(empNo); 
+		ArrayList<Reservation> list = reservationService.selectRezList(); 
 		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(list);
 	}
@@ -78,7 +78,7 @@ public class ReservationController {
 		
 		int result = 0;
 		
-		if (rez.getRezNo() != 0) {			
+		if (rez.getAsNo() != 0) {			
 			result = reservationService.insertReservation(rez);
 		}
 		
@@ -92,7 +92,7 @@ public class ReservationController {
 		
 		int result = 0;
 		
-		if (as.getAsNo() != 0) {
+		if (as.getAscNo() != 0) {
 			result = reservationService.insertAsset(as);
 		}
 		
@@ -106,9 +106,7 @@ public class ReservationController {
 		
 		int result = 0;
 		
-		if (asc.getAscNo() != 0) {
-			result = reservationService.insertAssetCategory(asc);
-		}
+		result = reservationService.insertAssetCategory(asc);
 		
 		return String.valueOf(result);
 	}

@@ -11,13 +11,20 @@
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
 	<title>위캔버스 - 예약</title>
 
-    <!-- fullcalendar CDN -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+    <!-- fullcalendar-scheduler CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.css">
     <!-- daterangepicker CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
+    
+    <script>
+    	const empNo = ${ loginUser.empNo };
+    	//console.log(empNo);
+   		const empName = '${ loginUser.empName }';
+    	//console.log(empName);
+    </script>
 </head>
 <body>
     <!-- ============================================================== -->
@@ -131,15 +138,15 @@
 
     <!-- Axios CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- fullcalendar CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-    <!-- fullcalendar 언어 CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    <!-- fullcalendar-scheduler CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.js"></script>
+    <!-- fullcalendar-scheduler 언어 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/locales-all.min.js"></script>
     <!-- dateragnepicker CDN -->
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- calendar.js 내 자바스크립트 코드 -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/calendar/main.js" type="module"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/reservation/main.js" type="module"></script>
 
     <script id="jquery"></script>
 </body>
