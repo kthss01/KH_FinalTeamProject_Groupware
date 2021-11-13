@@ -154,9 +154,9 @@ export default class Reservation extends Component {
     setState (newState) {
       this.$state = { ...this.$state, ...newState };
 
-      const { event=null, asset=null, status } = newState;
+      const { event=null, asset=null, category=null, status } = newState;
 
-      const { renderAsset } = this.$props;
+      const { renderAsset, renderCategories } = this.$props;
   
       // console.log(status, asset);
   
@@ -209,8 +209,8 @@ export default class Reservation extends Component {
   
         switch (status) {
           case 'insert':
-            console.log(asset);
-            console.log(this.$calendar.getResources());
+            // console.log(asset);
+            // console.log(this.$calendar.getResources());
             this.$calendar.addResource({
               id: asset.asNo,
               category: asset.ascName,
@@ -220,8 +220,9 @@ export default class Reservation extends Component {
                 color: asset.color,
               },
             });
-            console.log(this.$calendar.getResources());
+            // console.log(this.$calendar.getResources());
           break;
+
           case 'update':
             resource.setProp('title', asset.name);
             resource.setProp('category', asset.ascName);
@@ -232,6 +233,7 @@ export default class Reservation extends Component {
               event.setProp('backgroundColor', asset.color);
             });
           break;
+
           case 'delete':
             resource.getEvents().forEach((event) => {
               event.remove();
@@ -243,8 +245,44 @@ export default class Reservation extends Component {
         this.$calendar.refetchResources();
 
         renderAsset({ assets: this.$calendar.getResources() });
-      }
-      else {
+      } else if (category) {
+        // console.log(category);
+        // console.log(this.$calendar.getResources());
+        const resources = this.$calendar.getResources().filter(resource => resource.extendedProps.ascNo == category.ascNo);
+        // console.log(resources);
+
+        switch (status) {
+          case 'insert':
+            // console.log(this.categories);
+            this.categories.push(category);
+          break;
+
+          case 'update':
+            const cat = this.categories.find(cat => cat.ascNo == category.ascNo);
+            cat.name = category.name;
+            cat.el.groupValue = category.name;
+            cat.el.querySelector('.fc-datagrid-cell-main').textContent = category.name;
+            resources.forEach(resource => {
+              resource.category = category.name;
+            });
+          break;
+
+          case 'delete':
+            this.categories = this.categories.filter(cat => cat.ascNo != category.ascNo);
+            resources.forEach(resource => {
+              resource.getEvents().forEach((event) => {
+                event.remove();
+              })
+              resource.remove();
+            });
+          break;
+        }
+
+        this.$calendar.refetchResources();
+
+        renderCategories({ categories: this.categories });
+
+      } else {
         this.render();
       }      
     }
@@ -324,8 +362,11 @@ export default class Reservation extends Component {
       this.$calendar.setOption('resourceLabelDidMount', (arg) => {
         arg.el.addEventListener('click', () => {
           // console.log(arg.resource);
-          const { id, title,  } = arg.resource;
-          const { ascNo, color, category, } = arg.resource.extendedProps;
+
+          const resource = this.$calendar.getResourceById(arg.resource.id);
+
+          const { id, title, } = resource;
+          const { ascNo, color, category, } = resource.extendedProps;
           // console.log(id, title, category, ascNo, color);
 
           selectAsset({
@@ -336,12 +377,18 @@ export default class Reservation extends Component {
 
       // 카테고리 조회
       this.$calendar.setOption('resourceGroupLabelDidMount', (arg) => {
+        console.log('category mount');
+        const category = this.categories.find((category) => category.name === arg.groupValue);
+        category.el = arg.el;
+
         arg.el.addEventListener('click', () => {
           // console.log(arg);
           // console.log(arg.groupValue);
 
-          const name = arg.groupValue;
-          const ascNo = this.categories.find((category) => category.name === name);
+          const category = this.categories.find((category) => category.el === arg.el);
+
+          const name = category.name;
+          const ascNo = category.ascNo;
 
           selectCategory({
             name, ascNo

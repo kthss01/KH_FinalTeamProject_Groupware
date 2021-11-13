@@ -88,8 +88,8 @@ export default class SideMenuAsset extends Component {
       const ascName = this.$target.querySelector(`select[name="category"] option[value="${ascNo}"]`).textContent;
 
       // console.log(asNo);
-      // console.log(ascNo);
-      // console.log(ascName);
+      console.log(ascNo);
+      console.log(ascName);
 
       editAsset({ asNo, name, color, ascNo, ascName });
     });

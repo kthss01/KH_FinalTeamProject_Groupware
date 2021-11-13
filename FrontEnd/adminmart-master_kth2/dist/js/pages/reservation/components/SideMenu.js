@@ -34,6 +34,7 @@ export default class SideMenu extends Component {
       asset.setState({ asset: as })
     } else if (categories) {
       asset.setState({ categories });
+      category.setState({ categories });
     } else if (cat) {
       category.setState({ category: cat });
     } else {
@@ -57,6 +58,7 @@ export default class SideMenu extends Component {
 
     const { insertEvent, editEvent, deleteEvent } = this.$props;
     const { insertAsset, editAsset, deleteAsset } = this.$props;
+    const { insertCategory, editCategory, deleteCategory } = this.$props;
 
     this.$children = {
       header: new SideMenuHeader($sideMenuHeader, {}),
@@ -64,7 +66,7 @@ export default class SideMenu extends Component {
         insertEvent, editEvent, deleteEvent,
       }),
       category: new SideMenuCategory($sideMenuCategory, {
-
+        insertCategory, editCategory, deleteCategory,
       }),
       asset: new SideMenuAsset($sideMenuAsset, {
         insertAsset, editAsset, deleteAsset,

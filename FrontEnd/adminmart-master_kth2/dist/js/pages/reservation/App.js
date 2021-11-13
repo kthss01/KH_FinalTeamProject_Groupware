@@ -180,7 +180,7 @@ export default class App extends Component {
             params: { 
               name: as.name, 
               color: as.color,
-              ascNo: as.calNo,
+              ascNo: as.ascNo,
               asNo: as.asNo,           
             }
           });
@@ -224,21 +224,20 @@ export default class App extends Component {
     async insertCategory (cat) {
         const { calendar } = this.$children;
     
-        console.log(cal);
+        console.log(cat);
     
         try {
-          const res = await axios.post(`insertCalendar.ca`, null, {
+          const res = await axios.post(`insertAssetCategory.rez`, null, {
             params: { 
-              name: cal.name, 
-              color: cal.color,
+              name: cat.name, 
             }
           });
     
           // console.log(res.data);
     
-          cal.calNo = res.data;
+          cat.ascNo = res.data;
     
-          calendar.setState({ calendar: cal, status: 'insert' });
+          calendar.setState({ category: cat, status: 'insert' });
     
         } catch (err) {
           console.log(err);
@@ -248,19 +247,17 @@ export default class App extends Component {
     async editCategory (cat) {
         const { calendar } = this.$children;
     
-        // console.log(cal);
+        // console.log(cat);
     
         try {
-          await axios.put(`updateCalendar.ca`, null, {
+          await axios.put(`updateAssetCategory.rez`, null, {
             params: { 
-              name: cal.name, 
-              color: cal.color,
-              calNo: cal.calNo,
-              empNo: empNo,           
+              name: cat.name, 
+              ascNo: cat.ascNo,
             }
           });
     
-          calendar.setState({ calendar: cal, status: 'update' });
+          calendar.setState({ category: cat, status: 'update' });
     
         } catch (err) {
           console.log(err);
@@ -270,12 +267,12 @@ export default class App extends Component {
     async deleteCategory (cat) {
         const { calendar } = this.$children;
     
-        // console.log(cal);
+        // console.log(cat);
     
         try {
-          await axios.delete(`deleteCalendar.ca?calNo=${cal.calNo}`);
+          await axios.delete(`deleteAssetCategory.rez?ascNo=${cat.ascNo}`);
     
-          calendar.setState({ calendar: cal, status: 'delete' });
+          calendar.setState({ category: cat, status: 'delete' });
     
         } catch (err) {
           console.log(err);
