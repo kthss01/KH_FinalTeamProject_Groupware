@@ -25,7 +25,8 @@ export default class App extends Component {
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');
     const $calendarMain = this.$target.querySelector('[data-component="calendar-main"]');
 
-    const { selectEvent, insertEvent, editEvent, deleteEvent, renderCalendar, insertCalendar, editCalendar, deleteCalendar } = this;
+    const { selectEvent, insertEvent, editEvent, deleteEvent, renderCalendar } = this;
+    const { insertCalendar, editCalendar, deleteCalendar, showCalendar } = this;
 
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
     this.$children = {
@@ -37,6 +38,7 @@ export default class App extends Component {
         insertCalendar: insertCalendar.bind(this),
         editCalendar: editCalendar.bind(this),
         deleteCalendar: deleteCalendar.bind(this),
+        showCalendar: showCalendar.bind(this),
       }),
       calendar: new Calendar($calendarMain, { 
         ...this.$state,
@@ -189,5 +191,13 @@ export default class App extends Component {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  showCalendar (calNo, isShow) {
+    const { calendar } = this.$children;
+
+    calendar.setState({
+      showCal: { calNo, isShow, }
+    });
   }
 }

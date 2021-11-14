@@ -12,11 +12,15 @@ import com.kh.spring.calendar.model.vo.Event;
 public class CalendarDao {
 
 	public ArrayList<Event> selectEventList(SqlSessionTemplate sqlSession, int calNo) {
-		return (ArrayList)sqlSession.selectList("calendarMapper.selectEventList", calNo);
+		return (ArrayList) sqlSession.selectList("calendarMapper.selectEventList", calNo);
 	}
 
 	public ArrayList<Calendar> selectCalList(SqlSessionTemplate sqlSession, int empNo) {
-		return (ArrayList)sqlSession.selectList("calendarMapper.selectCalList", empNo);
+		return (ArrayList) sqlSession.selectList("calendarMapper.selectCalList", empNo);
+	}
+	
+	public int selectVrCalendar(SqlSessionTemplate sqlSession, int empNo) {
+		return sqlSession.selectOne("calendarMapper.selectVrCalendar", empNo);
 	}
 
 	public int insertEvent(SqlSessionTemplate sqlSession, Event evt) {
@@ -42,7 +46,5 @@ public class CalendarDao {
 	public int deleteCalendar(SqlSessionTemplate sqlSession, int calNo) {
 		return sqlSession.update("calendarMapper.deleteCalendar", calNo);
 	}
-
-
 
 }

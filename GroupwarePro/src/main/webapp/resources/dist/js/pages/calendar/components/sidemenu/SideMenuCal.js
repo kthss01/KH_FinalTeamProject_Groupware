@@ -10,7 +10,7 @@ export default class SideMenuCal extends Component {
           <div class="input-group">
               <div class="input-group-prepend">
                   <div class="input-group-text bg-white">
-                      <input type="checkbox" name="calNo" checked>
+                      <input type="checkbox" name="checkCal" checked>
                   </div>
               </div>
               <input type="hidden" name="calNo" value="${calendar.id}">
@@ -130,6 +130,18 @@ export default class SideMenuCal extends Component {
 
       deleteCalendar({ calNo, name, color });
     });
+
+    const { showCalendar } = this.$props;
+
+    // 캘린더 보이기 (체크박스)
+    this.addEvent('click', 'input[name="checkCal"]', ({ target }) => {
+      // console.log(target);
+      // console.log(target.checked);
+      const calNo = target.parentElement.parentElement.nextElementSibling.value;
+      // console.log(calNo);
+      
+      showCalendar(calNo, target.checked);
+    })
 
     // 이벤트 등록버튼으로 되돌리기
     this.addEvent('click', '#cancelCalendarBtn', ({ target }) => {
