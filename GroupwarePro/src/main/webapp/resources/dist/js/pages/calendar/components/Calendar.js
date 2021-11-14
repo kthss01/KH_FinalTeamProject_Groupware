@@ -56,7 +56,7 @@ export default class Calendar extends Component {
             // console.log(res);
 
             res.data.forEach((evt) => {
-              // console.log(evt);
+              console.log(evt);
               
               const resource = this.$calendar.getResourceById(calNo);
               // console.log(resource);
@@ -67,6 +67,7 @@ export default class Calendar extends Component {
                 start: evt.startDate,
                 end: evt.endDate,
                 allDay: evt.allDay === '1' ? true: false,
+                display: evt.isHoliday === 'Y' ? 'background' : 'auto',
                 backgroundColor: resource.extendedProps.color,
               };
               // console.log(event);
@@ -204,7 +205,10 @@ export default class Calendar extends Component {
       const resource = this.$calendar.getResourceById(calNo);
 
       resource.getEvents().forEach((event) => {
-        event.setProp('display', isShow ? 'auto' : 'none');
+        // 휴가는 그냥 background로 무조건 보이게
+        if (event.display !== 'background') {
+          event.setProp('display', isShow ? 'auto' : 'none');
+        }
       });
 
     } else {
@@ -251,6 +255,7 @@ export default class Calendar extends Component {
       // info.event.setProp("backgroundColor", "green");
 
       // console.log(info.event);
+      // console.log(info.event.display);
       const resources = this.$calendar.getEventById(info.event.id).getResources();
       console.log(resources);
 

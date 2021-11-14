@@ -90,19 +90,37 @@ public class CalendarController {
 		return String.valueOf(result);
 	}
 	
+	// 휴가 결제 시 휴가 일정 등록 하는 컨트롤러
 	@CrossOrigin
-	@ResponseBody
-	@RequestMapping(value="insertVacation.ca", method=RequestMethod.POST)
+	@RequestMapping(value="insertVacation.ca")
 	public String insertVacation(VRequest vr) {
 		
-		int result = 0;
+		if (vr.getReqNo() != null) {
+			Event evt = convertVrToEvt(vr);
+			
+			calendarService.insertEvent(evt);
+		}
 		
-		// 휴가 결제 시 휴가 일정 등록 하는 컨트롤러
-		
-		
-		return String.valueOf(result);
+		return "redirect:calendar.ca";
 	}
 	
+	private Event convertVrToEvt(VRequest vr) {
+		// 휴가 요청 모델 -> 이벤트 모델로 전환
+		
+		Event evt = new Event();
+		evt.setStartDate(vr.getFirstDate());
+		evt.setEndDate(vr.getLastDate());
+		evt.setName(vr.getReason());
+		evt.setAllDay("1");
+		evt.setIsHoliday("Y"); // 휴가 체크
+		
+		// 사원 번호에 맞는 캘린더 찾기
+		int calNo = calendarService.selectVrCalendar(vr.getEmpNo());
+		evt.setCalNo(calNo);
+		
+		return evt;
+	}
+
 	/************************************************************************************************************************/
 	
 	@CrossOrigin

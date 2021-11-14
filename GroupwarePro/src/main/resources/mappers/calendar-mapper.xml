@@ -38,6 +38,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CAL_NO = #{calNo} AND IS_DELETE = 'N'
 	
 	</select>
+	
+	<select id="selectVrCalendar" parameterType="_int" resultType="_int">
+		
+		SELECT CAL_NO
+		FROM (
+			    SELECT * 
+			    FROM CALENDAR2
+			    WHERE EMP_NO = #{empNo}
+			    ORDER BY CAL_NO
+		    )
+		WHERE ROWNUM = 1
+		
+	</select>
 
 	<!-- CREATE -->
 	

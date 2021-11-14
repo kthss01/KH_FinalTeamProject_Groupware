@@ -1,9 +1,12 @@
 package com.kh.spring.calendar.model.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -17,6 +20,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.kh.spring.calendar.model.dao.CalendarDao;
 import com.kh.spring.example.ControllerExampleTest.ContextConfig;
+
+import static org.junit.Assert.*;
 
 /*
  * Calendar Service에 있는 Dao 테스트
@@ -49,4 +54,35 @@ public class CalendarServiceTest {
 	@Autowired
 	CalendarDao dao;
 
+	/*
+	 ****************************************************
+	 * 조회 (Read)
+	 */
+	
+	@Test
+	public void 사원_첫번째_캘린더_조회() {
+		// given
+		int empNo = 201;
+				
+		// when
+		int calNo = dao.selectVrCalendar(sqlSession, empNo);
+		
+		// then
+		assertEquals("캘린더 번호는 2번이여야 한다.", 2, calNo);
+	}
+
+	/*
+	 ****************************************************
+	 * 등록 (Create)
+	 */
+
+	/*
+	 ****************************************************
+	 * 삭제 (Delete)
+	 */
+
+	/*
+	 ****************************************************
+	 * 수정 (Update)
+	 */
 }
