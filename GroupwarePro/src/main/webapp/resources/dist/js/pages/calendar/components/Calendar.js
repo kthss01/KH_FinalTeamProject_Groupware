@@ -131,7 +131,7 @@ export default class Calendar extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { event=null, calendar=null, status } = newState;
+    const { event=null, calendar=null, status, showCal=null } = newState;
 
     const { renderCalendar } = this.$props;
 
@@ -199,8 +199,15 @@ export default class Calendar extends Component {
       }
 
       renderCalendar({ calendars: this.$calendar.getResources() });
-    }
-    else {
+    } else if (showCal) {
+      const { calNo, isShow } = showCal;
+      const resource = this.$calendar.getResourceById(calNo);
+
+      resource.getEvents().forEach((event) => {
+        event.setProp('display', isShow ? 'auto' : 'none');
+      });
+
+    } else {
       this.render();
     }
 
