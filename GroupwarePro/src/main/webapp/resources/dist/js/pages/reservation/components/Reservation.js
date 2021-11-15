@@ -39,6 +39,7 @@ export default class Reservation extends Component {
           allDayMaintainDuration: true,
           resourceAreaHeaderContent: '자산 목록',
           resourceGroupField: 'category',
+          resourceAreaWidth: "20%",
           selectOverlap: function(event) {
             return event.rendering === 'background';
           },
@@ -229,6 +230,8 @@ export default class Reservation extends Component {
             resource.setExtendedProp('color', asset.color);
             resource.setExtendedProp('ascNo', asset.ascNo);
   
+            resource.extendedProps.icon.style.color = asset.color;
+
             resource.getEvents().forEach((event) => {
               event.setProp('backgroundColor', asset.color);
             });
@@ -360,13 +363,24 @@ export default class Reservation extends Component {
 
       // 자산 조회
       this.$calendar.setOption('resourceLabelDidMount', (arg) => {
+
+        const resource = this.$calendar.getResourceById(arg.resource.id);
+
+        const { id, title, } = resource;
+        const { ascNo, color, category, } = resource.extendedProps;
+
+        // console.log(arg.el);
+        const tag = arg.el.querySelector('.fc-icon');
+        // console.log(tag);
+        const icon = document.createElement("i");
+        icon.style.color = color;
+        icon.classList.add("fa", "fa-circle");
+        tag.appendChild(icon);
+
+        resource.setExtendedProp("icon", icon);
+
         arg.el.addEventListener('click', () => {
           // console.log(arg.resource);
-
-          const resource = this.$calendar.getResourceById(arg.resource.id);
-
-          const { id, title, } = resource;
-          const { ascNo, color, category, } = resource.extendedProps;
           // console.log(id, title, category, ascNo, color);
 
           selectAsset({

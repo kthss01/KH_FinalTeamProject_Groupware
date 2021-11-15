@@ -261,7 +261,7 @@ export default class Calendar extends Component {
       // console.log(info.event);
       // console.log(info.event.display);
       const resources = this.$calendar.getEventById(info.event.id).getResources();
-      console.log(resources);
+      // console.log(resources);
 
       selectEvent({
         id: info.event.id,
@@ -277,7 +277,7 @@ export default class Calendar extends Component {
     this.$calendar.on('eventDrop', (info) => {
       const { id, title, start, end, allDay } = info.event;
       const { id: calNo } = info.event.getResources()[0];
-      console.log('eventDrop', id, title, start, end, allDay, calNo);
+      // console.log('eventDrop', id, title, start, end, allDay, calNo);
 
       editEvent({
         id, title, start, end, allDay, calNo,
@@ -288,7 +288,7 @@ export default class Calendar extends Component {
     this.$calendar.on('eventResize', (info) => {
       const { id, title, start, end, allDay } = info.event;
       const { id: calNo } = info.event.getResources()[0];
-      console.log('eventResize', id, title, start, end, allDay, calNo);
+      // console.log('eventResize', id, title, start, end, allDay, calNo);
 
       editEvent({
         id, title, start, end, allDay, calNo,

@@ -50,7 +50,7 @@ export default class App extends Component {
   }
   selectEvent (event) {
 
-    console.log(event);
+    // console.log(event);
 
     const { sideMenu } = this.$children;
 
@@ -60,7 +60,7 @@ export default class App extends Component {
   async insertEvent (event) {
     const { calendar } = this.$children;
 
-    console.log('app', event);
+    // console.log('app', event);
 
     // console.log(new Date(event.start), new Date(event.end));
 
