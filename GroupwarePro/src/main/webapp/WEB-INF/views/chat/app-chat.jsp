@@ -157,7 +157,7 @@
 
 											<form>
 												<input id="searchContect" class="form-control" type="text"
-													placeholder="이름 또는 부서 입력"
+													placeholder="이름  입력"
 													style="font-size: 15px; display: inline-block; width: 85%;">
 												<i class="icon-magnifier"></i>
 											</form>
@@ -425,10 +425,12 @@
         	
         	
         	$('#searchContect').keyup(function(event) {
-        		var val = $(this).val(); if (val == "") { 
+        		var val = $(this).val();
+        		if (val == "") { 
         			$('.mailbox li').show(); 
         		} else {
-        				$('.mailbox li').hide(); $(".mailbox li:contains('"+val+"')").show(); 
+        				$('.mailbox li').hide(); 
+        				$(".mailbox li:contains('"+val+"')").show(); 
         			} 
         		});
         

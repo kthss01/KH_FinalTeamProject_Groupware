@@ -41,9 +41,7 @@ public class ChatController {
 			receiver = chatService.selectContectMember(eno);
 			chatList = chatService.selectChatList(chat);
 		}
-		
-		System.out.println("채팅목록 : " + chatList);
-		
+				
 		mv.addObject("chatList",chatList);
 		mv.addObject("receiver", receiver); 
 		mv.setViewName("/chat/app-chat");

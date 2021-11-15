@@ -318,7 +318,6 @@ public class CommunityController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\upload_files\\";
 
-		System.out.println("savePath : " + savePath);
 
 		// 업로드 시간정보로 파일명 변경해주는 작업
 		String originName = file.getOriginalFilename();
@@ -346,7 +345,6 @@ public class CommunityController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\upload_files\\";
 
-		System.out.println(savePath);
 
 		File deleteFile = new File(savePath + fileName);
 		deleteFile.delete();
