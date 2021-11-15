@@ -12,14 +12,14 @@ export default class Reservation extends Component {
           slotMaxTime: '24:00', // Day 캘린더에서 종료 시간
           // 헤더에 표시할 툴바
           headerToolbar: {
-              start: 'resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth',
-              center: 'title',
-              end: 'prev,today,next'
-              },
-              buttonText: {
-              day: '일간',
-              week: '주간',
-              month: '월간',
+            start: 'resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth',
+            center: 'title',
+            end: 'prev,today,next'
+          },
+          buttonText: {
+            day: '일간',
+            week: '주간',
+            month: '월간',
           },
           views: {
               resourceTimelineDay: {
