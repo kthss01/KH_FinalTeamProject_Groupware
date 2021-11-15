@@ -41,6 +41,9 @@ export default class Calendar extends Component {
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇개식으로 표현)
       locale: 'ko', // 한국어 설정
       allDayMaintainDuration: true,
+      selectOverlap: function(event) {
+        return event.rendering === 'background';
+      },
       schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     };
 
@@ -68,6 +71,7 @@ export default class Calendar extends Component {
                 end: evt.endDate,
                 allDay: evt.allDay === '1' ? true: false,
                 display: evt.isHoliday === 'Y' ? 'background' : 'auto',
+                overlap: evt.isHoliday === 'N',
                 backgroundColor: resource.extendedProps.color,
               };
               // console.log(event);
