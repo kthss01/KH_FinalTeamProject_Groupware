@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eApprovalMapper">
+	<resultMap type="EApproval" id="eApprovalResultSet">
+		<id property="eNo" column="E_NO"/>
+		<result property="sCode" column="S_CODE"/>
+		<result property="sName" column="S_NAME"/>
+		<result property="fNo" column="F_NO"/>
+		<result property="fName" column="F_NAME"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="drafterId" column="DRAFTER_ID"/>
+		<result property="drafterName" column="DRAFTER_NAME"/>
+		<result property="draftDate" column="DRAFT_DATE"/>
+		<result property="approverId" column="APPROVER_ID"/>
+		<result property="approverName" column="APPROVER_NAME"/>
+		<result property="approveDate" column="APPROVE_DATE"/>
+	</resultMap>
+	
+	<select id="selectApproveList" parameterType="_int" resultMap="eApprovalResultSet">
+		SELECT 
+			A.E_NO,
+			A.S_CODE,
+			D.S_NAME,
+			A.F_NO,
+			E.F_NAME,
+			A.TITLE,
+			A.CONTENT,
+			A.DRAFTER_ID,
+			B.EMP_NAME DRAFTER_NAME,
+			A.DRAFT_DATE,
+			A.APPROVER_ID,
+			C.EMP_NAME APPROVER_NAME,
+			A.APPROVE_DATE
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		WHERE 
+			A.APPROVER_ID = #{empNo} 
+			AND A.S_CODE = 1
+			AND A.APPROVE_DATE IS NULL
+		ORDER BY A.DRAFT_DATE DESC
+	</select>
+	
+	<select id="selectDraftList" parameterType="_int" resultMap="eApprovalResultSet">
+		SELECT 
+		    A.E_NO,
+		    A.S_CODE,
+		    D.S_NAME,
+		    A.F_NO,
+		    E.F_NAME,
+		    A.TITLE,
+		    A.CONTENT,
+		    A.DRAFTER_ID,
+		    B.EMP_NAME DRAFTER_NAME,
+		    A.DRAFT_DATE,
+		    A.APPROVER_ID,
+		    C.EMP_NAME APPROVER_NAME,
+		    A.APPROVE_DATE
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		WHERE 
+		    A.DRAFTER_ID = 200 
+		    AND A.S_CODE = 1
+		    AND A.APPROVE_DATE IS NULL
+		ORDER BY A.DRAFT_DATE DESC
+	</select>
+	
+	<select id="selectFinishList" parameterType="_int" resultMap="eApprovalResultSet">
+		SELECT 
+		    A.E_NO,
+		    A.S_CODE,
+		    D.S_NAME,
+		    A.F_NO,
+		    E.F_NAME,
+		    A.TITLE,
+		    A.CONTENT,
+		    A.DRAFTER_ID,
+		    B.EMP_NAME DRAFTER_NAME,
+		    A.DRAFT_DATE,
+		    A.APPROVER_ID,
+		    C.EMP_NAME APPROVER_NAME,
+		    A.APPROVE_DATE
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		WHERE 
+		    A.DRAFTER_ID = 200 
+		    AND (A.S_CODE = 2 OR A.S_CODE = 3)
+		ORDER BY A.DRAFT_DATE DESC
+	</select>
+</mapper>
