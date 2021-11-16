@@ -147,11 +147,11 @@ export default class Calendar extends Component {
       // console.log(status);
       // console.log(event);
 
+      const resource = this.$calendar.getResourceById(event.calNo);
+
       switch (status) {
         case 'insert':
           // console.log('insert', event);
-
-          const resource = this.$calendar.getResourceById(event.calNo);
           // console.log(resource);
 
           this.$calendar.addEvent( {
@@ -163,8 +163,10 @@ export default class Calendar extends Component {
         case 'update':
           const evt = this.$calendar.getEventById(event.id);
           evt.setProp("title", event.title);
+          evt.setProp("backgroundColor", resource.extendedProps.color);
           evt.setDates(event.start, event.end);
           evt.setAllDay(event.allDay);
+          evt.setResources([resource]);
         break;
         case 'delete':
           this.$calendar.getEventById(event.id).remove();
