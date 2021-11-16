@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.spring.member.model.vo.Member;
 
+
+
+
 @Repository
 public class ManagerDao {
 

@@ -117,18 +117,18 @@ color: white;
                        		
                        		<ul aria-expanded="false" class="collapse first-level base-level-line">
                        			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> <b> --  </b></span>
+                       				<a href="managerSurveyListForm.sv" class="sidebar-link">
+                       					<span> <b> 설문 관리 </b></span>
                        				</a>
                        			</li>
                        			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
+                       				<a href="surveyResultForm.sv" class="sidebar-link">
+                       					<span> <b> 설문 결과 </b> </span>
                        				</a>
                        			</li>
                        			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
+                       				<a href="surveyFillForm.sv" class="sidebar-link">
+                       					<span> 설문 현황  </span>
                        				</a>
                        			</li>
                        		</ul>

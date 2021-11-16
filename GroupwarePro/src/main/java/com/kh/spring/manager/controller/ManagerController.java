@@ -19,6 +19,8 @@ import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.service.MemberServiceImpl2;
 import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.survey.model.service.SurveyService;
+import com.kh.spring.survey.model.vo.Survey;
 
 @SessionAttributes("loginUser") 
 @Controller
@@ -35,7 +37,11 @@ public class ManagerController {
 	private MemberServiceImpl2 memberService2;
 	
 	@Autowired
+	private SurveyService surveyService;
+	
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 
 	
 	@RequestMapping("menagerMain.me")
@@ -89,6 +95,17 @@ public class ManagerController {
 		model.addAttribute(category);
 		
 		return "manager/managerCategoryDetail";
+	}
+	
+	
+	@RequestMapping("managerSurveyListForm.me")
+	public String managerSurveyListForm(Model model) {
+		
+		ArrayList<Survey> list = surveyService.selectSurveyList();
+		model.addAttribute(list);
+		
+		return "manager/managerSurveyListForm";
+		
 	}
 	
 }

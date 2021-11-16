@@ -48,8 +48,10 @@
 		<div class="card">
 		
 			<div class="card-body">
-			<h3 class="card-title text-truncate text-dark font-weight-bold mb-1"> 새로운 설문 등록</h3>
-		
+			<h3 class="card-title text-truncate text-dark font-weight-bold mb-1"> 설문 - 질문 등록 </h3>
+			<h4 class="card-subtitle font-weight-bold">${surveyTitle} </h4>
+			<br>
+			<h4 class="card-subtitle font-weight-bold">${surveyContent}</h4>
 			<div class="table-responsive">
 				<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 					<div class="row">
@@ -61,54 +63,40 @@
 			<div class="row">
 			<div class="col-sm-12">
 			
-			<form class="surveyFrom mt-3" action="surveyQuestionInsertForm.sv">
+			<form class="surveyFrom mt-3" action="survey">
+					
+					<ul class="list-unstyled question-list">
 					
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">제목 </h4>						
+							<h4 class="card-title font-weight-bold"> 질문추가  + </h4>						
 							<div class="form-group">
-								<input type="text" name="surveyTitle" class="surveyTitle form-control_sm col-md-8" placeholder="설문 제목" aria-controls="zero_config" required>
-							</div>
-						</div>
-					</div>
-					
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">내용 </h4>						
-							<div class="form-group">
-								<input type="text" name="surveyContent" class="surveyContent form-control_sm col-md-8" placeholder="설문 내용" aria-controls="zero_config" required>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">시작일 </h4>						
-							<div class="form-group">
-								<input type="date" name="startDate" class="startDate form-control_sm col-md-8" placeholder="설문 시작일" aria-controls="zero_config" vale="" required>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">마감일 </h4>						
-							<div class="form-group">
-								<input type="date" name="finishDate" class="finishDate form-control_sm col-md-8" placeholder="설문 마감일" aria-controls="zero_config" required>
+								<input type="text" class="form-control_sm col-md-8" placeholder="" aria-controls="zero_config" required>
 							</div>
 						</div>
 					</div>
 					
 					<div class="btn-list">
-						<button type="submit" class="btn waves-effect waves-light btn-dark"> 등록 </button>
+						<button type="submit" class="btn waves-effect waves-light btn-dark"> 등록 및 질문 작성 </button>
 						<button type="button" class="btn waves-effect waves-light btn-light" onclick="history.back()"> 등록 취소</button>
 					</div>
+					</div>
+					</div>
+					
+					</ul>
 			
 			</form>
 			
-			<!--  시작일에 현재 날짜 자동 입력 -->
-			<script>
-				document.getElementById('start-date').value = new Date().toISOString().slice(0,10);
-			</script>
 			
+			<script>
+			
+			function addNewQeustion(){
+				
+				
+			}
+			
+			
+			</script>
                                     
                                     
            <div class="row">
