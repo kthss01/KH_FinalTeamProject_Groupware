@@ -13,21 +13,25 @@ public interface ReservationService {
 	ArrayList<Asset> selectAsList();
 
 	ArrayList<AssetCategory> selectAsCatList();
-	
+
 	ArrayList<Asset> selectAsWithCatList();
-	
+
+	ArrayList<Reservation> selectRezListForCat(int ascNo);
+
+	ArrayList<Asset> selectAsListForCat(int ascNo);
+
 	int insertReservation(Reservation rez);
 
 	int insertAsset(Asset as);
 
 	int insertAssetCategory(AssetCategory asc);
-	
+
 	int updateReservation(Reservation rez);
 
 	int updateAsset(Asset as);
 
 	int updateAssetCategory(AssetCategory asc);
-	
+
 	int deleteReservation(int rezNo);
 
 	int deleteAsset(int asNo);

@@ -42,6 +42,16 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 	
 	@Override
+	public ArrayList<Reservation> selectRezListForCat(int ascNo) {
+		return reservationDao.selectRezListForCat(sqlSession, ascNo);
+	}
+
+	@Override
+	public ArrayList<Asset> selectAsListForCat(int ascNo) {
+		return reservationDao.selectAsListForCat(sqlSession, ascNo);
+	}
+	
+	@Override
 	public int insertReservation(Reservation rez) {
 		int result = reservationDao.insertReservation(sqlSession, rez);
 

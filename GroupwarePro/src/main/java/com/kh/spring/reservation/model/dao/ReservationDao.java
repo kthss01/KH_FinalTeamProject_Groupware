@@ -28,6 +28,14 @@ public class ReservationDao {
 		return (ArrayList) sqlSession.selectList("reservationMapper.selectAsWithCatList");
 	}
 	
+	public ArrayList<Reservation> selectRezListForCat(SqlSessionTemplate sqlSession, int ascNo) {
+		return (ArrayList) sqlSession.selectList("reservationMapper.selectRezListForCat", ascNo);
+	}
+
+	public ArrayList<Asset> selectAsListForCat(SqlSessionTemplate sqlSession, int ascNo) {
+		return (ArrayList) sqlSession.selectList("reservationMapper.selectAsListForCat", ascNo);
+	}
+	
 	public int insertReservation(SqlSessionTemplate sqlSession, Reservation rez) {
 		return sqlSession.insert("reservationMapper.insertReservation", rez);
 	}
