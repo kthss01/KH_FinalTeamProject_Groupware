@@ -5,27 +5,6 @@ export default class SideMenuList extends Component {
     template () {
         return `
         <div id="rezList" class="list-group mx-3" style="width: 100%">
-            <a href="#" class="list-group-item list-group-item-action">One</a>
-            <a href="#" class="list-group-item list-group-item-action">Two
-                <li>
-                    303호
-                    <span class="badge badge-secondary badge-pill">12</span>
-                </li>
-                <li>
-                    Item 2b
-                    <span class="badge badge-secondary badge-pill">4</span>
-                </li>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action">Three
-                <li>
-                    Item 3a
-                    <span class="badge badge-secondary badge-pill">12</span>
-                </li>
-                <li>
-                    Item 3b
-                    <span class="badge badge-secondary badge-pill">12</span>
-                </li>
-            </a>
         </div>
         `;
     }
@@ -49,7 +28,7 @@ export default class SideMenuList extends Component {
             assets.forEach((asset) => {
                 const { id, title, extendedProps: { ascNo } } = asset;
                 const events = asset.getEvents().filter((event) => event.extendedProps.empNo == empNo);
-                console.log(title, ascNo, events);
+                // console.log(title, ascNo, events);
 
                 const aTag = this.$target.querySelector(`#ascNo${ascNo}`);
                 aTag.innerHTML += `
