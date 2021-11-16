@@ -95,7 +95,7 @@ export default class Reservation extends Component {
         try {
           const res = await axios.get(`selectAsWithCatList.rez`);
   
-          // console.log(res.data);
+          console.log(res.data);
   
           res.data.forEach((asset) => {
             this.$calendar.addResource({
@@ -120,7 +120,7 @@ export default class Reservation extends Component {
 
           this.categories = res.data;
 
-          // console.log(this.categories);
+          console.log(this.categories);
 
         } catch (err) {
           console.log(err);

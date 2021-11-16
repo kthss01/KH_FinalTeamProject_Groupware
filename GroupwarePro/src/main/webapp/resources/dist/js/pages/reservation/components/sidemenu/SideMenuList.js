@@ -44,9 +44,10 @@ export default class SideMenuList extends Component {
 
                 const aTag = this.$target.querySelector(`#ascNo${ascNo}`);
                 aTag.innerHTML += `
-                <li id="asNo${id}">
+                <li id="asNo${id}" type="none">
+                    <span class="badge text-white" style="background-color: ${asset.extendedProps.color}; opacity: 0.8; width: 30px;">${events.length}</span>
+                    &nbsp;&nbsp;
                     ${title}
-                    <span class="badge badge-secondary badge-pill">${events.length}</span>
                 </li>
                 `;
             });
