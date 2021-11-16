@@ -11,6 +11,8 @@ public interface CalendarService {
 
 	ArrayList<Calendar> selectCalList(int empNo);
 
+	int selectVrCalendar(int empNo);
+
 	int insertEvent(Event evt);
 
 	int insertCalendar(Calendar cal);

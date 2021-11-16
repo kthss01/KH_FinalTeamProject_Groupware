@@ -96,8 +96,6 @@ public class LibraryController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\upload_files\\";
 
-		System.out.println("savePath : " + savePath);
-
 		// 업로드 시간정보로 파일명 변경해주는 작업
 		String originName = file.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -123,8 +121,6 @@ public class LibraryController {
 	private void deleteFile(String fileName, HttpServletRequest request) {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\upload_files\\";
-
-		System.out.println(savePath);
 
 		File deleteFile = new File(savePath + fileName);
 		deleteFile.delete();

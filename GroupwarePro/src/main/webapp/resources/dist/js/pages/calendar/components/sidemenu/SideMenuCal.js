@@ -4,16 +4,17 @@ export default class SideMenuCal extends Component {
 
   setup() {
     this.calendarTemplate = (calendar) => {
+      // console.log(calendar.id, calendar.extendedProps.color, calendar.title);
       return `
       <div class="col-12 mb-2">
           <div class="input-group">
               <div class="input-group-prepend">
                   <div class="input-group-text bg-white">
-                      <input type="checkbox">
+                      <input type="checkbox" name="checkCal" checked>
                   </div>
               </div>
-              <input type="hidden" name="calNo" value="${calendar.calNo}">
-              <button class="btn btn-sm text-white text-center calMenu" style="background-color: ${calendar.color}; width: 120px; transition: all .35s; opacity: 0.75;">${calendar.name}</button>
+              <input type="hidden" name="calNo" value="${calendar.id}">
+              <button class="btn btn-sm text-white text-center calMenu" style="background-color: ${calendar.extendedProps.color}; width: 120px; transition: all .35s; opacity: 0.75;">${calendar.title}</button>
           </div>
       </div>
       `;
@@ -129,6 +130,18 @@ export default class SideMenuCal extends Component {
 
       deleteCalendar({ calNo, name, color });
     });
+
+    const { showCalendar } = this.$props;
+
+    // 캘린더 보이기 (체크박스)
+    this.addEvent('click', 'input[name="checkCal"]', ({ target }) => {
+      // console.log(target);
+      // console.log(target.checked);
+      const calNo = target.parentElement.parentElement.nextElementSibling.value;
+      // console.log(calNo);
+      
+      showCalendar(calNo, target.checked);
+    })
 
     // 이벤트 등록버튼으로 되돌리기
     this.addEvent('click', '#cancelCalendarBtn', ({ target }) => {

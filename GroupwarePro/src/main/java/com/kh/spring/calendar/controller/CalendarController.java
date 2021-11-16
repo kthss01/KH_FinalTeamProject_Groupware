@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.kh.spring.calendar.model.service.CalendarService;
 import com.kh.spring.calendar.model.vo.Calendar;
 import com.kh.spring.calendar.model.vo.Event;
+import com.kh.spring.hr.model.vo.VRequest;
 
 @Controller
 public class CalendarController {
@@ -77,11 +77,50 @@ public class CalendarController {
 	@RequestMapping(value="insertCalendar.ca", method=RequestMethod.POST)
 	public String insertCalendar(Calendar cal) {
 		
-		int result = calendarService.insertCalendar(cal);
+//		logger.debug(cal.toString());
+		
+		int result = 0;
+		
+		if (cal.getEmpNo() != 0) {
+			result = calendarService.insertCalendar(cal);
+		}
+		
+//		logger.debug(cal.toString());
 		
 		return String.valueOf(result);
 	}
 	
+	// 휴가 결제 시 휴가 일정 등록 하는 컨트롤러
+	@CrossOrigin
+	@RequestMapping(value="insertVacation.ca")
+	public String insertVacation(VRequest vr) {
+		
+		if (vr.getReqNo() != null) {
+			Event evt = convertVrToEvt(vr);
+			
+			calendarService.insertEvent(evt);
+		}
+		
+		return "redirect:calendar.ca";
+	}
+	
+	private Event convertVrToEvt(VRequest vr) {
+		// 휴가 요청 모델 -> 이벤트 모델로 전환
+		
+		Event evt = new Event();
+		evt.setStartDate(vr.getFirstDate());
+		evt.setEndDate(vr.getLastDate());
+		evt.setName(vr.getReason());
+		evt.setAllDay("1");
+		evt.setIsHoliday("Y"); // 휴가 체크
+		
+		// 사원 번호에 맞는 캘린더 찾기
+		int calNo = calendarService.selectVrCalendar(vr.getEmpNo());
+		evt.setCalNo(calNo);
+		
+		return evt;
+	}
+
 	/************************************************************************************************************************/
 	
 	@CrossOrigin
@@ -105,7 +144,11 @@ public class CalendarController {
 	@RequestMapping(value="updateCalendar.ca", method=RequestMethod.PUT)
 	public String updateCalendar(Calendar cal) {
 		
-		int result = calendarService.updateCalendar(cal);
+		int result = 0;
+		
+		if (cal.getCalNo() != 0) {
+			result = calendarService.updateCalendar(cal);
+		}
 		
 		return String.valueOf(result);
 	}
@@ -119,7 +162,7 @@ public class CalendarController {
 		
 		int result = 0;
 		
-		logger.debug(String.valueOf(evtNo));
+//		logger.debug(String.valueOf(evtNo));
 		
 		if (evtNo != 0) {			
 			result = calendarService.deleteEvent(evtNo);
@@ -133,7 +176,11 @@ public class CalendarController {
 	@RequestMapping(value="deleteCalendar.ca", method=RequestMethod.DELETE)
 	public String deleteCalendar(int calNo) {
 		
-		int result = calendarService.deleteCalendar(calNo);
+		int result = 0;
+		
+		if (calNo != 0) {
+			result = calendarService.deleteCalendar(calNo);
+		}
 		
 		return String.valueOf(result);
 	}

@@ -14,6 +14,7 @@ app.use("/dist", express.static(path.resolve(__dirname, "dist")));
 // 일단 이건 놔두자 이렇게하면 의미 없는듯
 // 어떤 요청이 들어오든 다 index.html로 전송
 app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "calendar.html"));
+  // res.sendFile(path.resolve(__dirname, "calendar.html"));
+  res.sendFile(path.resolve(__dirname, "reservation.html"));
 });
 

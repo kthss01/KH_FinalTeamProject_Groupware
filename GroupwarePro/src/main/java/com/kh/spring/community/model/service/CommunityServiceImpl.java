@@ -194,4 +194,57 @@ public class CommunityServiceImpl implements CommunityService {
 		return result;
 	}
 
+	@Override
+	public int insertCategory(CommunityCategory c) {
+		
+		int result = communityDao.insertCategory(sqlSession, c);
+
+		if (result < 0) {
+			throw new CommException("카테고리 신청 실패");
+
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<CommunityCategory> selectApplyCategoryList() {
+		ArrayList<CommunityCategory> list = communityDao.selectApplyCategoryList(sqlSession);
+		return list;
+	}
+
+	@Override
+	public void openCategory(int cno) {
+
+		int result = communityDao.openCategory(sqlSession,cno);
+		if (result < 0) {
+			throw new CommException("카테고리 오픈 실패");
+
+		}
+	}
+
+	@Override
+	public void closeCategory(int cno) {
+		int result = communityDao.closeCategory(sqlSession,cno);
+		if (result < 0) {
+			throw new CommException("카테고리 숨기기 실패");
+
+		}		
+	}
+
+	@Override
+	public int selectNewApplyCategory() {
+		int result = communityDao.selectNewApplyCategory(sqlSession);
+
+		return result;
+	}
+
+	@Override
+	public void reserveCategory(int cno) {
+		int result = communityDao.reserveCategory(sqlSession,cno);
+		if (result < 0) {
+			throw new CommException("카테고리 보류 실패");
+
+		}
+	}
+
 }

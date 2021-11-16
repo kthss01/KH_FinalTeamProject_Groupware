@@ -65,6 +65,9 @@
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }/calendar.ca"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">일정</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }/reservation.rez"
+                                aria-expanded="false"><i data-feather="trello" class="feather-icon"></i><span
+                                    class="hide-menu">예약</span></a></li>
                                     
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="work.hr"
                                 aria-expanded="false"><i data-feather="briefcase" class="feather-icon"></i><span
@@ -132,15 +135,20 @@
 				post:'post',
 				dataType:'json',
 				success:function(list){
+					
 					$.each(list,function(i,obj){
-
-						categoryBox.append(`
-								<li class="sidebar-item">
-                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
-                                	<span class="hide-menu"> \${ obj.cname } </span>
-                                </a>
-                                </li>
-								`) 
+ 						if(obj.status == 'Y'){
+							
+							categoryBox.append(`
+									<li class="sidebar-item">
+	                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
+	                                	<span class="hide-menu"> \${ obj.cname } </span>
+	                                </a>
+	                                </li>
+									`); 
+						 } 
+						
+			
 			 		}) 				
 				}
 			})

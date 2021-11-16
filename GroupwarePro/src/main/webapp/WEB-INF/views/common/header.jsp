@@ -260,7 +260,33 @@
 var socket = null;
 $(document).ready( function() {
 
-    connectWS();	
+    connectWS();
+    
+    console.log(${loginUser.empNo});
+    
+    if(${loginUser.empNo} == 200){
+        let socketAlert = $("div#socketAlert");
+        let socketAlertMsg = $("#socketAlertMsg");
+    	$.ajax({
+    		url:'selectNewApplyCategory.co',
+    		type:'post',
+    		async:false,
+    		success:function(result){
+    			if(result > 0){
+    				  socketAlert.css("display",'block');
+    		          socketAlertMsg.html("<a href='managerCommProposal.me'>새로운 게시판 개설 신청이 있습니다.<a>");
+    			} 
+    			
+    		},error:function(){
+    			
+    			console.log("error");
+    		}
+    	})
+    		
+    }
+    
+    
+
 });
 function connectWS() {
     var ws = new WebSocket("ws://localhost:8090/spring/echo");
@@ -271,17 +297,16 @@ function connectWS() {
     ws.onmessage = function (event) {
         let socketAlert = $("div#socketAlert");
         let socketAlertMsg = $("#socketAlertMsg");
-        console.log(event.data);
         var str = event.data;
         var msgArr = str.split(',');
-        console.log(msgArr[0]);
+
         if(msgArr[0] == 'reply'){
             alertMsg = msgArr[1]
             
              socketAlert.css("display",'block');
              socketAlertMsg.html(alertMsg);
              
-         }else{
+         }else{   //'chat' 일 경우
             
              alertMsg = msgArr[0];
 
@@ -291,10 +316,27 @@ function connectWS() {
                  socketAlertMsg.html(alertMsg);
              }else if(location.search != resultReceiver){
                 $('#newAlert').css("display",'block')
-              $('#newAlert').html(alertMsg);
-             }
-             
+                $('#newAlert').html(alertMsg);
+             }else if((location.pathname == "/spring/chatPage.ch")
+            		 				&& (location.search== resultReceiver)){
+            	 
+            	 $('.chat-list').append(`
+							<li class="chat-item list-style-none mt-3">
+							<div class="chat-img d-inline-block">
+								<img
+									src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
+									alt="user" class="rounded-circle" width="45">
+							</div>
+							<div class="chat-content d-inline-block pl-3">
+								<div class="msg p-2 d-inline-block mb-1">\${ msgArr[1]}</div>
+							</div>
 
+						</li>        			 
+
+            			 `);
+
+             }
+ 
          }
         
        if(alertMsg == 'error'){

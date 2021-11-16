@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="CATEGORY_NO" property="cno"/>
 		<result column="C_NAME" property="cname"/>
 		<result column="C_MANAGER" property="manager"/>
+		<result column="EMP_NAME" property="managerName"/>
 		<result column="STATUS" property="status"/>
 
 	</resultMap>
@@ -155,7 +156,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<select id="selectCategoryList" resultMap="categoryResultSet">
-	SELECT * FROM COM_CATEGORY
+	SELECT A.*,B.EMP_NAME FROM COM_CATEGORY A LEFT JOIN EMPLOYEE B
+	ON C_MANAGER=B.EMP_NO ORDER BY A.CATEGORY_NO ASC
 	
 	</select>
 	<select id="selectCategoryName" parameterType="_int" resultMap="categoryResultSet">
@@ -199,5 +201,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteBoard" parameterType="_int">	
 	DELETE FROM COMMUNITY WHERE B_NO = #{bno}
 	</delete>
+	
+	<insert id="insertCategory" parameterType="CommunityCategory">
+	INSERT INTO COM_CATEGORY VALUES(SEQ_COM_CATEGORY_NO.NEXTVAL,#{cname},#{manager},DEFAULT,#{discription})
+	</insert>
+	
+	<update id="openCategory" parameterType="_int">
+	UPDATE COM_CATEGORY SET STATUS = 'Y' WHERE CATEGORY_NO = #{cno}
+	</update>
+	
+	<update id="closeCategory" parameterType="_int">
+	UPDATE COM_CATEGORY SET STATUS = 'X' WHERE CATEGORY_NO = #{cno}
+	</update>
+	<update id="reserveCategory" parameterType="_int">
+	UPDATE COM_CATEGORY SET STATUS = 'Z' WHERE CATEGORY_NO = #{cno}
+	</update>
+	
+	<select id="selectNewApplyCategory" resultType="_int">
+	SELECT COUNT(*) FROM COM_CATEGORY WHERE STATUS='N'
+	</select>
 	
 </mapper>
