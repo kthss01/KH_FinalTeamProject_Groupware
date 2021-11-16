@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CalendarFilter implements Filter {
+public class ReservationFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -26,7 +26,7 @@ public class CalendarFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse =(HttpServletResponse) response;
 		System.out.println(httpRequest.getRequestURI());
-		httpResponse.sendRedirect(httpRequest.getContextPath() + "/calendar.ca");
+		httpResponse.sendRedirect(httpRequest.getContextPath() + "/reservation.rez");
 //		chain.doFilter(request, response);
 	}
 
