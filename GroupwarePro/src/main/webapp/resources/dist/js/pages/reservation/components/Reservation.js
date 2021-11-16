@@ -205,7 +205,6 @@ export default class Reservation extends Component {
   
         // console.log(this.$calendar);
 
-        renderCategories({ categories: this.categories });
         renderAsset({ assets: this.$calendar.getResources() });
   
       } else if (asset) {

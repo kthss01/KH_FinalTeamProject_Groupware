@@ -20,10 +20,22 @@ export default class SideMenuList extends Component {
             // console.log(categories);
             list.innerHTML = categories.map((category) => {
                 const { ascNo, name } = category;
-                return `<a id="ascNo${ascNo}" href="/spring/reservation/${ascNo}" class="list-group-item list-group-item-action" data-link>${name}</a>`;
+                return `<a id="ascNo${ascNo}" href="/spring/reservation/${ascNo}" class="list-group-item list-group-item-action" data-link data-value="${name}">${name}</a>`;
             }).join('');
         } else if (assets) {
-            // console.log(assets);
+            console.log('assets', assets);
+
+            // const aTags = this.$target.querySelectorAll("a");
+            // console.log('aTags', aTags);
+            // aTags.forEach((tag) => {
+            //     tag.innerHTML = tag.dataset['value'];
+            // });
+            const arr = [ ...new Set(assets.map((asset) => asset.extendedProps.ascNo)) ];
+            console.log(arr);
+            arr.forEach((ascNo) => {
+                const tag = this.$target.querySelector(`#ascNo${ascNo}`);
+                tag.innerHTML = tag.dataset['value'];
+            });
 
             assets.forEach((asset) => {
                 const { id, title, extendedProps: { ascNo } } = asset;

@@ -69,6 +69,27 @@ public class ReservationController {
 		
 	}
 	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="selectRezListForCat.rez", produces="application/json; charset=utf-8")
+	public String selectRezListForCat(int ascNo) {
+		
+		ArrayList<Reservation> list = reservationService.selectRezListForCat(ascNo); 
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(list);
+	}
+	
+	@CrossOrigin
+	@ResponseBody
+	@RequestMapping(value="selectAsListForCat.rez", produces="application/json; charset=utf-8")
+	public String selectAsListForCat(int ascNo) {
+		
+		ArrayList<Asset> list = reservationService.selectAsListForCat(ascNo);
+		
+		return new GsonBuilder().create().toJson(list);
+		
+	}
+	
 	/************************************************************************************************************************/
 	
 	@CrossOrigin

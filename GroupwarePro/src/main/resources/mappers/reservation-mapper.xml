@@ -73,6 +73,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 
+	<select id="selectRezListForCat" parameterType="_int" resultMap="reservationResultSet">
+		
+		SELECT R.*
+		FROM RESERVATION2 R 
+		LEFT JOIN ASSET2 A ON R.AS_NO = A.AS_NO
+		LEFT JOIN ASSET_CATEGORY AC ON A.ASC_No = AC.ASC_NO
+		WHERE AC.ASC_NO = #{ascNo}
+		AND AC.IS_DELETE = 'N'
+		AND A.IS_DELETE = 'N' 
+		AND R.IS_DELETE = 'N'
+		
+	</select>
+	
+	<select id="selectAsListForCat" parameterType="_int" resultMap="assetResultSet">
+	
+		SELECT 
+			A.AS_NO, 
+		    A.NAME "AS_NAME", 
+		    A.COLOR, 
+		    A.ASC_NO,
+		    AC.NAME "ASC_NAME"
+		FROM ASSET2 A
+		LEFT JOIN ASSET_CATEGORY AC ON A.ASC_NO = AC.ASC_NO
+		WHERE AC.ASC_NO = #{ascNo} 
+		AND AC.IS_DELETE = 'N'
+		AND A.IS_DELETE = 'N'
+	
+	</select>
+
 	<!-- CREATE -->
 	
 	<insert id="insertReservation" parameterType="Reservation">

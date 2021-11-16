@@ -9,7 +9,7 @@ export default class Router {
 
     document.addEventListener("DOMContentLoaded", () => {
       document.body.addEventListener("click", e => {
-        if (e.target.closest('a').matches("[data-link]")) {
+        if (e.target.closest('a') && e.target.closest('a').matches("[data-link]")) {
           // console.log(e.target.closest('a'));
           // console.log('route')
           e.preventDefault();
@@ -36,7 +36,8 @@ export default class Router {
 
   navigateTo = url => {
     history.pushState(null, null, url);
-    this.$app.setState({ isRoute: true });
+    console.log("url", url);
+    this.$app.setState({ isRoute: true, url });
   }
 
   router = () => {

@@ -27,13 +27,18 @@ export default class App extends Component {
     setState (newState) {
       this.$state = { ...this.$state, ...newState };
 
-      const { isRoute=null } = newState;
+      const { isRoute=null, url=null } = newState;
       // console.log(isRoute);
 
       if (isRoute) {
         // console.log('test');
         const $reservationMain = this.$target.querySelector('[data-component="reservation-main"]');
         const Component = this.router.router();
+
+        // console.log(url.indexOf('reservation/'))
+        const index = url.indexOf('reservation/');
+        const id = index !== -1 ?  url.substring(index + 'reservation/'.length) : -1;
+        // console.log('id', id);
 
         const { selectEvent, insertEvent, editEvent, deleteEvent } = this;
         const { renderAsset, selectAsset, insertAsset, editAsset, deleteAsset } = this;
@@ -47,6 +52,7 @@ export default class App extends Component {
             selectAsset: selectAsset.bind(this),
             renderCategories: renderCategories.bind(this),
             selectCategory: selectCategory.bind(this),
+            ascNo: id,
         });
       } else {
         this.render();
