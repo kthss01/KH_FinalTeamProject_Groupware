@@ -136,13 +136,13 @@ export default class Reservation extends Component {
 
           await this.readAssets();
     
+          await this.readEvents(); // resource id에 calNo를 넣음
+
           // console.log(this.$calendar.getResources());
     
           renderCategories({ categories: this.categories });
 
           renderAsset({ assets: this.$calendar.getResources() });
-  
-          await this.readEvents(); // resource id에 calNo를 넣음
   
           // fullcalendar 렌더
           this.$calendar.render();
@@ -204,6 +204,9 @@ export default class Reservation extends Component {
         }
   
         // console.log(this.$calendar);
+
+        renderCategories({ categories: this.categories });
+        renderAsset({ assets: this.$calendar.getResources() });
   
       } else if (asset) {
         const resource = this.$calendar.getResourceById(asset.asNo);

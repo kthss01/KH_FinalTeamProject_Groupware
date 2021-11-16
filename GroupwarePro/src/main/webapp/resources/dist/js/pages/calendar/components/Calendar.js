@@ -59,7 +59,7 @@ export default class Calendar extends Component {
             // console.log(res);
 
             res.data.forEach((evt) => {
-              console.log(evt);
+              // console.log(evt);
               
               const resource = this.$calendar.getResourceById(calNo);
               // console.log(resource);

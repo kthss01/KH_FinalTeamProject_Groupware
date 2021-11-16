@@ -10,6 +10,7 @@ export default class Router {
     document.addEventListener("DOMContentLoaded", () => {
       document.body.addEventListener("click", e => {
         if (e.target.matches("[data-link]")) {
+          // console.log('route')
           e.preventDefault();
           this.navigateTo(e.target.href);
         }
@@ -34,16 +35,16 @@ export default class Router {
 
   navigateTo = url => {
     history.pushState(null, null, url);
-    this.$app.setState();
+    this.$app.setState({ isRoute: true });
   }
 
   router = () => {
     const routes = [{
-        path: "/reservation",
+        path: "/spring/reservation",
         view: Reservation
       },
       {
-        path: "/reservation/:id",
+        path: "/spring/reservation/:id",
         view: ReservationDetail
       },
     ];
@@ -57,6 +58,7 @@ export default class Router {
     });
 
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
+    // console.log(match);
 
     if (!match) {
       match = {
