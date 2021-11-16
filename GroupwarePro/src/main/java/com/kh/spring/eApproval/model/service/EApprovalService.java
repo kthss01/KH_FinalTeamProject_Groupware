@@ -12,4 +12,6 @@ public interface EApprovalService {
 
 	ArrayList<EApproval> selectFinishList(int empNo);
 
+	EApproval selectEApproval(String eNo);
+
 }

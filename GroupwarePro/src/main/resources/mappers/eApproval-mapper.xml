@@ -13,9 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="content" column="CONTENT"/>
 		<result property="drafterId" column="DRAFTER_ID"/>
 		<result property="drafterName" column="DRAFTER_NAME"/>
+		<result property="drafterDept" column="DRAFTER_DEPT"/>
 		<result property="draftDate" column="DRAFT_DATE"/>
 		<result property="approverId" column="APPROVER_ID"/>
 		<result property="approverName" column="APPROVER_NAME"/>
+		<result property="approverJob" column="APPROVER_JOB"/>
 		<result property="approveDate" column="APPROVE_DATE"/>
 	</resultMap>
 	
@@ -69,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
 		JOIN E_FORM E ON A.F_NO = E.F_NO
 		WHERE 
-		    A.DRAFTER_ID = 200 
+		    A.DRAFTER_ID = #{empNo}  
 		    AND A.S_CODE = 1
 		    AND A.APPROVE_DATE IS NULL
 		ORDER BY A.DRAFT_DATE DESC
@@ -97,8 +99,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
 		JOIN E_FORM E ON A.F_NO = E.F_NO
 		WHERE 
-		    A.DRAFTER_ID = 200 
+		    A.DRAFTER_ID = #{empNo}  
 		    AND (A.S_CODE = 2 OR A.S_CODE = 3)
 		ORDER BY A.DRAFT_DATE DESC
+	</select>
+	
+	<select id="selectEApproval" parameterType="string" resultMap="eApprovalResultSet">
+		SELECT 
+		    A.E_NO,
+		    A.S_CODE,
+		    D.S_NAME,
+		    A.F_NO,
+		    E.F_NAME,
+		    A.TITLE,
+		    A.CONTENT,
+		    A.DRAFTER_ID,
+		    B.EMP_NAME DRAFTER_NAME,
+		    F.DEPT_TITLE DRAFTER_DEPT,
+		    A.DRAFT_DATE,
+		    A.APPROVER_ID,
+		    C.EMP_NAME APPROVER_NAME,
+		    G.JOB_NAME APPROVER_JOB,
+		    A.APPROVE_DATE
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		JOIN DEPARTMENT F ON B.DEPT_CODE = F.DEPT_CODE
+		JOIN JOB G ON C.JOB_CODE = G.JOB_CODE
+		WHERE 
+		    A.E_NO = #{eNo} 
 	</select>
 </mapper>

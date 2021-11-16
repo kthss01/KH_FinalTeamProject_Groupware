@@ -42,4 +42,12 @@ public class EApprovalServiceImpl implements EApprovalService {
 		return list;
 	}
 
+	@Override
+	public EApproval selectEApproval(String eNo) {
+
+		EApproval ea = eApprovalDao.selectEApproval(sqlSession, eNo);
+		
+		return ea;
+	}
+
 }

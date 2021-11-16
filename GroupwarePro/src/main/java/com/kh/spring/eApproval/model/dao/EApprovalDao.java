@@ -25,5 +25,10 @@ public class EApprovalDao {
 		return (ArrayList)sqlSession.selectList("eApprovalMapper.selectFinishList", empNo);
 	}
 
+	public EApproval selectEApproval(SqlSessionTemplate sqlSession, String eNo) {
+		
+		return sqlSession.selectOne("eApprovalMapper.selectEApproval", eNo);
+	}
+
 
 }

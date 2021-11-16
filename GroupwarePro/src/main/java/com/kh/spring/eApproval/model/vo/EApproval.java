@@ -16,9 +16,11 @@ public class EApproval {
 	private String content;
 	private int drafterId;
 	private String drafterName;
+	private String drafterDept;
 	private Date draftDate;
 	private int approverId;
 	private String approverName;
+	private String approverJob;
 	private Date approveDate;
 	
 	public EApproval() {
@@ -54,6 +56,26 @@ public class EApproval {
 		this.content = content;
 		this.drafterId = drafterId;
 		this.drafterName = drafterName;
+		this.draftDate = draftDate;
+		this.approverId = approverId;
+		this.approverName = approverName;
+		this.approveDate = approveDate;
+	}
+
+	public EApproval(String eNo, int sCode, String sName, String fNo, String fName, String title, String content,
+			int drafterId, String drafterName, String drafterDept, Date draftDate, int approverId, String approverName,
+			Date approveDate) {
+		super();
+		this.eNo = eNo;
+		this.sCode = sCode;
+		this.sName = sName;
+		this.fNo = fNo;
+		this.fName = fName;
+		this.title = title;
+		this.content = content;
+		this.drafterId = drafterId;
+		this.drafterName = drafterName;
+		this.drafterDept = drafterDept;
 		this.draftDate = draftDate;
 		this.approverId = approverId;
 		this.approverName = approverName;

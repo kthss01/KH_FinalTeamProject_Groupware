@@ -2,12 +2,14 @@ package com.kh.spring.eApproval.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.eApproval.model.service.EApprovalService;
 import com.kh.spring.eApproval.model.vo.EApproval;
@@ -39,5 +41,14 @@ public class EApprovalController {
 		model.addAttribute("fList", fList);
 		
 		return "eApproval/eAMain";
+	}
+	
+	@RequestMapping(value="eDetail.ap")
+	public ModelAndView selectEApproval(String eNo, ModelAndView mv) {
+		
+		EApproval ea = eApprovalService.selectEApproval(eNo);
+		mv.addObject("ea", ea).setViewName("eApproval/eApprDetailView");
+		
+		return mv;
 	}
 }
