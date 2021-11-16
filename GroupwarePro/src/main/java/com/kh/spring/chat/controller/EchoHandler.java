@@ -33,14 +33,11 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 	//클라이언트가 웹소켓 서버로 메세지를 전송했을 때 실행
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-	       
-	       System.out.println("handleTextMessage : " + session + " : " + message);
-	       
+	       	       
 			String senderId = getId(session);
 			String text = "";
-			//protocol : 기능, 발신자 , 수신자 (user2가 user1에게 채팅을 보낸다면    chat,user2,user1 )
 			String msg = message.getPayload();
-			String func = "";
+			String func = "";   
 			String sender = "";
 			String receiver = "";
 			String receiverNo = "";
@@ -81,9 +78,7 @@ public class EchoHandler extends TextWebSocketHandler { //메세지 전송용 �
 						+String.valueOf(receiverNo)+"'>작성하신 글 ["+title+"]에 댓글이 달렸습니다.</a>"));
 
 					}
-
-					
-					
+		
 				}
 				
 			}
