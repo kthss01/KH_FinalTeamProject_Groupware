@@ -62,7 +62,7 @@ public interface CommunityService {
 
 	int selectNewApplyCategory();
 
-	void reserveCategory(int cno);
+	void holdCategory(int cno);
 	
 
 

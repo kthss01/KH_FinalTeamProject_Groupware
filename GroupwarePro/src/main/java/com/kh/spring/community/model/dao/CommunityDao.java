@@ -151,9 +151,9 @@ public class CommunityDao {
 		return sqlSession.selectOne("communityMapper.selectNewApplyCategory");
 	}
 
-	public int reserveCategory(SqlSessionTemplate sqlSession, int cno) {
+	public int holdCategory(SqlSessionTemplate sqlSession, int cno) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("communityMapper.reserveCategory",cno);
+		return sqlSession.update("communityMapper.holdCategory",cno);
 	}
 
 }

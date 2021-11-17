@@ -239,8 +239,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public void reserveCategory(int cno) {
-		int result = communityDao.reserveCategory(sqlSession,cno);
+	public void holdCategory(int cno) {
+		int result = communityDao.holdCategory(sqlSession,cno);
 		if (result < 0) {
 			throw new CommException("카테고리 보류 실패");
 
