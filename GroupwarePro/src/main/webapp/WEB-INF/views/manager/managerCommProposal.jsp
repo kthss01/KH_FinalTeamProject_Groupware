@@ -115,7 +115,7 @@
 	                           								       <circle cx="12" cy="12" r="3"></circle>
 	                           								    </svg> 승인
 														</a> 
-														<a class="dropdown-item" href="reserveCategory.co?cno=${c.cno }"> 
+														<a class="dropdown-item" href="holdCategory.co?cno=${c.cno }"> 
 	                           								    <svg
 																xmlns="http://www.w3.org/2000/svg" width="24"
 																height="24" viewBox="0 0 24 24" fill="none"

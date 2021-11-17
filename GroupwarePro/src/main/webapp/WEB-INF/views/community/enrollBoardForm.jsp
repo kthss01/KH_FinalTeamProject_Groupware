@@ -157,13 +157,13 @@
 										</select> <br> 
 										<label style="display: inline"
 											class="mr-sm-2 font-weight-bold" for="inlineFormCustomSelect">작성자</label>
-										<input id='nickname' name="nickname" type="text"
+										<input id='nickname' name="nickname" type="text"  maxlength ="20"
 											class="form-control form-control-sm"
 											style="display: inline-block; width: 200px;"
 											placeholder="닉네임을 입력하세요"> <label
 											style="display: block" class="mr-sm-2  font-weight-bold"
 											for="inlineFormCustomSelect">글 제목</label> 
-										<input id='title'
+										<input id='title'  maxlength ="40"
 											name="title" type="text" class="form-control form-control-sm"
 											style="margin-bottom: 10px;" placeholder="글 제목을 입력하세요">
 										<input id='writer' name="writer" type="hidden" class="form-control form-control-sm" value ='${loginUser.empNo}'>
@@ -181,7 +181,7 @@
 											value="${date}" readonly> <label
 											style="display: inline" class="mr-sm-2  font-weight-bold"
 											for="inlineFormCustomSelect">내용</label>
-
+										<span id="contentCounter"></span>
 										<textarea id="summernote" name="content"></textarea>
 
 										<div class="filebox mr-sm-2" style="margin-top: 15px; padding-bottom:30px;">
@@ -297,7 +297,7 @@
 						maxHeight : null, // 최대 높이
 						focus : true, // 에디터 로딩후 포커스를 맞출지 여부
 						lang : "ko-KR", // 한글 설정
-						placeholder : '최대 4000자까지 쓸 수 있습니다.', //placeholder 설정
+						placeholder : '최대 2000자까지 쓸 수 있습니다.', //placeholder 설정
 						toolbar : [
 								// [groupName, [list of button]]
 								[
@@ -311,13 +311,31 @@
 								[ 'fontsize', [ 'fontsize' ] ],
 								[ 'color', [ 'color' ] ],
 								[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
-								[ 'height', [ 'height' ] ] ]
+								[ 'height', [ 'height' ] ] 
+						],
+						callbacks : {
+							onKeyup : function(e){
+								
+								setTimeout(function(){
+									var content = $('#summernote').val();
+									$('#contentCounter').html("("+content.length+"자/ 최대 2000자)");
+	
+									
+									if(content.length > 2000){  //2000자 이상일 경우
+										$(this).val(content.substring(0,2000)); //넘어간 글자 자르기
+										$("#contentCounter").html("(2000 / 최대 2000자)");
+									}
+								},200);
+
+							}
+						}
+
 
 					});
 
-			
-	 		// input file 파일 첨부시 fileCheck 함수 실행
-	
+			// 글자 수 세기
+
+			// input file 파일 첨부시 fileCheck 함수 실행
 		$("#input_file").on("change", fileCheck);
 
 		});

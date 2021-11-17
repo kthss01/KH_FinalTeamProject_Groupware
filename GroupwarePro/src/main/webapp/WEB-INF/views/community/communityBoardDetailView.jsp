@@ -183,7 +183,7 @@
 										</div>
 									</div>
 								
-								<c:if test="${ loginUser.loginId eq b.writer or loginUser.empNo eq 200}">
+								<c:if test="${ loginUser.empNo eq b.writer or loginUser.empNo eq 200}">
 								<div id="btnArea" style="height:80px;"class="col-12">
 									<button id="updateFormBtn" class="btn btn-primary" onclick="edit()" type="button" style="margin-top: 50px; position:absolute; right:80px;"><i class="fas fa-edit"></i> 수정</button>
 									<button id="deleteBtn" class="btn btn-danger" onclick="deleteBoard()" style="margin-top: 50px; position:absolute; right:0" >삭제</button>

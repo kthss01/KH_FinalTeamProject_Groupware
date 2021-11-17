@@ -206,6 +206,7 @@ public class CommunityController {
 		}
 	}
 
+	//게시글 등록
 	@RequestMapping(value = "insertBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
 	public String insertBoard(CommunityBoard b, HttpServletRequest request) {
 
@@ -214,6 +215,7 @@ public class CommunityController {
 		return "redirect:/boardList.co";
 	}
 
+	//댓글 등록
 	@ResponseBody
 	@RequestMapping("insertReply.co")
 	public String insertReply(CommunityReply r) {
@@ -223,6 +225,7 @@ public class CommunityController {
 		return String.valueOf(result);
 	}
 
+	//댓글 목록 조회
 	@ResponseBody
 	@RequestMapping(value = "selectReplyList.co", produces = "application/json; charset=utf-8")
 	public String selectReplyList(int bno) {
@@ -232,6 +235,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
+	//답글 목록 조회
 	@ResponseBody
 	@RequestMapping(value = "selectReComentList.co", produces = "application/json; charset=utf-8")
 	public String selectReComentList(CommunityReply r) {
@@ -241,6 +245,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
+	//댓글 삭제
 	@ResponseBody
 	@RequestMapping("deleteReply.co")
 	public String deleteReply(CommunityReply r) {
@@ -250,6 +255,7 @@ public class CommunityController {
 		return String.valueOf(result);
 	}
 
+	//게시판 메뉴 조회
 	@ResponseBody
 	@RequestMapping(value = "categoryList.co", produces = "application/json; charset=utf-8")
 	public String selectCategoryList(CommunityCategory r) {
@@ -259,6 +265,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
+	//인기 게시글 조회
 	@ResponseBody
 	@RequestMapping(value = "bestBoardList.co", produces = "application/json; charset=utf-8")
 	public String selectBestBoardList() {
@@ -267,6 +274,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	
+	//게시판 승인하기
 	@RequestMapping("applyCategory.co")
 	public String applyCategory(CommunityCategory c) {
 		
@@ -276,6 +284,8 @@ public class CommunityController {
 		return "redirect:/boardList.co";
 		
 	}
+	
+	//신청된 게시판 목록 조회하기
 	@ResponseBody
 	@RequestMapping("selectNewApplyCategory.co")
 	public String selectNewApplyCategory() {
@@ -286,25 +296,26 @@ public class CommunityController {
 		
 	}
 	
+	//게시판 열기
 	@RequestMapping("openCategory.co")
 	public String openCategory(int cno) {
-		System.out.println(cno);
 		communityService.openCategory(cno);
 		
 		
 		return "redirect:/managerCommunityList.me";
 	}
-	@RequestMapping("reserveCategory.co")
-	public String reserveCategory(int cno) {
-		System.out.println(cno);
-		communityService.reserveCategory(cno);
+	//게시판 승인 보류하기
+	@RequestMapping("holdCategory.co")
+	public String holdCategory(int cno) {
+		communityService.holdCategory(cno);
 		
 		
 		return "redirect:/managerCommProposal.me";
 	}
+	
+	//게시판 숨기기
 	@RequestMapping("closeCategory.co")
 	public String closeCategory(int cno) {
-		System.out.println(cno);
 		communityService.closeCategory(cno);
 		
 		
