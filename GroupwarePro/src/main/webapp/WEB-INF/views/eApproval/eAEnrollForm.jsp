@@ -106,34 +106,15 @@
 						<h3>결재하기</h3>
 						<br>
 						
-						<!-- 1. 내가 기안자 : 수정하기, 기안취소하기-->
-						<!-- 2. 내가 결재자 : 결재하기, 반려하기-->
-						<!-- 3. 결재완료 문서(완료, 반려) -->
-						<c:set value="${sessionScope.loginUser.empNo}" var="loginUser"/>
-						<c:set value="${ea.approverId}" var="approverId"/>
-						<c:set value="${ea.drafterId}" var="drafterId"/>
-						<c:set value="${ea.SCode}" var="sCode"/>
-						
-						<form method="POST">
+						<form action="insertEApproval.ap" method="POST">
 							<div class="row" style="margin:10px;">
-							<c:choose>
-								<c:when test="${approverId == loginUser && sCode == 1}">
-									<button type="submit" formaction="approve.ap" name="sCode" value="2" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">결재</button>
-									<button type="submit" formaction="approve.ap" name="sCode" value="3" class="btn waves-effect waves-light btn-outline-secondary">반려</button>
-								</c:when>
-								<c:when test="${drafterId == loginUser && sCode == 1}">
-									<button type="submit" formaction="update.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">수정</button>
-									<button type="submit" formaction="delete.ap" class="btn waves-effect waves-light btn-outline-secondary">취소</button>
-								</c:when>
-							</c:choose>
+								<button type="submit" class="btn waves-effect waves-light btn-outline-secondary">결재요청</button>
 							</div>
-							
 							<div class="row" style="margin:10px; padding-bottom: 20px; border: 1px solid rgba(0,0,0,.125);">
 								<!-- 공통 문서 양식 -->
 								<jsp:include page="eCommonForm.jsp" flush="true">
 									<jsp:param name="ea" value="${ea }" />
 								</jsp:include>
-								<input type="hidden" name="eNo" value="${ea.ENo }">
 								<input type="hidden" name="fNo" value="${ea.FNo }">
 								<input type="hidden" name="drafterId" value="${ea.drafterId }">
 								<input type="hidden" name="approverId" value="${ea.approverId }">
@@ -141,6 +122,7 @@
 								<!-- 추가 문서 양식 -->
 							</div>
 						</form>
+						
 					</div>
 				</div>
 			</div>

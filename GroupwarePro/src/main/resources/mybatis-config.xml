@@ -38,6 +38,7 @@
 
 		<!-- 전자결재 -->
 		<typeAlias type="com.kh.spring.eApproval.model.vo.EApproval" alias="EApproval"/>
+		<typeAlias type="com.kh.spring.eApproval.model.vo.EForm" alias="EForm"/>
 	
    		<!-- 근태관리 -->
    		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>

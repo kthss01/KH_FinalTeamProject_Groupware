@@ -21,6 +21,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="approveDate" column="APPROVE_DATE"/>
 	</resultMap>
 	
+	<resultMap type="EForm" id="eFormResultSet">
+		<id property="fNo" column="F_NO"/>
+		<result property="fName" column="F_NAME"/>
+		<result property="creatorId" column="CREATOR_ID"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="creatorName" column="ORIGIN_NAME"/>
+		<result property="createDate" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+	</resultMap>
+	
+	<resultMap id="memberResultSet" type="Member">
+		<id property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empReg" column="EMP_REG"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="deptTitle" column="DEPT_TITLE"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="salCode" column="SAL_CODE"/>
+		<result property="salary" column="SALARY"/>
+		<result property="bonus" column="BONUS"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="retireDate" column="RETIRE_DATE"/>
+		<result property="statement" column="STATEMENT"/>
+		<result property="gender" column="GENDER"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="loginPwd" column="LOGIN_PWD"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
 	<select id="selectApproveList" parameterType="_int" resultMap="eApprovalResultSet">
 		SELECT 
 			A.E_NO,
@@ -132,4 +164,73 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE 
 		    A.E_NO = #{eNo} 
 	</select>
+	
+	<select id="selectEFList" resultMap="eFormResultSet">
+		SELECT
+			F_NO, F_NAME
+		FROM
+			E_FORM
+		ORDER BY F_NO
+	</select>
+	
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT 
+			A.EMP_NO, A.EMP_NAME, B.DEPT_TITLE
+		FROM 
+			EMPLOYEE A
+		JOIN DEPARTMENT B ON A.DEPT_CODE = B.DEPT_CODE
+		WHERE A.STATEMENT = 'Y'
+		ORDER BY A.DEPT_CODE, A.JOB_CODE
+	</select>
+	
+	<select id="selectEForm" parameterType="string" resultMap="eFormResultSet">
+		SELECT
+			F_NO, F_NAME
+		FROM
+			E_FORM
+		WHERE F_NO = #{fNo }
+	</select>
+	
+	<select id="selectDrafter" parameterType="_int" resultMap="memberResultSet">
+		SELECT
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.DEPT_CODE,
+		    B.DEPT_TITLE
+		FROM
+		    EMPLOYEE A
+		JOIN DEPARTMENT B ON A.DEPT_CODE = B.DEPT_CODE
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
+	<select id="selectApprover" parameterType="_int" resultMap="memberResultSet">
+		SELECT
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.JOB_CODE,
+		    B.JOB_NAME
+		FROM
+		    EMPLOYEE A
+		JOIN JOB B ON A.JOB_CODE = B.JOB_CODE
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
+	<insert id="insertEApproval" parameterType="EApproval">
+		INSERT INTO ELECTRONIC_APPROVAL
+		VALUES
+		('E-'||TO_CHAR(CURRENT_TIMESTAMP, 'yyMMddHH24MI')||'-'||#{drafterId}, 1, #{fNo}, #{title}, #{content}, #{drafterId}, SYSDATE, #{approverId}, NULL)
+	</insert>
+	
+	<update id="updateEApproval" parameterType="EApproval">
+		UPDATE ELECTRONIC_APPROVAL
+		<choose>
+			<when test="sCode == 2">
+				SET S_CODE=#{sCode}, APPROVE_DATE=SYSDATE
+			</when>
+			<when test="sCode == 3">
+				SET S_CODE=#{sCode}
+			</when>
+		</choose>
+		WHERE E_NO = #{eNo}
+	</update>
 </mapper>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.kh.spring.eApproval.model.vo.EApproval"%>
+    pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -40,7 +40,15 @@
 				</tr>
 				<tr>
 					<th>기안일</th>
-					<td><fmt:formatDate value="${ea.draftDate}" type="date" pattern="yyyy-MM-dd(E)"/></td>
+					<c:choose>
+						<c:when test="${empty ea.draftDate }">
+							<c:set var="today" value="<%= new java.util.Date() %>"/>
+							<td><fmt:formatDate value="${today}" type="date" pattern="yyyy-MM-dd(E)"/></td>
+						</c:when>
+						<c:otherwise>
+							<td><fmt:formatDate value="${ea.draftDate}" type="date" pattern="yyyy-MM-dd(E)"/></td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				<tr>
 					<th>문서번호</th>
@@ -62,13 +70,13 @@
 			<table class="text-center" border='1' style="height: 104px; float: right;">
 				<tr>
 					<th rowspan="3" style="width: 26px;">결재선</th>
-					<td style="width: 70px">${ea.approverJob }</td>
+					<td style="width: 70px; height: 27px;">${ea.approverJob }</td>
 				</tr>
 				<tr>
-					<td style="height: 60px">${ea.approverName }</td>
+					<td>${ea.approverName }</td>
 				</tr>
 				<tr>
-					<td><fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/></td>
+					<td style="height: 27px"><fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/></td>
 				</tr>
 			</table>
 		</div>
@@ -79,7 +87,7 @@
 			<table border='1' class="col-12">
 				<tr>
 					<th>제목</th>
-					<td><input class="col-12" type="text" value="${ea.title }"></td>
+					<td><input class="col-12" type="text" value="${ea.title }" name="title"></td>
 				</tr>
 			</table>
 		</div>
@@ -90,7 +98,7 @@
 			<table border='1' class="col-12">
 				<tr>
 					<th>내용</th>
-					<td><textarea class="col-12">${ea.content }</textarea></td>
+					<td><textarea class="col-12" name="content" rows="5">${ea.content }</textarea></td>
 				</tr>
 			</table>
 		</div>
