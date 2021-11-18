@@ -55,6 +55,7 @@
 	    <!-- 예약 -->
 	    <typeAlias type="com.kh.spring.reservation.model.vo.Reservation" alias="Reservation"/>
 	    <typeAlias type="com.kh.spring.reservation.model.vo.Asset" alias="Asset"/>
+	    <typeAlias type="com.kh.spring.reservation.model.vo.AssetCategory" alias="AssetCategory"/>
 	    
 	    <!-- 식단 -->
 	    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMeals" alias="TblMeals"/>

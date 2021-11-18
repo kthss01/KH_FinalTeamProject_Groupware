@@ -93,10 +93,15 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+
 	@Override
-	public ArrayList<Member> getMemberList() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Member> selectMemberList() {
+		
+		ArrayList<Member> list = memberDao.selectMemberList(sqlSession);
+		
+		return list;
 	}
+	
+	
 
 }

@@ -33,7 +33,10 @@ public class ChatController {
 		Chat chat = new Chat();
 		ArrayList<Chat> chatList = null;
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-		int user = Integer.parseInt(loginUser.getEmpNo());		
+		int user = 0;
+		if(loginUser != null) {
+			 user = Integer.parseInt(loginUser.getEmpNo());		
+		}
 		chat.setSender(user);
 		chat.setReceiver(eno);
 		System.out.println("eno!! : " + eno);
@@ -41,9 +44,7 @@ public class ChatController {
 			receiver = chatService.selectContectMember(eno);
 			chatList = chatService.selectChatList(chat);
 		}
-		
-		System.out.println("채팅목록 : " + chatList);
-		
+				
 		mv.addObject("chatList",chatList);
 		mv.addObject("receiver", receiver); 
 		mv.setViewName("/chat/app-chat");
@@ -81,11 +82,13 @@ public class ChatController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="updateStatus.ch",produces="application/json; charset=utf-8")
+	@RequestMapping(value="updateStatus.ch")
 	public String updateStatus(ContectList con) {
+		
 		
 		int result = chatService.updateStatus(con);
 
+		System.out.println("메신저 상태 변경 결과 : " + result);
 		
 		return String.valueOf(result);
 	}

@@ -2,202 +2,102 @@
 <html dir="ltr" lang="ko">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
-    <title>Groupware</title>
-    <!-- Custom CSS -->
-    <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
-    <link href="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <title>Groupware - login</title>
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-
-<style>
-
-<!--
-.loginBox{
-    background-color: rgba(255,255,255,.97);
-    height: 800px;
-    width: 100%;
-    
-    text-align: center;
-    
-    
-    margin-top: 400px;
-    margin-bottom: 250px;
-
-}
-
-.card{
-	height:100%;
-	text-align:center;
-	display:inline-block
-}
-
-.card-body{
-	
-	box-shadow: 10px 4px 15px 0px rgba(0,0,0,0.63);
-	hegiht: 100%px;
-	width: 600px;
-	border-radius:5px;
-	
-}
-
-
-.btn-list{
-    margin: 45px 10px 15px 10px;    
-}
-
-
-
-.loginBtn{
-    font-size: 16px;
-    width: 80px;
-}
-.cancleBtn{
-    font-size: 16px;
-    width: 80px;
-}
-
-.new{
-	float:center;
-	font-size: 19px;
-}
-
-.newAcc{
-
-	text_decoration:none;
-
-}
-
-.light-logo{
-	
-	height:50px;
-	width: 95px;
-	
-	margin-bottom: 30px;
-
-}
-
-
-
-.row{
-	
-	display:flex;	
-	justify-content:center;
-	text-align:center;
-}
-
-
-.loginId {
-	margin-left:25px;
-}
-.loginPwd {
-	margin-left:10px; 
-}
-
-</style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
-    
-
-
-    <div class="loginBox">
-    				
-        <div class="wrapper">
-            <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
-            <h3 class="card-title"> WE CANVAS</h3>
-            <br>
-			
-			<div class="card">
-				<div class="card-body">
-	            <form id="loginForm" class="loginForm mt-5" action="login.me" method="post">
-	                   					
-					<div class="form-body">
-						
-						<div class="form-gorup">
-						
-							<div class="row">
-							
-							<label class="login-id" for="loginId">아이디 </label>
-								<div class="cold-md-5">
-									<input type="text" class="loginId form-control" name="loginId" id="loginId" placeholder="로그인 입력">
-								</div>
-							</div>
-						
-						</div>	
-						<br>
-						
-						<div class="form-gorup">
-						
-							<div class="row">
-							<label class="login-id" for="loginPwd">비밀번호 </label>
-								<div class="cold-md-5">
-									<input type="password" class="loginPwd form-control" name="loginPwd" id="loginPwd" placeholder="비밀번호 입력">
-								</div>
-							</div>
-						
-						</div>					
-					
-					</div>				          	      
-            
-          	 	 <div class="btn-list">
-           	    		<button type="submit" id="loginBtn" class="loginBtn btn waves-effect waves-light btn-secondary"> 로그인 </button>
-          	    		<button type="button" id="cancle" class="cancleBtn btn waves-effect waves-light btn-light"> 취소</button>
-         	 	 </div>
-
-            </form>
-        		</div>
-        		<br>
-        		<div class="new">    
-				<a id="newAcc" class="newAcc" href="enrollForm.me" > 계정 신청</a>
-        		</div>
-        	</div>
-        	
-        	
-        
+    <div class="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
         </div>
-        			
-       </div>
-
-
-
-
-
-            <footer class="footer text-center text-muted">
-                All Rights Reserved by kingSunHyo Designed and Developed by <a> KingSunHyo</a>.
-            </footer>
-
-
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
+            style="background:url(${ pageContext.servletContext.contextPath }/resources/assets/images/big/auth-bg.jpg) no-repeat center center;">
+            <div class="auth-box row">
+                <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(${ pageContext.servletContext.contextPath }/resources/assets/images/big/bg.png);">
+                </div>
+                <div class="col-lg-5 col-md-7 bg-white">
+                    <div class="p-3">
+                        <div class="text-center">
+                           <img style="weight:110px; height:110px;" src="${ pageContext.servletContext.contextPath }/resources/assets/images/big/logo-icon2.png" alt="logo" class="dark-logo" />
+                        </div>
+                        <h2 class="mt-3 text-center">LOGIN</h2>
+                        <p class="text-center" style="font-size:15px; margin-bottom:0px;">여러 개의 붓이 모여</p>
+                        <p class="text-center" style="font-size:15px;">하나의 캔버스 위에 그림이 되다.</p>
+                        <form class="mt-4" action="login.me" method="post">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="text-dark" for="loginId">ID</label>
+                                        <input class="form-control" name="loginId" id="loginId" type="text"
+                                            placeholder="아이디를 입력하세요">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="text-dark" for="loginPwd">PASSWORD</label>
+                                        <input class="form-control" name="loginPwd" id="loginPwd" type="password"
+                                            placeholder="비밀번호를 입력하세요">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <button id="loginBtn" type="submit" class="btn btn-block btn-dark">로그인</button>
+                                </div>
+                                <div class="col-lg-12 text-center mt-5" style="font-size:12px;">
+                                    	<span >계정 정보를 잊으셨나요?</span> <a href="#" class="text-danger">계정 찾기</a><br>
+                                    	<span >계정 정보가 없으신가요?</span> <a href="#" class="text-danger">계정 신청</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js "></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- apps -->
-    <!-- apps -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/app-style-switcher.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/feather.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/sparkline/sparkline.js"></script>
-    <!--Wave Effects -->
-    <!-- themejs -->
-    <!--Menu sidebar -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
-    <!-- This Page JS -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/prism/prism.js"></script>
-
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/popper.js/dist/umd/popper.min.js "></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/bootstrap/dist/js/bootstrap.min.js "></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script>
+        $(".preloader ").fadeOut();
+    </script>
 </body>
+
 </html>

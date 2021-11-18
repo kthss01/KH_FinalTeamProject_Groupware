@@ -34,7 +34,7 @@
                         <a href="${ pageContext.servletContext.contextPath }">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon7.png" alt="homepage" class="dark-logo" />
                                 <!-- Light Logo icon -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
                             </b>
@@ -42,7 +42,7 @@
                             <!-- Logo text -->
                             <span class="logo-text">		
                                 <!-- dark Logo text -->
-                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-text3.png" alt="homepage" class="dark-logo" />
                                 <!-- Light Logo text -->
                                 <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
                             </span>
@@ -213,9 +213,12 @@
 					                                        class="svg-icon mr-2 ml-1"></i>
 					                                    메뉴 3</a>
 					                                <div class="dropdown-divider"></div>
-					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
+					                     
+					                     <c:if test="${sessionScope.loginUser.loginId eq 'admin' }">
+					                                <a class="dropdown-item" href="menagerMain.me"><i data-feather="settings"
 					                                        class="svg-icon mr-2 ml-1"></i>
-					                                    내 정보 수정</a>
+					                                 관리자 페이지</a>
+					                     </c:if>          
 					                                <div class="dropdown-divider"></div>
 					                                <a class="dropdown-item" href="logout.me"><i data-feather="power"
 					                                        class="svg-icon mr-2 ml-1"></i>
@@ -257,7 +260,33 @@
 var socket = null;
 $(document).ready( function() {
 
-    connectWS();	
+    connectWS();
+    
+    console.log(${loginUser.empNo});
+    
+    if(${loginUser.empNo} == 200){
+        let socketAlert = $("div#socketAlert");
+        let socketAlertMsg = $("#socketAlertMsg");
+    	$.ajax({
+    		url:'selectNewApplyCategory.co',
+    		type:'post',
+    		async:false,
+    		success:function(result){
+    			if(result > 0){
+    				  socketAlert.css("display",'block');
+    		          socketAlertMsg.html("<a href='managerCommProposal.me'>새로운 게시판 개설 신청이 있습니다.<a>");
+    			} 
+    			
+    		},error:function(){
+    			
+    			console.log("error");
+    		}
+    	})
+    		
+    }
+    
+    
+
 });
 function connectWS() {
     var ws = new WebSocket("ws://localhost:8090/spring/echo");
@@ -268,17 +297,16 @@ function connectWS() {
     ws.onmessage = function (event) {
         let socketAlert = $("div#socketAlert");
         let socketAlertMsg = $("#socketAlertMsg");
-        console.log(event.data);
         var str = event.data;
         var msgArr = str.split(',');
-        console.log(msgArr[0]);
+
         if(msgArr[0] == 'reply'){
             alertMsg = msgArr[1]
             
              socketAlert.css("display",'block');
              socketAlertMsg.html(alertMsg);
              
-         }else{
+         }else{   //'chat' 일 경우
             
              alertMsg = msgArr[0];
 
@@ -288,10 +316,27 @@ function connectWS() {
                  socketAlertMsg.html(alertMsg);
              }else if(location.search != resultReceiver){
                 $('#newAlert').css("display",'block')
-              $('#newAlert').html(alertMsg);
-             }
-             
+                $('#newAlert').html(alertMsg);
+             }else if((location.pathname == "/spring/chatPage.ch")
+            		 				&& (location.search== resultReceiver)){
+            	 
+            	 $('.chat-list').append(`
+							<li class="chat-item list-style-none mt-3">
+							<div class="chat-img d-inline-block">
+								<img
+									src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/3.jpg"
+									alt="user" class="rounded-circle" width="45">
+							</div>
+							<div class="chat-content d-inline-block pl-3">
+								<div class="msg p-2 d-inline-block mb-1">\${ msgArr[1]}</div>
+							</div>
 
+						</li>        			 
+
+            			 `);
+
+             }
+ 
          }
         
        if(alertMsg == 'error'){

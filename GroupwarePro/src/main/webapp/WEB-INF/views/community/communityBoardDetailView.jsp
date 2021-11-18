@@ -168,15 +168,6 @@
 									<div id="imgUpdate" style="margin-top: 50px; ">
 										<h4>첨부파일 수정</h4>
 
-			<%-- 							<c:forEach items="${ at }" var="at" varStatus="status">
-
-											<div style="font-size: 12px;">
-												<span class="current_file">기존 파일 ${status.count} <i
-													class="icon-close"></i></span> <br />
-												<p>${at.originName}</p>
-											</div>
-										</c:forEach> --%>
-
 										<button id="btn-upload" type="button" class="btn btn-sm"
 											style="border: 1px solid #ddd; outline: none;"><i class="fas fa-link"></i> 파일 추가</button>
 										<input id="input_file" multiple="multiple" type="file"
@@ -229,15 +220,21 @@
 										<textarea id="comment" name="comment"
 											class="comment form-control form-control-sm" maxlength="1000"
 											style="resize: none; height: 100px; margin-top: 10px;"> </textarea>
-
+										<div class="col-12">
 										<input class="btn btn-orange" type="button" id="commentBtn"
-											style="margin-top: 30px;" onclick="insertComment();"
+											style="margin-top: 30px; position:absolute; right:0px;" onclick="insertComment();"
 											value="등록">
+										</div>
+										
+										
 									</form>
 
 
 								</div>
 							</div>
+							
+							
+							
 						</div>
 					</div>
 				</div>
@@ -318,7 +315,8 @@
                                        <label for="description" class="font-weight-bold">주제 부가설명</label>
                                        <input class="form-control" style="height:120px;" type="text" id="description" name="description" placeholder="간단하게  작성해주세요.">
                                    </div>
-
+      								<input type="hidden" name="manager" value="${ loginUser.empNo }">
+                                    <input type="hidden" name="managerName" value="${ loginUser.empName }">
                                    <div class="form-group">
                                        <div class="custom-control custom-checkbox">
                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -399,7 +397,8 @@
 
     
     var updateCancel = function(){
-    	 $('#summernote').summernote('destroy');
+    	
+    	$('#summernote').summernote('destroy');
  		$('.card-footer').show();
 		$('#updateCancelBtn').hide();
 		$('#updateBtn').hide();
@@ -444,18 +443,30 @@
 		};
 		
 	var deleteBoard = function(){
-		
-		var pwd = prompt("삭제는 작성 시 입력한 암호가 필요합니다.");
+		 var bno = ${b.bno};
+
+		$.ajax({
+			
+			url:'delete.co',
+			type:'post',
+			data: {bno : bno},
+			success:function(result){
+				if(result > 0){
+					alert("글이 삭제되었습니다.");
+					location.href="boardList.co?cno=" + ${b.cno};
+				}
+			}
+			
+			
+		})
 		
 	}
 	
-		/* 첨부파일 로직 */
+	 /* 첨부파일 로직 */
 
 	 $(function () {
 		 
-		 
 		 var bno = ${b.bno};
-		 
 		 
 		 //현재 게시글의 파일정보 가져오기
 		 
@@ -463,7 +474,7 @@
 			
 			 url:'selectAttachmentList.co',
 			 dataType:'json',
-			 post:'post',
+			 type:'post',
 			 data:{bno :  bno},
 			 success:function(list){
 				 
@@ -584,44 +595,43 @@
 		 		formData.append("content", $('#summernote').summernote('code'));
 		 		formData.append("title", $('#updateTitle').val());
 
-
-   				 $.ajax({		
+  				 $.ajax({		
+  					 
 						type: "POST",
-			  	     	url: 'updateBoard.co',
-		    	   	  	enctype: "multipart/form-data",
-			      	  	data : formData,
+			  	     	url: 'originFileCheck.co',
 			  	     	async:false,
-		        	  	processData: false,
-		    	      	contentType: false,
-			  	      	success: function () {
+			      	  	data : {origin_files : origin_files, 
+			      	  			bno : bno},
+			  	      	success: function (data) {
 			  	      		
-			 			   
+
 			   				 $.ajax({		
-			  					 
 									type: "POST",
-						  	     	url: 'originFileCheck.co',
+						  	     	url: 'updateBoard.co',
+					    	   	  	enctype: "multipart/form-data",
+						      	  	data : formData,
 						  	     	async:false,
-						      	  	data : {origin_files : origin_files, 
-						      	  			bno : bno},
+					        	  	processData: false,
+					    	      	contentType: false,
 						  	      	success: function (data) {
-										alert("성공");
+										location.href="detail.co?bno=" + bno;
 						  	      },
 						  	      error: function (xhr, status, error) {
 						  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
 					
 						  	      }
 									 
-								 }); 
+								 });  
+
 			  	      		
-			  	      		
-		
 			  	      },
 			  	      error: function (xhr, status, error) {
 			  	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
 		
 			  	      }
 						 
-					 });  
+					 }); 
+
 			   	
   
   				 
@@ -634,7 +644,8 @@
 		 
 		 
   	 		function insertComment(){
-	
+				console.log(${loginUser.empNo});
+
   	 			var formData = $("#replyForm").serialize();  	 			
   	 			
   	 			$.ajax({
@@ -650,7 +661,7 @@
 						$("#comment").val("");
         				selectReplyList(${b.bno});
 
-        				if(${loginUser.loginId} != writer){
+        				if('${loginUser.loginId}' != writer){
              				socket.send("reply," + bTitle +"," + bno + "," + wirter);
         				}
         				
@@ -827,10 +838,8 @@
 			
 				function deleteReply(cno, pwd){
 					
-					console.log("삭제비번 :" + pwd);
-							
 					 var checkPwd = prompt("댓글 암호를 입력하세요");
-					 console.log("입력 비번 :" + checkPwd);
+					 
 					 if(checkPwd == pwd){
 						$.ajax({
 							url:'deleteReply.co',

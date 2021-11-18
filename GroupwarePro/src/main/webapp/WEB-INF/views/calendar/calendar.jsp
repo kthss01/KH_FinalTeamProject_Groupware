@@ -11,13 +11,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
 	<title>위캔버스 - 일정</title>
 
-    <!-- fullcalendar CDN -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+    <!-- fullcalendar-scheduler CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.css">
     <!-- daterangepicker CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
+    
+    <script>
+    	const empNo = ${ loginUser.empNo };
+    	//console.log(empNo);
+    </script>
 </head>
 <body>
     <!-- ============================================================== -->
@@ -70,19 +75,7 @@
                         </div>
                     </div>
                     <div class="col-4 align-self-center">
-                        <!-- <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
-                        </div> -->
-                        <div class="input-group">
-                            <input type="text" size="1" class="form-control" placeholder="캘린더 검색">
-                            <div class="input-group-apend">
-                                <button class="btn btn-info"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
+
                     </div>          
                 </div>
             </div>
@@ -143,10 +136,10 @@
 
     <!-- Axios CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- fullcalendar CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-    <!-- fullcalendar 언어 CDN -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    <!-- fullcalendar-scheduler CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.js"></script>
+    <!-- fullcalendar-scheduler 언어 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/locales-all.min.js"></script>
     <!-- dateragnepicker CDN -->
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

@@ -44,7 +44,8 @@ export default class SideMenu extends Component {
     const $sideMenuCal = this.$target.querySelector('[data-component="sidemenu-cal"]');
     $sideMenuCal.classList.add("row", "pt-3");
 
-    const { insertEvent, editEvent, deleteEvent, insertCalendar, editCalendar, deleteCalendar } = this.$props;
+    const { insertEvent, editEvent, deleteEvent, } = this.$props;
+    const { insertCalendar, editCalendar, deleteCalendar, showCalendar } = this.$props;
 
     this.$children = {
       header: new SideMenuHeader($sideMenuHeader, {}),
@@ -52,7 +53,7 @@ export default class SideMenu extends Component {
         insertEvent, editEvent, deleteEvent,
       }),
       cal: new SideMenuCal($sideMenuCal, {
-        insertCalendar, editCalendar, deleteCalendar,
+        insertCalendar, editCalendar, deleteCalendar, showCalendar,
       }),
     }
     

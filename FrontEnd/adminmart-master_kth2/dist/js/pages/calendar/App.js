@@ -46,6 +46,9 @@ export default class App extends Component {
       })
     };
   }
+
+  // events
+
   selectEvent (event) {
 
     // console.log(event);
@@ -58,7 +61,7 @@ export default class App extends Component {
   async insertEvent (event) {
     const { calendar } = this.$children;
 
-    console.log('app', event);
+    // console.log('app', event);
 
     // console.log(new Date(event.start), new Date(event.end));
 
@@ -132,7 +135,7 @@ export default class App extends Component {
   async insertCalendar (cal) {
     const { calendar } = this.$children;
 
-    console.log(cal);
+    // console.log(cal);
 
     try {
       const res = await axios.post(`insertCalendar.ca`, null, {
@@ -143,7 +146,7 @@ export default class App extends Component {
         }
       });
 
-      console.log(res.data);
+      // console.log(res.data);
 
       cal.calNo = res.data;
 

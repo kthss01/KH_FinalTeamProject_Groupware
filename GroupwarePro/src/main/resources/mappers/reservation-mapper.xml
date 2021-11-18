@@ -12,30 +12,99 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="END_DATE" property="endDate" />
 		<result column="AS_NO" property="asNo" />
 		<result column="EMP_NO" property="empNo" />
+		<result column="EMP_NAME" property="empName" />
 		<result column="EVT_NO" property="evtNo" />
-		
+		<result column="ALLDAY" property="allDay" />
 	</resultMap>
 
 	<resultMap id="assetResultSet" type="Asset">
 		<id column="AS_NO" property="asNo" />
-		<result column="NAME" property="name" />
+		<result column="AS_NAME" property="name" />
 		<result column="COLOR" property="color" />
+		<result column="ASC_NO" property="ascNo" />
+		<association property="category">
+			<id column="ASC_NO" property="ascNo"/>
+			<result column="ASC_NAME" property="name"/>
+		</association>
+	</resultMap>
+	
+	<resultMap id="assetCategoryResultSet" type="AssetCategory">
+		<id column="ASC_NO" property="ascNo" />
+		<result column="NAME" property="name" />
 	</resultMap>
 
 	<!-- READ -->
-	<select id="selectReservationList" parameterType="_int" resultMap="reservationResultSet">
+	<select id="selectRezList" resultMap="reservationResultSet">
 
-		SELECT * 
-		FROM RESERVATION2 
-		WHERE EMP_NO = #{empNo} AND IS_DELETE = 'N'
+		SELECT R.*, E.EMP_NAME
+		FROM RESERVATION2 R
+		LEFT JOIN EMPLOYEE E ON R.EMP_NO = E.EMP_NO
+		WHERE IS_DELETE = 'N'
+		ORDER BY R.REZ_NO
 
 	</select>
 
-	<select id="selectAssetList" resultMap="assetResultSet">
+	<select id="selectAsList" resultMap="assetResultSet">
 	
 		SELECT * 
 		FROM ASSET2 
 		WHERE IS_DELETE = 'N'
+		ORDER BY AS_NO
+	
+	</select>
+	
+	<select id="selectAsCatList" resultMap="assetCategoryResultSet">
+	
+		SELECT * 
+		FROM ASSET_CATEGORY 
+		WHERE IS_DELETE = 'N'
+		ORDER BY ASC_NO
+	
+	</select>
+
+	<select id="selectAsWithCatList" resultMap="assetResultSet">
+		
+		SELECT 
+		    AS_NO,
+		    A.NAME "AS_NAME",
+		    COLOR,
+		    ASC_NO,
+		    AC.NAME "ASC_NAME"
+		FROM ASSET2 A 
+		LEFT JOIN ASSET_CATEGORY AC USING(ASC_NO)
+		WHERE AC.IS_DELETE = 'N' AND A.IS_DELETE = 'N'
+		ORDER BY AS_NO
+		
+	</select>
+
+	<select id="selectRezListForCat" parameterType="_int" resultMap="reservationResultSet">
+		
+		SELECT R.*
+		FROM RESERVATION2 R 
+		LEFT JOIN ASSET2 A ON R.AS_NO = A.AS_NO
+		LEFT JOIN ASSET_CATEGORY AC ON A.ASC_No = AC.ASC_NO
+		WHERE AC.ASC_NO = #{ascNo}
+		AND AC.IS_DELETE = 'N'
+		AND A.IS_DELETE = 'N' 
+		AND R.IS_DELETE = 'N'
+		ORDER BY R.REZ_NO
+		
+	</select>
+	
+	<select id="selectAsListForCat" parameterType="_int" resultMap="assetResultSet">
+	
+		SELECT 
+			A.AS_NO, 
+		    A.NAME "AS_NAME", 
+		    A.COLOR, 
+		    A.ASC_NO,
+		    AC.NAME "ASC_NAME"
+		FROM ASSET2 A
+		LEFT JOIN ASSET_CATEGORY AC ON A.ASC_NO = AC.ASC_NO
+		WHERE AC.ASC_NO = #{ascNo} 
+		AND AC.IS_DELETE = 'N'
+		AND A.IS_DELETE = 'N'
+		ORDER BY A.AS_NO
 	
 	</select>
 
@@ -48,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 	
 		INSERT INTO RESERVATION2 
-		VALUES (#{rezNo}, #{name}, #{startDate}, #{endDate}, DEFAULT, #{asNo}, #{empNo}, #{evtNo})
+		VALUES (#{rezNo}, #{name}, #{startDate}, #{endDate}, DEFAULT, #{asNo}, #{empNo}, #{evtNo}, #{allDay})
 		
 	</insert>
 	
@@ -59,29 +128,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 	
 		INSERT INTO ASSET2 
-		VALUES (#{asNo}, #{name}, #{color}, DEFAULT)
+		VALUES (#{asNo}, #{name}, #{color}, DEFAULT, #{ascNo})
 	
 	</insert>
 	
-
+	<insert id="insertAssetCategory" parameterType="AssetCategory">
+	
+		<selectKey keyProperty="ascNo" resultType="int" order="BEFORE">
+			SELECT SEQ_ASC_ID.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO ASSET_CATEGORY 
+		VALUES (#{ascNo}, #{name}, DEFAULT)
+	
+	</insert>
+	
 	<!-- UPDATE -->
 
-	<update id="updateAsset" parameterType="Asset">
-	
-		UPDATE ASSET2
-		<trim prefix="SET" suffixOverrides=",">		
-			<if test="name != null">
-				NAME = #{name},
-			</if>
-			<if test="color != null">
-				COLOR = #{color},
-			</if>
-		</trim>
-		WHERE AS_NO = #{asNo} AND IS_DELETE = 'N'
-	
-	</update>
-
-	
 	<update id="updateReservation" parameterType="Reservation">
 	
 		UPDATE RESERVATION2 
@@ -95,21 +158,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="endDate != null">
 				END_DATE = #{endDate},
 			</if>
+			<if test="asNo != null">
+				AS_NO = #{asNo},
+			</if>
 		</trim>
 		WHERE REZ_NO = #{rezNo} AND IS_DELETE = 'N'
 		
 	</update>
 
+	<update id="updateAsset" parameterType="Asset">
+	
+		UPDATE ASSET2
+		<trim prefix="SET" suffixOverrides=",">		
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="color != null">
+				COLOR = #{color},
+			</if>
+			<if test="ascNo != null">
+				ASC_NO = #{ascNo},
+			</if>
+		</trim>
+		WHERE AS_NO = #{asNo} AND IS_DELETE = 'N'
+	
+	</update>
+
+	<update id="updateAssetCategory" parameterType="AssetCategory">
+	
+		UPDATE ASSET_CATEGORY
+		<trim prefix="SET" suffixOverrides=",">		
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+		</trim>
+		WHERE ASC_NO = #{ascNo} AND IS_DELETE = 'N'
+	
+	</update>
+
 	<!-- DELETE -->
 	<update id="deleteReservation" parameterType="_int">
 		
-		UPDATE RESERVATION2 SET ISDELETE = 'Y' WHERE REZ_NO = #{rezNo}
+		UPDATE RESERVATION2 SET IS_DELETE = 'Y' WHERE REZ_NO = #{rezNo}
 		
 	</update>
 
 	<update id="deleteAsset" parameterType="_int">
 		
-		UPDATE ASSET2 SET ISDELETE = 'Y' WHERE AS_NO = #{asNo}
+		UPDATE ASSET2 SET IS_DELETE = 'Y' WHERE AS_NO = #{asNo}
+		
+	</update>
+	
+	<update id="deleteAssetCategory" parameterType="_int">
+		
+		UPDATE ASSET_CATEGORY SET IS_DELETE = 'Y' WHERE ASC_NO = #{ascNo}
 		
 	</update>
 

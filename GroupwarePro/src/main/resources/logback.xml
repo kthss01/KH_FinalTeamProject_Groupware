@@ -13,7 +13,7 @@
 	<logger name="com.kh.spring" level="DEBUG" /> <!-- spring 패키지 안에있는건 다 debug 레벨로 나옴 -->
 	<logger name="jdbc.resultsettable" level="INFO" /> <!-- 이렇게 설정하면 root level과 상관없이 나옴 필요한 클래스만 추가 -->
 		
-	<root level="INFO">
+	<root level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

@@ -187,8 +187,10 @@
 	                               	</c:if>
 	                               	
 	                                <h4 class="card-title" style="font-size:17px;">
-	                                <a href="fileDownLoad.do?fileName=${l.changeName }">${l.originName} &nbsp; 
-	                                <i class="fas fa-file-alt" onclick="downloadFile(${l.changeName});"></i></a></h4>
+		                                <a href="fileDownLoad.do?fileName=${l.changeName }">${l.originName} &nbsp; 
+		                               		 <i class="fas fa-file-alt" onclick="downloadFile(${l.changeName});"></i>
+		                                </a>
+	                                </h4>
 	                      
 										<span style="font-size:15px;">${l.content }</span>
 

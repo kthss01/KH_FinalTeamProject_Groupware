@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.common.exception.CommException;
 import com.kh.spring.reservation.model.dao.ReservationDao;
 import com.kh.spring.reservation.model.vo.Asset;
+import com.kh.spring.reservation.model.vo.AssetCategory;
 import com.kh.spring.reservation.model.vo.Reservation;
 
 @Service
@@ -21,15 +22,35 @@ public class ReservationServiceImpl implements ReservationService {
 	private ReservationDao reservationDao;
 
 	@Override
-	public ArrayList<Reservation> selectReservationList(int empNo) {
-		return reservationDao.selectReservationList(sqlSession, empNo);
+	public ArrayList<Reservation> selectRezList() {
+		return reservationDao.selectRezList(sqlSession);
 	}
 
 	@Override
 	public ArrayList<Asset> selectAsList() {
 		return reservationDao.selectAsList(sqlSession);
 	}
+	
+	@Override
+	public ArrayList<AssetCategory> selectAsCatList() {
+		return reservationDao.selectAsCatList(sqlSession);
+	}
 
+	@Override
+	public ArrayList<Asset> selectAsWithCatList() {
+		return reservationDao.selectAsWithCatList(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Reservation> selectRezListForCat(int ascNo) {
+		return reservationDao.selectRezListForCat(sqlSession, ascNo);
+	}
+
+	@Override
+	public ArrayList<Asset> selectAsListForCat(int ascNo) {
+		return reservationDao.selectAsListForCat(sqlSession, ascNo);
+	}
+	
 	@Override
 	public int insertReservation(Reservation rez) {
 		int result = reservationDao.insertReservation(sqlSession, rez);
@@ -38,7 +59,7 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new CommException("예약 생성 실패");
 		}
 
-		return result;
+		return rez.getRezNo();
 	}
 
 	@Override
@@ -49,7 +70,18 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new CommException("자산 생성 실패");
 		}
 
-		return result;
+		return as.getAsNo();
+	}
+	
+	@Override
+	public int insertAssetCategory(AssetCategory asc) {
+		int result = reservationDao.insertAssetCategory(sqlSession, asc);
+
+		if (result <= 0) {
+			throw new CommException("자산 목록 생성 실패");
+		}
+
+		return asc.getAscNo();
 	}
 
 	@Override
@@ -73,6 +105,17 @@ public class ReservationServiceImpl implements ReservationService {
 
 		return result;
 	}
+	
+	@Override
+	public int updateAssetCategory(AssetCategory asc) {
+		int result = reservationDao.updateAssetCategory(sqlSession, asc);
+
+		if (result <= 0) {
+			throw new CommException("자산 목록 수정 실패");
+		}
+
+		return result;
+	}
 
 	@Override
 	public int deleteReservation(int rezNo) {
@@ -91,6 +134,17 @@ public class ReservationServiceImpl implements ReservationService {
 
 		if (result <= 0) {
 			throw new CommException("자산 삭제 실패");
+		}
+
+		return result;
+	}
+
+	@Override
+	public int deleteAssetCategory(int ascNo) {
+		int result = reservationDao.deleteAssetCategory(sqlSession, ascNo);
+
+		if (result <= 0) {
+			throw new CommException("자산 목록 삭제 실패");
 		}
 
 		return result;
