@@ -344,9 +344,31 @@
 
 
 	<script>
+	
+    $("#status").on('change',function(){
+    	var eStatus = $(this).val();
+     	var eNo = '${ loginUser.empNo }';
 
-	
-	
+     	console.log(eStatus);
+     	console.log(eNo);
+    	$.ajax({
+    		url:'updateStatus.ch',
+    		data: {
+    			eStatus : eStatus,
+    			eNo : eNo
+    			
+    		},
+    		type:'post',
+    		success:function(result ){
+				if(result <= 0){
+					alert(" 서버오류 :  고객지원팀으로 문의 바랍니다.");
+				}
+    		},error:function(){
+    			alert("서버오류 : 고객지원팀으로 문의 바랍니다.");
+    		}
+    	
+    	})
+    });
 	
         $(function () {
         	
@@ -585,25 +607,7 @@
             		}
             	}) 
         
-        $("#status").on('change',function(){
-        	var eStatus = $(this).val();
-         	var eNo = '${ loginUser.empNo }';
 
-        	$.ajax({
-        		url:'updateStatus.ch',
-        		data: {
-        			eStatus : eStatus,
-        			eNo : eNo
-        			
-        		},
-        		type:'post',
-        		success:function(){
-        		},error:function(){
-        			alert("서버오류 : 고객지원팀으로 문의 바랍니다.");
-        		}
-        	
-        	})
-        });
 
  }
 
