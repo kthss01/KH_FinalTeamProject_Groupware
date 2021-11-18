@@ -1,7 +1,6 @@
 package com.kh.spring.member.controller;
 
-import java.util.ArrayList;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.kh.spring.chat.model.service.ChatService;
+import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.community.model.service.CommunityService;
-import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.service.MemberServiceImpl2;
 import com.kh.spring.member.model.vo.Member;
@@ -27,6 +27,9 @@ public class MemberController {
 	
 	@Autowired
 	private CommunityService communityService;
+	
+	@Autowired
+	private ChatService chatService;
 	
 	@Autowired
 	private MemberService memberService;
@@ -44,11 +47,21 @@ public class MemberController {
 	
 	// 로그아웃 변경 (@SessionAttributes)
 	@RequestMapping("logout.me")
-	public String logoutMember(SessionStatus status) {
+	public String logoutMember(SessionStatus status, HttpServletRequest request ) {
 		
 //		if(status.isComplete()){
 //		HttpSession session = request.getSession();
 //		session.invalidate();
+		
+		//메신저의 상태값을 오프라인으로 변경
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		ContectList con = new ContectList();
+		con.setENo(Integer.parseInt(loginUser.getEmpNo()));
+		con.setEStatus("0");
+		
+		chatService.updateStatus(con);
 		status.setComplete();
 		
 		return "member/memberLoginForm";
