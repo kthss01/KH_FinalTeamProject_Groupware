@@ -35,6 +35,10 @@
 	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
 	    <typeAlias type="com.kh.spring.notice.model.vo.NoReply" alias="NoReply"/>
 	    <typeAlias type="com.kh.spring.notice.model.vo.Notify" alias="Notify"/>
+
+		<!-- 전자결재 -->
+		<typeAlias type="com.kh.spring.eApproval.model.vo.EApproval" alias="EApproval"/>
+		<typeAlias type="com.kh.spring.eApproval.model.vo.EForm" alias="EForm"/>
 	
    		<!-- 근태관리 -->
    		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
@@ -64,6 +68,7 @@
 		<mapper resource="mappers/community-mapper.xml"/> 
 		<mapper resource="mappers/chat-mapper.xml"/> 
 		<mapper resource="mappers/library-mapper.xml"/> 
+		<mapper resource="mappers/eApproval-mapper.xml"/>
 		<mapper resource="mappers/hr-mapper.xml"/> 
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
