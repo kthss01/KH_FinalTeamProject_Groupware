@@ -81,18 +81,7 @@
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
-        
-        
-            
-            	
-				<div id="socketAlert" class="alert alert-info alert-dismissible fade show" role="alert" 
-						style="text-align:center; height:40px; padding:5px; display:none;">
-	                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:5px 30px;" id="closeAlert" >
-	                    <span aria-hidden="true">×</span>
-	                </button>
-	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 알림 &nbsp;- &nbsp;</span> 
-	                	<span id='socketAlertMsg' style="font-size:17px;"> 새 메세지가 도착했습니다! </span>
-                 </div>
+
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
