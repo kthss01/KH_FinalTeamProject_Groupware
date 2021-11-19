@@ -10,16 +10,7 @@
 <body>
 
         <header class="topbar" data-navbarbg="skin6">
-        	
-				<div id="socketAlert" class="alert alert-info alert-dismissible fade show" role="alert" 
-						style="text-align:center; height:40px; padding:5px; display:none;">
-	                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding:5px 30px;"
-	                			onclick='$("#socketAlert").css("display","none")'>
-	                    <span aria-hidden="true">×</span>
-	                </button>
-	                <span class="font-weight-bold" style="font-size:17px;"><i class="fas fa-envelope"></i>&nbsp;&nbsp; 알림 &nbsp;- &nbsp;</span> 
-	                	<span id='socketAlertMsg' style="font-size:17px;"> 새 메세지가 도착했습니다! </span>
-                 </div>
+
            
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
@@ -256,6 +247,25 @@
 		src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
 </body>
 <script>
+
+//알람창 노출 변수
+var showAlert = true;
+
+$("#closeAlert").on('click',function(){
+	showAlert = false;
+	$("#socketAlert").css("display","none");
+	
+});
+
+	if(showAlert == false){
+		$("#socketAlert").css("display","none");
+	
+	}else{
+		$("#socketAlert").css("display","block");
+	
+	}
+
+
 //자신의 url과 핸들러 맵핑할 주소로 WebSocket객체 생성, 객체가 메시지를 받고 연결이 끊길 때 호출할 함수 셋팅  	
 var socket = null;
 $(document).ready( function() {
@@ -273,8 +283,10 @@ $(document).ready( function() {
     		async:false,
     		success:function(result){
     			if(result > 0){
-    				  socketAlert.css("display",'block');
-    		          socketAlertMsg.html("<a href='managerCommProposal.me'>새로운 게시판 개설 신청이 있습니다.<a>");
+    				if(showAlert == true){
+    					 socketAlert.css("display",'block');
+       		          socketAlertMsg.html("<a href='managerCommProposal.me'>새로운 게시판 개설 신청이 있습니다.<a>");
+    				}	 
     			} 
     			
     		},error:function(){
