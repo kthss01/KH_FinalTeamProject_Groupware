@@ -111,4 +111,46 @@ public class EApprovalController {
 		return mv;
 	}
 	
+	@RequestMapping("waitD.ap")
+	public ModelAndView selectWaitEApprovalList(int empNo, ModelAndView mv) {
+		
+		//loginUser가 결재자, 진행중인 문서 리스트 가져오기
+		ArrayList<EApproval> wList = eApprovalService.selectWaitEApprovalList(empNo);
+		
+		mv.addObject("wList", wList).setViewName("eApproval/eADocumentsView");
+				
+		return mv;
+	}
+	
+	@RequestMapping("draftD.ap")
+	public ModelAndView selectDraftEApprovalList(int empNo, ModelAndView mv) {
+		
+		//loginUser가 기안자, 모든 문서 리스트 가져오기
+		ArrayList<EApproval> drList = eApprovalService.selectDraftEApprovalList(empNo);
+		
+		mv.addObject("drList", drList).setViewName("eApproval/draftDocumentsView");
+				
+		return mv;
+	}
+	
+	@RequestMapping("apprD.ap")
+	public ModelAndView selectApproveEApprovalList(int empNo, ModelAndView mv) {
+		
+		//loginUser가 기안자, 모든 문서 리스트 가져오기
+		ArrayList<EApproval> apList = eApprovalService.selectApproveEApprovalList(empNo);
+		
+		mv.addObject("apList", apList).setViewName("eApproval/approveDocumentsView");
+				
+		return mv;
+	}
+	
+	@RequestMapping("eFormList.ap")
+	public ModelAndView selectEFormList(ModelAndView mv) {
+		
+		ArrayList<EForm> efList = eApprovalService.selectEFormList();
+		
+		mv.addObject("efList", efList).setViewName("eApproval/eFormsView");
+		
+		return mv;
+	}
 }

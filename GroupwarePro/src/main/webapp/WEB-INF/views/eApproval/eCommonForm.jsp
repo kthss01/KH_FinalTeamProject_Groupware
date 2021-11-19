@@ -70,13 +70,22 @@
 			<table class="text-center" border='1' style="height: 104px; float: right;">
 				<tr>
 					<th rowspan="3" style="width: 26px;">결재선</th>
-					<td style="width: 70px; height: 27px;">${ea.approverJob }</td>
+					<td style="min-width: 70px; height: 27px;">${ea.approverJob }</td>
 				</tr>
 				<tr>
 					<td>${ea.approverName }</td>
 				</tr>
 				<tr>
-					<td style="height: 27px"><fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/></td>
+					<td style="max-height: 27px; font-size: 10px;">
+						<c:choose>
+							<c:when test="${ea.SCode eq 2 }">
+								<fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/>
+							</c:when>
+							<c:when test="${ea.SCode eq 3 }">
+								<fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/>(반려)
+							</c:when>
+						</c:choose>
+					</td>
 				</tr>
 			</table>
 		</div>
