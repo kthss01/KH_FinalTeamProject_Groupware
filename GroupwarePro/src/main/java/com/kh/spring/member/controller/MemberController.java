@@ -41,7 +41,11 @@ public class MemberController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@RequestMapping("loginForm.me")
-	public String loginForm(){
+	public String loginForm( HttpServletRequest request ){
+		
+
+		
+		
 		return "member/memberLoginForm";
 	}
 	
@@ -102,7 +106,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("login.me")
-	public String loginMember(Member m, Model model) {
+	public String loginMember(Member m, Model model,HttpServletRequest request) {
 		
 		String encPwd = bCryptPasswordEncoder.encode(m.getLoginPwd());
 //		System.out.println(encPwd);
@@ -111,6 +115,17 @@ public class MemberController {
 		loginUser = memberService.loginMember(bCryptPasswordEncoder ,m);
 		
 		System.out.println("loginUser : " + loginUser); 
+		
+		
+		//메신저의 상태값을 온라인으로 변경
+		HttpSession session = request.getSession();
+		
+		ContectList con = new ContectList();
+		con.setENo(Integer.parseInt(loginUser.getEmpNo()));
+		con.setEStatus("1");
+		
+		chatService.updateStatus(con);
+		
 		
 		model.addAttribute("loginUser", loginUser);
 		
