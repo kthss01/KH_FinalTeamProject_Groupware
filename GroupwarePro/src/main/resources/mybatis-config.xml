@@ -49,6 +49,7 @@
 	    <typeAlias type="com.kh.spring.reservation.model.vo.Asset" alias="Asset"/>
 	    
 	    <!-- 식단 -->
+	    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMealsCal" alias="TblMealsCal"/>
 	    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMeals" alias="TblMeals"/>
 		    
 	</typeAliases>

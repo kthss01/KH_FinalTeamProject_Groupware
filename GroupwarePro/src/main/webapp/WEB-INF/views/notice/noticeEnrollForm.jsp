@@ -145,7 +145,8 @@
                                 
                                 
                                 <h4 class="card-title">작성자</h4>
-                                <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo()}">     
+                                <input type="text" class="form-control is-valid" id="inputSuccess1" 
+                                	style="width:200px;",name="empNo" value="${loginUser.getEmpNo()}">     
                                 <!-- <div class="card-body">
                                 <h4 class="card-title">작성자</h4>
                                 <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
@@ -159,19 +160,9 @@
                             </div> -->
                             
                             <h4 class="card-title">제목</h4>
-                            <input type="text" class="form-control is-valid" id="inputSuccess2" name="nTitle">
+                            <input type="text" class="form-control is-valid" id="inputSuccess2" name="nTitle" style="width:200px;">
                             <br>
-                            <!-- <div class="card-body">
-                                <h4 class="card-title">제목</h4>
-                                <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
-                                <form class="mt-3">
-                                    <label class="form-control-label" for="inputSuccess1">Input with success</label>
-                                    <input type="text" class="form-control is-valid" id="inputSuccess2" name="nTitle">
-                                    <div class="valid-feedback">
-                                        Success! You've done it.
-                                    </div>
-                                </form>
-                            </div> -->
+                            
                             
                             <!--<h4 class="card-title">파일첨부</h4>
                             <input type="file" class="" id="inputSuccess4" name="upfiles">-->
@@ -191,8 +182,18 @@
                                 </form>
                             </div> -->
                                 
-                                <label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>
-                                <textarea class="form-control" rows="3" name="nContent" id="inputSuccess3"></textarea>
+                                <!-- <label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>  --> 
+                                <h4 class="card-title">내용</h4>
+                                <!-- <textarea class="form-control" rows="3" name="nContent" id="inputSuccess3"></textarea> -->
+                                
+                                
+                                
+                                <div class="form-group">
+		<textarea class="form-control" rows="10" name="nContent" required>${notice.NContent}</textarea>
+	</div>
+                                
+                                
+                                
 
 								<!-- <div class="card">
                             <div class="card-body">
@@ -209,24 +210,29 @@
 								
 								<h4 class="card-title">익명설정</h4>
                                 <fieldset class="radio">
-                                    <label for="radio1">
-                                        <input type="radio" id="radio1" name="radio" value="">예
+                                    <label>
+                                        <input type="radio" name="anonym" value="Y">예
                                     </label>
                                 </fieldset>
                                 <fieldset class="radio">
                                     <label>
-                                        <input type="radio" name="radio" value="" checked>아니오
+                                        <input type="radio" name="anonym" value="N">아니오
                                     </label>
-                                </fieldset>
+                                </fieldset> 
                                 
                                 <br>
                                 
-                                <h4 class="card-title">공지로등록</h4>
-                                <fieldset class="checkbox">
+                           <!-- <h4 class="card-title">공지로 등록</h4>
+                                <fieldset class="radio">
                                     <label>
-                                        <input type="checkbox" value="">공지로 등록
+                                        <input type="radio" id="" name="" value="">예
                                     </label>
                                 </fieldset>
+                                <fieldset class="radio">
+                                    <label>
+                                        <input type="radio" name="" value="">아니오
+                                    </label>
+                                </fieldset> -->   
                                 
                                 <br>
                                 
@@ -240,7 +246,10 @@
                                 <br>
                                 
                                 <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="submit">등록</button>
+                                            <button class="btn btn-outline-secondary" type="submit">등록</button> 
+                                            
+                                            
+                                       
                                             
                              	</div>
                                 

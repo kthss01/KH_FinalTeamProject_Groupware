@@ -88,7 +88,7 @@
                                             class="hide-menu">공지사항
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="tblMeals.bo" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="testCal.bo" class="sidebar-link"><span
                                             class="hide-menu">월간식단표
                                         </span></a>
                                 </li>

@@ -13,7 +13,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="count" property="count"/>
       <result column="origin_name" property="originName"/>
       <result column="change_name" property="changeName"/>
+      <result column="status" property="status" />
    </resultMap>
+   
+   <resultMap id="replyResultSet" type="NoReply">
+   	<id column="reply_no" property="replyNo"/>
+   	<result column="reply_content" property="replyContent"/>
+   	<result column="reply_writer" property="replyWriter"/>
+   	<result column="create_date" property="createDate"/>
+   	<result column="ref_nno" property="refNo"/>
+   </resultMap>
+  
   
    
 	<select id="selectListCount" resultType="_int">
@@ -29,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertNotice" parameterType="CompanyNotice">
 		INSERT INTO COMPANY_NOTICE 
-		VALUES (SEQ_N_NO.NEXTVAL,#{nTitle}, #{empNo},SYSDATE,#{nContent},DEFAULT,#{originName},#{changeName})
+		VALUES (SEQ_N_NO.NEXTVAL,#{nTitle},#{empNo},SYSDATE,#{nContent},DEFAULT,#{originName},#{changeName},DEFAULT,#{anonym},DEFAULT)
 	</insert>
 	
 	
@@ -59,10 +69,63 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE N_NO=#{nno}
     </select>
     
-    <insert id="insertNotify" parameterType="Notify">
+    <!--<insert id="insertNotify" parameterType="Notify">
     	INSERT INTO NOTIFY
     	VALUES(SEQ_NTF_NO.NEXTVAL,#{nNo})
-    </insert>
+    </insert> -->
+    
+    
+   <select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+    	SELECT *
+    	FROM NO_REPLY
+    	WHERE REF_NNO=#{nno} 
+    </select>
+    
+    
+    
+    <update id ="insertNotify" parameterType="_int">
+      UPDATE COMPANY_NOTICE
+      SET STATUS='Y'
+      WHERE N_NO=#{nno}
+    </update>
+    
+   
+    <update id="updateBNotice" parameterType="CompanyNotice">
+    	UPDATE COMPANY_NOTICE
+    	SET N_TITLE=#{nTitle},N_CONTENT=#{nContent},ORIGIN_NAME=#{originName},CHANGE_NAME=#{changeName}
+    	WHERE N_NO=#{nNo}
+    </update>
+    
+    
+    <update id="increaseSupport" parameterType="_int">
+    	UPDATE COMPANY_NOTICE
+    	SET SUPPORT_NUM=SUPPORT_NUM+1
+    	WHERE N_NO=#{nno}
+    </update>
+    
+    
+    
+    
+    <select id="getListCountCon" parameterType="CompanyNotice" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM COMPANY_NOTICE
+  	WHERE N_CONTENT LIKE '%' || #{nContent} || '%'
+  	
+  	
+  </select>
+    
+    
+    
+    
+    <select id="selectListCon" resultMap="noticeResultSet">
+  	SELECT *
+  	FROM COMPANY_NOTICE
+  	WHERE N_TITLE LIKE '%' || #{search} || '%'
+  	
+  </select>
+    
+    
+    
     
 	
 </mapper>

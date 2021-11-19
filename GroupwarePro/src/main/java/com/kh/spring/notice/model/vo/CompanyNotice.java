@@ -23,7 +23,8 @@ public class CompanyNotice {
 	//private int replyNo; //댓글번호
 	private String originName;
 	private String changeName;
-	
+	private String status;
+	private String anonym;
 
 	
 //	public CompanyNotice() {
