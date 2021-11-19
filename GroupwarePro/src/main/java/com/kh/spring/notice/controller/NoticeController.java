@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.GsonBuilder;
 import com.kh.spring.common.PageInfo;
@@ -84,10 +85,9 @@ public class NoticeController {
 	
 	@RequestMapping("enroll.bo")
 	public String insertNotice(CompanyNotice notice,HttpServletRequest request,Model model
-								,@RequestParam(name="upfiles",required=false) MultipartFile file) {
-
-
-			//System.out.println("notice:"+notice);
+								,@RequestParam(name="upfiles",required=false) MultipartFile file
+								,@RequestParam("anonym") String anonym) {//--1
+		
 		
 		if(!file.getOriginalFilename().equals("")) {
 			String changeName=saveFile(file,request);
@@ -98,6 +98,9 @@ public class NoticeController {
 				notice.setChangeName(changeName);
 			}
 		}
+		
+		notice.setAnonym(anonym);//--2
+
 
 
 			noticeService.insertNotice(notice);
@@ -168,20 +171,16 @@ public class NoticeController {
 	@RequestMapping("applyForm.bo")
 	public String applyForm() {
 		   return "notice/";
-		   //TICKET_APPLN
+		   
 		} 
 	
 	@ResponseBody
-	@RequestMapping(value="notify.bo",produces="application/json; charset=utf-8")
-	public String insertNotify(int nno) {
-		
-		//select
-		CompanyNotice notice=noticeService.selectNotify(nno);
+	@RequestMapping(value="rlist.bo",produces="application/json; charset=utf-8")
+	public String selectReplyList(int nno) {
+		ArrayList<NoReply> list=noticeService.selectReplyList(nno);
 		
 		
-		int result=noticeService.insertNotify(notice);
-		
-		return String.valueOf(result);
+		return new GsonBuilder().create().toJson(list);
 		
 		
 	}
@@ -190,11 +189,156 @@ public class NoticeController {
 	
 	
 	
+//	@ResponseBody
+//	@RequestMapping(value="notify.bo",produces="application/json; charset=utf-8")
+//	public String insertNotify(int nno) {
+//		
+//		
+//		CompanyNotice notice=noticeService.selectNotify(nno);
+//		
+//		
+//		int result=noticeService.insertNotify(notice);
+//		
+//		return String.valueOf(result);
+//		
+//		
+//	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="insertNotify.bo",produces="application/json; charset=utf-8")
+	public String selectBoard(int nno) {
+		//CompanyNotice notice=noticeService.selectNotice(nno);
+		
+		//mv.addObject("b",b).setViewName("board/boardDetailView");//key value 형식 
+		
+		
+		int result=noticeService.updateNotice(nno);
+		
+		
+		
+		
+		//return mv;
+		
+		return String.valueOf(result);
+		
+		//return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
+	
+	@RequestMapping("updateForm.bo")
+	public ModelAndView updateForm(int nno,ModelAndView mv) {
+		mv.addObject("notice",noticeService.selectNotice(nno))
+			.setViewName("notice/noticeUpdateForm");
+		
+		return mv;
+	}
+	
+	private void deleteFile(String fileName, HttpServletRequest request) {
+		// TODO Auto-generated method stu
+		String resources=request.getSession().getServletContext().getRealPath("resources");
+		String savePath=resources+"\\upload_files\\";
+		System.out.println("savePath:"+savePath);
+		File deleteFile=new File(savePath+fileName);
+		deleteFile.delete();
+		
+	}
+	
+	
+	@RequestMapping("update.bo")
+	public String updateBNotice(CompanyNotice notice,HttpServletRequest request,
+										@RequestParam(name="upfiles",required=false) MultipartFile file) {
+		
+		if(!file.getOriginalFilename().equals("")) {
+			if(notice.getChangeName() !=null) {
+				deleteFile(notice.getChangeName(),request);
+			}
+			String changeName=saveFile(file,request);
+			
+			notice.setOriginName(file.getOriginalFilename());
+			notice.setChangeName(changeName);
+		}
+		
+		
+		
+		
+		
+		noticeService.updateBNotice(notice);
+		
+		
+		//return mv;
+		return "redirect:/noticeList.bo";
+	}
 	
 	
 	
+	@RequestMapping("increaseSupport.bo")
+	public String increaseSupport(int nno,RedirectAttributes redirect,HttpServletRequest request) {
+		
+		
+		
+		
+		
+		
+		
+		noticeService.increaseSupport(nno);
+		
+		//mv.addObject("nno",nno).setViewName("redirect:detail.bo");
+		
+		
+redirect.addAttribute("nno",nno);
+		
+		return "redirect:/detail.bo";
+		
+	}
 	
-
+	
+	@RequestMapping("search.bo")
+	public String selectListCon(@RequestParam(value="currentPage",required=false,defaultValue="1") int currentPage,Model model
+								,@RequestParam("search") String search) {       
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		int listCount = noticeService.getListCountCon();
+		
+		
+		//int currentPage=1;
+		
+		//if(request.getParameter("currentPage") !=null) {
+		//	currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		//}
+		//int pageLimit=10;
+		
+		
+		
+		//int boardLimit=5;
+		//PageInfo pi=Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<CompanyNotice> list=noticeService.selectListCon(search);
+		
+		
+		//request.setAttribute("pi", pi);
+				
+		
+		
+		
+		model.addAttribute("list",list);
+		model.addAttribute("search", search);
+		
+		return "notice/noticeListView";
+		
+		
+		
+	}
+	
+	
 	
 	
 	
