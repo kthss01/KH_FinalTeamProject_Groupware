@@ -196,127 +196,66 @@
 										
 	                	<br><br>
                         <h6 class="card-title">결재하기</h6>
-                        
-                        <c:set value="${sessionScope.loginUser.empNo}" var="empNo"/>
                         <div class="list-group"> 
-			           		<a href="waitD.ap?empNo=${empNo }" class="list-group-item">결재 대기 문서</a><!-- 내가 결재, 진행중 -->
+			           		<a href="waitD.ap" class="list-group-item">결재 대기 문서</a><!-- 내가 결재, 진행중 -->
                        	</div>
                        	<br>
                        	<h6 class="card-title">개인 문서함</h6>
                         <div class="list-group"> 
-			           		<a href="draftD.ap?empNo=${empNo }" class="list-group-item">기안 문서함</a><!-- 내가 기안 -->
-                        	<a href="apprD.ap?empNo=${empNo }" class="list-group-item">결재 문서함</a> <!-- 내가 결재 (완료, 반려) -->
+			           		<a href="draftD.ap" class="list-group-item">기안 문서함</a><!-- 내가 기안 -->
+                        	<a href="apprD.ap" class="list-group-item">결재 문서함</a> <!-- 내가 결재 -->
                        	</div>
                        	<br>
                        	<h6 class="card-title">문서함</h6>
                         <div class="list-group"> 
-			           		<a href="eFormList.ap" class="list-group-item">전자결재 양식함</a><!-- 전자결재 양식 -->
+			           		<a href="eFormList.ap" class="list-group-item">전자결재 양식</a><!-- 전자결재 양식 -->
                        	</div>
 					</div>
 					
-					
-					
 					<div class="col-10">
-						<h3>전자결재 홈</h3>
+						<h3>기안 문서함</h3>
 						
 						<br><br>
 						
-						<!-- 결재 대기문서 -->
 						<div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="text-left col-2">
-									<h5>결재 대기문서</h5>
-								</div>
-							</div>
-							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+							<div class="d-flex col-12" style="border-bottom: 2px solid rgba(0,0,0,.125); border-top: 2px solid rgba(0,0,0,.125);">
 								<div class="col-2">
 									<span>기안일</span>
 								</div>
 								<div class="col-3">
 									<span>결재 양식</span>
 								</div>
-								<div class="col-5">
+								<div class="col-4">
 									<span>제목</span>
 								</div>
-								<div class="col-2">
-									<span>첨부</span>
-								</div>
-							</div>
-							<c:choose>
-								<c:when test="${not empty awList}">
-									<c:forEach var="aw" items="${awList }">
-										<div class="d-flex col-12 dLists">
-											<div class="col-2">
-												<span><fmt:formatDate value="${aw.draftDate}" type="date" pattern="yyyy-MM-dd"/></span>
-											</div>
-											<div class="col-3">
-												<span>${aw.FName}</span>
-											</div>
-											<div class="col-5">
-												<span class="title">${aw.title}<input type="hidden" value="${aw.ENo }"></span>
-											</div>
-											<div class="col-2">
-												<span>0</span>
-											</div>
-										</div>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<div class="d-flex col-12">
-										<span class="m-auto">결재 대기중인 문서가 없습니다.</span>
-									</div>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						
-						<br>
-						
-						<!-- 기안 진행 문서 -->
-						<div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="text-left col-2">
-									<h5>기안 진행 문서</h5>
-								</div>
-							</div>
-							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="col-2">
-									<span>기안일</span>
-								</div>
-								<div class="col-3">
-									<span>결재 양식</span>
-								</div>
-								<div class="col-3">
-									<span>제목</span>
-								</div>
-								<div class="col-2">
+								<div class="col-1">
 									<span>첨부</span>
 								</div>
 								<div class="col-2">
-									<span>결재상태</span>
+									<span>기안자</span>
 								</div>
 							</div>
 							<c:choose>
-								<c:when test="${not empty dList}">
-									<c:forEach var="d" items="${dList }">
+								<c:when test="${not empty wList}">
+									<c:forEach var="w" items="${wList }">
 										<div class="d-flex col-12 dLists">
 											<div class="col-2">
-												<span><fmt:formatDate value="${d.draftDate}" type="date" pattern="yyyy-MM-dd"/></span>
+												<span><fmt:formatDate value="${w.draftDate}" type="date" pattern="yyyy-MM-dd"/></span>
 											</div>
 											<div class="col-3">
-												<span>${d.FName}</span>
+												<span>${w.FName}</span>
 											</div>
-											<div class="col-3">
-												<span class="title">${d.title}<input type="hidden" value="${d.ENo }"></span>
+											<div class="col-4">
+												<span class="title">${w.title}<input type="hidden" value="${w.ENo }"></span>
+											</div>
+											<div class="col-1">
+												<span></span>
 											</div>
 											<div class="col-2">
-												<span><i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i>1</span>
-											</div>
-											<div class="col-2">
-												<span>${d.SName }</span>
+												<span>${w.drafterName }</span>
 											</div>
 										</div>
 									</c:forEach>
-									
 								</c:when>
 								<c:otherwise>
 									<div class="d-flex col-12">
@@ -326,62 +265,6 @@
 							</c:choose>
 						</div>
 						
-						<br>
-						
-						<!-- 완료 문서 -->
-						<div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="text-left col-2">
-									<h5>완료 문서</h5>
-								</div>
-							</div>
-							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="col-2">
-									<span>기안일</span>
-								</div>
-								<div class="col-3">
-									<span>결재 양식</span>
-								</div>
-								<div class="col-3">
-									<span>제목</span>
-								</div>
-								<div class="col-2">
-									<span>문서번호</span>
-								</div>
-								<div class="col-2">
-									<span>결재상태</span>
-								</div>
-							</div>
-							<c:choose>
-								<c:when test="${not empty fList}">
-									<c:forEach var="f" items="${fList }">
-										<div class="d-flex col-12 dLists">
-											<div class="col-2">
-												<span><fmt:formatDate value="${f.draftDate}" type="date" pattern="yyyy-MM-dd"/></span>
-											</div>
-											<div class="col-3">
-												<span>${f.FName }</span>
-											</div>
-											<div class="col-3">
-												<span class="title">${f.title }<input type="hidden" value="${f.ENo }"></span>
-											</div>
-											<div class="col-2">
-												<span>${f.ENo }</span>
-											</div>
-											<div class="col-2 ">
-												<span>${f.SName }</span>
-											</div>
-										</div>
-									</c:forEach>
-									
-								</c:when>
-								<c:otherwise>
-									<div class="d-flex col-12">
-										<span class="m-auto">결재 대기중인 문서가 없습니다.</span>
-									</div>
-								</c:otherwise>
-							</c:choose>
-						</div>
 						<script>
 							$(function(){
 								$(".title").click(function(){

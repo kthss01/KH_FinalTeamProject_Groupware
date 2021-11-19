@@ -114,4 +114,36 @@ public class EApprovalServiceImpl implements EApprovalService {
 		}
 	}
 
+	@Override
+	public ArrayList<EApproval> selectWaitEApprovalList(int empNo) {
+		
+		ArrayList<EApproval> list = eApprovalDao.selectWaitEApprovalList(sqlSession, empNo);
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<EApproval> selectDraftEApprovalList(int empNo) {
+		
+		ArrayList<EApproval> list = eApprovalDao.selectDraftEApprovalList(sqlSession, empNo);
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<EApproval> selectApproveEApprovalList(int empNo) {
+
+		ArrayList<EApproval> list = eApprovalDao.selectApproveEApprovalList(sqlSession, empNo);
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<EForm> selectEFormList() {
+		
+		ArrayList<EForm> list = eApprovalDao.selectEFormList(sqlSession);
+		
+		return list;
+	}
+
 }

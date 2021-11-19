@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="fName" column="F_NAME"/>
 		<result property="creatorId" column="CREATOR_ID"/>
 		<result property="createDate" column="CREATE_DATE"/>
-		<result property="creatorName" column="ORIGIN_NAME"/>
+		<result property="creatorName" column="CREATOR_NAME"/>
 		<result property="createDate" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
@@ -228,9 +228,82 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				SET S_CODE=#{sCode}, APPROVE_DATE=SYSDATE
 			</when>
 			<when test="sCode == 3">
-				SET S_CODE=#{sCode}
+				SET S_CODE=#{sCode}, APPROVE_DATE=SYSDATE
 			</when>
 		</choose>
 		WHERE E_NO = #{eNo}
 	</update>
+	
+	<select id="selectWaitEApprovalList" parameterType="_int" resultMap="eApprovalResultSet">
+		SELECT 
+		    A.E_NO,
+		    E.F_NAME,
+		    A.TITLE,
+		    A.DRAFTER_ID,
+		    B.EMP_NAME DRAFTER_NAME,
+		    A.DRAFT_DATE,
+		    A.APPROVER_ID,
+		    C.EMP_NAME APPROVER_NAME
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		WHERE 
+		    A.APPROVER_ID = #{empNo}
+		    AND A.S_CODE = 1
+		ORDER BY A.DRAFT_DATE DESC
+	</select>
+	
+	<select id="selectDraftEApprovalList" parameterType="_int" resultMap="eApprovalResultSet">
+		SELECT 
+		    A.E_NO,
+		    E.F_NAME,
+		    D.S_NAME,
+		    A.TITLE,
+		    A.DRAFT_DATE
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		WHERE 
+		    A.DRAFTER_ID = #{empNo}
+		ORDER BY A.DRAFT_DATE DESC
+	</select>
+	
+	<select id="selectApproveEApprovalList" parameterType="_int" resultMap="eApprovalResultSet">
+		SELECT 
+		    A.E_NO,
+		    A.S_CODE,
+		    D.S_NAME,
+		    E.F_NAME,
+		    A.TITLE,
+		    B.EMP_NAME DRAFTER_NAME,
+		    A.DRAFT_DATE,
+		    A.APPROVE_DATE
+		FROM 
+		    ELECTRONIC_APPROVAL A
+		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+		JOIN E_FORM E ON A.F_NO = E.F_NO
+		WHERE 
+		    A.APPROVER_ID = #{empNo}
+		ORDER BY A.DRAFT_DATE DESC
+	</select>
+	
+	<select id="selectEFormList" resultMap="eFormResultSet">
+		SELECT
+		    A.F_NO,
+		    A.F_NAME,
+		    B.EMP_NAME CREATOR_NAME,
+		    A.CREATE_DATE
+		FROM 
+		    E_FORM A
+		JOIN EMPLOYEE B ON A.CREATOR_ID = B.EMP_NO
+		ORDER BY F_NO ASC
+	</select>
 </mapper>
