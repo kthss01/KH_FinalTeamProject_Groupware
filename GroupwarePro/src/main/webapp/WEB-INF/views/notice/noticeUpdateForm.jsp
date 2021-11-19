@@ -142,93 +142,81 @@
                                 
                                     <!--<table></table>  -->
                                     
-                                    <!-- detail -->
+                                   
                                     
                                     
                                     
-                                    <div class="page-wrapper"> 
-                                    	<div class="row"> <!-- # -->
-      										<div class="col-md-12 text-center font-weight-bold"><h1>${ notice.NTitle }</h1>
-      											<button type="button" class="btn btn-danger btn-circle-lg btn float-right" onclick="faHeart();">             
-      											<i class="fa fa-heart"></i>
-                                				</button>
-                                				
-                                				<form id="postForm" action="increaseSupport.bo" method="post">
-					<input type="hidden" name="nno" value="${ notice.NNo }">
-				</form>
-                                				<!-- <i class="icon-options-vertical btn float-right btn btn-primary btn-lg"></i> -->
-                                				
-                                				
-                                				<button type="button" class="btn btn-secondary dropdown-toggle btn float-right"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                	<i class="icon-options-vertical btn btn-primary btn-lg"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <!-- Dropdown menu links -->
-                                                <a class="dropdown-item" onclick="callFunction();">수정하기</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Separated link</a>
-                                            </div>
+                                    <div class="page-wrapper">
+                                  <form id="updateForm" method="post" action="update.bo" enctype="multipart/form-data"> 
+                                  	<input type="hidden" name="nNo" value="${ notice.NNo }">
+                                    
+                                    
+                                    	<div class="row">
+      										<div class="col-md-12 text-center font-weight-bold">
+      											<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">To.</h3>
+      											
+      											<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" style="width:100px;">
+                                            <option selected>공지사항</option>
                                             
-                                            
-                                            
+                                        </select>
       										</div>
-    									</div>
-    <hr>
+    									</div> 
+    									<br>
+    
     
     <div class="row">
-      <div class="col-md-12 text-center">${ notice.originName }</div>
+      <div class="col-md-12 text-center">
+      	<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">작성자</h3>
+      	<input type="text" class="form-control" id="nametext"  name="empNo"
+                                            value="${notice.empNo}" style="width:230px;" disabled>
+      </div>
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-md-12 text-center">
+      	<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">제목</h3>
+      	<input type="text" class="form-control" id="nametext" name="nTitle" value="${notice.NTitle }" style="width:230px;">
+      </div>
     </div>
     
     <div class="row">
-      <div class="col-md-12 text-center">${ notice.NContent }</div>
-    </div>
-    
-    
-    <hr>
-    
-    <div class="card">
-    	<div class="row">
-      		<div class="col-md-12">
-      		<h2>댓글</h2>
-      		
-                                
-                                
-                                <form class="mt-4">
-                                    <div class="">
-                                    <table class='table table-bordered'>
-                                    			<thead>
-                                    				<tr>
-                                    					<td class="col-md-3">작성자번호</td>
-                                    					<td class="col-md-9">내용</td>
-                                    				</tr>
-                                    			</thead>
-                                    			<tbody id="test">
-                                    				
-                                    			</tbody>
-                                    		</table>
-                                    	<div id="replyArea">
-                                    		
-                                    	</div>
-                                    	
-                                        
-                                        <div class="input-group-append">
-                                        	<input type="text" class="form-control" id="placeholder" placeholder="Placeholder Text">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="enrollR();">댓글 작성</button>
-                                        </div>
-                                        
-                                    </div>
-                                </form>
-                                
+      <div class="col-md-12 text-center">
+      	<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">파일첨부</h3>
+      	
+      	<input type="file" class="form-control-file" id="inputSuccess4" name="upfiles">
+      	
+      	<c:if test="${ !empty notice.originName }">
+	                                                                기존 첨부파일 : ${ notice.originName } <br>
+	                            <input type="hidden" name="changeName" value="${ notice.changeName }">
+	                            <input type="hidden" name="originName" value="${ notice.originName }">
+                            </c:if>
                             
-      		
-      		
-      		</div>
-    	</div>
+      </div>
     </div>
+    
+    <div class="row">
+      <div class="col-md-12 text-center">
+      	
+      	
+      	<div class="form-group">
+		<textarea class="form-control" rows="10" name="nContent" required>${notice.NContent}</textarea>
+	</div>
+      	
+      </div>
+    </div>
+    
+    							<div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">수정하기</button>
+                                            
+                             	</div>
+                             	
+                             	
+    		
+    
+									</form>
                                     </div>
+                                    
                              
                                     
                                     
@@ -259,118 +247,10 @@
         <!-- ============================================================== -->
     </div>
     
+   
     <script>
-    $(function(){
-		
-		
-		
-		selectReplyList();
-		
-		
-	});
-    
-    
-    
-    function selectReplyList(){
- 		var nno=${notice.NNo};
- 		
- 		$.ajax({
-			url:"rlist.bo",
-			data:{nno:nno},
-			type:"get",
-			success:function(list){
 				
-				//alert("댓글 리스트 조회 성공");
-				
-				
-				
-				
-				
-				
-				var value="";
-				$.each(list, function(i, obj){
-
-					value +="<tr>" 
-						+"<td>"+obj.replyWriter+"님" +"</td>"
-						+"<td>"+ obj.replyContent+"</td>"
-						+"</tr>";
-					
-				});
-				
-				
-				$("#test").html(value);
-				
-				
-			},error:function(){
-				console.log("댓글 리스트조회용 ajax 통신 실패");
-			}
-		});
- 		
- 		
- 		
- 	}
- 	</script>
-    
-    
-    
-    
-    
-    
-    <script>
-       function enrollR(){
-    	   var nno = ${notice.NNo};
-   		
-   		
-    	   if($("#placeholder").val().trim().length != 0){
-    	   				
-    	   	$.ajax({
-    	   		url:"rinsert.bo",
-    	   		type:"post",
-    	   		data:{replyContent:$("#placeholder").val(),
-    	   			  refNo:nno,
-    	   			  replyWriter:"${loginUser.getEmpNo()}"},
-    	   		success:function(result){
-    	   			if(result > 0){//
-    	   				$("#placeholder").val("");
-    	   				//selectReplyList();
-    	   				alert("댓글등록성공");
-    	   				
-    	   			}else{
-    	   				alert("로그인하러가기-댓글을 등록하려면 로그인을 해주세요.");
-    	   			}
-    	   		},error:function(){
-    	   			console.log("댓글 작성 ajax 통신 실패");
-    	   		}
-    	   	});
-    	   				
-    	   			}else{
-    	   				alert("작성된 댓글이 없습니다. 댓글을 입력해주세요.");
-    	   			}
-       }
-    </script>  
-    
-    
-    <script>
-    	function callFunction(){
-    		var nno=${notice.NNo};
-    		location.href="updateForm.bo?nno="+nno;
-    		
-    	}
-    </script>
-    
-    <script>
-    	function faHeart(){
-    		var postForm = $("#postForm");
-    		postForm.submit();
-    		
-    		
-    		
-    		
-    		
-    		
-    	}
-    </script>
-
+				</script>
     
     <!-- ============================================================== -->
     <!-- End Wrapper -->

@@ -103,9 +103,24 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <!-- basic table -->
+                
+                <div class="card">                        
+                            <div class="card-body">
+                            
+                            <h3></h3>
+                            
+                            <hr>
+                            
+                            <h3></h3>
+                            
+                            </div>
+                </div>
+                
+                
+                <!-- basic table -->
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card">                        
                             <div class="card-body">
                                 <div class="row">
                                 	<!-- 공지로 등록 -->
@@ -120,6 +135,7 @@
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -127,13 +143,28 @@
                        <tr onclick="location.href='detail.bo?nno='+${ n.NNo }">
                        	   <td onclick="event.cancelBubble=true">
                        			<input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="inlineCheckbox1" value="${n.NNo}">
-                                <i class="fas fa-star"></i>
+                                <!-- <i class="fas fa-star"></i> -->
                        	   </td>
                            <td>${ n.NNo }</td>
                            <td>${ n.NTitle }</td>
-                           <td>${ n.empNo }</td>
+                           <td>
+                           <c:if test="${n.anonym ne 'Y'}">${ n.empNo }
+                        	
+                        </c:if>
+                        <c:if test="${n.anonym ne 'N'}">
+                        	익명설정
+                        </c:if>
+                           </td>
                            <td>${ n.createDate }</td>
                            <td>${ n.count }</td>
+                           <td>
+                           	<c:if test="${n.status ne 'Y'}">
+                        	<i class="fas fa-star"></i>
+                        </c:if>
+                        <c:if test="${n.status ne 'N'}">
+                        	<i class="icon-star"></i>
+                        </c:if>
+                           </td>
                        </tr>
                     </c:forEach>
                 </tbody>
@@ -161,7 +192,7 @@
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                        <c:choose>
                          <c:when test="${ pi.currentPage ne p }">
-                             <li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+                             <li class="page-item"><a class="page-link" href="noticeList.bo?currentPage=${ p }">${ p }</a></li>
                          </c:when>
                          <c:otherwise>
                             <li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -180,6 +211,26 @@
                    </c:choose>
                 </ul>
             </div>
+            
+            
+            <div id="searchArea" align="center">
+			<form action="search.bo">
+				<select name="">
+					
+					<option value="">전사게시판</option>
+					<option value="">월간식단표</option>
+				</select>
+				<select name="condition">
+					
+					<option value="content">내용</option>
+				</select>
+				<input type="search" name="search" value="${search}">
+				<button type="submit">검색하기</button>
+			</form>
+		</div>
+            
+            
+            
                                 
                             </div>
                         </div>
@@ -212,7 +263,48 @@
        }
     </script>
     
-    <script>
+    
+    
+     <script>
+    	function call(){
+    		if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
+     		   alert("전체 항목 중 1가지만 선택해주세요.");
+     	   }else if($('input:checkbox[name=inlineCheckbox1]:checked').length < 1){
+     		   alert("선택된 게시물이 없습니다.");
+     	   }else{
+     		   confirm("선택 항목을 공지로 등록하시겠습니까?");
+     		   
+     		  var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+     		   
+     		  $.ajax({
+   				url:"insertNotify.bo",
+   				data:{nno:nno},
+   				type:"post",
+   				success:function(result){
+   					
+   					if(result>0){
+   						alert("수정하기 성공");
+   						
+   						
+   					}else{
+   						alert("수정하기 실패");
+   					}
+   				},error:function(){
+   					console.log("ajax 통신 실패");
+   				}
+   			});
+     		   
+
+     	   }
+    		
+    	} 
+       
+    </script>
+    
+    
+    
+    
+    <!-- <script>
     	function call(){
     		if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
      		   alert("전체 항목 중 1가지만 선택해주세요.");
@@ -235,9 +327,11 @@
      				success:function(result){
      					
      					if(result>0){
-     						alert("'공지로 등록'성공");
+     						alert("공지로 등록 성공");
+     						
+     						
      					}else{
-     						alert("'공지로 등록'실패");
+     						alert("공지로 등록 실패");
      					}
      				},error:function(){
      					console.log("ajax 통신 실패");
@@ -255,7 +349,7 @@
           
           
        
-    </script>
+    </script>-->
     
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

@@ -59,9 +59,46 @@ public class NoticeDao {
 		return sqlSession.selectOne("noticeMapper.selectNotify",nno);
 	}
 
-	public int insertNotify(SqlSessionTemplate sqlSession, CompanyNotice notice) {
+//	public int insertNotify(SqlSessionTemplate sqlSession, CompanyNotice notice) {
+//		// TODO Auto-generated method stub
+//		return sqlSession.insert("noticeMapper.insertNotify",notice);
+//	}
+
+	public ArrayList<NoReply> selectReplyList(SqlSessionTemplate sqlSession, int nno) {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("noticeMapper.insertNotify",notice);
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectReplyList",nno);
 	}
+
+
+
+	public int updateNotice(SqlSessionTemplate sqlSession, int nno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.insertNotify",nno);
+	}
+
+	public int updateBNotice(SqlSessionTemplate sqlSession, CompanyNotice notice) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.updateBNotice",notice);
+	}
+
+	public int increaseSupport(SqlSessionTemplate sqlSession, int nno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.increaseSupport",nno);
+	}
+
+	public int getListCountCon(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("noticeMapper.getListCountCon");
+	}
+
+	public ArrayList<CompanyNotice> selectListCon(SqlSessionTemplate sqlSession,String search) {
+		// TODO Auto-generated method stub
+//int offset=(pi.getCurrentPage()-1)*pi.getBoardLimit();//0 5 10 15 
+		
+		//RowBounds rowBounds=new RowBounds(offset,pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectListCon",search);
+	}
+
+	
 
 }

@@ -562,6 +562,7 @@
         		},
         		success : function(list){
               		list.forEach((c => {
+              			console.log(list);
               			if(c.eNo != ${ loginUser.empNo }){
               				
     						titleArea.append(`

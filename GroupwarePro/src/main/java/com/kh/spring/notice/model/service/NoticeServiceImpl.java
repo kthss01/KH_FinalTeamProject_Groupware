@@ -106,18 +106,43 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 
+//	@Override
+//	public int insertNotify(CompanyNotice notice) {
+//		// TODO Auto-generated method stub
+//		int result=noticeDao.insertNotify(sqlSession,notice);
+//		if(result<0) {
+//			throw new CommException(" failed");
+//		}
+//		return result;
+//	}
+
+
+
+
+
+
+
 
 
 
 
 
 	@Override
-	public int insertNotify(CompanyNotice notice) {
+	public ArrayList<NoReply> selectReplyList(int nno) {
 		// TODO Auto-generated method stub
-		int result=noticeDao.insertNotify(sqlSession,notice);
-		if(result<0) {
-			throw new CommException(" failed");
-		}
+		return noticeDao.selectReplyList(sqlSession,nno);
+	}
+	
+	
+
+
+	@Override
+	public int updateNotice(int nno) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.updateNotice(sqlSession,nno);
+//		if(result<0) {
+//			throw new CommException("update 실패");
+//		}
 		return result;
 	}
 
@@ -126,21 +151,62 @@ public class NoticeServiceImpl implements NoticeService {
 
 
 
-	
+
+	@Override
+	public void updateBNotice(CompanyNotice notice) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.updateBNotice(sqlSession,notice);
+	}
 
 
 
 
-	
 
+
+
+	@Override
+	public void increaseSupport(int nno) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.increaseSupport(sqlSession,nno);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int getListCountCon() {
+		// TODO Auto-generated method stub
+
+		
+		int listCount=noticeDao.getListCountCon(sqlSession);
 	
-	
-	
-	
-	
-	
-	
-	
+		return listCount;
+	}
+
+
+
+
+
+
+
+	@Override
+	public ArrayList<CompanyNotice> selectListCon(String search) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<CompanyNotice> list=noticeDao.selectListCon(sqlSession,search);
+		
+		return list;
+	}
+
+
+
+
+
+
+
 	
 	
 	
