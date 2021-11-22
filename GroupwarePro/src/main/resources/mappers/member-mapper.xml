@@ -44,8 +44,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left join login_info b on a.emp_no = b.emp_no
 		where b.login_id = #{loginId} and b.status = 'Y'
 		-->
-		
-		
 		<!--  수정 후 sql query -->
 		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
 		FROM EMPLOYEE A
@@ -67,19 +65,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE EMP_NO = #{empNo}
 	</update>
 	
+	<update id="updatePassword" parameterType="Member">
+		UPDATE LOGIN_INFO SET
+		LOGIN_PWD = #{loginPwd}
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
+	
 	<update id="deleteMember" parameterType="Member">
 		UPDATE LOGIN_INFO SET
 		STATUS = 'N'
 		WHERE EMP_NO = #{empNo}
 	</update>
 	
-	<select id="getAllMember" parameterType="Member">
+	<select id="selectMemberList" resultMap="memberResultSet">
 		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
 		FROM EMPLOYEE A
 		LEFT OUTER JOIN LOGIN_INFO B ON A.EMP_NO = B.EMP_NO
 		LEFT OUTER JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
 		LEFT OUTER JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
 		WHERE A.STATEMENT = 'Y'
+		ORDER BY EMP_NO ASC
 	</select>
+	
+	<select id="sortMemberList" parameterType="String" resultMap="memberResultSet">
+		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
+		FROM EMPLOYEE A
+		LEFT OUTER JOIN LOGIN_INFO B ON A.EMP_NO = B.EMP_NO
+		LEFT OUTER JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
+		LEFT OUTER JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
+		WHERE A.STATEMENT = 'Y'
+		ORDER BY #{value} ASC
+	</select>	
+	
+	<select id="selectMember" parameterType="String" resultMap="memberResultSet">
+		SELECT A.EMP_NO, EMP_NAME, EMP_REG, PHONE, EMAIL, DEPT_TITLE, JOB_NAME, SAL_CODE, SALARY, BONUS,ENROLL_DATE, RETIRE_DATE,STATEMENT, GENDER,LOGIN_ID,LOGIN_PWD,STATUS
+		FROM EMPLOYEE A
+		LEFT OUTER JOIN LOGIN_INFO B ON A.EMP_NO = B.EMP_NO
+		LEFT OUTER JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
+		LEFT OUTER JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
+		WHERE EMP_NO = #{empNo}
+		AND STATEMENT = 'Y'
+	</select>
+	
+	<select id="checkMember" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
+	<select id="checkMemberId" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM LOGIN_INFO
+		WHERE LOGIN_ID = #{loginId}
+	</select>
+	
+	<select id="searchLoginId" parameterType="String" resultType="String">
+		SELECT LOGIN_ID
+		FROM LOGIN_INFO
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
 	
 </mapper>
