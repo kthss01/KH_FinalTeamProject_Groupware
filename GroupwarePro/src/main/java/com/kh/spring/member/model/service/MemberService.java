@@ -20,4 +20,18 @@ public interface MemberService {
 
 	ArrayList<Member> selectMemberList();
 
+	Member selectMember(String empNo);
+
+	int checkMember(String empNo);
+
+	ArrayList<Member> sortMemberList(String value);
+
+	int checkMemberId(String loginId);
+
+	String searchLoginId(String empNo);
+
+	int updatePassword(Member m);
+
+
+
 }

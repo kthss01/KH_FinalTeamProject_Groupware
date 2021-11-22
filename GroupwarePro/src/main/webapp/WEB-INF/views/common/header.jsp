@@ -11,6 +11,7 @@
 
 	<header class="topbar" data-navbarbg="skin6">
 
+<<<<<<< HEAD
 		<div id="socketAlert"
 			class="alert alert-info alert-dismissible fade show" role="alert"
 			style="text-align: center; height: 40px; padding: 5px; display: none;">
@@ -225,6 +226,68 @@
 									data-feather="power" class="svg-icon mr-2 ml-1"></i> 로그아웃</a>
 								<div class="dropdown-divider"></div>
 								<!-- 
+=======
+                    </ul>
+                    
+                    
+                    
+                    
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-right">
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item d-none d-md-block">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <form>
+                                    <div class="customize-input">
+                                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
+                                            type="search" placeholder="Search" aria-label="Search">
+                                        <i class="form-control-icon" data-feather="search"></i>
+                                    </div>
+                                </form>
+                            </a>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                      	    <c:if test="${!empty sessionScope.loginUser}"> 
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
+                                    width="40">
+                                    
+                                <!--  헤더 로그인 구역  -->
+                                
+                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
+                                        class="text-dark">${sessionScope.loginUser.loginId}</span> <i data-feather="chevron-down"
+                                        class="svg-icon"></i></span>
+                              
+                                
+                            </a>
+                      
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                            
+                                <a class="dropdown-item" href="myPage.me"><i data-feather="user"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    	내 정보</a>
+					            <div class="dropdown-divider"></div>
+					                     
+					                     <c:if test="${sessionScope.loginUser.loginId eq 'admin' }">
+					                                <a class="dropdown-item" href="menagerMain.me"><i data-feather="settings"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                 관리자 페이지</a>
+					                     </c:if>          
+					                                <div class="dropdown-divider"></div>
+					                                <a class="dropdown-item" href="logout.me"><i data-feather="power"
+					                                        class="svg-icon mr-2 ml-1"></i>
+					                                    로그아웃</a>
+                                <div class="dropdown-divider"></div>
+                                <!-- 
+>>>>>>> refs/heads/manager_basic
                                 <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
                                        Profile</a></div>
                                         -->
