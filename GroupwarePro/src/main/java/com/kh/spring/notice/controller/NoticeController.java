@@ -86,7 +86,8 @@ public class NoticeController {
 	@RequestMapping("enroll.bo")
 	public String insertNotice(CompanyNotice notice,HttpServletRequest request,Model model
 								,@RequestParam(name="upfiles",required=false) MultipartFile file
-								,@RequestParam("anonym") String anonym) {//--1
+								,@RequestParam("anonym") String anonym) {
+		
 		
 		
 		if(!file.getOriginalFilename().equals("")) {
@@ -99,7 +100,8 @@ public class NoticeController {
 			}
 		}
 		
-		notice.setAnonym(anonym);//--2
+		notice.setAnonym(anonym);
+	
 
 
 

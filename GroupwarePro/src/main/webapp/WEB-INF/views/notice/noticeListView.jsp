@@ -109,7 +109,7 @@
                             
                             <h3></h3>
                             
-                            <hr>
+                           
                             
                             <h3></h3>
                             
@@ -222,7 +222,7 @@
 				</select>
 				<select name="condition">
 					
-					<option value="content">내용</option>
+					<option value="content">제목</option>
 				</select>
 				<input type="search" name="search" value="${search}">
 				<button type="submit">검색하기</button>

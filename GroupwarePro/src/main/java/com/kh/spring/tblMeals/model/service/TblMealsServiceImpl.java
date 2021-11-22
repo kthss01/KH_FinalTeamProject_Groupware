@@ -3,6 +3,7 @@ package com.kh.spring.tblMeals.model.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,17 @@ public class TblMealsServiceImpl implements TblMealsService {
 	}
 
 	
+
 	
+
+	
+	@Override
+	public int insert(ArrayList<TblMeals> alldata) {
+		// TODO Auto-generated method stub
+		int result=tblMealsDao.insert(sqlSession,alldata);
+		
+		return result;
+	}
 	
 	
 	
