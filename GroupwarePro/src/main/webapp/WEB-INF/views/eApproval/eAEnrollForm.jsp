@@ -82,24 +82,11 @@
 				<div class="row" style="min-height: 500px;">
 					<!-- 전자결재 사이드바 -->
 					<div class="col-2" style="border-right: 1px solid rgba(0,0,0,.125);">
-	                	
-	                	<button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-primary col-12">새 결재 진행</button>
-	                	<br><br>
-                        <h6 class="card-title">결재하기</h6>
-                        <div class="list-group"> 
-			           		<a href="wait.ap" class="list-group-item">결재 대기 문서</a><!-- wait -->
-                       	</div>
-                       	<br>
-                       	<h6 class="card-title">개인 문서함</h6>
-                        <div class="list-group"> 
-			           		<a href="draftD.ap" class="list-group-item">기안 문서함</a>
-                        	<a href="apprD.ap" class="list-group-item">결재 문서함</a> 
-                       	</div>
-                       	<br>
-                       	<h6 class="card-title">문서함</h6>
-                        <div class="list-group"> 
-			           		<a href="eFormList.ap" class="list-group-item">전자결재 양식</a>
-                       	</div>
+						<jsp:include page="../eApproval/eASidebar.jsp" >
+							<jsp:param value="${eFList }" name="eFList"/>
+							<jsp:param value="${mList }" name="mList"/>
+							<jsp:param value="${sessionScope.loginUser.empNo }" name="empNo"/>
+						</jsp:include>
 					</div>
 					
 					<div class="col-10">

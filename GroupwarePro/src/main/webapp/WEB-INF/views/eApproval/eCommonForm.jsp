@@ -73,10 +73,15 @@
 					<td style="min-width: 70px; height: 27px;">${ea.approverJob }</td>
 				</tr>
 				<tr>
-					<td>${ea.approverName }</td>
+					<td>
+						<c:if test="${ea.SCode eq 2 }">
+							<h4 style="color: red">승인</h4>
+						</c:if>
+						${ea.approverName }
+					</td>
 				</tr>
 				<tr>
-					<td style="max-height: 27px; font-size: 10px;">
+					<td style="max-height: 27px; height: 27px; font-size: 10px;">
 						<c:choose>
 							<c:when test="${ea.SCode eq 2 }">
 								<fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/>

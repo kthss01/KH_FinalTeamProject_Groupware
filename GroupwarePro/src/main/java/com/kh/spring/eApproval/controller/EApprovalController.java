@@ -2,9 +2,11 @@ package com.kh.spring.eApproval.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,11 +47,11 @@ public class EApprovalController {
 		//새 결재 진행
 		//양식 목록
 		ArrayList<EForm> eFList = eApprovalService.selectEFList();
-		model.addAttribute("eFList", eFList);
+		session.setAttribute("eFList", eFList);
 		
 		//결재자 목록
 		ArrayList<Member> mList = eApprovalService.selectMemberList();
-		model.addAttribute("mList", mList);
+		session.setAttribute("mList", mList);
 		
 		return "eApproval/eAMain";
 	}
@@ -117,7 +119,7 @@ public class EApprovalController {
 		//loginUser가 결재자, 진행중인 문서 리스트 가져오기
 		ArrayList<EApproval> wList = eApprovalService.selectWaitEApprovalList(empNo);
 		
-		mv.addObject("wList", wList).setViewName("eApproval/eADocumentsView");
+		mv.addObject("wList", wList).setViewName("eApproval/waitDocumentsView");
 				
 		return mv;
 	}
@@ -153,4 +155,5 @@ public class EApprovalController {
 		
 		return mv;
 	}
+
 }
