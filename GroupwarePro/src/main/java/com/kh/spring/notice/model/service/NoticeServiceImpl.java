@@ -54,6 +54,8 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void insertNotice(CompanyNotice notice) {
 		// TODO Auto-generated method stub
+		
+		
 		int result=NoticeDao.insertNotice(sqlSession,notice);
 		if(result<0) {
 			throw new CommException("INSERT 실패");

@@ -21,9 +21,9 @@ import lombok.ToString;
 public class TblMealsCal {
 	private int calNo;
 	private String lnc;
-	@JsonFormat(shape = Shape.STRING,pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Date startDate;
-	@JsonFormat(shape = Shape.STRING,pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Date endDate;
 
 	
