@@ -14,6 +14,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="statement" column="STATEMENT"/>
 		<result property="questionCount" column="QUESTION_COUNT"/>
 	</resultMap>
+	<resultMap id="surveyQuestionResultSet" type="SurveyQuestion">
+		<id property="quetionNo" column="QEUSTION_NO"/>
+		<result property="surveyNo" column="SURVEY_NO"/>
+		<result property="sequence" column="SEQUENCE"/>
+		<result property="required" column="REQUIRED"/>
+		<result property="questionType" column="QUESTION_TYPE"/>
+	</resultMap>
+	
+	<resultMap id="optionalResultSet" type="Optional">
+		<id property="opNo" column="OP_NO"/>
+		<result property="opText" column="OP_TEXT"/>
+		<result property="option1" column="OPTION1"/>
+		<result property="option2" column="OPTION2"/>
+		<result property="questionNo" column="QUESTION_NO"/>
+	</resultMap>
+	
+	<resultMap id="EssayResultSet" type="Essay">
+		<id property="esNo" column="ES_NO"/>
+		<result property="questionNo" column="QUESTION_NO"/>
+		<result property="esText" column="ES_TEXT"/>
+	</resultMap>
+	
+	<resultMap id="optionalAnswerResultSet" type="OptionalAnswer">
+		<id property="optionAnswerNoo" column="OP_ANW_NO"/>
+		<result property="optionAnswer" column="OP_ANSWER"/>
+		<result property="optionNo" column="OP_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
+	<resultMap id="EssayAnswerResultSet" type="EssayAnswer">
+		<id property="esAnswerNo" column="ES_ANW_NO"/>
+		<result property="esNo" column="ES_NO"/>
+		<result property="esAnswer" column="ES_ANSWER"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
 	
 	<select id="selectSurveyList" resultMap="surveyResultSet">
 		select *
@@ -31,15 +66,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertSurvey" parameterType="Survey">
 		
 		insert into survey
-		values (seq_survey_no.nextval,#{surveyTitle},#{surveyContent},sysdate,#{startDate},#{finishDate},default,default)
+		values (seq_survey_no.nextval, #{surveyTitle}, #{surveyContent}, sysdate, #{startDate}, #{finishDate}, default, default)
 		
 	</insert>
 	
 	
 	<delete id="deleteSurvey" parameterType="String">
-		
-		delete from survey
-		where surveyNo = #{surveyNo}
+		delete
+		from survey
+		where survey_no = #{surveyNo}
 		
 	</delete>
 	

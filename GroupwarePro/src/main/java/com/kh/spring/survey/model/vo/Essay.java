@@ -15,6 +15,6 @@ import lombok.ToString;
 public class Essay {
 	
 	String esNo;
-	String quetionNo;
+	String questionNo;
 	String esText;
 }

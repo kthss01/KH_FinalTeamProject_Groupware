@@ -17,5 +17,6 @@ public class EssayAnswer {
 	String esAnswerNo;
 	String esNo;
 	String esAnswer;
+	String empNo;
 	
 }

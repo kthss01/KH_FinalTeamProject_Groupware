@@ -203,16 +203,10 @@
                       
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                             
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
+                                <a class="dropdown-item" href="myPage.me"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
                                     	내 정보</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
-                                        class="svg-icon mr-2 ml-1"></i>
-					                                   메뉴 2</a>
-					                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
-					                                        class="svg-icon mr-2 ml-1"></i>
-					                                    메뉴 3</a>
-					                                <div class="dropdown-divider"></div>
+					            <div class="dropdown-divider"></div>
 					                     
 					                     <c:if test="${sessionScope.loginUser.loginId eq 'admin' }">
 					                                <a class="dropdown-item" href="menagerMain.me"><i data-feather="settings"

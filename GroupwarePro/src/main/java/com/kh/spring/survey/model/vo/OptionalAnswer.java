@@ -17,5 +17,7 @@ public class OptionalAnswer {
 	String optionAnswerNo;
 	String optionAnswer;
 	String optionNo;
-
+	String empNo;
+	
+	
 }

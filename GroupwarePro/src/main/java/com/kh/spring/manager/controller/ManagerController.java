@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,7 +58,7 @@ public class ManagerController {
 		
 		ArrayList<Member> list = memberService.selectMemberList();
 		
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		return "manager/managerMemberList";
 	}
 	
@@ -103,10 +105,26 @@ public class ManagerController {
 	public String managerSurveyListForm(Model model) {
 		
 		ArrayList<Survey> list = surveyService.selectSurveyList();
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		
 		return "manager/managerSurveyListForm";
 		
 	}
 	
+	
+	@RequestMapping("managerMemberGraph.me")
+	public String managerMemberGraph() {
+		return "manager/managerMemberGraph";
+	}
+	
+	
+	@RequestMapping(value="sortMemberList.me",method= RequestMethod.POST,produces="application/json; charset=utf-8")
+	@ResponseBody
+	public ArrayList<Member> checkMember(String value,Model model) {
+		ArrayList<Member> list = memberService.sortMemberList(value);
+		model.addAttribute("list",list);
+		System.out.println(list);
+		
+		return list;
+	}
 }

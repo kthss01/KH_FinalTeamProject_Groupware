@@ -25,11 +25,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<style>
 	
-	#boardList li:hover{
+	
+	.table-item:hover{
 	cursor:pointer;
 	color:#212529;
 	}
-	
 	
 	
 	</style>
@@ -56,24 +56,25 @@
 					<div class="row">
 						<div class="col-sm-12 col-md-6">
 							<div class="dataTables_length" id="zero_config_length">
-							
+							<%-- 
 							<label>Show 
 							<select name="zero_config_length" aria-controls="zero_config" class="form-control form-control-sm">
-							
 							<option value="10">10</option>
 							<option value="25">25</option>
 							<option value="50">50</option>
 							<option value="100">100</option>
 							</select> entries</label>
+							--%>
 							</div>
 						</div>
 						
 						<div class="col-sm-12 col-md-6">
 							<div id="zero_config_filter" class="dataTables_filter">
-							
+								<%--
 								<label>Search:
 									<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="zero_config">
 								</label>
+								--%>
 							</div>
 						</div>
 					</div>
@@ -98,23 +99,10 @@
                                         </thead>
                                         <tbody id="pros-table-body" class="pros-talbe-body">
                                         	
-                                        	<tr>
-                                        		<td>1</td>
-                                        		<td>2</td>
-                                        		<td>3</td>
-                                        		<td>4</td>
-                                        		<td>5</td>
-                                        	</tr>
-                                        	
-                                        	
-                                        	
-                                        	<%-- 
                                         		<c:forEach items="${list}" var="survey" >
-                                        		<tr role="row" class="odd table-item">
-                                        			<td scope="row" class="sorting_1">
-                                        			${survey.surveyNo}
-                                        			<c:out value="${surveyNo}"/>
-                                        			<input type="text" value="${survey.surveyNo}" class="surveyNo" name="surveyNo" readonly style="display:none">
+                                        		<tr role="row" class="odd">
+                                        			<td scope="row" class="sorting_1 table-item">
+                                        				${survey.surveyNo}
                                         			</td>
                                         			<td class="surveyTitle">${survey.surveyTitle}</td>
                                         			<td> <c:out value="${surveyStatement}"/> ${survey.statement}</td>
@@ -126,30 +114,33 @@
                            								<a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 						<span class="ml-1 d-none d-lg-inline">
                                 						
-                                							<span class="text-dark"> + </span> 
+                                							<span class="text-dark"></span> 
                                 						
-                                							<%--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down svg-icon">
+                                							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down svg-icon">
                                 								<polyline points="6 9 12 15 18 9">
                                 								</polyline>
-                                							</svg>--%>
+                                							</svg>
                                 						</span>
                            								</a>
                            								<div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                           									<a class="dropdown-item">
-                                								<%--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
+                           									<a class="dropdown-item" href="surveyQuestionInsertForm.sv?surveyNo=${survey.surveyNo}">
+                                								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
                                 								<circle cx="12" cy="12" r="3"></circle>
-                                								</svg>--%>
+                                								</svg>
                                   							질문 작성
                                   							</a>
                                 							<a class="dropdown-item">
-                                								<%--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
+                                							<span style="display:none;">${survey.surveyNo}</span>
+                                								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
                                 								<circle cx="12" cy="12" r="3"></circle>
-                                								</svg>--%>
+                                								</svg>
                                   							정보 수정
                                   							</a>
-                           								    <a class="dropdown-item">
+                           								    <a class="dropdown-item deleteSurvey">
+                           								    <span style="display:none;">${survey.surveyNo}</span>
+                           								    <input type="text" value="${survey.surveyNo}" readonly class="surveyNo" name="surveyNo" style="display:none;">
                            								    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power svg-icon mr-2 ml-1">
-                           								    </svg>--%>
+                           								    </svg>
 									                                          삭제
 															</a>
 	<%-- 															
@@ -162,14 +153,9 @@
                         </td>
                                         		</tr>
                                         		</c:forEach>
-                                        		--%>
-                                        		<tr role="row" class="odd">
-                                        			<td class=""> ${survey.surveyNo} </td>
-                                        			<td> 왜 </td>
-                                        		</tr>
                                         		
                                         		<tr role="row" class="odd">
-                                        			<td row span="6" style="text-align:center;">
+                                        			<td row colspan="6" style="text-align:center;">
                                         				<a href="surveyInsertForm.sv" style="text-decoration:none; color:rgba(0,0,0,.55);">
                                         					<span> <b> 새로운 설문 + </b></span>
                                         				</a>
@@ -231,7 +217,6 @@
 		</div>
 		<footer>
 			사라져버린 푸터
-			${survey.surveyTitle}
 		</footer>
 		
 	</div>
@@ -245,10 +230,17 @@
 	<script>
 	
 	$(function(){
-		$(".table-item").click(fucntion(){
-			location.href="surveyDetail.sv?surveyNo=" + $(this).children.eq(1).text();
+		$(".table-item").click(function(){
+			location.href="surveyDetailForm.sv?surveyNo="+$(this).text();
 		})
 	})		
+	
+	$(function(){
+		$(".deleteSurvey").click(function(){
+			location.href="deleteSurvey.sv?surveyNo=" + $(this).children().eq(0).text();
+		})
+	})
+	
  	
  	</script>
 	

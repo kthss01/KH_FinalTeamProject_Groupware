@@ -64,7 +64,7 @@
                                     <div class="card survey-info" id="zero_config_paginate">
                                     
                                     	<ul class="list-style-none info-list">
-                                    		<li>info-update-form
+                                    		<li>
 											<div class="card-body">
 												<h3 class="card-title"> 설문 번호 </h3>
 												<input type="text" class="form-control empName" name="empName" value="${survey.surveyNo}" readonly>

@@ -45,13 +45,8 @@ color: white;
                        				</a>
                        			</li>
                        			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
+                       				<a href="managerMemberGraph.me" class="sidebar-link">
                        					<span> 멤버 통계 </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> 메뉴 3 </span>
                        				</a>
                        			</li>
                        		</ul>
@@ -92,7 +87,7 @@ color: white;
                        		<ul aria-expanded="false" class="collapse first-level base-level-line">
                        			<li class="sidebar-item">
                        				<a href="#" class="sidebar-link">
-                       					<span> <b> --  </b></span>
+                       					<span> <b> 공지목록  </b></span>
                        				</a>
                        			</li>
                        			<li class="sidebar-item">
@@ -257,8 +252,7 @@ color: white;
         </aside>
 
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
-
-	<script>
+	<script type="text/javascript">
 		$(function(){
 			var categoryBox = $("#categroyMenu");
 			$.ajax({

@@ -29,10 +29,11 @@ public class SurveyController {
 	private MemberService memberService;
 	
 	@RequestMapping("managerSurveyListForm.sv")
-	public String managerSurveyListForm(@ModelAttribute ArrayList<Survey> survey, Model model,PageInfo pageInfo) {
+	public String managerSurveyListForm(Model model, PageInfo pageInfo) {
+		
 		
 		ArrayList<Survey> list = surveyService.selectSurveyList(pageInfo);
-		model.addAttribute(list);
+		model.addAttribute("list", list);
 		
 		System.out.println(list);
 		
@@ -73,29 +74,24 @@ public class SurveyController {
 	public String surveyDetailForm(Model model,String SurveyNo) {
 		
 		Survey survey = surveyService.selectSurvey(SurveyNo);
-		String address = "survey/";
 		
-		if(survey.equals(null)) {
-			address = "/redirect";
-			
-		} else {
-			address += "surveyDetailForm";
-			model.addAttribute(survey);
-		}
-		
-		return address;
+		model.addAttribute("survey",survey);
+		return "survey/surveyManagerDetailForm";
 	}
 	
 	@RequestMapping("surveyQuestionInsertForm.sv")
 	public String insertSurvey(String surveyNo, HttpSession session,Model model) {
 		
 		Survey survey = surveyService.selectSurvey(surveyNo);
-		model.addAttribute(survey);
+		model.addAttribute("survey",survey);
 		session.setAttribute("msg", "설문 연동 성공");
 		
 		return "survey/surveyQuestionInsertForm";
-		
 	}
+	
+	
+	
+	
 	
 	@RequestMapping("deleteSurvey.sv")
 	public String deleteSurvey(String surveyNo, HttpSession session) {
@@ -104,7 +100,7 @@ public class SurveyController {
 		
 		if (result > 0) session.setAttribute("msg", "success to delete");
 		
-		return "redirect/";
+		return "/redirect";
 	}
 	
 	
@@ -120,6 +116,15 @@ public class SurveyController {
 		
 		int result = surveyService.updateSurvey(survey);
 		
-		return "redirect/";
+		return "survey/managerSurveyListForm";
 	}
+	
+	@RequestMapping("invalidateSurvey.sv")
+	public String invalidateSurvey(Survey survey,Model model) {
+		
+		model.addAttribute(result);
+		
+		return "invalidateSurvey";
+	}
+	
 }

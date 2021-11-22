@@ -17,6 +17,10 @@ public interface SurveyService  {
 
 	int updateSurvey(Survey survey);
 
+	ArrayList<Survey> selectSurveyList();
+
+
+
 	
 	
 	

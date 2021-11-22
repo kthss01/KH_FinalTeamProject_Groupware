@@ -72,8 +72,8 @@
                                     <button id="loginBtn" type="submit" class="btn btn-block btn-dark">로그인</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5" style="font-size:12px;">
-                                    	<span >계정 정보를 잊으셨나요?</span> <a href="#" class="text-danger">계정 찾기</a><br>
-                                    	<span >계정 정보가 없으신가요?</span> <a href="#" class="text-danger">계정 신청</a>
+                                    	<span >계정 정보를 잊으셨나요?</span> <a href="findForm.me" class="text-danger">계정 찾기</a><br>
+                                    	<span >계정 정보가 없으신가요?</span> <a href="enrollForm.me" class="text-danger">계정 신청</a>
                                 </div>
                             </div>
                         </form>
