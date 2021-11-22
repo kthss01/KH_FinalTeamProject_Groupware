@@ -157,7 +157,7 @@
 
 											<form>
 												<input id="searchContect" class="form-control" type="text"
-													placeholder="이름 또는 부서 입력"
+													placeholder="이름  입력"
 													style="font-size: 15px; display: inline-block; width: 85%;">
 												<i class="icon-magnifier"></i>
 											</form>
@@ -344,9 +344,31 @@
 
 
 	<script>
+	
+    $("#status").on('change',function(){
+    	var eStatus = $(this).val();
+     	var eNo = '${ loginUser.empNo }';
 
-	
-	
+     	console.log(eStatus);
+     	console.log(eNo);
+    	$.ajax({
+    		url:'updateStatus.ch',
+    		data: {
+    			eStatus : eStatus,
+    			eNo : eNo
+    			
+    		},
+    		type:'post',
+    		success:function(result ){
+				if(result <= 0){
+					alert(" 서버오류 :  고객지원팀으로 문의 바랍니다.");
+				}
+    		},error:function(){
+    			alert("서버오류 : 고객지원팀으로 문의 바랍니다.");
+    		}
+    	
+    	})
+    });
 	
         $(function () {
         	
@@ -425,16 +447,15 @@
         	
         	
         	$('#searchContect').keyup(function(event) {
-        		var val = $(this).val(); if (val == "") { 
+        		var val = $(this).val();
+        		if (val == "") { 
         			$('.mailbox li').show(); 
         		} else {
-        				$('.mailbox li').hide(); $(".mailbox li:contains('"+val+"')").show(); 
+        				$('.mailbox li').hide(); 
+        				$(".mailbox li:contains('"+val+"')").show(); 
         			} 
         		});
-        
 
-
-        	
         });
       
         
@@ -541,6 +562,7 @@
         		},
         		success : function(list){
               		list.forEach((c => {
+              			console.log(list);
               			if(c.eNo != ${ loginUser.empNo }){
               				
     						titleArea.append(`
@@ -578,7 +600,7 @@
             		},
             		success:function(result){
             			if(result == 1){
-    						//db에 먼저 올리고 성공하면  webSocket에 메세지 보냄 (프로토콜 : 기능, 발신자, 수신자, 발신자번호, 메세지)
+    						//db에 먼저 올리고 성공하면  webSocket에 메세지 보냄 (프로토콜 : 기능, 발신자, 수신자아이디, 수신자번호, 메세지)
             				socket.send("chat," + senderId +"," + receiverId+","+sender +"," + msg);
             			}else{
             				alert("현재 서버오류로 채팅이 불가합니다.");
@@ -586,25 +608,7 @@
             		}
             	}) 
         
-        $("#status").on('change',function(){
-        	var eStatus = $(this).val();
-         	var eNo = '${ loginUser.empNo }';
 
-        	$.ajax({
-        		url:'updateStatus.ch',
-        		data: {
-        			eStatus : eStatus,
-        			eNo : eNo
-        			
-        		},
-        		type:'post',
-        		success:function(){
-        		},error:function(){
-        			alert("서버오류 : 고객지원팀으로 문의 바랍니다.");
-        		}
-        	
-        	})
-        });
 
  }
 

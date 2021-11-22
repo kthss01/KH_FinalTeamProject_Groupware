@@ -11,6 +11,17 @@
 		<!-- 회원 -->
 		<typeAlias type="com.kh.spring.member.model.vo.LoginInfo" alias="LoginInfo"/>
 		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
+		
+		<!-- 설문 -->
+		
+		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="Survey"/>
+		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="SurveyQuestion"/>
+		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="Essay"/>
+		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="EssayAnswer"/>
+		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="Optional"/>
+		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="OptionalAnswer"/>
+		
+		
 	
 		<!-- 커뮤니티게시판 -->
 		<typeAlias type="com.kh.spring.community.model.vo.CommunityBoard" alias="CommunityBoard"/>
@@ -35,6 +46,10 @@
 	    <typeAlias type="com.kh.spring.notice.model.vo.CompanyNotice" alias="CompanyNotice"/>
 	    <typeAlias type="com.kh.spring.notice.model.vo.NoReply" alias="NoReply"/>
 	    <typeAlias type="com.kh.spring.notice.model.vo.Notify" alias="Notify"/>
+
+		<!-- 전자결재 -->
+		<typeAlias type="com.kh.spring.eApproval.model.vo.EApproval" alias="EApproval"/>
+		<typeAlias type="com.kh.spring.eApproval.model.vo.EForm" alias="EForm"/>
 	
    		<!-- 근태관리 -->
    		<typeAlias type="com.kh.spring.hr.model.vo.Work" alias="Work"/>
@@ -51,8 +66,10 @@
 	    <!-- 예약 -->
 	    <typeAlias type="com.kh.spring.reservation.model.vo.Reservation" alias="Reservation"/>
 	    <typeAlias type="com.kh.spring.reservation.model.vo.Asset" alias="Asset"/>
+	    <typeAlias type="com.kh.spring.reservation.model.vo.AssetCategory" alias="AssetCategory"/>
 	    
 	    <!-- 식단 -->
+	    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMealsCal" alias="TblMealsCal"/>
 	    <typeAlias type="com.kh.spring.tblMeals.model.vo.TblMeals" alias="TblMeals"/>
 		    
 	</typeAliases>
@@ -60,9 +77,11 @@
 
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/survey-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/> 
 		<mapper resource="mappers/chat-mapper.xml"/> 
 		<mapper resource="mappers/library-mapper.xml"/> 
+		<mapper resource="mappers/eApproval-mapper.xml"/>
 		<mapper resource="mappers/hr-mapper.xml"/> 
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>

@@ -15,14 +15,12 @@ public class CalendarFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
 //		String servletUrl = ((HttpServletRequest)request).getRequestURI();
 //		System.out.println(servletUrl);
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -30,12 +28,10 @@ public class CalendarFilter implements Filter {
 		System.out.println(httpRequest.getRequestURI());
 		httpResponse.sendRedirect(httpRequest.getContextPath() + "/calendar.ca");
 //		chain.doFilter(request, response);
-		
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 

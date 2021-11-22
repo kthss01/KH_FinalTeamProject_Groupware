@@ -65,6 +65,9 @@
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }/calendar.ca"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
                                     class="hide-menu">일정</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ pageContext.servletContext.contextPath }/reservation.rez"
+                                aria-expanded="false"><i data-feather="trello" class="feather-icon"></i><span
+                                    class="hide-menu">예약</span></a></li>
                                     
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="work.hr"
                                 aria-expanded="false"><i data-feather="briefcase" class="feather-icon"></i><span
@@ -88,13 +91,20 @@
                                             class="hide-menu">공지사항
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="tblMeals.bo" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="testCal.bo" class="sidebar-link"><span
                                             class="hide-menu">월간식단표
                                         </span></a>
                                 </li>
 
                             </ul>
                         </li>
+                        
+                       	<li class="sidebar-item">
+                       		<a class="sidebar-link" href="javascript:void(0)" aria-expanded="true">
+                       			<i data-feater="survey" class="icon-chart"></i>
+                       			<span> 설문</span>
+                       			</a>
+                       	</li>
                                     
                                   <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  
                                     
@@ -102,7 +112,7 @@
                       
                         <li class="list-divider"></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="logout.me"
                      aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
                          class="hide-menu">Logout</span></a></li>
              
@@ -125,15 +135,20 @@
 				post:'post',
 				dataType:'json',
 				success:function(list){
+					
 					$.each(list,function(i,obj){
-
-						categoryBox.append(`
-								<li class="sidebar-item">
-                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
-                                	<span class="hide-menu"> \${ obj.cname } </span>
-                                </a>
-                                </li>
-								`) 
+ 						if(obj.status == 'Y'){
+							
+							categoryBox.append(`
+									<li class="sidebar-item">
+	                                <a href="boardList.co?cno=\${ obj.cno }&cname=\${ obj.cname }" class="sidebar-link ">
+	                                	<span class="hide-menu"> \${ obj.cname } </span>
+	                                </a>
+	                                </li>
+									`); 
+						 } 
+						
+			
 			 		}) 				
 				}
 			})

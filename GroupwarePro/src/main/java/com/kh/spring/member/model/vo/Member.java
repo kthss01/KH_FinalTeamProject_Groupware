@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
-@Getter
+@Getter // 
 @ToString
 public class Member {
 	private String empNo;
@@ -33,5 +33,8 @@ public class Member {
 	private String loginId;
 	private String loginPwd;
 	private String status;
+	public void setMemberPwd(String encPwd) {
+		this.loginPwd = encPwd;
+	}
 	
 }

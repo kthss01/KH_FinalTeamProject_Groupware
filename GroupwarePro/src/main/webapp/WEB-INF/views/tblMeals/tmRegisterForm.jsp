@@ -102,46 +102,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-primary text-center">
-                                                <h1 class="font-light text-white">2,064</h1>
-                                                <h6 class="text-white">Total Tickets</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-cyan text-center">
-                                                <h1 class="font-light text-white">1,738</h1>
-                                                <h6 class="text-white">Responded</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-success text-center">
-                                                <h1 class="font-light text-white">1100</h1>
-                                                <h6 class="text-white">Resolve</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-danger text-center">
-                                                <h1 class="font-light text-white">964</h1>
-                                                <h6 class="text-white">Pending</h6>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <!-- Column -->
                                 </div>
                                 
-                                <!-- enctype="multipart/form-data" -->
-                                <!-- <form id="enrollForm" method="post" action="insertT.bo" > -->
+                                
+                                <form id="enrollForm" method="post" action="insertT.bo" >
                                 
                                 
                                 
@@ -159,10 +125,11 @@
                             
                             	<label class="form-control-label" for="tblDate">날짜</label>
                                 <div class="form-group">
-                                        <input type="date" class="form-control" name="tblDate">
+                                        <input type="date" class="form-control" id="tblDate" name="tblDate">
                                     </div>
                                     
                                 <label class="mr-sm-2" for="categoryNo">카테고리</label>
+                                
                                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="categoryNo">
                                             <option selected>Choose...</option>
                                             <option value="1">한식</option>
@@ -173,13 +140,13 @@
                                         
                                  <label>중식</label>
                                  <div class="form-group">
-                                        <textarea class="form-control" rows="3" name="lnc" placeholder="식단 작성"></textarea>
+                                        <textarea class="form-control" rows="3" id="lnc" name="lnc" placeholder="식단 작성"></textarea>
                                     </div>
                                     
                                     
                                     <label>석식</label>
                                  <div class="form-group">
-                                        <textarea class="form-control" rows="3" name="dnr" placeholder="식단 작성"></textarea>
+                                        <textarea class="form-control" rows="3" id="dnr" name="dnr" placeholder="식단 작성"></textarea>
                                     </div>
                            
                             
@@ -189,13 +156,13 @@
 						
                                 
                                 <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" onclick="register();">등록하기</button>
+                                            <button class="btn btn-outline-secondary" type="submit">등록하기</button>
                                             
                              	</div>
                                 
                                 
                                 
-                               <!--  </form> -->
+                               </form> 
                                 
                                 <div class="table-responsive">
                                     
@@ -243,6 +210,53 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+    
+    
+    
+    <!--  <script>
+ 	function register(){
+ 		var tblDate=$("#tblDate").val();
+		
+ 		
+
+ 
+		
+		console.log(date);
+		console.log(typeof(date));
+		
+		var categoryNo=$("#inlineFormCustomSelect").val();
+		
+		var lnc=$("#lnc").val();
+		
+		var dnr=$("#dnr").val();
+		
+		
+		$.ajax({
+			url:"insertT.bo",
+			type:"post",
+			data:{tblDate:date,     
+				  categoryNo:categoryNo,
+				  lnc:lnc,
+				  dnr:dnr
+				  },
+				  
+			success:function(result){
+				if(result > 0){
+					alert("등록 성공");
+					
+				}else{
+					alert("등록 실패");
+				}
+			},error:function(){
+				console.log("ajax 통신 실패");
+			}
+		});
+ 	}
+		
+		
+	
+     
+    </script> -->
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->

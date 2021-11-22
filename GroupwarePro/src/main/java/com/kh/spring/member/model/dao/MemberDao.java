@@ -26,9 +26,38 @@ public class MemberDao {
 	public int deleteMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.update("memberMapper.deleteMember", userId);
 	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList");
+	}
+
+	public Member selectMember(SqlSessionTemplate sqlSession, String empNo) {
+		return sqlSession.selectOne("memberMapper.selectMember",empNo);
+	}
+
+	public int checkMember(SqlSessionTemplate sqlSession, String empNo) {
+		return sqlSession.selectOne("memberMapper.checkMember",empNo);
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList<Member> getMemberList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("memberMapper.getAllMember");
+	public ArrayList<Member> sortMemberList(SqlSessionTemplate sqlSession, String value) {
+		return (ArrayList)sqlSession.selectList("memberMapper.sortMemberList",value);
 	}
+
+	public int checkMemberId(SqlSessionTemplate sqlSession, String loginId) {
+		return sqlSession.selectOne("memberMapper.checkMemberId",loginId);
+	}
+
+	public String searchLoginId(SqlSessionTemplate sqlSession, String empNo) {
+		return sqlSession.selectOne("memberMapper.searchLoginId",empNo);
+	}
+
+	public int updatePassword(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updatePassword",m);
+	}
+
+	
+	
 }

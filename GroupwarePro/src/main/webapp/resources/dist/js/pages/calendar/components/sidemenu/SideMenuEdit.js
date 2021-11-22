@@ -32,20 +32,27 @@ export default class SideMenuEdit extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    const { id=null, title=null, allDay=null, start=null, end=null, calendars=null } = newState;
+    const { id=null, title=null, allDay=null, start=null, end=null, calNo=null, calendars=null } = newState;
 
     // console.log(this.$state);
 
+    const selectCalendar = this.$target.querySelector('select[name="calendar"]');
+
     if (calendars) {
-      const selectCalendar = this.$target.querySelector('select[name="calendar"]');
+
+      // console.log(calendars);
 
       selectCalendar.innerHTML = calendars.map((calendar, index) => {
-        return `<option ${index === 0 ? "selected" : ""} value="${calendar.calNo}">${calendar.name}</option>`
+        return `<option ${index === 0 ? "selected" : ""} value="${calendar.id}">${calendar.title}</option>`
       }).join('');
 
     } else if (title || allDay || start || end) {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');
+
+      if (calNo) {
+        selectCalendar.value = calNo;    
+      }
 
       if (id === '') {
         addEventBtn.classList.remove("d-none");
@@ -108,7 +115,7 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
-      console.log('edit', id, title, start, end, allDay);
+      // console.log('edit', id, title, start, end, allDay);
 
       editEvent({ id, title, start, end, allDay, calNo });
     });
@@ -127,7 +134,7 @@ export default class SideMenuEdit extends Component {
       deleteEvent({ id, title, start, end, allDay, calNo });
     });
 
-    // 이벤트 등록버튼으로 되돌리기
+    // 이벤트 등록 버튼으로 되돌리기
     this.addEvent('click', '#cancelEventBtn', ({ target }) => {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');

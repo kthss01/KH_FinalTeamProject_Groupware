@@ -25,7 +25,8 @@ export default class App extends Component {
     const $calendarSidemenu = this.$target.querySelector('[data-component="calendar-sidemenu"]');
     const $calendarMain = this.$target.querySelector('[data-component="calendar-main"]');
 
-    const { selectEvent, insertEvent, editEvent, deleteEvent, renderCalendar, insertCalendar, editCalendar, deleteCalendar } = this;
+    const { selectEvent, insertEvent, editEvent, deleteEvent, renderCalendar } = this;
+    const { insertCalendar, editCalendar, deleteCalendar, showCalendar } = this;
 
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
     this.$children = {
@@ -37,6 +38,7 @@ export default class App extends Component {
         insertCalendar: insertCalendar.bind(this),
         editCalendar: editCalendar.bind(this),
         deleteCalendar: deleteCalendar.bind(this),
+        showCalendar: showCalendar.bind(this),
       }),
       calendar: new Calendar($calendarMain, { 
         ...this.$state,
@@ -58,7 +60,7 @@ export default class App extends Component {
   async insertEvent (event) {
     const { calendar } = this.$children;
 
-    console.log('app', event);
+    // console.log('app', event);
 
     // console.log(new Date(event.start), new Date(event.end));
 
@@ -73,7 +75,7 @@ export default class App extends Component {
         }
       });
 
-      // console.log(res);
+      console.log(res);
       event.id = res.data;
 
       calendar.setState({ event, status: 'insert' });
@@ -86,7 +88,7 @@ export default class App extends Component {
   async editEvent (event) {
     const { calendar } = this.$children;
 
-    // console.log('app', event);
+    console.log('app', event);
 
     try {
       await axios.put(`updateEvent.ca`, null, {
@@ -126,7 +128,7 @@ export default class App extends Component {
   renderCalendar (calendars) {
     const { sideMenu } = this.$children;
 
-    sideMenu.setState({ calendars });
+    sideMenu.setState({ ...calendars });
   }
 
   async insertCalendar (cal) {
@@ -139,11 +141,11 @@ export default class App extends Component {
         params: { 
           name: cal.name, 
           color: cal.color,
-          empNo: 201, 
+          empNo: empNo, 
         }
       });
 
-      console.log(res.data);
+      // console.log(res.data);
 
       cal.calNo = res.data;
 
@@ -165,7 +167,7 @@ export default class App extends Component {
           name: cal.name, 
           color: cal.color,
           calNo: cal.calNo,
-          empNo: 201,           
+          empNo: empNo,           
         }
       });
 
@@ -189,5 +191,13 @@ export default class App extends Component {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  showCalendar (calNo, isShow) {
+    const { calendar } = this.$children;
+
+    calendar.setState({
+      showCal: { calNo, isShow, }
+    });
   }
 }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="surveyMapper">
+
+	<resultMap id="surveyResultSet" type="Survey">
+		<id property="surveyNo" column="SURVEY_NO"/>
+		<result property="surveyTitle" column="SURVEY_TITLE"/>
+		<result property="surveyContent" column="SURVEY_CONTENT"/>
+		<result property="writeDate" column="WRITE_DATE"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="finishDate" column="FINISH_DATE"/>
+		<result property="statement" column="STATEMENT"/>
+		<result property="questionCount" column="QUESTION_COUNT"/>
+	</resultMap>
+	<resultMap id="surveyQuestionResultSet" type="SurveyQuestion">
+		<id property="quetionNo" column="QEUSTION_NO"/>
+		<result property="surveyNo" column="SURVEY_NO"/>
+		<result property="sequence" column="SEQUENCE"/>
+		<result property="required" column="REQUIRED"/>
+		<result property="questionType" column="QUESTION_TYPE"/>
+	</resultMap>
+	
+	<resultMap id="optionalResultSet" type="Optional">
+		<id property="opNo" column="OP_NO"/>
+		<result property="opText" column="OP_TEXT"/>
+		<result property="option1" column="OPTION1"/>
+		<result property="option2" column="OPTION2"/>
+		<result property="questionNo" column="QUESTION_NO"/>
+	</resultMap>
+	
+	<resultMap id="EssayResultSet" type="Essay">
+		<id property="esNo" column="ES_NO"/>
+		<result property="questionNo" column="QUESTION_NO"/>
+		<result property="esText" column="ES_TEXT"/>
+	</resultMap>
+	
+	<resultMap id="optionalAnswerResultSet" type="OptionalAnswer">
+		<id property="optionAnswerNoo" column="OP_ANW_NO"/>
+		<result property="optionAnswer" column="OP_ANSWER"/>
+		<result property="optionNo" column="OP_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
+	<resultMap id="EssayAnswerResultSet" type="EssayAnswer">
+		<id property="esAnswerNo" column="ES_ANW_NO"/>
+		<result property="esNo" column="ES_NO"/>
+		<result property="esAnswer" column="ES_ANSWER"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
+	<select id="selectSurveyList" resultMap="surveyResultSet">
+		select *
+		from survey
+		order by survey_no asc
+	</select>
+	
+	
+	<select id="selectSurvey" parameterType="String" resultMap="surveyResultSet">
+		select *
+		from survey
+		where survey_no = #{surveyNo}
+	</select>
+	
+	<insert id="insertSurvey" parameterType="Survey">
+		
+		insert into survey
+		values (seq_survey_no.nextval, #{surveyTitle}, #{surveyContent}, sysdate, #{startDate}, #{finishDate}, default, default)
+		
+	</insert>
+	
+	
+	<delete id="deleteSurvey" parameterType="String">
+		delete
+		from survey
+		where survey_no = #{surveyNo}
+		
+	</delete>
+	
+	<update id="updateSurvey" parameterType="Survey">
+		update survey 
+		set surveyTitle = #{surveyTitle},
+		surveyContent = #{surveyContent},
+		write_date = sysdate,
+		start_date = #{startDate},
+		finish_date = #{finishDate},
+		where survey_no = #{surveyNo}
+	</update>
+	
+	<update id="updateQuestionCount" parameterType="_int">
+		update survey
+		set question_count = #{questionCount}
+	</update>
+	
+	
+</mapper>

@@ -25,9 +25,21 @@ public interface NoticeService {
 
 	CompanyNotice selectNotify(int nno);
 
-	int insertNotify(CompanyNotice notice);
+	//int insertNotify(CompanyNotice notice);
 
-	
+
+
+	ArrayList<NoReply> selectReplyList(int nno);
+
+	int updateNotice(int nno);
+
+	void updateBNotice(CompanyNotice notice);
+
+	void increaseSupport(int nno);
+
+	int getListCountCon();
+
+	ArrayList<CompanyNotice> selectListCon(String search);
 
 
 

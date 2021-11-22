@@ -66,6 +66,24 @@ public class CommunityController {
 		mv.addObject("cno", cno);
 		return mv;
 	}
+	
+	@ResponseBody
+	@RequestMapping("delete.co")
+	public String deleteBoard(int bno,HttpServletRequest request) {
+		
+		
+		ArrayList<CommunityAttachment> atList = communityService.selectAttachmentList(bno);
+		
+		for(CommunityAttachment at : atList) {
+			deleteFile(at.getChangeName(),request);
+		}
+
+	    int result =  communityService.deleteBoard(bno);
+		
+		return String.valueOf(result);
+
+	}
+	
 
 	@GetMapping("detail.co")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
@@ -76,9 +94,8 @@ public class CommunityController {
 		communityService.countBoard(bno);
 
 		mv.addObject("b", b);
-		/*
-		 * mv.addObject("at", at);
-		 */ mv.setViewName("/community/communityBoardDetailView");
+		mv.setViewName("/community/communityBoardDetailView");
+		
 		return mv;
 	}
 
@@ -122,10 +139,7 @@ public class CommunityController {
 	public void checkOriginFiles(@RequestParam(value = "origin_files[]", required = false) List<String> requestFiles,
 			int bno, HttpServletRequest request) {
 		ArrayList<CommunityAttachment> originFileList = communityService.selectAttachmentList(bno);
-		ArrayList<CommunityAttachment> resultList = new ArrayList();;
-
-		System.out.println("넘어온 파일 리스트" + requestFiles);
-		System.out.println("기존 파일 리스트 " + originFileList);
+		ArrayList<CommunityAttachment> resultList = new ArrayList();
 
 		if (requestFiles == null) { // 기존 파일리스트가 없으면 모두 삭제된 것 모두 삭제
 
@@ -165,10 +179,9 @@ public class CommunityController {
 	
 	@ResponseBody
 	@RequestMapping(value = "updateBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateBoard(CommunityBoard b, HttpServletRequest request,
+	public void updateBoard(CommunityBoard b, HttpServletRequest request,
 			@RequestParam("article_file") List<MultipartFile> multipartFile) {
 
-		System.out.println("넘어온 새로운 파일 : " + multipartFile);
 
 		String changeName = "";
 		CommunityAttachment at = null;
@@ -180,8 +193,6 @@ public class CommunityController {
 				for (MultipartFile newFile : multipartFile) { // 파일들을 Attachment 테이블에 하나씩 insert해줌
 
 					changeName = saveFile(newFile, request);
-					System.out.println(changeName);
-					System.out.println(b.getBno());
 					at = new CommunityAttachment();
 					if (changeName != null) {
 						at.setOriginName(newFile.getOriginalFilename());
@@ -193,9 +204,9 @@ public class CommunityController {
 				}
 			}
 		}
-		return "redirect:/boardList.co";
 	}
 
+	//게시글 등록
 	@RequestMapping(value = "insertBoard.co", method = { RequestMethod.GET, RequestMethod.POST })
 	public String insertBoard(CommunityBoard b, HttpServletRequest request) {
 
@@ -204,6 +215,7 @@ public class CommunityController {
 		return "redirect:/boardList.co";
 	}
 
+	//댓글 등록
 	@ResponseBody
 	@RequestMapping("insertReply.co")
 	public String insertReply(CommunityReply r) {
@@ -213,6 +225,7 @@ public class CommunityController {
 		return String.valueOf(result);
 	}
 
+	//댓글 목록 조회
 	@ResponseBody
 	@RequestMapping(value = "selectReplyList.co", produces = "application/json; charset=utf-8")
 	public String selectReplyList(int bno) {
@@ -222,6 +235,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
+	//답글 목록 조회
 	@ResponseBody
 	@RequestMapping(value = "selectReComentList.co", produces = "application/json; charset=utf-8")
 	public String selectReComentList(CommunityReply r) {
@@ -231,6 +245,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
+	//댓글 삭제
 	@ResponseBody
 	@RequestMapping("deleteReply.co")
 	public String deleteReply(CommunityReply r) {
@@ -240,6 +255,7 @@ public class CommunityController {
 		return String.valueOf(result);
 	}
 
+	//게시판 메뉴 조회
 	@ResponseBody
 	@RequestMapping(value = "categoryList.co", produces = "application/json; charset=utf-8")
 	public String selectCategoryList(CommunityCategory r) {
@@ -249,6 +265,7 @@ public class CommunityController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 
+	//인기 게시글 조회
 	@ResponseBody
 	@RequestMapping(value = "bestBoardList.co", produces = "application/json; charset=utf-8")
 	public String selectBestBoardList() {
@@ -256,17 +273,62 @@ public class CommunityController {
 		ArrayList<CommunityBoard> list = communityService.selectBestBoardList();
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
+	
+	//게시판 승인하기
+	@RequestMapping("applyCategory.co")
+	public String applyCategory(CommunityCategory c) {
+		
+		System.out.println(c);
+		communityService.insertCategory(c);
+		
+		return "redirect:/boardList.co";
+		
+	}
+	
+	//신청된 게시판 목록 조회하기
+	@ResponseBody
+	@RequestMapping("selectNewApplyCategory.co")
+	public String selectNewApplyCategory() {
+		
+		int result = communityService.selectNewApplyCategory();
+		System.out.println(result+"????????");
+		return String.valueOf(result);
+		
+	}
+	
+	//게시판 열기
+	@RequestMapping("openCategory.co")
+	public String openCategory(int cno) {
+		communityService.openCategory(cno);
+		
+		
+		return "redirect:/managerCommunityList.me";
+	}
+	//게시판 승인 보류하기
+	@RequestMapping("holdCategory.co")
+	public String holdCategory(int cno) {
+		communityService.holdCategory(cno);
+		
+		
+		return "redirect:/managerCommProposal.me";
+	}
+	
+	//게시판 숨기기
+	@RequestMapping("closeCategory.co")
+	public String closeCategory(int cno) {
+		communityService.closeCategory(cno);
+		
+		
+		return "redirect:/managerCommunityList.me";
+	}
 
-	/*
-	 * @RequestMapping("selectAttachment.co") public ArrayList
-	 */
+
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		// 저장 경로
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\upload_files\\";
 
-		System.out.println("savePath : " + savePath);
 
 		// 업로드 시간정보로 파일명 변경해주는 작업
 		String originName = file.getOriginalFilename();
@@ -294,7 +356,6 @@ public class CommunityController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\upload_files\\";
 
-		System.out.println(savePath);
 
 		File deleteFile = new File(savePath + fileName);
 		deleteFile.delete();

@@ -12,7 +12,11 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
-    <title>Groupware</title>
+    <title>WeCanvas</title>
+ 
+    <!-- fullcalendar-scheduler CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.css">
+ 
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
@@ -24,7 +28,7 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <![endif]-->
 
 	<style>
 	
@@ -34,6 +38,10 @@
 	}
 	
 	</style>
+
+    <script>
+    	const empNo = ${ loginUser.empNo };
+    </script>
 
 </head>
 
@@ -47,6 +55,9 @@
             <div class="lds-pos"></div>
         </div>
     </div>
+    
+
+    
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -70,6 +81,7 @@
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
+
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
@@ -175,13 +187,19 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#profile" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                        <a href="#calendar" data-toggle="tab" aria-expanded="true" class="nav-link active">
                                             <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
                                             <span class="d-none d-lg-block  font-weight-bold">일정</span>
                                         </a>
                                     </li>
+             		                <li class="nav-item">
+                                        <a href="#reservation" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                                            <span class="d-none d-lg-block  font-weight-bold">예약</span>
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
-                                        <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                        <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
                                             <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
                                             <span class="d-none d-lg-block  font-weight-bold">오늘의 식단표</span>
                                         </a>
@@ -202,31 +220,26 @@
                                             quis enim.</p>
        
                                     </div>
-                                    <div class="tab-pane show" id="profile">
-                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                                            justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
-                                            eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
-                                            semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
-                                            eu, consequat vitae, eleifend ac, enim.</p>
-                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                                            justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
-                                            eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
-                                            semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
-                                            eu, consequat vitae, eleifend ac, enim.</p>
+                                    <div class="tab-pane" id="settings">
+                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                            quis enim.</p>
+                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
+                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                            quis enim.</p>
 
                                     </div>
-                                    <div class="tab-pane active" id="settings">
-                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
-                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
-                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
-                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-                                            quis enim.</p>
-                                        <p>Food truck quinoa dolor sit amet, consectetuer adipiscing elit. Aenean
-                                            commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
-                                            magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
-                                            ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-                                            quis enim.</p>
-
+                                    <div class="tab-pane active" id="calendar">
+                                        <!-- calendar app -->
+                                        test
+                                    </div>
+                                    <div class="tab-pane" id="reservation">
+                                        <!-- reservation app -->
+                                        test2
                                     </div>
                                 </div>
                             </div>
@@ -235,6 +248,9 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
+                                
+                            </div>
+                            <!-- <div class="card-body">
                                 <h4 class="card-title mb-4">Earning by Location</h4>
                                 <div class="" style="height:180px">
                                     <div id="visitbylocate" style="height:100%"></div>
@@ -295,7 +311,7 @@
                                         <span class="mb-0 font-14 text-dark font-weight-medium">12%</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -324,6 +340,9 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-body">
+
+                            </div>
+                            <!-- <div class="card-body">
                                 <h4 class="card-title">Recent Activity</h4>
                                 <div class="mt-4 activity">
                                     <div class="d-flex align-items-start border-left-line pb-3">
@@ -370,7 +389,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -415,15 +434,25 @@
     <!--Custom JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/d3.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
+    <!-- <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/d3.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.js"></script> -->
+    <!-- <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script> -->
+    <!-- <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script> -->
 	
-	
+    <!-- Calendar & Reservation JavaScript -->
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Moment CDN -->
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- fullcalendar-scheduler CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/main.min.js"></script>
+    <!-- fullcalendar-scheduler 언어 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.9.0/locales-all.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/main/main.js" type="module"></script>
+
 	<script>
 	$(function(){
 		
