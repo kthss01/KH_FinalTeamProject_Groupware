@@ -292,6 +292,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN E_FORM E ON A.F_NO = E.F_NO
 		WHERE 
 		    A.APPROVER_ID = #{empNo}
+		    AND A.S_CODE IN (2,3)
 		ORDER BY A.DRAFT_DATE DESC
 	</select>
 	
