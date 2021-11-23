@@ -1,48 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "java.util.ArrayList, com.kh.spring.hr.model.vo.Work, org.springframework.ui.Model"%>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>    
+    pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%	
-	ArrayList<Work> wlist = (ArrayList<Work>)request.getAttribute("wlist"); 
-	
-	String start = "미등록";
-	String end = "미등록";
-	
-	Work w = null;
-	String wNo = null;
-	String wDate = null;
-	
-	Date now = new Date();
-	SimpleDateFormat sf = new SimpleDateFormat("yy/MM/dd");
-	String nowsf = sf.format(now);
-	
-	if(wlist.size() > 0) {
-		for(int i = 0 ; i <= wlist.size() - 1; i++) {
-			
-			wDate=sf.format(wlist.get(i).getWDate());
-			
-			if(wDate.equals(nowsf)){
-				w = wlist.get(i);
-				System.out.println(w);
-			}
-		}
-		
-		if(w != null) {
-			wNo = w.getWNo();
-			
-			if(w.getStartTime() != null) {
-				start = w.getStartTime().substring(11, w.getStartTime().length());
-			}
-			
-			if(w.getEndTime() != null) {
-				end = w.getEndTime().substring(11, w.getEndTime().length());
-			}
-		}
-	}
-	
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,10 +91,26 @@
 							<p id="clock" style="font-size:40px"></p>
 							<div>
 								<div class="d-flex" style="font-size: 12px">
-									<p class="col-6" style="padding:0px;">출근시간</p><p class="col-6 text-right" style="padding:0px;"><%=start %></p>
+									<p class="col-6" style="padding:0px;">출근시간</p>
+									<c:choose>
+										<c:when test="${empty w.startTime }">
+											<p class="col-6 text-right" style="padding:0px;">미등록</p>
+										</c:when>
+										<c:otherwise>
+											<p class="col-6 text-right" style="padding:0px;">${w.startTime}</p>
+										</c:otherwise>
+									</c:choose>
 								</div>
 								<div class="d-flex" style="font-size: 12px">
-									<p class="col-6" style="padding:0px;">퇴근시간</p><p class="col-6 text-right" style="padding:0px;"><%=end %></p>
+									<p class="col-6" style="padding:0px;">퇴근시간</p>
+									<c:choose>
+										<c:when test="${empty w.endTime }">
+											<p class="col-6 text-right" style="padding:0px;">미등록</p>
+										</c:when>
+										<c:otherwise>
+											<p class="col-6 text-right" style="padding:0px;">${w.endTime}</p>
+										</c:otherwise>
+									</c:choose>
 								</div>
 								<div class="d-flex" style="font-size: 12px">
 									<p class="col-7" style="padding:0px;">주간 누적 근무시간</p><p class="col-5 text-right" style="padding:0px;">00h 00m 00s</p>
@@ -158,7 +134,7 @@
 								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none;" value="6" name="status">출장</button>
 								<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none; border-bottom-left-radius: 9px; border-bottom-right-radius: 9px;" value="7" name="status">반차</button>
 							</div>
-							<input type="hidden" name="wNo" value="<%=wNo %>">
+							<input type="hidden" name="wNo" value="${w.WNo }">
 						</form>
 						<br>
 						<!-- 근태관리, 내 근태 현황, 내 연차 내역, 내 인사정보 -->
@@ -224,7 +200,7 @@
 						<div class="row">
 							<div class="m-auto">
 								<span><i data-feather="chevron-left" class="feather-icon"></i></span>
-								<span>2021.10</span>
+								<span>${year }.${month }</span>
 								<span><i data-feather="chevron-right" class="feather-icon"></i></span>
 							</div>
 						</div>
@@ -256,159 +232,164 @@
 						</div>
 						<br><br>
 						
-						<!-- 1 주차 -->
-						<div class="row" style="border-bottom: 2px solid rgba(0,0,0,.125);">
-							<!-- 주차 표시 -->
-							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 2px solid rgba(0,0,0,.125);">
-								<div class="text-left col-2">
-									<h5><i data-feather="chevron-down" class="feather-icon inner"></i>&nbsp;&nbsp;1주차</h5>
+						<!-- 이번달 달력 출력 - 5주일 -  -->
+						<c:forEach var="week" begin ="1" end ="5">
+							<!-- 1 주차 -->
+							<div class="row" style="border-bottom: 2px solid rgba(0,0,0,.125);">
+								<!-- 주차 표시 -->
+								<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 2px solid rgba(0,0,0,.125);">
+									<div class="text-left col-2">
+										<!-- 접었다 펼때 아이콘 바뀜 -->
+										<h5><i data-feather="chevron-down" class="feather-icon inner"></i>&nbsp;&nbsp;${week }주차</h5>
+									</div>
+									<div class="text-right col-10">
+										<span>누적 근무시간 00h 00m 00s (초과 근무시간 00h 00m 00s)</span>
+									</div>
 								</div>
-								<div class="text-right col-10">
-									<span>누적 근무시간 00h 00m 00s (초과 근무시간 00h 00m 00s)</span>
+								
+								<!-- 헤더 표시, 접었다 펼 수 있음 -->
+								<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+									<div class="col-1 text-center">
+										<span>일차</span>
+									</div>
+									<div class="col-2">
+										<span>업무시작</span>
+									</div>
+									<div class="col-2">
+										<span>업무종료</span>
+									</div>
+									<div class="col-2">
+										<span>총 근무시간</span>
+									</div>
+									<div class="col-5">
+										<span>근무시간 상세</span>
+									</div>
+								</div>
+								
+								<!-- 일자 표시 (7일) -->
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 월</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
+								</div>
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 화</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
+								</div>
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 수</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
+								</div>
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 목</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
+								</div>
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 금</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
+								</div>
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 토</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
+								</div>
+								<div class="d-flex col-12">
+									<div class="col-1 text-center">
+										<span>17 일</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00:00:00</span>
+									</div>
+									<div class="col-2">
+										<span>00h 00m 00s</span>
+									</div>
+									<div class="col-5">
+										<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
+									</div>
 								</div>
 							</div>
-							
-							<!-- 헤더 표시 -->
-							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-								<div class="col-1 text-center">
-									<span>일차</span>
-								</div>
-								<div class="col-2">
-									<span>업무시작</span>
-								</div>
-								<div class="col-2">
-									<span>업무종료</span>
-								</div>
-								<div class="col-2">
-									<span>총 근무시간</span>
-								</div>
-								<div class="col-5">
-									<span>근무시간 상세</span>
-								</div>
-							</div>
-							
-							<!-- 일자 표시 (7일) -->
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 월</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 화</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 수</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 목</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 금</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 토</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-							<div class="d-flex col-12">
-								<div class="col-1 text-center">
-									<span>17 일</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00:00:00</span>
-								</div>
-								<div class="col-2">
-									<span>00h 00m 00s</span>
-								</div>
-								<div class="col-5">
-									<span>기본 00h 00m 00s/연장 00h 00m 00s/야간00h 00m 00s</span>
-								</div>
-							</div>
-						</div>
+							<br>
 						<!-- 1 주차 끝 -->
+						</c:forEach>
 					</div>
 				</div>
 			</div>
