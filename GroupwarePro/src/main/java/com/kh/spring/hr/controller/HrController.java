@@ -49,10 +49,12 @@ public class HrController {
 		
 		//사원의 이번달 근무정보 가져오기
 		ArrayList<Work> wlist = hrService.selectWorkList(work);
+		System.out.println("=======controller=======");
+		System.out.println(wlist.get(3).getStartTime());
+		System.out.println(wlist.get(3).getStartTime().getClass().getName());
 		
 		//사원의 오늘 근무정보 가져오기
 		Work w = hrService.selectWork(empNo);
-		
 		
 		//이번년도, 이번달 가져오기
 		DecimalFormat df = new DecimalFormat("00");

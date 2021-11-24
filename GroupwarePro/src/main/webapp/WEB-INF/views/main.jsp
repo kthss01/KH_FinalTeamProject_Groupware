@@ -45,7 +45,7 @@
 
 </head>
 
-<body>
+<body onload="printClock()">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -248,8 +248,41 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                
+                                <h4 class="card-title mb-3 font-weight-bold">무제</h4>
+                                <p id="todate" style="font-size:14px"></p>
+                                <p id="clock" style="font-size:40px"></p>
                             </div>
+                            <script>
+                            function printClock() {
+    						    
+    						    var clock = document.getElementById("clock");	// 출력할 장소 선택
+    						    var todate = document.getElementById("todate");
+    						    var currentDate = new Date();	// 현재시간
+    						    var day = new Array('일', '월', '화', '수', '목', '금', '토')
+    						    var today = day[currentDate.getDay()];
+    						    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() + " (" + today + ")"// 현재 날짜
+    						    var currentHours = addZeros(currentDate.getHours(),2); 
+    						    var currentMinute = addZeros(currentDate.getMinutes() ,2);
+    						    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+    						    
+    						    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds; //날짜를 출력해 줌
+    						    todate.innerHTML = calendar; //날짜를 출력해 줌
+    						    
+    						    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+    						    
+    						    
+    						    function addZeros(num, digit) { // 자릿수 맞춰주기
+    							  	var zero = '';
+    							  	num = num.toString();
+    							  	if (num.length < digit) {
+    								  	for (i = 0; i < digit - num.length; i++) {
+    								  		zero += '0';
+    								  	}
+    							  	}
+    							  	return zero + num;
+    							}
+    						}
+                            </script>
                             <!-- <div class="card-body">
                                 <h4 class="card-title mb-4">Earning by Location</h4>
                                 <div class="" style="height:180px">

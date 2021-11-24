@@ -79,8 +79,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    W_NO,
 			    EMP_NO,
 			    TO_DATE(TO_CHAR(W_DATE, 'YYMMDD'), 'YY/MM/DD') W_DATE,
-			    START_TIME,
-			    END_TIME
+			    CASE
+			        WHEN START_TIME = NULL THEN NULL
+			        ELSE SUBSTR(TO_TIMESTAMP(START_TIME, 'yyyy/MM/dd hh24:MI:ss'), 10, 8)
+			    END START_TIME,
+			    CASE
+			        WHEN END_TIME = NULL THEN NULL
+			        ELSE SUBSTR(TO_TIMESTAMP(END_TIME, 'yyyy/MM/dd hh24:MI:ss'), 10, 8) 
+			    END END_TIME
 			FROM
 			    WORK
 			WHERE EMP_NO = #{empNo}
