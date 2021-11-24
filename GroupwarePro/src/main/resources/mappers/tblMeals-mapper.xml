@@ -14,23 +14,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
 	
 	<select id="selectList" resultMap="tblMealsResultSet">
-		SELECT *
+		SELECT LNC ,START_DATE,END_DATE
 		FROM TBL_MEALS_CAL
 	</select>
 	
 	
 	
-	<!-- <insert id="insertListTest" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="idx" keyColumn="idx"> 
-        INSERT INTO table
-        ( idx,
-        name,
-        tag )
+	<insert id="insertListTest" parameterType="java.util.List" useGeneratedKeys="true"> 
+        INSERT INTO TBL_MEALS_CAL
         VALUES
         <foreach collection="list" item="item" separator=",">
-						
-            (#{item.idx}, #{item.name}, #{item.tag},#{}) 
+            (SEQ_T_NO.NEXTVAL,#{lnc},#{startDate},#{endDate}) 
         </foreach>
-    </insert>-->
+        
+    </insert>
 	
 	
 	<!-- ============================================================================== -->

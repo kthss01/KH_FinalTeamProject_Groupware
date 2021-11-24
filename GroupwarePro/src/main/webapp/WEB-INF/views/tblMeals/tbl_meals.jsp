@@ -7,9 +7,10 @@
     <link href='${ pageContext.servletContext.contextPath }/resources/fullcalendar/main.css' rel='stylesheet' />
     <script src='${ pageContext.servletContext.contextPath }/resources/fullcalendar/main.js'></script>
     <script src='${ pageContext.servletContext.contextPath }/resources/locales/ko.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
 	
-    var calendar=null;//전역
+    var calendar=null;
     
     document.addEventListener('DOMContentLoaded', function() {
         var Calendar = FullCalendar.Calendar;
@@ -46,7 +47,6 @@
           },
           editable: true,//수정가능여부
           droppable: true, // this allows things to be dropped onto the calendar
-          //events:all_events,
           drop: function(info) {
             // is the "remove after drop" checkbox checked?
             if (checkbox.checked) {
@@ -57,7 +57,14 @@
           locale:'ko'
         });
 
+        loadingEvents();
+        
+        
+        
         calendar.render();
+        
+        
+        
       });
     
     
@@ -91,37 +98,52 @@
     		
     	}
     	var jsondata=JSON.stringify(events);
+    	
     	console.log("jsondata출력 !!"+jsondata);
     
     	
     	
-    	savedata(jsondata);//호출
+    	//savedata(jsondata);
     	
     	
     }
     
     
-    
-    function loadingEvents(){//selectList
-    		var return_value=null;
-    	   $.ajax({
-    	      type:'POST',
-    	      url:"list.bo",
-    	      data:{},
-    	      dataType:'json',
-    	      async:false
+    function loadingEvents(){//selectlist
+      	var return_value=null;
+    	$.ajax({
+    		type:'GET',
+  	      	url:"list.bo",
+  	      	dataType:'json',
+  	      	async:false
     	      
     	      
-    	   })
-    	   .done(function(result){
-    	      return_value=result;
-    	   })
-    	   .fail(function(request,status,error){
-    	      alert("FAILED:"+error);
-    	      
-    	   })
-    	   
-    	   return return_value;
+    	})
+    	.done(function(result){
+    		console.log(result);
+    		
+    		return_value=[];
+    		
+    		for (var value of result) {
+    			 var event = {
+    			 title: value.lnc,
+    			 start: value.startDate,
+    			 end: value.endDate,
+    			 
+    			};
+    			calendar.addEvent(event);
+    		}		
+    		
+    	})
+    	.fail(function(request,status,error){
+  
+ 	      alert("FAILED:");
+ 	      
+ 	    })
+ 	   
+ 	   
+ 	  
+  
     }
 
     
@@ -130,27 +152,22 @@
     function savedata(jsondata){//insert
     	//서버에 넘기기
     	$.ajax({
-    		type:"post",
+    		type:"POST",
     		url:"insert.bo",
+    		traditional:true,
+    		contentType: 'application/json',
     		data:{ alldata:jsondata },
-    		dataType:'text',
-    		async:false,
-    		success:function(result){
-    			alert(result);
-			},
-			error:function(){
-				alert("FAILED:");
-			}
+    		dataType:'json',
+    		async:false
     		
+    	})
+    	.done(function(result){
+    		alert("성공");
+    	})
+    	.fail(function(request,status,error){
+    		alert("FAILED:"+error);
     		
-    	});
-    	//.done(function(result){
-    	//	alert(result);
-    	//})
-    	//.fail(function(request,status,error){
-    	//	alert("FAILED:"+error);
-    	//	
-    	//})
+    	})
     	
     	
     }
@@ -190,14 +207,18 @@
   	<div style="height:30px; text-align:center; font-size:35px; margin-bottom:30px; font-weight:bold">
   		<div style="width:60%; float:left; text-align:right">월간 식단표</div>
   		<div style="width:40%; float:left; text-align:right">
-  		<button style="width:120px; height:40px; vertical-align:middle; font-size:17px; cursor:pointer" onclick="javascript:allSave();">식단표 등록</button>
+  		<button style="width:120px; height:40px; vertical-align:middle; font-size:17px; cursor:pointer" onclick="register();">식단표 등록</button>
   		</div>
   	
   	</div>
     <div id='calendar'></div>
   </div>
   
-  
+  <script>
+  	function register(){
+  		location.href="registerForm.bo"; 
+  	}
+  </script>
   
   
   

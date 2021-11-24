@@ -145,8 +145,7 @@
                                 
                                 
                                 <h4 class="card-title">작성자</h4>
-                                <input type="text" class="form-control is-valid" id="inputSuccess1" 
-                                	style="width:200px;",name="empNo" value="${loginUser.getEmpNo()}">     
+                                <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo()}" style="width:200px;">     
                                 <!-- <div class="card-body">
                                 <h4 class="card-title">작성자</h4>
                                 <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>

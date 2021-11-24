@@ -586,7 +586,7 @@ A HORIZONTAL event
     color: var(--fc-event-text-color, #fff);
   }
 .fc-h-event .fc-event-main-frame {
-    display: flex; /* for make fc-event-title-container expand */
+    display: flex;    /* for make fc-event-title-container expand */
   }
 .fc-h-event .fc-event-time {
     max-width: 100%; /* clip overflow on this element */
@@ -891,12 +891,13 @@ A HORIZONTAL event
   padding: 2px 0
 
 }
-.fc-daygrid-dot-event .fc-event-title {
+.fc-daygrid-dot-event .fc-event-title {   /*fc-daygrid-event-dot*/
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 0; /* important for allowing to shrink all the way */
     overflow: hidden;
-    font-weight: bold;
+    /*font-weight:bold;*/
+    white-space:normal;
   }
 .fc-daygrid-dot-event:hover,
   .fc-daygrid-dot-event.fc-event-mirror {

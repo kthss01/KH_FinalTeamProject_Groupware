@@ -2,6 +2,7 @@ package com.kh.spring.tblMeals.model.dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -34,6 +35,14 @@ public class TblMealsDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("tblMealsMapper.selectList");
 	}
+
+
+	public int insert(SqlSessionTemplate sqlSession, ArrayList<TblMeals> alldata) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("tblMealsMapper.insertListTest",alldata);
+	}
+
+	
 
 	
 

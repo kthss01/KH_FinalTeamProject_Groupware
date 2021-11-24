@@ -1,7 +1,7 @@
 +<!DOCTYPE html>
 <html dir="ltr" lang="ko">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <head>
     <meta charset="UTF-8">
@@ -105,12 +105,6 @@ picture-area{
                             <br>
                             <div class="info d-block align-items-center">
 								<ul class="ref navbar-nav">
-									<li>
-										<div class="card-body">
-											<h4 class="card-body"> 프로필 사진</h4>
-											<img class="profile-image" src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg">
-										</div>
-									<li>
 										<div class="card-body">
 											<h3 class="card-title"> 사원 이름 </h3>
 											<input type="text" class="form-control" value="${sessionScope.loginUser.empName }" readonly>
@@ -150,7 +144,15 @@ picture-area{
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title"> 성별 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.gender }" readonly>
+											<c:choose>	
+												<c:when test="${sessionScope.loginUser.gender eq 'M'}"> 
+												<input type="text" class="form-control" value="남성" readonly>
+												</c:when>
+												<c:otherwise>
+												<input type="text" class="form-control" value="여성" readonly>
+												</c:otherwise>
+											</c:choose>
+
 										</div>
 										<br>
 										<button type="button" class="updateInfo btn waves-effect waves-light btn-secondary"> 정보 수정</button>
@@ -161,33 +163,24 @@ picture-area{
                             
                             <div class="update hidden d-block align-items-center">
                             	<form class="updateForm" action="update.me" method="post">
+                            	<input type="text" class="form-control empName" value="${sessionScope.loginUser.empNo }" readonly style="display:none;">
 								<ul class="ref navbar-nav">
 									<li>
 										<div class="card-body">
-											<h4 class="picture-area card-body">프로필 사진</h4>
-											
-											<ul style="display=inline-block; width:125px; vertial-align:center; list-style:none;"></ul>
-												<img src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg" class="profile-image"
-											 	onclick="">
-												
-												<div class="update-picture">이미지 변경</div>
-										</div>
-									<li>
-										<div class="card-body">
 											<h3 class="card-title"> 사원 이름 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.empName }" readonly>
+											<input type="text" class="form-control empName" name="empName" value="${sessionScope.loginUser.empName }" readonly>
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title"> 연락처 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.phone}">
+											<input type="text" class="form-control phone" name="phone" value="${sessionScope.loginUser.phone}">
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title"> 이메일 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.email }">
+											<input type="text" class="form-control email" name="email" value="${sessionScope.loginUser.email }">
 										</div>
                             		</li>
                             		<!-- 
@@ -204,15 +197,49 @@ picture-area{
 										</div>
                             		</li>
                             		 -->
-                            		</ul>
+                            	</ul>
                             		<button type="submit" class="off btn waves-effect waves-light btn-success"> 완료 </button>
 									<button type="button" class="cancle btn waves-effect waves-light btn-danger"> 취소</button>
                             		</form>
                             </div>
                             
+                            <div class="updatePwd hidden d-block align-items-center">
+                            	<form class="updatePwdForm" action="updatePassword.me" method="post">
+                            	<input type="text" class="form-control empName" value="${sessionScope.loginUser.empNo }" readonly style="display:none;"> 
+								<ul class="ref navbar-nav">
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title"> 새로운 비밀번호 </h3>
+											<input type="text" class="form-control newPwd" placeholder="새로운 비밀번호" name="newPwd">
+										</div>
+                            		</li>
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title"> 새로운 비밀번호 확인 </h3>
+											<input type="text" class="form-control newPwdCheck" placeholder="새로운 비밀번호 확인" name="newPwdCheck">
+										</div>
+                            		</li>
+                            		<!-- 
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title"> 부서 </h3>
+											<input type="text" class="form-control" value="${sessionScope.loginUser.deptTitle }">
+										</div>
+                            		</li>
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title"> 직급 </h3>
+											<input type="text" class="form-control" value="${sessionScope.loginUser.jobName }">
+										</div>
+                            		</li>
+                            		 -->
+                            	</ul>
+                            		<button type="submit" class="off btn waves-effect waves-light btn-success"> 완료 </button>
+									<button type="button" class="cancle btn waves-effect waves-light btn-danger"> 취소</button>
+                            		</form>
+                            </div>
 	
 							<script>
-							
 							
 								
 								var update = document.querySelector(".update");
@@ -232,6 +259,38 @@ picture-area{
 								
 								cancle.addEventListener("click",changeToInfo);
 								updateBtn.addEventListener("click",changeToUpdate);
+								
+								
+								function doesPasswordMatch(){
+	                            	var password = document.querySelector(".newPwd").value;
+	                            	var passwordCheck = document.querySelector(".newPwdCheck").value;
+	                            		if ( password == passwordCheck){
+	                            			return true;
+	                            		} else {
+	                            			return false;
+	                            		}
+	                            }  		
+	                            
+	                            function doubleCheckPwd(){
+	                            	
+	                            	var pwd = document.querySelector(".newPwd");
+	                            	if( (pwd.value.length > 4) || (pwd.value.length < 16)){
+	                            		
+	                            		if(doesPasswordMatch()){
+	                            			window.alert("성공적으로 비밀번호를 수정하였습니다. 로그아웃이 됩니다.");
+	                            			document.querySelector(".updatePwdForm").submit();
+	                            		}else{
+	                            			window.alert("비밀번호가 일치하지 않습니다.")
+	                            		}
+	                            		
+	                            	} else {
+	                            		window.alert("비밀번호는 최소 4자 이상  16자 이하여야 합니다.");
+	                            		pwd.innerHTML='';
+	                            	}
+	                            }
+								
+								
+								
 								
 								
 							

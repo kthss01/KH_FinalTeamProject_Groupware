@@ -101,7 +101,52 @@ public class MemberServiceImpl implements MemberService {
 		
 		return list;
 	}
-	
+
+	@Override
+	public Member selectMember(String empNo) {
+		Member member = memberDao.selectMember(sqlSession,empNo);
+		return member;
+	}
+
+	@Override
+	public int checkMember(String empNo) {
+		
+		int result = memberDao.checkMember(sqlSession, empNo);
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<Member> sortMemberList(String value) {
+			
+		ArrayList<Member> result = memberDao.sortMemberList(sqlSession,value);
+		
+		return result;
+	}
+
+	@Override
+	public int checkMemberId(String loginId) {
+		
+		int result = memberDao.checkMemberId(sqlSession, loginId);
+		
+		return result;
+	}
+
+	@Override
+	public String searchLoginId(String empNo) {
+		String result = memberDao.searchLoginId(sqlSession,empNo);
+		return result;
+	}
+
+	@Override
+	public int updatePassword(Member m) {
+		
+		int result = memberDao.updatePassword(sqlSession,m);
+		
+		return result;
+	}
+
+
 	
 
 }

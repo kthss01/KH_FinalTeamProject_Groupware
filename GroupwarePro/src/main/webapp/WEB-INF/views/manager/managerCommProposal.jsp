@@ -220,9 +220,6 @@
 
 
 	<script>
-		function commCategoryList() {
-
-		}
 	</script>
 
 

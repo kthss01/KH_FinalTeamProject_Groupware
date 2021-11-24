@@ -189,8 +189,8 @@
 					<!-- ============================================================== -->
 					<!-- User profile and search -->
 					<!-- ============================================================== -->
-					<li class="nav-item dropdown"><c:if
-							test="${!empty sessionScope.loginUser}">
+					<li class="nav-item dropdown">
+					<c:if test="${!empty sessionScope.loginUser}">
 							<a class="nav-link dropdown-toggle" href="javascript:void(0)"
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false"> <img
@@ -200,7 +200,6 @@
 								<span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span>
 									<span class="text-dark">${sessionScope.loginUser.loginId}</span>
 									<i data-feather="chevron-down" class="svg-icon"></i></span>
-
 
 							</a>
 
@@ -229,13 +228,15 @@
                                        Profile</a></div>
                                         -->
 							</div>
-						</c:if> <c:if test="${empty sessionScope.loginUser}">
+						</c:if>
+						 <c:if test="${empty sessionScope.loginUser}">
 
 							<a class="ml-2 d-none d-lg-inline-block" href="loginForm.me">
 								<br> 로그인
 							</a>
 
-						</c:if></li>
+						</c:if>
+						</li>
 					<!-- ============================================================== -->
 					<!-- User profile and search -->
 					<!-- ============================================================== -->
