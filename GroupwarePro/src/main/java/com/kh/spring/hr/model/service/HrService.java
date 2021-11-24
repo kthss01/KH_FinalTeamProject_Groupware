@@ -1,6 +1,7 @@
 package com.kh.spring.hr.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.spring.hr.model.vo.EmpInfo;
 import com.kh.spring.hr.model.vo.VOccur;
@@ -11,8 +12,10 @@ import com.kh.spring.hr.model.vo.WorkSInfo;
 
 public interface HrService {
 
-	ArrayList<Work> selectWorkList(int empNo);
+	ArrayList<Work> selectWorkList(Work work);
 
+	Work selectWork(int empNo);
+	
 	void insertWork(int empNo);
 
 	void updateWork(String wNo);
@@ -26,8 +29,5 @@ public interface HrService {
 	ArrayList<VOccur> selectVOccurList(int empNo);
 
 	EmpInfo selectEmpInfo(int empNo);
-
-
-
 
 }

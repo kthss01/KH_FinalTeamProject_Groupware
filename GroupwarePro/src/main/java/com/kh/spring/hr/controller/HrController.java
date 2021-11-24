@@ -1,6 +1,13 @@
 package com.kh.spring.hr.controller;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.hr.model.service.HrService;
 import com.kh.spring.hr.model.vo.EmpInfo;
@@ -26,18 +34,56 @@ public class HrController {
 	private HrService hrService;
 	
 	@RequestMapping("work.hr")
-	public String selectWorkList(Model model, HttpSession session, HttpServletRequest request) {
+	public ModelAndView selectWorkList(Model model, HttpSession session, ModelAndView mv) {
 		
 		//현재 로그인 중인 사원의 사원번호
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int empNo = Integer.parseInt(loginUser.getEmpNo());
 		
-		//사원의 모든 근무정보 가져오기
-		ArrayList<Work> wlist = hrService.selectWorkList(empNo);
-
-		model.addAttribute("wlist", wlist);
+		//오늘 날짜
+		Date now = new Date();
 		
-		return "/hr/hrMain";
+		//Date -> String하는 메소드
+		String strDate = changeDate(now);
+		Work work = new Work(empNo, strDate);
+		
+		//사원의 이번달 근무정보 가져오기
+		ArrayList<Work> wlist = hrService.selectWorkList(work);
+		System.out.println("=======controller=======");
+		System.out.println(wlist.get(3).getStartTime());
+		System.out.println(wlist.get(3).getStartTime().getClass().getName());
+		
+		//사원의 오늘 근무정보 가져오기
+		Work w = hrService.selectWork(empNo);
+		
+		//이번년도, 이번달 가져오기
+		DecimalFormat df = new DecimalFormat("00");
+
+        Calendar currentCalendar = Calendar.getInstance();
+        
+        //이번년도
+        String year  = df.format(currentCalendar.get(Calendar.YEAR));
+		mv.addObject("year", year);
+		
+        //이번달
+        String month  = df.format(currentCalendar.get(Calendar.MONTH) + 1);
+		mv.addObject("month", month);
+		
+		mv.addObject("wlist", wlist);
+		mv.addObject("w", w);
+		mv.setViewName("hr/hrMain");
+		
+		return mv;
+	}
+	
+	public String changeDate(Date date) {
+		
+		//받아온 날짜를 string으로 변환
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		
+		String strDate = sdf.format(date); 
+		
+		return strDate;
 	}
 	
 	@RequestMapping("change.hr")
@@ -81,11 +127,6 @@ public class HrController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int empNo = Integer.parseInt(loginUser.getEmpNo());
 		
-		//사원의 모든 근무정보 가져오기
-		ArrayList<Work> wlist = hrService.selectWorkList(empNo);
-
-		model.addAttribute("wlist", wlist);
-		
 		//사원의 휴가정보 가져오기 
 		VacationInfo vi = hrService.selectVacationInfo(empNo);
 		model.addAttribute("vi", vi);
@@ -107,11 +148,6 @@ public class HrController {
 		//현재 로그인 중인 사원의 사원번호
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int empNo = Integer.parseInt(loginUser.getEmpNo());
-		
-		//사원의 모든 근무정보 가져오기
-		ArrayList<Work> wlist = hrService.selectWorkList(empNo);
-
-		model.addAttribute("wlist", wlist);
 		
 		EmpInfo empInfo = hrService.selectEmpInfo(empNo);
 		model.addAttribute("empInfo", empInfo);
