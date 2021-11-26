@@ -79,30 +79,12 @@ color: white;
                                     
                         </li>
 						 <li class="sidebar-item"> 
-                       		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
+                       		<a href="popupNoticeList.no" class="sidebar-link">
                        			<i data-feather="member" class="icon-bulb"></i>
-                       			<span class="hide-menu"> 공지사항 </span>
+                       			<span class="hide-menu"><b>팝업 공직사항 </b></span>
                        		</a>
-                       		
-                       		<ul aria-expanded="false" class="collapse first-level base-level-line">
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> <b> 공지목록  </b></span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       		</ul>
+                       	</li>
                                     
-                        </li>
                         
                          <li class="sidebar-item"> 
                        		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
@@ -208,35 +190,8 @@ color: white;
                                     
                         </li>
 						
-					<!--  side-bar 하위 메뉴 기본 양식                                
-                        <li class="sidebar-item"> 
-                       		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
-                       			<i data-feather="member" class="icon-list"></i>
-                       			<span class="hide-menu"> -- </span>
-                       		</a>
-                       		
-                       		<ul aria-expanded="false" class="collapse first-level base-level-line">
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> <b> --  </b></span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       		</ul>
                                     
-                        </li>
-                    -->      
-                                    
-                                  <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  
+                           <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  
 
                       
                         <li class="list-divider"></li>

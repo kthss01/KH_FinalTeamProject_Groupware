@@ -68,7 +68,7 @@ picture-area{
 }
 
 .update-picture{
-	position:absolute;
+14	position:absolute;
 	width:125px;
 	height:60px;
 }
@@ -105,6 +105,7 @@ picture-area{
                             <br>
                             <div class="info d-block align-items-center">
 								<ul class="ref navbar-nav">
+									<li>
 										<div class="card-body">
 											<h3 class="card-title"> 사원 이름 </h3>
 											<input type="text" class="form-control" value="${sessionScope.loginUser.empName }" readonly>

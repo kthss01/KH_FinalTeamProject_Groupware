@@ -67,13 +67,15 @@
 						</tr>
 					</thead>
 					<tbody id="pros-table-body" class="pros-talbe-body">
+												
 						
-					
 					</tbody>
 					<tfoot>
 						<tr>
 							<th colspan="3">
-								<a type="button" class="btn waves-effect waves-light"></a>
+								<a type="button" class="btn waves-effect waves-light">
+									
+								</a>
 							</th>
 						</tr>
 					</tfoot>

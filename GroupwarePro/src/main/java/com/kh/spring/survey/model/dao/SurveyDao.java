@@ -12,6 +12,7 @@ import com.kh.spring.survey.model.vo.Survey;
 @Repository
 public class SurveyDao{
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<Survey> selectSurveyList(SqlSessionTemplate session,PageInfo pageInfo) {
 		return (ArrayList)session.selectList("surveyMapper.selectSurveyList");
 	}
@@ -32,9 +33,6 @@ public class SurveyDao{
 	public int updateSurvey(SqlSessionTemplate session, Survey survey) {
 		return session.update("surveyMapper.updateSurvey",survey);
 	}
-	
-	
-	
 	
 	
 	

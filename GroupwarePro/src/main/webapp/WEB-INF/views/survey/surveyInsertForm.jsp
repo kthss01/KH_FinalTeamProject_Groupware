@@ -61,8 +61,7 @@
 			<div class="row">
 			<div class="col-sm-12">
 			
-			<form class="surveyFrom mt-3" action="surveyQuestionInsertForm.sv">
-					
+			<form class="surveyFrom mt-3" action="insertSurvey.sv" method="GET">
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">제목 </h4>						
@@ -80,6 +79,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">시작일 </h4>						
@@ -88,6 +88,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">마감일 </h4>						

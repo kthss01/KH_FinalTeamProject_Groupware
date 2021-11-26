@@ -48,70 +48,73 @@
 		<div class="card" >
 			<div class="card-body"> 
 				<h3 class="card-title font-weight-bold text-truncate text-dark font-weight-bold mb-1"> 설문 내용 </h3>
-			<div class="insert-form-wrapper">
+			<div class="update-form-wrapper">
+						<form class="survey-update-form" action="updateSurvey.sv" method="POST">
 								<ul class="ref navbar-nav">
+									<li style="display:none;">
+										<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 제목 </h3>
+											<input type="text" class="form-control surveyNo" name="surveyNo" value="${survey.surveyNo}" required>
+										</div>
+                            		</li>
+									
 									<li>
 										<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 제목 </h3>
-											<input type="text" class="form-control title" name="title" value="${survey.surveyTitle}" readonly>
+											<input type="text" class="form-control surveyTitle" name="surveyTitle" value="${survey.surveyTitle}" required>
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 내용 </h3>
-											<textarea class="form-control content" rows="3" name="content" readonly>${survey.surveyContent}</textarea>
+											<textarea class="form-control surveyContent" rows="3" name="surveyContent" required>${survey.surveyContent}</textarea>
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 작성일 </h3>
-											<input type="date" class="form-control startDate" name="startDate" value="${survey.writeDate}" pattern="\d{4}-\d{2}-\d{2}" readonly>
+											<input type="date" class="form-control startDate" name="startDate" value="${survey.writeDate}" pattern="\d{4}-\d{2}-\d{2}" required>
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 시작일</h3>
-											<input type="date" class="form-control finishDate" name="finishDate" value="${survey.startDate}" readonly>
+											<input type="date" class="form-control startDate" name="startDate" value="${survey.startDate}" required>
 										</div>
                             		</li>
                             		
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 마감일</h3>
-											<input type="text" class="form-control finishDate" name="statement" value="${survey.finishDate}" readonly>
+											<input type="text" class="form-control finishDate" name="finishDate" value="${survey.finishDate}" required>
 										</div>
                             		</li>
                             		
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 게시 상태</h3>
-											<input type="text" class="form-control finishDate" name="statement" value="${survey.statement}" readonly>
+											<input type="text" class="form-control statement" name="statement" value="${survey.statement}" required>
 										</div>
                             		</li>
                             		<li>
                             			<div class="btn-list">
-                            				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#info-alert-modal" class="preview">미리보기</button>
-                            				<!-- Right modal -->
-                            				<button type="button" class="btn btn-secondary" onclick="location.href='pNoticeUpdateForm.no?popNo='+${pNotice.popNo}">수정하기</button>
-                            				<button type="button" class="btn btn-dark" onclick="history.back();">공지목록</button>
+                            				<button type="submit" class="btn btn-secondary">수정하기</button>
+                            				<button type="button" class="btn btn-dark" onclick="history.back();">수정 취소</button>
                             			</div>
                             		</li>
                             	</ul>
+                           </form> 
+                            
                             
 			</div>
 
 		</div>
 		</div>
 		
-	</div>
-	</div>
+					</div>
+			</div>
 	</div>
 	
-	<script>
-	
-	
-		
- 	</script>
 	
 	
 	<script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>

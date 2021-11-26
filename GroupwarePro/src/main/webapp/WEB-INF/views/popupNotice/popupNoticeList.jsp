@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,20 +13,23 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
+
     <title>WeCanvas</title>
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-
+    
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<style>
 	
-	#boardList li:hover{
+	
+	.info:hover{
 	cursor:pointer;
 	color:#212529;
 	}
-	
 	
 	
 	</style>
@@ -31,7 +37,7 @@
 <body>
 
 
-	 <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+	<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 	<jsp:include page="${pageCOntext.servletContext.contextPath}/WEB-INF/views/common/m_header.jsp"/>
 	<jsp:include page="${pageCOntext.servletContext.contextPath}/WEB-INF/views/common/m_sidebar.jsp"/>
 	
@@ -43,30 +49,48 @@
 		<div class="card">
 		
 			<div class="card-body">
-			<h3 class="card-title text-truncate text-dark font-weight-bold mb-1"> 커뮤니티 목록</h3>
+			<h3 class="card-title text-truncate text-dark font-weight-bold mb-1"> 팝업 공지 목록 </h3>
 		
 			<div class="table-responsive">
-				<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="zero_config_length"><label>Show <select name="zero_config_length" aria-controls="zero_config" class="form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="zero_config_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="zero_config"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="zero_config" class="table table-striped table-bordered no-wrap dataTable" role="grid" aria-describedby="zero_config_info">
+				<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+					<div class="row">
+						<div class="col-sm-12 col-md-6">
+							<div class="dataTables_length" id="zero_config_length">
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-6">
+							<div id="zero_config_filter" class="dataTables_filter">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+								
+								<div class="col-sm-12">
+								
+								<table id="zero_config" class="table table-striped table-bordered no-wrap dataTable" role="grid" aria-describedby="zero_config_info">
                                         <thead>
                                             <tr role="row">
-                                            	<th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 0px;">개설명</th>
-                                           		<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 0px;">신청인</th>
-                                           		<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Board: activate to sort column ascending" style="width: 0px;">신청일</th>
-                                           	 	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Build -date activate to sort column ascending" style="width: 0px;">신청사유</th>
+                                            	
+                                            	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 0px;">No</th>
+                                            	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 0px;">공지 제목</th>
+                                           		<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 0px;">진행 상태</th>
+                                           	 	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Build -date activate to sort column ascending" style="width: 0px;">마감일</th>
+                                           	 	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Build -date activate to sort column ascending" style="width: 0px;"> </th>
                                           	</tr>
                                         </thead>
-                                        <tbody id="pros-table-body" class="pros-talbe-body">
-                                        		<tr role="row" class="odd">
-                                        			<td class="sorting_1">길동네</td>
-                                        			<td>홍길동</td>
-                                        			<td>2021/11/10</td>
-                                        			<td>그냥</td>
+                                        <tbody id="pros-table-body" class="pros-table-body">
+                                        	
+                                        		<c:forEach items="${list}" var="pNotice" >
+                                        		<tr role="row" class="odd table-item">
+                                        			<td scope="row" class="sorting_1 info popNo">${pNotice.popNo}</td>
+                                        			<td class="info title">${pNotice.title}</td>
+                                        			<td class="info statement">${pNotice.statement}</td>
+                                        			<td class="info finishDate">${pNotice.finishDate}</td>
                                         			<td class="nav-item dropdown">
-                           								<a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           								<a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 						<span class="ml-1 d-none d-lg-inline">
-                                						
-                                							<span class="text-dark"> menu </span> 
-                                						
+                                							<span class="text-dark"></span> 
                                 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down svg-icon">
                                 								<polyline points="6 9 12 15 18 9">
                                 								</polyline>
@@ -74,65 +98,39 @@
                                 						</span>
                            								</a>
                            								<div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                							<a class="dropdown-item" href="javascript:void(0)">
+                                							<a class="dropdown-item updatePNotice" href="pNoticeUpdateForm.no?popNo=${pNotice.popNo}">
+                                							<span style="display:none;">${pNotice.popNo}</span>
                                 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
-                                								<circle cx="12" cy="12" r="3"></circle>
                                 								</svg>
-                                  							  수락
+                                  							수정
                                   							</a>
-                           								    <a class="dropdown-item" href="javascript:void(0)">
+                           								    <a class="dropdown-item deletePNotice" href="deletePNotice.no?popNo=${pNotice.popNo}">
+                           								    <span style="display:none;">${pNotice.popNo}</span>
                            								    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power svg-icon mr-2 ml-1">
                            								    </svg>
-									                                          거절
+									                                          삭제
 															</a>
-                                <div class="dropdown-divider"></div>
+															
+                                <div class="dropdown-divider">
+                                
+                                </div>
                             </div>
                         </td>
                                         		</tr>
-                                        		
+                                        		</c:forEach>
                                         </tbody>
                                         <tr role="row" class="odd">
                                     </table>
+                                    <div class="btn-list float-left">
+                                    	<button type="button" class="btn waves-effect waves-light btn-secondary" onclick="location.href='pNoticeInsertForm.no'">추가</button>
+                                    </div>
                                     
                                     
                                     <div class="row"><div class="col-sm-12 col-md-5">
                                     
-                                    <div class="dataTables_info" id="zero_config_info" role="status" aria-live="polite"> Board entry 표시 구역 </div>
-                                    
-                                    
-                                    </div>
                                     
                                     <div class="col-sm-12 col-md-7">
                                     
-                                    <div class="dataTables_paginate paging_simple_numbers" id="zero_config_paginate">
-                                    
-                                    	<ul class="pagination">
-                                    		<li class="paginate_button page-item previous disabled" id="zero_config_previous">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item active">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="2" tabindex="0" class="page-link">2</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="4" tabindex="0" class="page-link">4</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="5" tabindex="0" class="page-link">5</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="6" tabindex="0" class="page-link">6</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item next" id="zero_config_next">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
-                                    		</li>
-                                    	</ul>
-                                    </div>
                                    </div>
                                    </div>
                                    </div>
@@ -143,10 +141,6 @@
 		</div>
 		</div>
 		</div>
-		<footer>
-			사라져버린 푸터
-		</footer>
-		
 	</div>
 	</div>
 	</div>
@@ -159,15 +153,71 @@
 	
 	
 	
-	function commCategoryList(){
+	$(function(){
+		$(".popNo").click(function(){
+			location.href="pNoticeDetail.no?popNo="+$(this).text();
+		})
+	})		
+	
+	<%--
+  function selectAll(selectAll)  {
+  const checkboxes 
+     = document.querySelectorAll('input[name="popupCheckbox"]');
+  
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = selectAll.checked
+  })
+	}
+	--%>
+	
+	<%--
+	
+	function deleteCheckedItem(){
 		
+		 $("input[name='popupCheckbox']:checked").each(function() {
+	            arr.push($(this).val()+','	);
 		
+		if (checkedList.length <= 0 ) {
+			window.alert("선택된 항목이 없습니다.");
+		}
+		
+		for(var i = 1; i < checkedList.length; i++){
+			if(i.checked){
+				w
+			}
+		}
 		
 	}
 	
+	--%>
+	
+	$(function(){
+		$(".deletePNotice.").click(function(){
+			var popNo = $(this).child().eq(0).text();
+			$.ajax({
+				url:'deletePNotice.no',
+				type:'post',
+				data:{
+					popNo : popNo
+				},
+				async:false,
+				datatype:'json',
+				success: function(){
+					window.alert("정상적으로 삭제되었습니다.")
+				}
+				
+			})
+			
+		})
+	})
 	
 	
-	</script>
+	
+	
+	
+ 	</script>
+	
+	
 	
 	
 	
