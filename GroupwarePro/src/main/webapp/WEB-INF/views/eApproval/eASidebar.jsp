@@ -53,7 +53,7 @@
  	<!-- 결재 진행 전 양식, 결재자 선택하는 모달 -->
  	<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
          <div class="modal-dialog">
-         <form action="enrollForm.ap" method="POST">
+         <form action="enrollForm.ap" method="POST" name="enrollForm" id="enrollForm">
              <div class="modal-content">
                  <div class="modal-header">
                      <h4 class="modal-title col-6" id="myModalLabel">결재양식 선택</h4>
@@ -119,10 +119,11 @@
      </div>
      <script>
 		$(function(){
+			
 			$("#EForms").children().click(function(){
 				
 				/* 양식 번호 */
-				var fNo = $(this).attr('data-value');
+				fNo = $(this).attr('data-value');
 				/* 양식 제목 */
 				var titleText = $(this).text();
 				
@@ -134,12 +135,20 @@
 			$("#approver").children().click(function(){
 				
 				var empInfo = $(this).text();
-				var empNo = $(this).attr('data-value');
+				empNo = $(this).attr('data-value');
 				
 				$("#approverInfo").text(empInfo);
 				$("#approverId").val(empNo);
 				
 			})
+			
+			$(enrollForm).submit(function(){ //enrollForm이 submit될때
+				//문서양식과 결재자를 선택하지 않았을 때
+				if($("#fNo").val() == "" || $("#approverId").val() == ""){ 
+					alert("결재양식 또는 결재자를 선택해주세요");
+					return false; // 폼은 전송시키지않고 false반환
+				}
+			});
 		})
 	</script>
 				

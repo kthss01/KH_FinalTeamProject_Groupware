@@ -7,12 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <style>
+	.title, .eNo, .statusHeader{
+		overflow : hideen;
+		white-space : nowrap; 
+		text-overflow : ellipsis;
+	}
+	
 	.title:hover{
 		cursor: pointer;
 	}
 	
 	.dLists:hover{
 		background-color: rgba(0,0,0,.125);
+	}
+	
+	.status{
+		color: white;
+		font-weight: bold;
+		border : rgba(0,0,0,.125);
 	}
 </style>
 <link rel="icon" type="image/png" sizes="16x16"
@@ -172,14 +184,14 @@
 								<div class="col-3">
 									<span>결재 양식</span>
 								</div>
-								<div class="col-3">
+								<div class="col-4">
 									<span>제목</span>
 								</div>
 								<div class="col-2">
 									<span>첨부</span>
 								</div>
-								<div class="col-2">
-									<span>결재상태</span>
+								<div class="col-1">
+									<span class="statusHeader">결재상태</span>
 								</div>
 							</div>
 							<c:choose>
@@ -192,14 +204,14 @@
 											<div class="col-3">
 												<span>${d.FName}</span>
 											</div>
-											<div class="col-3">
+											<div class="col-4">
 												<span class="title">${d.title}<input type="hidden" value="${d.ENo }"></span>
 											</div>
 											<div class="col-2">
-												<span><i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i>1</span>
+												<span><!-- <i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i>1 --></span>
 											</div>
-											<div class="col-2">
-												<span>${d.SName }</span>
+											<div class="col-1 text-center">
+												<span class="status" style="background-color: ${d.SColor };">${d.SName }</span>
 											</div>
 										</div>
 									</c:forEach>
@@ -207,7 +219,7 @@
 								</c:when>
 								<c:otherwise>
 									<div class="d-flex col-12">
-										<span class="m-auto">결재 대기중인 문서가 없습니다.</span>
+										<span class="m-auto">기안 진행중인 문서가 없습니다.</span>
 									</div>
 								</c:otherwise>
 							</c:choose>
@@ -232,11 +244,11 @@
 								<div class="col-3">
 									<span>제목</span>
 								</div>
-								<div class="col-2">
+								<div class="col-3">
 									<span>문서번호</span>
 								</div>
-								<div class="col-2">
-									<span>결재상태</span>
+								<div class="col-1">
+									<span class="statusHeader">결재상태</span>
 								</div>
 							</div>
 							<c:choose>
@@ -252,11 +264,11 @@
 											<div class="col-3">
 												<span class="title">${f.title }<input type="hidden" value="${f.ENo }"></span>
 											</div>
-											<div class="col-2">
-												<span>${f.ENo }</span>
+											<div class="col-3">
+												<span class="eNo">${f.ENo }</span>
 											</div>
-											<div class="col-2 ">
-												<span>${f.SName }</span>
+											<div class="col-1 text-center">
+												<span class="status" style="background-color: ${f.SColor };">${f.SName }</span>
 											</div>
 										</div>
 									</c:forEach>

@@ -107,6 +107,7 @@
 								<input type="hidden" name="approverId" value="${ea.approverId }">
 								
 								<!-- 추가 문서 양식 -->
+								<jsp:include page="${ }" />
 							</div>
 						</form>
 						

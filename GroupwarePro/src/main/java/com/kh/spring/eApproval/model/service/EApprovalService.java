@@ -30,6 +30,10 @@ public interface EApprovalService {
 
 	void updateEApproval(EApproval ea);
 
+	void deleteEApproval(String eNo);
+	
+	void approveEApproval(EApproval ea);
+
 	ArrayList<EApproval> selectWaitEApprovalList(int empNo);
 
 	ArrayList<EApproval> selectDraftEApprovalList(int empNo);
@@ -37,6 +41,5 @@ public interface EApprovalService {
 	ArrayList<EApproval> selectApproveEApprovalList(int empNo);
 
 	ArrayList<EForm> selectEFormList();
-
 
 }

@@ -91,20 +91,47 @@ public class EApprovalController {
 	@RequestMapping(value="insertEApproval.ap", method = { RequestMethod.POST })
 	public String insertEApproval(EApproval ea) {
 		
-		//결재 기안하기
+		//문서 기안하기
 		eApprovalService.insertEApproval(ea);
 		return "redirect:main.ap";
-		
-		//완료하고 상세페이지로 이동
-//		return "reidrect:eDetail.ap?eNo=" + eNo;
 	}
 	
-	
-	
-	@RequestMapping(value="approve.ap", method= {RequestMethod.POST}) 
+	@RequestMapping(value="update.ap", method = { RequestMethod.POST })
 	public ModelAndView updateEApproval(EApproval ea, ModelAndView mv) {
 		
+		//문서 수정하기
 		eApprovalService.updateEApproval(ea);
+		String eNo = ea.getENo();
+		
+		System.out.println("====update====");
+		System.out.println(ea);
+		
+		
+		ea = eApprovalService.selectEApproval(eNo);
+		mv.addObject("ea", ea).setViewName("eApproval/eApprDetailView");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="delete.ap", method = { RequestMethod.POST })
+	public String deleteEApproval(EApproval ea) {
+		
+		//기안 취소하기
+		//ea의 eNo만 가져오기
+		String eNo = ea.getENo();
+		
+		System.out.println("====delete====");
+		System.out.println(ea);
+		
+		eApprovalService.deleteEApproval(eNo);
+		
+		return "redirect:main.ap";
+	}
+	
+	@RequestMapping(value="approve.ap", method= {RequestMethod.POST}) 
+	public ModelAndView approveEApproval(EApproval ea, ModelAndView mv) {
+		
+		eApprovalService.approveEApproval(ea);
 		String eNo = ea.getENo();
 		
 		ea = eApprovalService.selectEApproval(eNo);

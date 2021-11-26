@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="eNo" column="E_NO"/>
 		<result property="sCode" column="S_CODE"/>
 		<result property="sName" column="S_NAME"/>
+		<result property="sColor" column="S_COLOR"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="fName" column="F_NAME"/>
 		<result property="title" column="TITLE"/>
@@ -86,6 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.E_NO,
 		    A.S_CODE,
 		    D.S_NAME,
+		    D.S_COLOR,
 		    A.F_NO,
 		    E.F_NAME,
 		    A.TITLE,
@@ -114,6 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.E_NO,
 		    A.S_CODE,
 		    D.S_NAME,
+		    D.S_COLOR,
 		    A.F_NO,
 		    E.F_NAME,
 		    A.TITLE,
@@ -185,7 +188,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectEForm" parameterType="string" resultMap="eFormResultSet">
 		SELECT
-			F_NO, F_NAME
+			F_NO, F_NAME, FILEPATH
 		FROM
 			E_FORM
 		WHERE F_NO = #{fNo }
@@ -222,6 +225,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<update id="updateEApproval" parameterType="EApproval">
+		UPDATE ELECTRONIC_APPROVAL
+		SET TITLE=#{title}, CONTENT=#{content}
+		WHERE E_NO = #{eNo}
+	</update>
+	
+	<update id="deleteEApproval" parameterType="string">
+		UPDATE ELECTRONIC_APPROVAL
+		SET S_CODE = 4
+		WHERE E_NO = #{eNo}
+	</update>
+	
+	<update id="approveEApproval" parameterType="EApproval">
 		UPDATE ELECTRONIC_APPROVAL
 		<choose>
 			<when test="sCode == 2">
@@ -261,6 +276,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.E_NO,
 		    E.F_NAME,
 		    D.S_NAME,
+		    D.S_COLOR,
 		    A.TITLE,
 		    A.DRAFT_DATE
 		FROM 
@@ -279,6 +295,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.E_NO,
 		    A.S_CODE,
 		    D.S_NAME,
+		    D.S_COLOR,
 		    E.F_NAME,
 		    A.TITLE,
 		    B.EMP_NAME DRAFTER_NAME,

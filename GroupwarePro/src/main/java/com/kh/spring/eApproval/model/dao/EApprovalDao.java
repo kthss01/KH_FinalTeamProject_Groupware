@@ -67,6 +67,16 @@ public class EApprovalDao {
 		return sqlSession.update("eApprovalMapper.updateEApproval", ea);
 	}
 
+	public int deleteEApproval(SqlSessionTemplate sqlSession, String eNo) {
+		
+		return sqlSession.update("eApprovalMapper.deleteEApproval", eNo);
+	}
+
+	public int approveEApproval(SqlSessionTemplate sqlSession, EApproval ea) {
+		
+		return sqlSession.update("eApprovalMapper.approveEApproval", ea);
+	}
+
 	public ArrayList<EApproval> selectWaitEApprovalList(SqlSessionTemplate sqlSession, int empNo) {
 		
 		return (ArrayList)sqlSession.selectList("eApprovalMapper.selectWaitEApprovalList", empNo);
