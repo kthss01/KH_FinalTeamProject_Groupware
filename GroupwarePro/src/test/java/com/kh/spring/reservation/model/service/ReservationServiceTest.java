@@ -1,4 +1,4 @@
-package com.kh.spring.reservation.controller;
+package com.kh.spring.reservation.model.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +23,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.spring.calendar.controller.CalendarControllerTest;
 import com.kh.spring.example.ControllerExampleTest.ContextConfig;
 import com.kh.spring.reservation.model.dao.ReservationDao;
-import com.kh.spring.reservation.model.service.ReservationService;
-import com.kh.spring.reservation.model.service.ReservationServiceImpl;
 import com.kh.spring.reservation.model.vo.Asset;
 import com.kh.spring.reservation.model.vo.AssetCategory;
 import com.kh.spring.reservation.model.vo.Reservation;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { ReservationServiceImpl.class, ReservationDao.class, ContextConfig.class })
-class ReservationControllerTest {
+/*
+ * Reservation Service에 있는 Dao 테스트
+ */
 
-	private static final Logger logger = LoggerFactory.getLogger(CalendarControllerTest.class);
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { ReservationDao.class, ContextConfig.class })
+public class ReservationServiceTest {
+
+	private static final Logger logger = LoggerFactory.getLogger(ReservationServiceTest.class);
 
 	// Session DI 하기 위한 Configuration 클래스위에 annotation 형태가 아니고 xml로 되어있어서 따로 추가
 	@Configuration
@@ -53,7 +55,10 @@ class ReservationControllerTest {
 	}
 
 	@Autowired
-	ReservationService service;
+	SqlSessionTemplate sqlSession;
+
+	@Autowired
+	ReservationDao dao;
 	
 	/*
 	 ****************************************************
@@ -64,7 +69,7 @@ class ReservationControllerTest {
 		// given
 		
 		// when
-		ArrayList<Reservation> list = service.selectRezList();
+		ArrayList<Reservation> list = dao.selectRezList(sqlSession);
 		
 		// then
 		logger.debug(list.toString());
@@ -76,7 +81,7 @@ class ReservationControllerTest {
 		// given
 		
 		// when
-		ArrayList<Asset> list = service.selectAsList();
+		ArrayList<Asset> list = dao.selectAsList(sqlSession);
 		
 		// then
 		logger.debug(list.toString());
@@ -88,7 +93,7 @@ class ReservationControllerTest {
 		// given
 		
 		// when
-		ArrayList<AssetCategory> list = service.selectAsCatList();
+		ArrayList<AssetCategory> list = dao.selectAsCatList(sqlSession);
 		
 		// then
 		logger.debug(list.toString());
@@ -103,7 +108,7 @@ class ReservationControllerTest {
 		// given
 		
 		// when
-		ArrayList<Asset> list = service.selectAsWithCatList();
+		ArrayList<Asset> list = dao.selectAsWithCatList(sqlSession);
 		
 		// then
 		logger.debug(list.toString());
@@ -123,7 +128,7 @@ class ReservationControllerTest {
 		int ascNo = 1;
 		
 		// when
-		ArrayList<Reservation> list = service.selectRezListForCat(ascNo);
+		ArrayList<Reservation> list = dao.selectRezListForCat(sqlSession, ascNo);
 		
 		// then
 		logger.debug(list.toString());
@@ -139,7 +144,7 @@ class ReservationControllerTest {
 		int ascNo = 1;
 		
 		// when
-		ArrayList<Asset> list = service.selectAsListForCat(ascNo);
+		ArrayList<Asset> list = dao.selectAsListForCat(sqlSession, ascNo);
 		
 		// then
 		logger.debug(list.toString());
@@ -166,12 +171,12 @@ class ReservationControllerTest {
 		rez.setAllDay("0");
 		
 		// when
-		int rezNo = service.insertReservation(rez);
+		dao.insertReservation(sqlSession, rez);
 		
 		// then
-		ArrayList<Reservation> list = service.selectRezList();
+		ArrayList<Reservation> list = dao.selectRezList(sqlSession);
 		for (Reservation reservation : list) {
-			if (reservation.getRezNo() == rezNo) {
+			if (reservation.getName().equals(rez.getName())) {
 				logger.debug(reservation.toString());
 				assertEquals("등록된 예약과 시작일이 같아야 한다.", reservation.getStartDate().toString(), rez.getStartDate().toString());
 				assertEquals("등록된 예약과 종료일이 같아야 한다.", reservation.getEndDate().toString(), rez.getEndDate().toString());
@@ -195,12 +200,12 @@ class ReservationControllerTest {
 		as.setColor("green");
 		
 		// when
-		int asNo = service.insertAsset(as);
+		dao.insertAsset(sqlSession, as);
 		
 		// then
-		ArrayList<Asset> list = service.selectAsList();
+		ArrayList<Asset> list = dao.selectAsList(sqlSession);
 		for (Asset asset : list) {
-			if (asset.getAsNo() == asNo) {
+			if (asset.getName().equals(as.getName())) {
 				logger.debug(asset.toString());
 				assertEquals("자산목록 번호가 같아야한다.", asset.getAscNo(), as.getAscNo());
 				assertEquals("색깔이 같아야한다.", asset.getColor(), as.getColor());
@@ -219,12 +224,12 @@ class ReservationControllerTest {
 		asc.setName("자산목록 테스트");
 		
 		// when
-		int ascNo = service.insertAssetCategory(asc);
+		dao.insertAssetCategory(sqlSession, asc);
 		
 		// then
-		ArrayList<AssetCategory> list = service.selectAsCatList();
+		ArrayList<AssetCategory> list = dao.selectAsCatList(sqlSession);
 		for (AssetCategory assetCategory : list) {
-			if (assetCategory.getAscNo() == ascNo) {
+			if (assetCategory.getName().equals(asc.getName())) {
 				logger.debug(assetCategory.toString());
 				return;
 			}
@@ -245,10 +250,10 @@ class ReservationControllerTest {
 		int rezNo = 1;
 		
 		// when
-		service.deleteReservation(rezNo);
+		dao.deleteReservation(sqlSession, rezNo);
 		
 		// then
-		ArrayList<Reservation> list = service.selectRezList();
+		ArrayList<Reservation> list = dao.selectRezList(sqlSession);
 		for (Reservation reservation : list) {
 			if (reservation.getRezNo() == rezNo) {
 				fail("삭제된 예약이 조회됨");
@@ -263,10 +268,10 @@ class ReservationControllerTest {
 		int asNo = 1;
 		
 		// when
-		service.deleteAsset(asNo);
+		dao.deleteAsset(sqlSession, asNo);
 		
 		// then
-		ArrayList<Asset> list = service.selectAsList();
+		ArrayList<Asset> list = dao.selectAsList(sqlSession);
 		for (Asset asset : list) {
 			if (asset.getAsNo() == asNo) {
 				fail("삭제된 자산이 발견됨");
@@ -281,10 +286,10 @@ class ReservationControllerTest {
 		int ascNo = 1;
 		
 		// when
-		service.deleteAssetCategory(ascNo);
+		dao.deleteAssetCategory(sqlSession, ascNo);
 		
 		// then
-		ArrayList<AssetCategory> list = service.selectAsCatList();
+		ArrayList<AssetCategory> list = dao.selectAsCatList(sqlSession);
 		for (AssetCategory assetCategory : list) {
 			if (assetCategory.getAscNo() == ascNo) {
 				fail("삭제된 자산목록이 발견됨");
@@ -311,10 +316,10 @@ class ReservationControllerTest {
 		rez.setAsNo(2);
 		
 		// when
-		service.updateReservation(rez);
+		dao.updateReservation(sqlSession, rez);
 		
 		// then
-		ArrayList<Reservation> list = service.selectRezList();
+		ArrayList<Reservation> list = dao.selectRezList(sqlSession);
 		for (Reservation reservation : list) {
 			if (reservation.getRezNo() == rezNo) {
 				logger.debug(reservation.toString());
@@ -341,10 +346,10 @@ class ReservationControllerTest {
 		as.setAsNo(asNo);
 		
 		// when
-		service.updateAsset(as);
+		dao.updateAsset(sqlSession, as);
 		
 		// then
-		ArrayList<Asset> list = service.selectAsList();
+		ArrayList<Asset> list = dao.selectAsList(sqlSession);
 		for (Asset asset : list) {
 			if (asset.getAsNo() == asNo) {
 				assertEquals("이름이 같아야 한다.", asset.getName(), as.getName());
@@ -367,10 +372,10 @@ class ReservationControllerTest {
 		asc.setAscNo(ascNo);
 		
 		// when
-		service.updateAssetCategory(asc);
+		dao.updateAssetCategory(sqlSession, asc);
 		
 		// then
-		ArrayList<AssetCategory> list = service.selectAsCatList();
+		ArrayList<AssetCategory> list = dao.selectAsCatList(sqlSession);
 		for (AssetCategory assetCategory : list) {
 			if (assetCategory.getAscNo() == ascNo) {
 				assertEquals("이름이 같아야 한다.", assetCategory.getName(), asc.getName());
@@ -380,6 +385,4 @@ class ReservationControllerTest {
 		
 		fail("수정된 자산목록 찾을 수 없음");
 	}
-	
-
 }
