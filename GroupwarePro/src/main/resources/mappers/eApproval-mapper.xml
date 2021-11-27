@@ -20,6 +20,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="approverName" column="APPROVER_NAME"/>
 		<result property="approverJob" column="APPROVER_JOB"/>
 		<result property="approveDate" column="APPROVE_DATE"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
 	
 	<resultMap type="EForm" id="eFormResultSet">
@@ -28,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="creatorId" column="CREATOR_ID"/>
 		<result property="createDate" column="CREATE_DATE"/>
 		<result property="creatorName" column="CREATOR_NAME"/>
-		<result property="createDate" column="ORIGIN_NAME"/>
+		<result property="originName" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
 	
@@ -55,88 +57,112 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<select id="selectApproveList" parameterType="_int" resultMap="eApprovalResultSet">
-		SELECT 
-			A.E_NO,
-			A.S_CODE,
-			D.S_NAME,
-			A.F_NO,
-			E.F_NAME,
-			A.TITLE,
-			A.CONTENT,
-			A.DRAFTER_ID,
-			B.EMP_NAME DRAFTER_NAME,
-			A.DRAFT_DATE,
-			A.APPROVER_ID,
-			C.EMP_NAME APPROVER_NAME,
-			A.APPROVE_DATE
-		FROM 
-		    ELECTRONIC_APPROVAL A
-		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
-		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
-		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
-		JOIN E_FORM E ON A.F_NO = E.F_NO
-		WHERE 
-			A.APPROVER_ID = #{empNo} 
-			AND A.S_CODE = 1
-			AND A.APPROVE_DATE IS NULL
-		ORDER BY A.DRAFT_DATE DESC
+		<![CDATA[
+			SELECT
+			    ROWNUM, X.*
+			FROM
+			(
+			    SELECT 
+						A.E_NO,
+						A.S_CODE,
+						D.S_NAME,
+						A.F_NO,
+						E.F_NAME,
+						A.TITLE,
+						A.CONTENT,
+						A.DRAFTER_ID,
+						B.EMP_NAME DRAFTER_NAME,
+						A.DRAFT_DATE,
+						A.APPROVER_ID,
+						C.EMP_NAME APPROVER_NAME,
+						A.APPROVE_DATE
+					FROM 
+					    ELECTRONIC_APPROVAL A
+					JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+					JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+					JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+					JOIN E_FORM E ON A.F_NO = E.F_NO
+					WHERE 
+						A.APPROVER_ID = #{empNo} 
+						AND A.S_CODE = 1
+						AND A.APPROVE_DATE IS NULL
+					ORDER BY A.DRAFT_DATE DESC
+			) X
+			WHERE ROWNUM <= 5
+		]]>
 	</select>
 	
 	<select id="selectDraftList" parameterType="_int" resultMap="eApprovalResultSet">
-		SELECT 
-		    A.E_NO,
-		    A.S_CODE,
-		    D.S_NAME,
-		    D.S_COLOR,
-		    A.F_NO,
-		    E.F_NAME,
-		    A.TITLE,
-		    A.CONTENT,
-		    A.DRAFTER_ID,
-		    B.EMP_NAME DRAFTER_NAME,
-		    A.DRAFT_DATE,
-		    A.APPROVER_ID,
-		    C.EMP_NAME APPROVER_NAME,
-		    A.APPROVE_DATE
-		FROM 
-		    ELECTRONIC_APPROVAL A
-		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
-		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
-		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
-		JOIN E_FORM E ON A.F_NO = E.F_NO
-		WHERE 
-		    A.DRAFTER_ID = #{empNo}  
-		    AND A.S_CODE = 1
-		    AND A.APPROVE_DATE IS NULL
-		ORDER BY A.DRAFT_DATE DESC
+		<![CDATA[
+			SELECT
+			    ROWNUM, X.*
+			FROM
+			(
+			    SELECT 
+					    A.E_NO,
+					    A.S_CODE,
+					    D.S_NAME,
+					    D.S_COLOR,
+					    A.F_NO,
+					    E.F_NAME,
+					    A.TITLE,
+					    A.CONTENT,
+					    A.DRAFTER_ID,
+					    B.EMP_NAME DRAFTER_NAME,
+					    A.DRAFT_DATE,
+					    A.APPROVER_ID,
+					    C.EMP_NAME APPROVER_NAME,
+					    A.APPROVE_DATE
+					FROM 
+					    ELECTRONIC_APPROVAL A
+					JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+					JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+					JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+					JOIN E_FORM E ON A.F_NO = E.F_NO
+					WHERE 
+					    A.DRAFTER_ID = #{empNo}  
+					    AND A.S_CODE = 1
+					    AND A.APPROVE_DATE IS NULL
+					ORDER BY A.DRAFT_DATE DESC
+			) X
+			WHERE ROWNUM <= 5
+		]]>
 	</select>
 	
 	<select id="selectFinishList" parameterType="_int" resultMap="eApprovalResultSet">
-		SELECT 
-		    A.E_NO,
-		    A.S_CODE,
-		    D.S_NAME,
-		    D.S_COLOR,
-		    A.F_NO,
-		    E.F_NAME,
-		    A.TITLE,
-		    A.CONTENT,
-		    A.DRAFTER_ID,
-		    B.EMP_NAME DRAFTER_NAME,
-		    A.DRAFT_DATE,
-		    A.APPROVER_ID,
-		    C.EMP_NAME APPROVER_NAME,
-		    A.APPROVE_DATE
-		FROM 
-		    ELECTRONIC_APPROVAL A
-		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
-		JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
-		JOIN E_STATUS D ON A.S_CODE = D.S_CODE
-		JOIN E_FORM E ON A.F_NO = E.F_NO
-		WHERE 
-		    A.DRAFTER_ID = #{empNo}  
-		    AND (A.S_CODE = 2 OR A.S_CODE = 3)
-		ORDER BY A.DRAFT_DATE DESC
+		<![CDATA[
+			SELECT
+			    ROWNUM, X.*
+			FROM
+				(
+				    SELECT 
+				    A.E_NO,
+				    A.S_CODE,
+				    D.S_NAME,
+				    D.S_COLOR,
+				    A.F_NO,
+				    E.F_NAME,
+				    A.TITLE,
+				    A.CONTENT,
+				    A.DRAFTER_ID,
+				    B.EMP_NAME DRAFTER_NAME,
+				    A.DRAFT_DATE,
+				    A.APPROVER_ID,
+				    C.EMP_NAME APPROVER_NAME,
+				    A.APPROVE_DATE
+				FROM 
+				    ELECTRONIC_APPROVAL A
+				JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+				JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+				JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+				JOIN E_FORM E ON A.F_NO = E.F_NO
+				WHERE 
+				    A.DRAFTER_ID = #{empNo}  
+				    AND (A.S_CODE = 2 OR A.S_CODE = 3)
+				ORDER BY A.DRAFT_DATE DESC
+				) X
+			WHERE ROWNUM <= 5
+		]]>
 	</select>
 	
 	<select id="selectEApproval" parameterType="string" resultMap="eApprovalResultSet">
@@ -155,7 +181,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.APPROVER_ID,
 		    C.EMP_NAME APPROVER_NAME,
 		    G.JOB_NAME APPROVER_JOB,
-		    A.APPROVE_DATE
+		    A.APPROVE_DATE,
+		    A.ORIGIN_NAME,
+		    A.CHANGE_NAME
 		FROM 
 		    ELECTRONIC_APPROVAL A
 		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
@@ -221,7 +249,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertEApproval" parameterType="EApproval">
 		INSERT INTO ELECTRONIC_APPROVAL
 		VALUES
-		('E-'||TO_CHAR(CURRENT_TIMESTAMP, 'yyMMddHH24MI')||'-'||#{drafterId}, 1, #{fNo}, #{title}, #{content}, #{drafterId}, SYSDATE, #{approverId}, NULL)
+		('E-'||TO_CHAR(CURRENT_TIMESTAMP, 'yyMMddHH24MI')||'-'||#{drafterId}, 1, #{fNo}, #{title}, #{content}, #{drafterId}, SYSDATE, #{approverId}, NULL, #{originName}, #{changeName})
 	</insert>
 	
 	<update id="updateEApproval" parameterType="EApproval">

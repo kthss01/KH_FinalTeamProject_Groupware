@@ -23,6 +23,8 @@ public class EApproval {
 	private String approverName;
 	private String approverJob;
 	private Date approveDate;
+	private String originName;
+	private String changeName;
 	
 	public EApproval() {
 		super();

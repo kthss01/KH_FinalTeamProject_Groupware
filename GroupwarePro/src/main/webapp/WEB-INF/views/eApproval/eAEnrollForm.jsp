@@ -93,7 +93,7 @@
 						<h3>결재하기</h3>
 						<br>
 						
-						<form action="insertEApproval.ap" method="POST">
+						<form action="insertEApproval.ap" method="POST" enctype="multipart/form-data">
 							<div class="row" style="margin:10px;">
 								<button type="submit" class="btn waves-effect waves-light btn-outline-secondary">결재요청</button>
 							</div>
@@ -106,8 +106,8 @@
 								<input type="hidden" name="drafterId" value="${ea.drafterId }">
 								<input type="hidden" name="approverId" value="${ea.approverId }">
 							</div>
+							
 						</form>
-						
 					</div>
 				</div>
 			</div>

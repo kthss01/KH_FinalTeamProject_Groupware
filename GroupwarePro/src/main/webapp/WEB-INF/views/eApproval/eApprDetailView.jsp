@@ -97,7 +97,7 @@
 						<c:set value="${ea.drafterId}" var="drafterId"/>
 						<c:set value="${ea.SCode}" var="sCode"/>
 						
-						<form method="POST">
+						<form method="POST" enctype="multipart/form-data">
 							<div class="row" style="margin:10px;">
 							<c:choose>
 								<c:when test="${approverId == loginUser && sCode == 1}">
@@ -107,6 +107,9 @@
 								<c:when test="${drafterId == loginUser && sCode == 1}">
 									<button type="submit" formaction="update.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">수정</button>
 									<button type="submit" formaction="delete.ap" class="btn waves-effect waves-light btn-outline-secondary">취소</button>
+								</c:when>
+								<c:when test="${drafterId == loginUser && ea.SCode == 3}">
+									<button type="submit" formaction="insertEApproval.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">재기안</button>
 								</c:when>
 							</c:choose>
 							</div>
@@ -121,7 +124,6 @@
 								<input type="hidden" name="drafterId" value="${ea.drafterId }">
 								<input type="hidden" name="approverId" value="${ea.approverId }">
 								
-								<!-- 추가 문서 양식 -->
 							</div>
 						</form>
 					</div>
