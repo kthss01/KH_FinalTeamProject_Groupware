@@ -34,7 +34,7 @@ public class HrController {
 	private HrService hrService;
 	
 	@RequestMapping("work.hr")
-	public ModelAndView selectWorkList(Model model, HttpSession session, ModelAndView mv) {
+	public ModelAndView selectWorkList(HttpSession session, ModelAndView mv) {
 		
 		//현재 로그인 중인 사원의 사원번호
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -84,7 +84,7 @@ public class HrController {
 	}
 	
 	@RequestMapping("change.hr")
-	public String changeWorkStatus(HttpSession session, HttpServletRequest request) {
+	public String changeWorkStatus(Model model, HttpSession session, HttpServletRequest request) {
 		
 		//사원번호
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -114,6 +114,13 @@ public class HrController {
 		//WORK_STATUS_INFO 추가
 		WorkSInfo wsi = new WorkSInfo(wNo, sCode);
 		hrService.insertWorkStatus(wsi);
+		
+		if(request.getParameter("main").equals("1")) {
+			Work w = hrService.selectWork(empNo);
+			
+			model.addAttribute("w", w);
+			return "main";
+		}
 		
 		return "redirect:work.hr";
 	}
