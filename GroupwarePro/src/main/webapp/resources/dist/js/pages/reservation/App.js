@@ -105,7 +105,17 @@ export default class App extends Component {
     async insertEvent (event) {
       const { calendar } = this.$children;
 
-      // console.log('app', event);
+      console.log('app', event);
+
+      if (!event.start || !event.end) {
+        alert("시작일 또는 종료일을 입력해주세요");
+        return;
+      }
+
+      if (!event.title) {
+        alert("예약명을 입력해주세요");
+        return;
+      }
 
       // console.log(new Date(event.start), new Date(event.end));
 
@@ -188,6 +198,11 @@ export default class App extends Component {
     async insertAsset (as) {
       const { calendar } = this.$children;
   
+      if (!as.name) {
+        alert("자산명을 입력해주세요");
+        return;
+      }
+
       // console.log(as);
   
       try {
@@ -266,6 +281,11 @@ export default class App extends Component {
   
       // console.log(cat);
   
+      if (!cat.name) {
+        alert("자산목록명을 입력해주세요");
+        return;
+      }
+
       try {
         const res = await axios.post(`insertAssetCategory.rez`, null, {
           params: { 

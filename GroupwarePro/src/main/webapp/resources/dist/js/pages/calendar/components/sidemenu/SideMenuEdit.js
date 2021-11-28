@@ -143,6 +143,28 @@ export default class SideMenuEdit extends Component {
       editEventBtnGroup.classList.remove("d-flex");
       editEventBtnGroup.classList.add("d-none");
     });
+
+    // allDay 체크시 날짜 변경
+    this.addEvent('click', '#allDayCheck', ({ target }) => {
+      // console.log(target);
+      // console.log(target.checked);
+
+      const start = this.$target.querySelector('input[name="startDate"]').value;
+      const end = this.$target.querySelector('input[name="endDate"]').value;
+
+      // 체크되었으면
+      if (target.checked && start && end) {
+        // console.log(start, end);
+
+        const newStart = moment(start).hours('00').minutes('00').format('YYYY-MM-DD HH:mm');
+        const newEnd = moment(end).hours('23').minutes('59').format('YYYY-MM-DD HH:mm');
+
+        // console.log(newStart, newEnd);
+
+        const { daterangepicker } = this.$children;
+        daterangepicker.setState({ start: newStart, end: newEnd });
+      }
+    });
   }
 
 }
