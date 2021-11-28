@@ -12,23 +12,20 @@ public class EForm {
 	private int creatorId;
 	private String creatorName;
 	private Date createDate;
-	private String originName;
-	private String changeName;
+	private String filePath;
 	
 	public EForm() {
 		super();
 	}
 
-	public EForm(String fNo, String fName, int creatorId, String creatorName, Date createDate, String originName,
-			String changeName) {
+	public EForm(String fNo, String fName, int creatorId, String creatorName, Date createDate, String filePath) {
 		super();
 		this.fNo = fNo;
 		this.fName = fName;
 		this.creatorId = creatorId;
 		this.creatorName = creatorName;
 		this.createDate = createDate;
-		this.originName = originName;
-		this.changeName = changeName;
+		this.filePath = filePath;
 	}
 	
 }

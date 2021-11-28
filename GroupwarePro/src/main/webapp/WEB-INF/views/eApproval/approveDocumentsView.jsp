@@ -7,12 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <style>
+	.title, .eNo, .statusHeader, .fName, .formHeader{
+		overflow : hideen;
+		white-space : nowrap; 
+		text-overflow : ellipsis;
+	}
+	
 	.title:hover{
 		cursor: pointer;
 	}
 	
 	.dLists:hover{
 		background-color: rgba(0,0,0,.125);
+	}
+	
+	.status{
+		color: white;
+		font-weight: bold;
+		border : rgba(0,0,0,.125);
 	}
 </style>
 <link rel="icon" type="image/png" sizes="16x16"
@@ -116,7 +128,7 @@
 									<span>완료일</span>
 								</div>
 								<div class="col-1">
-									<span>결재 양식</span>
+									<span class="formHeader">결재 양식</span>
 								</div>
 								<div class="col-2">
 									<span>제목</span>
@@ -131,7 +143,7 @@
 									<span>문서번호</span>
 								</div>
 								<div class="col-1">
-									<span>결재상태</span>
+									<span class="statusHeader">결재상태</span>
 								</div>
 							</div>
 							<c:choose>
@@ -153,7 +165,7 @@
 											</span>
 										</div>
 										<div class="col-1">
-											<span>${ap.FName }</span>
+											<span class="fName">${ap.FName }</span>
 										</div>
 										<div class="col-2">
 											<span class="title">${ap.title }<input type="hidden" value="${ap.ENo }"></span>
@@ -165,10 +177,10 @@
 											<span>${ap.approverName }</span>
 										</div>
 										<div class="col-2">
-											<span>${ap.ENo }</span>
+											<span class="eNo">${ap.ENo }</span>
 										</div>
-										<div class="col-1">
-											<span>${ap.SName }</span>
+										<div class="col-1 text-center">
+											<span class="status" style="background-color: ${ap.SColor };">${ap.SName }</span>
 										</div>
 									</c:forEach>
 								</c:when>

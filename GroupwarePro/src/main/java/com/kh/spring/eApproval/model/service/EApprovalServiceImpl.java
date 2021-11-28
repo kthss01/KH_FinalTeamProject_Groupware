@@ -110,6 +110,26 @@ public class EApprovalServiceImpl implements EApprovalService {
 		int result = eApprovalDao.updateEApproval(sqlSession, ea);
 		
 		if(result < 0) {
+			throw new CommException("문서 수정 실패");
+		}
+	}
+
+	@Override
+	public void deleteEApproval(String eNo) {
+		
+		int result = eApprovalDao.deleteEApproval(sqlSession, eNo);
+		
+		if(result < 0) {
+			throw new CommException("기안 취소 실패");
+		}
+	}
+
+	@Override
+	public void approveEApproval(EApproval ea) {
+		
+		int result = eApprovalDao.approveEApproval(sqlSession, ea);
+		
+		if(result < 0) {
 			throw new CommException("결재하기 실패");
 		}
 	}

@@ -7,12 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <style>
+	.title, .eNo, .statusHeader{
+		overflow : hideen;
+		white-space : nowrap; 
+		text-overflow : ellipsis;
+	}
+	
 	.title:hover{
 		cursor: pointer;
 	}
 	
 	.dLists:hover{
 		background-color: rgba(0,0,0,.125);
+	}
+	
+	.status{
+		color: white;
+		font-weight: bold;
+		border : rgba(0,0,0,.125);
 	}
 </style>
 <link rel="icon" type="image/png" sizes="16x16"
@@ -121,11 +133,11 @@
 								<div class="col-1">
 									<span>첨부</span>
 								</div>
-								<div class="col-2">
+								<div class="col-3">
 									<span>문서번호</span>
 								</div>
-								<div class="col-2">
-									<span>결재상태</span>
+								<div class="col-1">
+									<span class="statusHeader">결재상태</span>
 								</div>
 							</div>
 							<c:choose>
@@ -144,11 +156,11 @@
 											<div class="col-1">
 												<span></span>
 											</div>
-											<div class="col-2">
-												<span>${dr.ENo }</span>
+											<div class="col-3">
+												<span class="eNo">${dr.ENo }</span>
 											</div>
-											<div class="col-2">
-												<span>${dr.SName }</span>
+											<div class="col-1 text-center">
+												<span class="status" style="background-color: ${dr.SColor };">${dr.SName }</span>
 											</div>
 										<!-- --------------------------------------------------------- -->
 										</div>
