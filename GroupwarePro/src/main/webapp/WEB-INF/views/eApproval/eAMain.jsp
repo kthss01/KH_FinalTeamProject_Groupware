@@ -116,7 +116,7 @@
 					
 					<div class="col-10">
 					
-						<h3>전자결재 홈</h3>
+						<h3  class="font-weight-bold">전자결재 홈</h3>
 						
 						<br><br>
 						
@@ -124,21 +124,21 @@
 						<div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 1px solid rgba(0,0,0,.125);">
 								<div class="text-left col-2">
-									<h5>결재 대기문서</h5>
+									<h4 class="font-weight-bold">결재 대기문서</h4>
 								</div>
 							</div>
 							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 								<div class="col-2">
-									<span>기안일</span>
+									<span class="font-weight-bold">기안일</span>
 								</div>
 								<div class="col-3">
-									<span>결재 양식</span>
+									<span class="font-weight-bold">결재 양식</span>
 								</div>
 								<div class="col-5">
-									<span>제목</span>
+									<span class="font-weight-bold">제목</span>
 								</div>
 								<div class="col-2">
-									<span>첨부</span>
+									<span class="font-weight-bold">첨부</span>
 								</div>
 							</div>
 							<c:choose>
@@ -174,24 +174,24 @@
 						<div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 1px solid rgba(0,0,0,.125);">
 								<div class="text-left col-2">
-									<h5>기안 진행 문서</h5>
+									<h4  class="font-weight-bold">기안 진행 문서</h4>
 								</div>
 							</div>
 							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 								<div class="col-2">
-									<span>기안일</span>
+									<span class="font-weight-bold">기안일</span>
 								</div>
 								<div class="col-3">
-									<span>결재 양식</span>
+									<span class="font-weight-bold">결재 양식</span>
 								</div>
 								<div class="col-4">
-									<span>제목</span>
+									<span class="font-weight-bold">제목</span>
 								</div>
 								<div class="col-2">
-									<span>첨부</span>
+									<span class="font-weight-bold">첨부</span>
 								</div>
 								<div class="col-1">
-									<span class="statusHeader">결재상태</span>
+									<span class="statusHeader font-weight-bold">결재상태</span>
 								</div>
 							</div>
 							<c:choose>
@@ -231,24 +231,24 @@
 						<div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 							<div class="d-flex col-12" style="padding: 0px 10px; border-bottom: 1px solid rgba(0,0,0,.125);">
 								<div class="text-left col-2">
-									<h5>완료 문서</h5>
+									<h4  class="font-weight-bold">완료 문서</h4>
 								</div>
 							</div>
 							<div class="d-flex col-12" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 								<div class="col-2">
-									<span>기안일</span>
+									<span class="font-weight-bold">기안일</span>
 								</div>
 								<div class="col-3">
-									<span>결재 양식</span>
+									<span class="font-weight-bold">결재 양식</span>
 								</div>
 								<div class="col-3">
-									<span>제목</span>
+									<span class="font-weight-bold">제목</span>
 								</div>
 								<div class="col-3">
-									<span>문서번호</span>
+									<span class="font-weight-bold">문서번호</span>
 								</div>
 								<div class="col-1">
-									<span class="statusHeader">결재상태</span>
+									<span class="statusHeader font-weight-bold">결재상태</span>
 								</div>
 							</div>
 							<c:choose>

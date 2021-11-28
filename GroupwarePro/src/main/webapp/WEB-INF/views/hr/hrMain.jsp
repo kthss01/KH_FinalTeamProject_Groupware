@@ -170,19 +170,19 @@
 								<!-- 헤더 표시, 접었다 펼 수 있음 -->
 								<div class="col-12 week" id="week${week }" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 									<div class="col-1 text-center">
-										<span>일차</span>
+										<span class="font-weight-bold">일차</span>
 									</div>
 									<div class="col-2">
-										<span>업무시작</span>
+										<span class="font-weight-bold">업무시작</span>
 									</div>
 									<div class="col-2">
-										<span>업무종료</span>
+										<span class="font-weight-bold">업무종료</span>
 									</div>
 									<div class="col-2">
-										<span>총 근무시간</span>
+										<span class="font-weight-bold">총 근무시간</span>
 									</div>
 									<div class="col-5">
-										<span>근무시간 상세</span>
+										<span class="font-weight-bold">근무시간 상세</span>
 									</div>
 								</div>
 								
