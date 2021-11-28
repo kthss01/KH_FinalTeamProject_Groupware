@@ -62,6 +62,16 @@ public class SurveyServiceImpl implements SurveyService {
 		return result;
 	}
 
+
+	@Override
+	public ArrayList<Survey> selectAbleSurveyList() {
+		
+		ArrayList<Survey> list = surveyDao.selectAbleSurveyList(session);
+		
+		return list;
+	}
+
+
 	
 	
 	

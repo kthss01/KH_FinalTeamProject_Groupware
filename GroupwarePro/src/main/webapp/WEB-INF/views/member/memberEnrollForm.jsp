@@ -78,8 +78,8 @@
                             			<br>
                             			<button class="btn waves-effect waves-light btn-dark manager"  name="manager" value="manager" onclick="location.href='${pageContext.servletContext.contextPath}'"> 취소</button>
                             		</div>
-                            		
                             		</div>
+			                            		
                             </div>
                            
                           <div class="card memberForm hidden" style="padding:18px 25px 18px 25px;">

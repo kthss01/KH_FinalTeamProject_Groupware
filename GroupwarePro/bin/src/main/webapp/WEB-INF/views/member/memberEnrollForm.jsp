@@ -62,7 +62,6 @@
                     <div class="col-7 align-self-center">
                        
                         <div class="align-items-center">
-
                             
                             <br>
                             <div class="info d-block align-items-center">
@@ -74,13 +73,8 @@
                             			<button class="btn waves-effect waves-light btn-danger"> 일반 </button><br>
                             			<button class="btn waves-effect waves-light btn-dark"> 관리자  </button>
                             		</div>
-                            		
                             		</div>
-                            		
-                            
                             </div>
-                            
-                            
                             
                             <div class="memberForm hidden">
                             	<ul class="ref navbar-nav">
@@ -109,42 +103,6 @@
                             		</li>
                             		</ul>
                             </div>
-                            
-                            
-                            <div class="managerForm hidden">
-                            
-                            <div class="memberForm hidden">
-                            	<ul class="ref navbar-nav">
-									<li>
-										<div class="card-body">
-											<h4 class="card-body"> 프로필 사진</h4>
-											<img class="profile-image" src="${ pageContext.servletContext.contextPath }/resources/assets/images/users/profile-pic.jpg">
-										</div>
-									<li>
-										<div class="card-body">
-											<h3 class="card-title"> 사원 이름 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.empName }" readonly>
-										</div>
-                            		</li>
-                            		<li>
-                            			<div class="card-body">
-											<h3 class="card-title"> 연락처 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.phone}" readonly>
-										</div>
-                            		</li>
-                            		<li>
-                            			<div class="card-body">
-											<h3 class="card-title"> 이메일 </h3>
-											<input type="text" class="form-control" value="${sessionScope.loginUser.email }" readonly>
-										</div>
-                            		</li>
-                            		</ul>
-                            </div>
-                            
-                            
-                            
-                            </div>
-                            
                             
                             
                         </div>
@@ -159,7 +117,6 @@
                             
                             
                             </script>
-                            
 	
 						<!-- 
 							<script>
@@ -182,6 +139,12 @@
 								updateBtn.addEventListener("click",changeToUpdate);
 							</script>                            
                       -->
+                      	
+                      	
+                      	
+                      
+                      
+                      
                         </div>
                     </div>
                 </div>

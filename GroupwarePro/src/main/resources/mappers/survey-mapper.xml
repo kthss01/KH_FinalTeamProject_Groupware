@@ -56,6 +56,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by survey_no asc
 	</select>
 	
+	<select id="selectAbleSurveyList" resultMap="surveyResultSet">
+	
+	<![CDATA[
+		SELECT *
+		FROM SURVEY
+		WHERE START_DATE <= SYSDATE
+		AND FINISH_DATE  >= SYSDATE
+        AND STATEMENT ='Y'
+		ORDER BY SURVEY_NO ASC
+	]]>
+	
+	</select>
+	
 	
 	<select id="selectSurvey" parameterType="String" resultMap="surveyResultSet">
 		select *
@@ -64,9 +77,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertSurvey" parameterType="Survey">
-		
 		insert into survey
-		values (seq_survey_no.nextval, #{surveyTitle}, #{surveyContent}, sysdate, #{startDate}, #{finishDate}, default, default)
+		values (
+		seq_survey_no.nextval, 
+       	#{surveyTitle},
+        #{surveyContent},
+        sysdate, 
+        #{startDate},
+        #{finishDate},
+        default, 
+        default)
 		
 	</insert>
 	
@@ -79,13 +99,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateSurvey" parameterType="Survey">
-		update survey 
-		set surveyTitle = #{surveyTitle},
-		surveyContent = #{surveyContent},
-		write_date = sysdate,
-		start_date = #{startDate},
-		finish_date = #{finishDate},
-		where survey_no = #{surveyNo}
+		UPDATE SURVEY
+		SET SURVEY_TITLE = #{surveyTitle},
+		SURVEY_CONTENT = #{surveyContent},
+		WRITE_DATE = sysdate,
+		START_DATE = #{startDate},
+		FINISH_DATE = #{finishDate},
+		STATEMENT = #{statement}
+		WHERE SURVEY_NO = #{surveyNo}
 	</update>
 	
 	<update id="updateQuestionCount" parameterType="_int">

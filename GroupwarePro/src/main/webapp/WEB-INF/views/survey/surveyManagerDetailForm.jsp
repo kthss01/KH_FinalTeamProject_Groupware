@@ -54,12 +54,10 @@
 			<h3 class="card-title text-truncate text-dark font-weight-bold mb-1"> 커뮤니티 목록</h3>
 		
 			<div class="innerWrapper">
-				<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 					<div class="row">
 						<div class="col-sm-12 col-md-6">
 						
                                     <div class="row"><div class="col-sm-12 col-md-5">
-                                    <div class="col-sm-12 col-md-7">
                                     
                                     <div class="card survey-info" id="zero_config_paginate">
                                     
@@ -99,7 +97,7 @@
 											</div>
                             				</li>
                                     		
-                                    		<li>
+                                    		<li>	
 											<div class="card-body">
 												<h3 class="card-title"> 게시상태 </h3>
 												<input type="text" class="form-control empName" name="empName" value="${survey.statement}" readonly>
@@ -121,71 +119,7 @@
                             				</li>
                                     	</ul>
                                     	
-                                    	<form class="info-update-form hidden">
-                                    	
-                                    	<ul class="list-style-none">
-                                    		<li>
-											<div class="card-body">
-												<h3 class="card-title"> 설문 번호 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 설문 내용 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 작성일 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 시작일 </h3>
-												<input type="text" class="form-control empName" name="empName">
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 종료일 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                                    		
-                                    		<li>
-											<div class="card-body">
-												<h3 class="card-title"> 게시상태 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 총 질문 수 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-	                            				<div class="card-body btn-list">
-                            						<button type="button" class="btn waves-effect waves-light btn-primary updateSurveyForm">수정</button>
-                            						<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">뒤로</button>
-    	                        				</div>
-                            				</li>
-                                    	</ul>
-                                    	
-                                    	
-                                    	</form>
-                                    	
                                     </div>
-                           </div>
                       </div>
                  </div>
 			
@@ -194,8 +128,7 @@
 		</div>
 		</div>
 		</div>
-		</div>
-		
+	</div>	
 		<footer>
 			copyright
 		</footer>
@@ -205,29 +138,6 @@
 	</div>
 	
 	</div>
-	
-	
-	
-	<script>
-	
-	
-	
-	$(function(){
-		$(".updateSurveyForm").click(function(){
-			
-			document.querySelector(".survey-info").classList.add("hidden");
-			document.querySelector(".info-update-form").classList.remove("hidden");
-			
-			
-		})
-	})
-	
-	
-	
-	</script>
-	
-	
-	
 	
 	
 	<script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>

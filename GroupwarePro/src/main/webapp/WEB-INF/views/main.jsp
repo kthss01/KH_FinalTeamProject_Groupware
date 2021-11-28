@@ -366,7 +366,12 @@
                 <!-- *************************************************************** -->
                 <!-- End Location and Earnings Charts Section -->
                 <!-- *************************************************************** -->
+			
+                            <div class="pNotice-wrapper" style="position:fixed; right:0; bottom: 0; padding: 0px 20px 15px 0px; width:auto; height:auto;">
 
+                          </div>
+             </div>
+			
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -410,7 +415,7 @@
     <!-- <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script> -->
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script> 
     <!-- <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script> -->
 	
     <!-- Calendar & Reservation JavaScript -->
@@ -550,6 +555,90 @@
 		  	return zero + num;
 		}
 	}
+   
+    //////////////////////////////////////////////
+    
+   function setCookie(name,value,expiredDate){
+		var today = new Date();
+		
+		today.setDate(today.getDate() + expiredDate);
+		
+		document.cookie = name + '=' + escape(value) + '; expires=' + today.toGMTString();
+	}
+	
+	function getCookie(name){
+		
+		var cookie = document.cookie;
+		
+		if ( cookie != "") {
+			var cookie_arr = cookie.split(";");
+			for ( var index in cookie_array) {
+				var cookie_name = cookie_arr[index].split("=");
+				if (cookie_name[0] == "mycookie") {
+					return cookie_name[1];
+					}
+			
+			} 
+		
+		}
+	}
+	
+	<!-- 팝업 공지 data를 가져오는 ajax 통신-->
+	
+	$(function(){
+		
+		var wrapper = document.querySelector(".pNotice-wrapper");
+		var index = 0;
+		
+		$.ajax({
+			url:'selectNewPNoticeList.no',
+			type:'post',
+			success: function(list){
+				
+			list.forEach(( p=>{
+				
+				wrapper.innerHTML += ` 
+						<div class="toast fade show \${p.popNo}" role="alert" data-autohide="false" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                            	<i class="icon-bulb" style="width:100%; left:1; position:absolute;"></i>
+                            </svg>
+                            <strong class="mr-auto"> \${p.title} </strong>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        	    <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                        	\${p.content}
+                        	<hr>
+                        <a class="block-a-day" style="text-decoration:none; cursor:pointer;">하루동안 보지 않기</a>
+                        </div>
+                    </div> `
+			            
+            $(this).addClass("t"+index); 
+             
+             
+			}));
+             
+			}
+			
+		})
+		
+		
+		$(".close>close").click(function(){
+			
+			$(this).toast('hide');
+			
+		})
+		
+		
+	})
+	
+	$(".modal-today-close").click(function() {
+		$("#myModal").modal("hide");
+		setCookie("mycookie", 'popupEnd', 1);
+	})
+    
 	</script>
 
 </body>

@@ -63,21 +63,22 @@ public class SurveyController {
 	@RequestMapping("surveyListForm.sv")
 	public String surveyListForm(Model model) {
 		
-		ArrayList<Survey> list = surveyService.selectSurveyList();
+		ArrayList<Survey> list = surveyService.selectAbleSurveyList();
 		
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		
-		return "survey/managerSurveyListForm";
+		return "survey/SurveyListForm";
 	}
 	
 	@RequestMapping("surveyDetailForm.sv")
-	public String surveyDetailForm(Model model,String SurveyNo) {
+	public String surveyDetailForm(Model model,String surveyNo) {
 		
-		Survey survey = surveyService.selectSurvey(SurveyNo);
-		
+		Survey survey = surveyService.selectSurvey(surveyNo);
 		model.addAttribute("survey",survey);
+		
 		return "survey/surveyManagerDetailForm";
 	}
+	
 	
 	@RequestMapping("surveyQuestionInsertForm.sv")
 	public String insertSurvey(String surveyNo, HttpSession session,Model model) {
@@ -88,9 +89,17 @@ public class SurveyController {
 		
 		return "survey/surveyQuestionInsertForm";
 	}
-	
-	
-	
+	 
+
+	@RequestMapping("surveyQuestionForm.sv")
+	public String surveyQuestionForm(String surveyNo, Model model) {
+		
+		Survey survey = surveyService.selectSurvey(surveyNo);
+		
+		model.addAttribute("survey",survey);
+		
+		return "survey/surveyQuestionForm";
+	}
 	
 	
 	@RequestMapping("deleteSurvey.sv")
@@ -100,7 +109,7 @@ public class SurveyController {
 		
 		if (result > 0) session.setAttribute("msg", "success to delete");
 		
-		return "/redirect";
+		return "redirect:/managerSurveyListForm.sv";
 	}
 	
 	
@@ -111,18 +120,39 @@ public class SurveyController {
 		
 	}
 	
-	@RequestMapping("updateSurvey.sv")
-	public String updateSurvey(Survey survey) {
+	@RequestMapping("insertSurvey.sv")
+	public String insertSurvey(@ModelAttribute Survey survey) {
 		
+		int result = surveyService.insertSurvey(survey);
+		
+		return "redirect:/managerSurveyListForm.sv";
+	}
+	
+	@RequestMapping("surveyUpdateForm.sv")
+	public String surveyUpdateForm(Model model,String surveyNo) {
+		
+		Survey survey = surveyService.selectSurvey(surveyNo);
+		model.addAttribute("survey",survey);
+
+		return "survey/surveyUpdateForm";
+		
+	}
+	
+	@RequestMapping("updateSurvey.sv")
+	public String updateSurvey(@ModelAttribute Survey survey,String statement) {
+		
+		if(statement != null) {
+			survey.setStatement(statement);}
 		int result = surveyService.updateSurvey(survey);
 		
-		return "survey/managerSurveyListForm";
+		return "redirect:/managerSurveyListForm.sv";
+		
 	}
 	
 	@RequestMapping("invalidateSurvey.sv")
 	public String invalidateSurvey(Survey survey,Model model) {
 		
-		model.addAttribute(result);
+//		model.addAttribute(result);
 		
 		return "invalidateSurvey";
 	}

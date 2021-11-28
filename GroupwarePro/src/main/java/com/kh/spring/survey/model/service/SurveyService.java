@@ -19,6 +19,8 @@ public interface SurveyService  {
 
 	ArrayList<Survey> selectSurveyList();
 
+	ArrayList<Survey> selectAbleSurveyList();
+
 
 
 	
