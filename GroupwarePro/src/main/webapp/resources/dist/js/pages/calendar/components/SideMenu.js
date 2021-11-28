@@ -20,11 +20,12 @@ export default class SideMenu extends Component {
 
     const { event=null, calendars=null } = newState;
 
-    // console.log(this.$state);
     const { edit, cal } = this.$children;
 
+    // 일정 상태 변경시
     if (event) {
       edit.setState({ ...event });
+    // 캘린더 상태 변경시
     } else if (calendars) {
       edit.setState({ calendars });
       cal.setState({ calendars });

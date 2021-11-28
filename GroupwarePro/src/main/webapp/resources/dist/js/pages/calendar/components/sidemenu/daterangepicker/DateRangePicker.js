@@ -36,8 +36,6 @@ export default class DateRangePicker extends Component {
   setState (newState) {
     this.$state = { ...this.$state, ...newState };
 
-    // console.log(this.$state);
-
     const { start:startDate, end:endDate, allDay } = this.$state;
 
     const start = moment(startDate).format('YYYY-MM-DD HH:mm');

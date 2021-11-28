@@ -4,7 +4,6 @@ import axios from '../axios.js'
 export default class Calendar extends Component {
 
   setup () {
-
     // fullcalendar 설정
     this.config = {
       contentHeight: 225,
@@ -37,14 +36,9 @@ export default class Calendar extends Component {
           this.$calendar.getResources().forEach(async (resource) => { 
             const calNo = resource.id;
             const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
-            // console.log(res);
 
             res.data.forEach((evt) => {
-              // console.log(evt);
-              
               const resource = this.$calendar.getResourceById(calNo);
-              // console.log(resource);
-
               const start = moment(evt.startDate).format('MM월 DD일');
               const end = moment(evt.endDate).format('MM월 DD일');
 
@@ -58,16 +52,10 @@ export default class Calendar extends Component {
                 allDay: evt.allDay === '1' ? true: false,
                 backgroundColor: resource.extendedProps.color,
               };
-              // console.log(event);
-              // console.log(this.$calendar.getResources(), calNo);
 
               this.$calendar.addEvent(event);
               this.$calendar.getEventById(event.id).setResources([resource]);
-              // console.log(this.$calendar.getEventById(event.id));
             });
-
-            // console.log('events', this.$calendar.getEvents());
-            
           });
       } catch (err) {
         console.log(err);
@@ -78,8 +66,6 @@ export default class Calendar extends Component {
     this.readCalendars = async (empNo) => {
       try {
         const res = await axios.get(`selectCalList.ca?empNo=${empNo}`);
-
-        // console.log(res.data);
 
         res.data.forEach((calendar) => {
           this.$calendar.addResource({
@@ -100,9 +86,6 @@ export default class Calendar extends Component {
     this.loadCalendar = async (empNo) => {
       try {
         await this.readCalendars(empNo);
-  
-        // console.log(this.$calendar.getResources());
-  
         await this.readEvents(); // resource id에 calNo를 넣음
 
         // fullcalendar 렌더
@@ -119,13 +102,5 @@ export default class Calendar extends Component {
     this.loadCalendar(empNo); // 임시로 사원번호 넣음
 
     this.mounted(); 
-  }
-
-  mounted () {
-    
-  }
-
-  setEvent () {
-
   }
 }

@@ -33,11 +33,9 @@ export default class Reservation extends Component {
     this.readEvents = async () => {
       try {
         const res = await axios.get(`selectRezList.rez`);
-        // console.log(res.data);
 
         res.data.forEach((as) => {
           const resource = this.$calendar.getResourceById(as.asNo);
-          // console.log(as, resource);
           // resource 없으면 continue
           if (!resource)
             return true;
@@ -58,9 +56,7 @@ export default class Reservation extends Component {
               empName: as.empName,
             },
           };
-          // console.log(event);
 
-          // const empNo = 201; // 임시
           if (empNo !== as.empNo) {
               event.display = 'background';
           }
@@ -76,8 +72,6 @@ export default class Reservation extends Component {
     this.readAssets = async () => {
       try {
         const res = await axios.get(`selectAsWithCatList.rez`);
-
-        // console.log(res.data);
 
         res.data.forEach((asset) => {
           this.$calendar.addResource({
@@ -101,9 +95,6 @@ export default class Reservation extends Component {
         const res = await axios.get(`selectAsCatList.rez`);
 
         this.categories = res.data;
-
-        // console.log(this.categories);
-
       } catch (err) {
         console.log(err);
       }
@@ -113,11 +104,7 @@ export default class Reservation extends Component {
     this.loadCalendar = async () => {
       try {
         await this.readCategories();
-
         await this.readAssets();
-  
-        // console.log(this.$calendar.getResources());
-
         await this.readEvents(); // resource id에 calNo를 넣음
 
         // fullcalendar 렌더
@@ -134,25 +121,5 @@ export default class Reservation extends Component {
     this.loadCalendar();
 
     this.mounted(); 
-  }
-
-  mounted () {
-
-  }
-
-  setEvent () {
-    // this.$calendar.setOption('eventDidMount', (arg) => {
-    //   // console.log(arg);
-    //   // console.log(arg.event);
-    //   // console.log(arg.event.getResources());
-    //   let tag = arg.el.lastElementChild;
-    //   const resource = arg.event.getResources()[0];
-    //   const category= resource.extendedProps.category;
-    //   const asset = resource.title;
-    //   const event = arg.event.title;
-    //   // console.log(tag, event, asset, category);
-    
-    //   tag.textContent = `${asset}(${category}) - ${event}`;  
-    // });
   }
 }
