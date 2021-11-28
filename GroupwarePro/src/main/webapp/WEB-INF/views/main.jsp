@@ -598,14 +598,14 @@
 			list.forEach(( p=>{
 				
 				wrapper.innerHTML += ` 
-						<div class="toast fade show \${p.popNo}" role="alert" data-autohide="false" aria-live="assertive" aria-atomic="true">
+						<div class="toast fade show \${p.popNo}" role="alert" data-autohide="false" aria-live="assertive" aria-atomic="true" id="toastBody">
                         <div class="toast-header">
                             <svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
                             	<i class="icon-bulb" style="width:100%; left:1; position:absolute;"></i>
                             </svg>
                             <strong class="mr-auto"> \${p.title} </strong>
                             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        	    <span aria-hidden="true">&times;</span>
+                        	    <span  id="closeToast" aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="toast-body">
@@ -620,6 +620,14 @@
              
 			}));
              
+			
+			
+			$("#closeToast").on("click",function(){
+				$("#toastBody").removeClass("show");
+			})
+			
+			
+			
 			}
 			
 		})
@@ -638,6 +646,7 @@
 		$("#myModal").modal("hide");
 		setCookie("mycookie", 'popupEnd', 1);
 	})
+
     
 	</script>
 
