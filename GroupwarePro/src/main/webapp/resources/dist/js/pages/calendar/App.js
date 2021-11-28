@@ -64,6 +64,16 @@ export default class App extends Component {
 
     // console.log(new Date(event.start), new Date(event.end));
 
+    if (!event.start || !event.end) {
+      alert("시작일 또는 종료일을 입력해주세요");
+      return;
+    }
+
+    if (!event.title) {
+      alert("일정명을 입력해주세요");
+      return;
+    }
+
     try {
       const res = await axios.post(`insertEvent.ca`, null, {
         params: {
@@ -135,6 +145,11 @@ export default class App extends Component {
     const { calendar } = this.$children;
 
     console.log(cal);
+
+    if (!cal.name) {
+      alert("캘린더명을 입력해주세요");
+      return;
+    }
 
     try {
       const res = await axios.post(`insertCalendar.ca`, null, {
