@@ -72,8 +72,8 @@
                             		</li>
                             		<li>
                             			<div class="card-body">
-											<h3 class="card-title font-weight-bold"> 작성일 </h3>
-											<input type="date" class="form-control startDate" name="startDate" value="${survey.writeDate}" pattern="\d{4}-\d{2}-\d{2}" required>
+											<h3 class="card-title font-weight-bold"> 최근 작성일 </h3>
+											<input type="date" class="form-control writeDate" name="writeDate" value="${survey.writeDate}" pattern="\d{4}-\d{2}-\d{2}" readonly>
 										</div>
                             		</li>
                             		<li>
@@ -86,14 +86,27 @@
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 마감일</h3>
-											<input type="text" class="form-control finishDate" name="finishDate" value="${survey.finishDate}" required>
+											<input type="date" class="form-control finishDate" name="finishDate" value="${survey.finishDate}" required>
 										</div>
                             		</li>
                             		
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 게시 상태</h3>
-											<input type="text" class="form-control statement" name="statement" value="${survey.statement}" required>
+											
+											<select class="form-control statement" name="statement">
+											<c:choose>
+												<c:when test="${survey.statement eq 'Y'}">
+													<option value="Y" selected>공개</option>
+													<option value="N">비공개</option>
+												</c:when>
+												<c:otherwise>
+													<option value="Y">공개</option>
+													<option value="N" selected>비공개</option>
+												</c:otherwise>
+											</c:choose>	
+											</select>
+											
 										</div>
                             		</li>
                             		<li>

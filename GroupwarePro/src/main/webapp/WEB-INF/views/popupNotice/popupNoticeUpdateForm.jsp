@@ -45,9 +45,15 @@
 			<div class="card-body"> 
 				<h3 class="card-title font-weight-bold text-truncate text-dark font-weight-bold mb-1"> 팝업 공지</h3>
 			<div class="insert-form-wrapper">
-				<form class="form pNotice-Info" action="insertPNotice.no" method="POST">
+				<form class="form pNotice-Info" action="updatepNotice.no" method="GET">
 						 <div class="info d-block align-items-center">
 								<ul class="ref navbar-nav">
+									<li>
+									<div class="card-body" style="display:none;">
+											<h3 class="card-title font-weight-bold"> 공지 번호 </h3>
+											<input type="text" class="form-control popNo" name="popNo" value="${pNotice.popNo}" required>
+										</div>
+                            		</li>
 									<li>
 									<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 제목 </h3>
@@ -57,7 +63,7 @@
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 내용 </h3>
-											<textarea class="form-control content" rows="3" name="content" required>${pNotice.content}</textarea>
+											<textarea class="form-control content" name="content" required>${pNotice.content}</textarea>
 										</div>
                             		</li>
                             		<li>
@@ -85,7 +91,7 @@
                             			<div class="btn-list">
                             				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#info-alert-modal" class="preview" onclick="">미리보기</button>
                             				<!-- Right modal -->
-                            				<button type="button" class="btn btn-secondary" onclick="location.href='updatepNotice.no?popNo='+${pNotice.popNo}">수정완료</button>
+                            				<button type="submit" class="btn btn-secondary">수정완료</button>
                             				<button type="button" class="btn btn-dark" onclick="history.back();">수정취소</button>
                             			</div>
                             		</li>
@@ -121,7 +127,7 @@
                                             </div>
                                         </div><!-- /.modal-content -->
                                     </div><!-- /.modal-dialog -->
-                                </div><!-- /.modal -->
+        </div><!-- /.modal -->
 	</div>
 	</div>
 	</div>
@@ -143,8 +149,7 @@
 			<!-- 마감일 최소 날짜 값은 최소 입력 날짜의 1일 이후로 설정-->
 			var finishDefaultMin = year + '-' + addZero(month) + '-' + addZero(date+1);
 			
-			<!-- 공지 시작일 지정은 최소 날짜로부터 6개월 이후까지
-				 만약 6개월 뒤가 2월일 경우 2월의 마지막 날짜 까지로 지정-->
+	
 			if(sysdate.getMonth()+1 >= 7 ) { 
 				year = year+1;
 				month = 6 - 12 - sysdate.getMonth();
@@ -191,19 +196,15 @@
     <!-- apps -->
     <!-- apps -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/app-style-switcher.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/feather.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/d3.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script>
 	
 </body>
 </html>

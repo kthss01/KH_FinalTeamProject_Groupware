@@ -15,9 +15,11 @@ public interface PopupNoticeService {
 
 	int deletePNotice(String popNo);
 
-	int updatePNotice(PopupNotice p);
+	int updatePNotice(PopupNotice popupNotice);
 
 	PopupNotice selectPNotice(String popNo);
+
+	ArrayList<PopupNotice> selectPNoticeNewList();
 
 	
 	

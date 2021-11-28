@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.spring.popup.model.service.PopupNoticeService;
 import com.kh.spring.popup.model.vo.PopupNotice;
@@ -54,11 +56,14 @@ public class PopupNoticeController {
 	}
 	
 	@RequestMapping("updatepNotice.no")
-	public String updatePopupNotice(@ModelAttribute PopupNotice p,Model model) {
+	public String updatePopupNotice(@ModelAttribute PopupNotice popupNotice) {
 		
-		int result = pNoticeService.updatePNotice(p);
+		int result = pNoticeService.updatePNotice(popupNotice);
 		
-		return "redirect:/popupNoticeUpdateForm.no?popNo="+p.getPopNo();
+		System.out.println(popupNotice.getPopNo());
+		System.out.println(popupNotice.getContent());
+		
+		return "redirect:/popupNoticeList.no";
 	}
 	
 	
@@ -78,6 +83,14 @@ public class PopupNoticeController {
 		return "redirect:/popupNoticeList.no";
 	}
 	
+	@RequestMapping( value="selectNewPNoticeList.no",method= RequestMethod.POST)
+	@ResponseBody
+	public ArrayList<PopupNotice> selectNewPNoticeList(){
+		
+		ArrayList<PopupNotice> list = pNoticeService.selectPNoticeNewList();
+		
+		return list;
+	}
 	
 
 }

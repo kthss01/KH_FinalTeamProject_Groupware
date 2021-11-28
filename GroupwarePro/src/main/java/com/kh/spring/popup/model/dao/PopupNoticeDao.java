@@ -20,11 +20,15 @@ public class PopupNoticeDao {
 	public int deletePNotice(SqlSessionTemplate session, String popNo) {
 		return session.delete("pNoticeMapper.deletepNotice",popNo);
 	}
-	public int updatePNotice(SqlSessionTemplate session, PopupNotice p) {
-		return session.update("pNoticeMapper.updatepNotice",p);
+	public int updatePNotice(SqlSessionTemplate session, PopupNotice popupNotice) {
+		return session.update("pNoticeMapper.updatepNotice", popupNotice);
 	}
 	public PopupNotice selectPNotice(SqlSessionTemplate session,String popNo) {
 		return session.selectOne("pNoticeMapper.selectpNotice",popNo);
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public ArrayList<PopupNotice> selectPNoticeNewList(SqlSessionTemplate session) {
+		return (ArrayList)session.selectList("pNoticeMapper.selectNewpNoticeList");
 	}
 	
 

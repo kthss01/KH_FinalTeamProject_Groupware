@@ -63,11 +63,11 @@ public class SurveyController {
 	@RequestMapping("surveyListForm.sv")
 	public String surveyListForm(Model model) {
 		
-		ArrayList<Survey> list = surveyService.selectSurveyList();
+		ArrayList<Survey> list = surveyService.selectAbleSurveyList();
 		
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		
-		return "survey/managerSurveyListForm";
+		return "survey/SurveyListForm";
 	}
 	
 	@RequestMapping("surveyDetailForm.sv")
@@ -90,6 +90,16 @@ public class SurveyController {
 		return "survey/surveyQuestionInsertForm";
 	}
 	 
+
+	@RequestMapping("surveyQuestionForm.sv")
+	public String surveyQuestionForm(String surveyNo, Model model) {
+		
+		Survey survey = surveyService.selectSurvey(surveyNo);
+		
+		model.addAttribute("survey",survey);
+		
+		return "survey/surveyQuestionForm";
+	}
 	
 	
 	@RequestMapping("deleteSurvey.sv")
@@ -129,8 +139,10 @@ public class SurveyController {
 	}
 	
 	@RequestMapping("updateSurvey.sv")
-	public String updateSurvey(@ModelAttribute Survey survey) {
+	public String updateSurvey(@ModelAttribute Survey survey,String statement) {
 		
+		if(statement != null) {
+			survey.setStatement(statement);}
 		int result = surveyService.updateSurvey(survey);
 		
 		return "redirect:/managerSurveyListForm.sv";

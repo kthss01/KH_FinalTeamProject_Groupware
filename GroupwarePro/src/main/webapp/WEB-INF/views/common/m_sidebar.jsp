@@ -44,11 +44,6 @@ color: white;
                        					<span> <b> 멤버 조회 </b></span>
                        				</a>
                        			</li>
-                       			<li class="sidebar-item">
-                       				<a href="managerMemberGraph.me" class="sidebar-link">
-                       					<span> 멤버 통계 </span>
-                       				</a>
-                       			</li>
                        		</ul>
                                     
                         </li>
@@ -66,11 +61,6 @@ color: white;
                        				</a>
                        			</li>
                        			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> 커뮤니티 정보 </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
                        				<a href="managerCommProposal.me" class="sidebar-link">
                        					<span> 신규 개설 </span>
                        				</a>
@@ -84,7 +74,6 @@ color: white;
                        			<span class="hide-menu"><b>팝업 공직사항 </b></span>
                        		</a>
                        	</li>
-                                    
                         
                          <li class="sidebar-item"> 
                        		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
@@ -98,97 +87,10 @@ color: white;
                        					<span> <b> 설문 관리 </b></span>
                        				</a>
                        			</li>
-                       			<li class="sidebar-item">
-                       				<a href="surveyResultForm.sv" class="sidebar-link">
-                       					<span> <b> 설문 결과 </b> </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="surveyFillForm.sv" class="sidebar-link">
-                       					<span> 설문 현황  </span>
-                       				</a>
-                       			</li>
                        		</ul>
                                     
                         </li>
                         
-                         <li class="sidebar-item"> 
-                       		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
-                       			<i data-feather="member" class="fas fa-database"></i>
-                       			<span class="hide-menu"> 자료실 정보 관리 </span>
-                       		</a>
-                       		
-                       		<ul aria-expanded="false" class="collapse first-level base-level-line">
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> <b> --  </b></span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       		</ul>
-                                    
-                        </li>
-                        
-                         <li class="sidebar-item"> 
-                       		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
-                       			<i data-feather="member" class="fas fa-chart-bar"></i>
-                       			<span class="hide-menu"> 서비스 이용 통계 </span>
-                       		</a>
-                       		
-                       		<ul aria-expanded="false" class="collapse first-level base-level-line">
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> <b> --  </b></span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       		</ul>
-                                    
-                        </li>
-                        
-                         <li class="sidebar-item"> 
-                       		<a class="sidebar-link sidebar-link has-arrow" href="#"  aria-expanded="false">
-                       			<i data-feather="member" class="far fa-envelope"></i>
-                       			<span class="hide-menu"> ISSUE </span>
-                       		</a>
-                       		
-                       		<ul aria-expanded="false" class="collapse first-level base-level-line">
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> <b> --  </b></span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       			<li class="sidebar-item">
-                       				<a href="#" class="sidebar-link">
-                       					<span> -- </span>
-                       				</a>
-                       			</li>
-                       		</ul>
-                                    
-                        </li>
 						
                                     
                            <!-- <button class="btn btn-dark btn btn-default btn-sm" onclick="applyForm();">식권 신청</button> -->  

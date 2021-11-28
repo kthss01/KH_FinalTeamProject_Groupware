@@ -56,6 +56,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by survey_no asc
 	</select>
 	
+	<select id="selectAbleSurveyList" resultMap="surveyResultSet">
+	
+	<![CDATA[
+		SELECT *
+		FROM SURVEY
+		WHERE START_DATE <= SYSDATE
+		AND FINISH_DATE  >= SYSDATE
+        AND STATEMENT ='Y'
+		ORDER BY SURVEY_NO ASC
+	]]>
+	
+	</select>
+	
 	
 	<select id="selectSurvey" parameterType="String" resultMap="surveyResultSet">
 		select *

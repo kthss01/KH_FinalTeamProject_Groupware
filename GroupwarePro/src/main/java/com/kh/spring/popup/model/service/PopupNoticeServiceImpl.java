@@ -44,9 +44,9 @@ public class PopupNoticeServiceImpl implements PopupNoticeService{
 	}
 
 	@Override
-	public int updatePNotice(PopupNotice p) {
+	public int updatePNotice(PopupNotice popupNotice) {
 		
-		int result = popupNoticeDao.updatePNotice(session,p);
+		int result = popupNoticeDao.updatePNotice(session,popupNotice);
 		
 		return result;
 	}
@@ -57,6 +57,14 @@ public class PopupNoticeServiceImpl implements PopupNoticeService{
 		PopupNotice pNotice = popupNoticeDao.selectPNotice(session,popNo);
 		
 		return pNotice;
+	}
+
+	@Override
+	public ArrayList<PopupNotice> selectPNoticeNewList() {
+
+		ArrayList<PopupNotice> result = popupNoticeDao.selectPNoticeNewList(session);
+		
+		return result;
 	}
 
 

@@ -16,6 +16,12 @@ public class SurveyDao{
 	public ArrayList<Survey> selectSurveyList(SqlSessionTemplate session,PageInfo pageInfo) {
 		return (ArrayList)session.selectList("surveyMapper.selectSurveyList");
 	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public ArrayList<Survey> selectAbleSurveyList(SqlSessionTemplate session){
+		return (ArrayList)session.selectList("surveyMapper.selectAbleSurveyList");
+	}
 
 	public Survey selectSurvey(SqlSessionTemplate session, String surveyNo) {
 		Survey survey = session.selectOne("surveyMapper.selectSurvey", surveyNo);

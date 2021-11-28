@@ -56,6 +56,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	
+	<select id="selectNewpNoticeList" parameterType="PopupNotice" resultMap="pNoticeResultMap">
+		
+		
+		<![CDATA[
+		
+		SELECT B.*
+		FROM (
+			SELECT ROWNUM, A.*
+			FROM POP_UP_NOTICE A
+			WHERE STATEMENT ='Y'
+            AND FINISH_DATE >=  SYSDATE
+            ORDER BY P_NOTICE_NO
+			) B
+		WHERE ROWNUM <= 3
+		
+		]]>
+
+	</select>
+	
 	
 	
 	

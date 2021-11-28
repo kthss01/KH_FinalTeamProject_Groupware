@@ -98,7 +98,7 @@
                                 						</span>
                            								</a>
                            								<div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                							<a class="dropdown-item updatePNotice" href="pNoticeUpdateForm.no?popNo=${pNotice.popNo}">
+                                							<a class="dropdown-item popNo" href="pNoticeUpdateForm.no?popNo=${pNotice.popNo}">
                                 							<span style="display:none;">${pNotice.popNo}</span>
                                 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
                                 								</svg>
@@ -192,7 +192,7 @@
 	--%>
 	
 	$(function(){
-		$(".deletePNotice.").click(function(){
+		$(".deletePNotice").click(function(){
 			var popNo = $(this).child().eq(0).text();
 			$.ajax({
 				url:'deletePNotice.no',
@@ -229,19 +229,15 @@
     <!-- apps -->
     <!-- apps -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/app-style-switcher.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/feather.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/d3.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script>
 	
 </body>
 </html>

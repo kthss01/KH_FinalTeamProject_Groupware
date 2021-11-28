@@ -14,7 +14,6 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-@Data
 public class PopupNotice {
 	
 	String popNo;
