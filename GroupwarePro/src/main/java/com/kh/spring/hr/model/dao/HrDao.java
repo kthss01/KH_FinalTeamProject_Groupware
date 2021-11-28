@@ -1,6 +1,7 @@
 package com.kh.spring.hr.model.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,9 +16,13 @@ import com.kh.spring.hr.model.vo.WorkSInfo;
 @Repository
 public class HrDao {
 
-	public ArrayList<Work> selectWorkList(SqlSessionTemplate sqlSession, int empNo) {
+	public ArrayList<Work> selectWorkList(SqlSessionTemplate sqlSession, Work work) {
 		
-		return (ArrayList)sqlSession.selectList("hrMapper.selectWorkList", empNo);
+		return (ArrayList)sqlSession.selectList("hrMapper.selectWorkList", work);
+	}
+	public Work selectWork(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return (Work)sqlSession.selectOne("hrMapper.selectWork", empNo);
 	}
 
 	public int insertWork(SqlSessionTemplate sqlSession, int empNo) {
@@ -54,6 +59,8 @@ public class HrDao {
 		
 		return (EmpInfo)sqlSession.selectOne("hrMapper.selectEmpInfo", empNo);
 	}
+
+
 
 
 }

@@ -82,24 +82,7 @@
 				<div class="row" style="min-height: 500px;">
 					<!-- 전자결재 사이드바 -->
 					<div class="col-2" style="border-right: 1px solid rgba(0,0,0,.125);">
-	                	
-	                	<button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-primary col-12">새 결재 진행</button>
-	                	<br><br>
-                        <h6 class="card-title">결재하기</h6>
-                        <div class="list-group"> 
-			           		<a href="wait.ap" class="list-group-item">결재 대기 문서</a><!-- wait -->
-                       	</div>
-                       	<br>
-                       	<h6 class="card-title">개인 문서함</h6>
-                        <div class="list-group"> 
-			           		<a href="draftD.ap" class="list-group-item">기안 문서함</a>
-                        	<a href="apprD.ap" class="list-group-item">결재 문서함</a> 
-                       	</div>
-                       	<br>
-                       	<h6 class="card-title">문서함</h6>
-                        <div class="list-group"> 
-			           		<a href="eFormList.ap" class="list-group-item">전자결재 양식</a>
-                       	</div>
+						<jsp:include page="../eApproval/eASidebar.jsp" />
 					</div>
 					
 					<div class="col-10">
@@ -114,7 +97,7 @@
 						<c:set value="${ea.drafterId}" var="drafterId"/>
 						<c:set value="${ea.SCode}" var="sCode"/>
 						
-						<form method="POST">
+						<form method="POST" enctype="multipart/form-data">
 							<div class="row" style="margin:10px;">
 							<c:choose>
 								<c:when test="${approverId == loginUser && sCode == 1}">
@@ -124,6 +107,9 @@
 								<c:when test="${drafterId == loginUser && sCode == 1}">
 									<button type="submit" formaction="update.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">수정</button>
 									<button type="submit" formaction="delete.ap" class="btn waves-effect waves-light btn-outline-secondary">취소</button>
+								</c:when>
+								<c:when test="${drafterId == loginUser && ea.SCode == 3}">
+									<button type="submit" formaction="insertEApproval.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">재기안</button>
 								</c:when>
 							</c:choose>
 							</div>
@@ -138,7 +124,6 @@
 								<input type="hidden" name="drafterId" value="${ea.drafterId }">
 								<input type="hidden" name="approverId" value="${ea.approverId }">
 								
-								<!-- 추가 문서 양식 -->
 							</div>
 						</form>
 					</div>

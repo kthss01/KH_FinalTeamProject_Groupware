@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="wDate" column="W_DATE"/>
 		<result property="startTime" column="START_TIME"/>
 		<result property="endTime" column="END_TIME"/>
+		<result property="strDate" column="STR_DATE"/>
 	</resultMap>
 	<resultMap id="workSInfoResultSet" type="WorkSInfo">
 		<id property="sNo" column="S_NO"/>
@@ -71,14 +72,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="retireDate" column="RETIRE_DATE"/>
 		<result property="retireReason" column="RETIRE_REASON"/>
 	</resultMap>
-	<select id="selectWorkList" parameterType="_int" resultMap="workResultSet">
-		SELECT 
-			*
+	
+	<select id="selectWorkList" parameterType="Work" resultMap="workResultSet">
+		<![CDATA[
+			SELECT 
+			    W_NO,
+			    EMP_NO,
+			    TO_DATE(TO_CHAR(W_DATE, 'YYMMDD'), 'YY/MM/DD') W_DATE,
+			    CASE
+			        WHEN START_TIME = NULL THEN NULL
+			        ELSE SUBSTR(TO_TIMESTAMP(START_TIME, 'yyyy/MM/dd hh24:MI:ss'), 10, 8)
+			    END START_TIME,
+			    CASE
+			        WHEN END_TIME = NULL THEN NULL
+			        ELSE SUBSTR(TO_TIMESTAMP(END_TIME, 'yyyy/MM/dd hh24:MI:ss'), 10, 8) 
+			    END END_TIME
+			FROM
+			    WORK
+			WHERE EMP_NO = #{empNo}
+			
+			UNION
+			
+			SELECT 
+			    NULL,
+			    NULL,
+			    YMD W_DATE,
+			    NULL,
+			    NULL
+			FROM 
+			    (
+			    SELECT 
+			        NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-6),'월')+(LEVEL - 1) YMD
+			    FROM 
+			        DUAL
+			    CONNECT BY NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-6),'월')+(LEVEL-1) <= NEXT_DAY(LAST_DAY(TO_DATE(#{strDate}, 'yy/MM/dd')), '일')
+			    )
+			WHERE YMD NOT IN (
+			    SELECT
+			        TO_CHAR(W_DATE,'YY/MM/DD')
+			    FROM
+			        WORK
+			    WHERE EMP_NO = #{empNo}
+			)
+			ORDER BY W_DATE
+		]]>
+	</select>
+	
+	<select id="selectWork" parameterType="_int" resultMap="workResultSet">
+		SELECT
+			W_NO,
+			EMP_NO,
+			W_DATE,
+			SUBSTR(START_TIME, 11, LENGTH(START_TIME)) START_TIME,
+			SUBSTR(END_TIME, 11, LENGTH(END_TIME)) END_TIME
 		FROM
-			WORK
-		WHERE 
-			EMP_NO = #{empNo}
-		ORDER BY W_DATE ASC
+		    WORK
+		WHERE EMP_NO = #{empNo} AND TO_CHAR(W_DATE, 'yy/MM/dd') = TO_CHAR(CURRENT_DATE, 'yy/MM/dd')
 	</select>
 	
 	<insert id="insertWork" parameterType="_int">

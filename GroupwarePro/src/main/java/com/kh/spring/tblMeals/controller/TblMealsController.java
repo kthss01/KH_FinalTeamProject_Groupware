@@ -24,10 +24,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.kh.spring.common.Pagination;
 import com.kh.spring.tblMeals.model.service.TblMealsService;
 import com.kh.spring.tblMeals.model.vo.TblMeals;
@@ -98,31 +102,67 @@ public class TblMealsController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value="insert.bo",method = RequestMethod.POST,produces="application/json; charset=utf-8")
-	public String insert(HttpServletRequest request,@RequestBody ArrayList<Map> alldata) {
-
+	@RequestMapping(value="insert.bo",method = RequestMethod.POST)//produces="application/json; charset=utf-8"
+	public String insert(HttpServletRequest request,ArrayList<TblMeals> alldata) {
+		
 		
 		//json형태의 문자열을  배열로 변환
-		System.out.println(alldata);
 		
-	    
+		
 		
 		
 
-	
 		
-		//tblMealsService.insert(anlysList);
+		int result=tblMealsService.insert(alldata);
+		
+		
+		
+		if(result>0) {
+			System.out.println("insert success");
+		}
 		
 			
 		return "성공";
 		
 	}
 	
+
+	//방법2
+//	@ResponseBody
+//	@RequestMapping(value="insert.bo",method = RequestMethod.POST,produces="application/json; charset=utf-8")
+//	public String insert(HttpServletRequest request,@RequestBody String paramData) {
+//		
+//
+//		
+//		List<Map<String,Object>> resultMap = new ArrayList<Map<String,Object>>();
+//	    resultMap = JSONArray.fromObject(paramData);
+//	         
+//	    for (Map<String, Object> map : resultMap) {
+//	        System.out.println(map.get("lnc") + " : " + map.get("startDate")+map.get("endDate"));
+//	        //관리자 : 1111
+//	        //직원 : 2222
+//	    }
+//
+//
+//		
+//		
+//		
+//		
+//		int result=tblMealsService.insert(resultMap);
+//		if(result>0) {
+//			System.out.println("insert success");
+//		}
+//		
+//			
+//		return "성공";
+//		
+//	}
+	
 	
 	
 	@ResponseBody
 	@RequestMapping(value="list.bo",produces="application/json; charset=utf-8")
-	public String selectList(Model model,HttpServletRequest request) {	
+	public String selectList(HttpServletRequest request) {	
 		
 
 		ArrayList<TblMealsCal> tList=tblMealsService.selectList();
@@ -137,14 +177,18 @@ public class TblMealsController {
 		            jsonArray.add(i, data);    
 		 }
 	
-		
-		
-		//model.addAttribute("list",list);
+
 	
 		
 		
-		return jsonArray.toString();
-
+		//return jsonArray.toString();
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(tList);            
+		
+		
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//		ArrayList<TblMealsCal> planList = tblMealsService.selectList();
+//		map.put("planList", planList);
+//		return map;
 		
 		
 	}

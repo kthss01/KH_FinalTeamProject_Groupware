@@ -73,10 +73,15 @@
 					<td style="min-width: 70px; height: 27px;">${ea.approverJob }</td>
 				</tr>
 				<tr>
-					<td>${ea.approverName }</td>
+					<td>
+						<c:if test="${ea.SCode eq 2 }">
+							<h4 style="color: red">승인</h4>
+						</c:if>
+						${ea.approverName }
+					</td>
 				</tr>
 				<tr>
-					<td style="max-height: 27px; font-size: 10px;">
+					<td style="max-height: 27px; height: 27px; font-size: 10px;">
 						<c:choose>
 							<c:when test="${ea.SCode eq 2 }">
 								<fmt:formatDate value="${ea.approveDate}" type="date" pattern="yyyy/MM/dd"/>
@@ -96,7 +101,16 @@
 			<table border='1' class="col-12">
 				<tr>
 					<th>제목</th>
-					<td><input class="col-12" type="text" value="${ea.title }" name="title"></td>
+					<td>
+					<c:choose>
+						<c:when test="${ea.drafterId != loginUser.empNo}">
+							<input class="col-12" type="text" value="${ea.title }" name="title" readonly>
+						</c:when>
+						<c:otherwise>
+							<input class="col-12" type="text" value="${ea.title }" name="title" required>
+						</c:otherwise>
+					</c:choose>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -107,7 +121,38 @@
 			<table border='1' class="col-12">
 				<tr>
 					<th>내용</th>
-					<td><textarea class="col-12" name="content" rows="5">${ea.content }</textarea></td>
+					<td>
+						<c:choose>
+							<c:when test="${ea.drafterId != loginUser.empNo}">
+								<textarea class="col-12" name="content" rows="3" readonly>${ea.content }</textarea>
+							</c:when>
+							<c:otherwise>
+								<textarea class="col-12" name="content" rows="3" required>${ea.content }</textarea>
+						</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부파일</th>
+					<td>
+						<c:choose>
+							<c:when test="${empty ea.originName && ea.SCode eq 0}">
+								<input type="file" id="upfile" name="uploadFile">
+							</c:when>
+							<c:when test="${!empty ea.originName && ea.SCode eq 1 && ea.drafterId eq loginUser.empNo}">
+								<input type="file" id="upfile" name="uploadFile">현재 업로드된 파일 : ${ ea.originName }
+							</c:when>
+							<c:when test="${ea.drafterId eq loginUser.empNo && ea.SCode eq 3 && !empty ea.originName }">
+								<input type="file" id="upfile" name="uploadFile">현재 업로드된 파일 : ${ ea.originName }
+							</c:when>
+							<c:when test="${ea.drafterId eq loginUser.empNo && ea.SCode eq 3 && empty ea.originName }">
+								<input type="file" id="upfile" name="uploadFile">현재 업로드된 파일 : ${ ea.originName }
+							</c:when>
+							<c:otherwise>
+								<a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${ea.changeName}" download="${ ea.originName }">${ ea.originName }</a>
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 			</table>
 		</div>

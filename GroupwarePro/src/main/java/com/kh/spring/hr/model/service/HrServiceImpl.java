@@ -1,6 +1,7 @@
 package com.kh.spring.hr.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,19 @@ public class HrServiceImpl implements HrService {
 	private HrDao hrDao;
 	
 	@Override
-	public ArrayList<Work> selectWorkList(int empNo) {
-		
-		ArrayList<Work> list = hrDao.selectWorkList(sqlSession, empNo);
+	public ArrayList<Work> selectWorkList(Work work) {
+
+		ArrayList<Work> list = hrDao.selectWorkList(sqlSession, work);
 		
 		return list;
+	}
+	
+	@Override
+	public Work selectWork(int empNo) {
+		
+		Work w = hrDao.selectWork(sqlSession, empNo);
+		
+		return w;
 	}
 
 	@Override
@@ -93,6 +102,8 @@ public class HrServiceImpl implements HrService {
 		
 		return empInfo;
 	}
+
+
 
 
 }

@@ -1,17 +1,25 @@
 package com.kh.spring.eApproval.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.spring.common.exception.CommException;
 import com.kh.spring.eApproval.model.service.EApprovalService;
 import com.kh.spring.eApproval.model.vo.EApproval;
 import com.kh.spring.eApproval.model.vo.EForm;
@@ -45,11 +53,11 @@ public class EApprovalController {
 		//새 결재 진행
 		//양식 목록
 		ArrayList<EForm> eFList = eApprovalService.selectEFList();
-		model.addAttribute("eFList", eFList);
+		session.setAttribute("eFList", eFList);
 		
 		//결재자 목록
 		ArrayList<Member> mList = eApprovalService.selectMemberList();
-		model.addAttribute("mList", mList);
+		session.setAttribute("mList", mList);
 		
 		return "eApproval/eAMain";
 	}
@@ -59,7 +67,7 @@ public class EApprovalController {
 		
 		EApproval ea = eApprovalService.selectEApproval(eNo);
 		mv.addObject("ea", ea).setViewName("eApproval/eApprDetailView");
-		
+		System.out.println(ea);
 		return mv;
 	}
 	
@@ -82,27 +90,96 @@ public class EApprovalController {
 									);
 		
 		mv.addObject("ea", ea).setViewName("eApproval/eAEnrollForm");
-		
+		System.out.println(ea);
 		return mv;
 	}
 	
 	@RequestMapping(value="insertEApproval.ap", method = { RequestMethod.POST })
-	public String insertEApproval(EApproval ea) {
+	public String insertEApproval(EApproval ea, HttpServletRequest request, @RequestParam(name="uploadFile", required=false) MultipartFile file) {
 		
-		//결재 기안하기
+		//업로드 파일이 있으면
+		if(!file.getOriginalFilename().equals("")) {
+			System.out.println("33333");
+			String changeName = saveFile(file, request);
+			
+			if(changeName != null) {
+				ea.setOriginName(file.getOriginalFilename());
+				ea.setChangeName(changeName);
+			}
+		}
+		
+		//문서 기안하기
 		eApprovalService.insertEApproval(ea);
 		return "redirect:main.ap";
-		
-		//완료하고 상세페이지로 이동
-//		return "reidrect:eDetail.ap?eNo=" + eNo;
 	}
 	
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+			
+		//파일 저장 위치
+		String resources = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = resources + "\\upload_files\\";
+		
+		System.out.println("savePath" + savePath);
+		
+		String originName = file.getOriginalFilename();
+		
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		
+		//확장자 추출
+		String ext = originName.substring(originName.lastIndexOf("."));
+		
+		//저장 시 사용할 파일 이름
+		String changeName = currentTime + ext;
+		
+		try {
+			file.transferTo(new File(savePath + changeName));
+			
+		} catch (IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			throw new CommException("file upload error");
+		}
+		
+		return changeName;
+	}
 	
-	
-	@RequestMapping(value="approve.ap", method= {RequestMethod.POST}) 
+	@RequestMapping(value="update.ap", method = { RequestMethod.POST })
 	public ModelAndView updateEApproval(EApproval ea, ModelAndView mv) {
 		
+		//문서 수정하기
 		eApprovalService.updateEApproval(ea);
+		String eNo = ea.getENo();
+		
+		System.out.println("====update====");
+		System.out.println(ea);
+		
+		
+		ea = eApprovalService.selectEApproval(eNo);
+		mv.addObject("ea", ea).setViewName("eApproval/eApprDetailView");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="delete.ap", method = { RequestMethod.POST })
+	public String deleteEApproval(EApproval ea) {
+		
+		//기안 취소하기
+		//ea의 eNo만 가져오기
+		String eNo = ea.getENo();
+		
+		System.out.println("====delete====");
+		System.out.println(ea);
+		
+		eApprovalService.deleteEApproval(eNo);
+		
+		return "redirect:main.ap";
+	}
+	
+	@RequestMapping(value="approve.ap", method= {RequestMethod.POST}) 
+	public ModelAndView approveEApproval(EApproval ea, ModelAndView mv) {
+		
+		eApprovalService.approveEApproval(ea);
 		String eNo = ea.getENo();
 		
 		ea = eApprovalService.selectEApproval(eNo);
@@ -117,7 +194,7 @@ public class EApprovalController {
 		//loginUser가 결재자, 진행중인 문서 리스트 가져오기
 		ArrayList<EApproval> wList = eApprovalService.selectWaitEApprovalList(empNo);
 		
-		mv.addObject("wList", wList).setViewName("eApproval/eADocumentsView");
+		mv.addObject("wList", wList).setViewName("eApproval/waitDocumentsView");
 				
 		return mv;
 	}
@@ -153,4 +230,5 @@ public class EApprovalController {
 		
 		return mv;
 	}
+
 }

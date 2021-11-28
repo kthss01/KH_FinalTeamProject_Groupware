@@ -4,6 +4,8 @@ package com.kh.spring.tblMeals.model.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.kh.spring.tblMeals.model.vo.TblMeals;
 import com.kh.spring.tblMeals.model.vo.TblMealsCal;
@@ -19,6 +21,13 @@ public interface TblMealsService {
 	ArrayList<Date> selectDateList();
 
 	ArrayList<TblMealsCal> selectList();
+
+
+	int insert(ArrayList<TblMeals> alldata);
+
+	
+
+	
 
 
 }

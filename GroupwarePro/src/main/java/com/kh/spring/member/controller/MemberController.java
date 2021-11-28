@@ -18,6 +18,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.kh.spring.chat.model.service.ChatService;
 import com.kh.spring.chat.model.vo.ContectList;
 import com.kh.spring.community.model.service.CommunityService;
+import com.kh.spring.hr.model.service.HrService;
+import com.kh.spring.hr.model.vo.Work;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.service.MemberServiceImpl2;
 import com.kh.spring.member.model.vo.Member;
@@ -41,6 +43,9 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private HrService hrService;
 
 	@RequestMapping("loginForm.me")
 	public String loginForm( HttpServletRequest request ){
@@ -120,6 +125,9 @@ public class MemberController {
 		
 		chatService.updateStatus(con);
 		
+		//오늘 근무정보 조회
+		Work w = hrService.selectWork(Integer.parseInt(loginUser.getEmpNo()));
+		model.addAttribute("w", w);
 		
 		model.addAttribute("loginUser", loginUser);
 		
