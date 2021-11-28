@@ -49,42 +49,42 @@ export default class Reservation extends Component {
       // fullcalendar-scheduler 객체 생성
       this.$calendar = new FullCalendar.Calendar(this.$target, this.config);
 
-    // 이벤트 DB로부터 읽어오는 함수
+      // 이벤트 DB로부터 읽어오는 함수
       this.readEvents = async () => {
         try {
-              const res = await axios.get(`selectRezList.rez`);
-              // console.log(res.data);
-  
-              res.data.forEach((as) => {
-                const resource = this.$calendar.getResourceById(as.asNo);
-                // console.log(as, resource);
-                // resource 없으면 continue
-                if (!resource)
-                  return true;
+          const res = await axios.get(`selectRezList.rez`);
+          // console.log(res.data);
 
-                const event = {
-                  id: as.rezNo,
-                  title: as.name,
-                  start: as.startDate,
-                  end: as.endDate,
-                  allDay: as.allDay === '1' ? true: false,
-                  backgroundColor: resource.extendedProps.color,
-                  resourceId: resource.id,
-                  overlap: false,
-                  extendedProps: {
-                    empNo: as.empNo,
-                    empName: as.empName,
-                  },
-                };
-                // console.log(event);
+          res.data.forEach((as) => {
+            const resource = this.$calendar.getResourceById(as.asNo);
+            // console.log(as, resource);
+            // resource 없으면 continue
+            if (!resource)
+              return true;
 
-                // const empNo = 201; // 임시
-                if (empNo !== as.empNo) {
-                    event.display = 'background';
-                }
-  
-                this.$calendar.addEvent(event);
-              });
+            const event = {
+              id: as.rezNo,
+              title: as.name,
+              start: as.startDate,
+              end: as.endDate,
+              allDay: as.allDay === '1' ? true: false,
+              backgroundColor: resource.extendedProps.color,
+              resourceId: resource.id,
+              overlap: false,
+              extendedProps: {
+                empNo: as.empNo,
+                empName: as.empName,
+              },
+            };
+            // console.log(event);
+
+            // const empNo = 201; // 임시
+            if (empNo !== as.empNo) {
+                event.display = 'background';
+            }
+
+            this.$calendar.addEvent(event);
+          });
         } catch (err) {
           console.log(err);
         }
@@ -341,7 +341,7 @@ export default class Reservation extends Component {
         })
       });
     
-      // 이벤트 드랍 (일정에서 드래그로 이동)
+      // 이벤트 드랍 (예약에서 드래그로 이동)
       this.$calendar.on('eventDrop', (info) => {
         const { id, title, start, end, allDay } = info.event;
         const { id: asNo } = info.event.getResources()[0];
@@ -352,7 +352,7 @@ export default class Reservation extends Component {
         });
       });
   
-      // 이벤트 리사이즈 (일정에서 이벤트 기간 조정)
+      // 이벤트 리사이즈 (예약에서 이벤트 기간 조정)
       this.$calendar.on('eventResize', (info) => {
         const { id, title, start, end, allDay } = info.event;
         const { id: asNo } = info.event.getResources()[0];
