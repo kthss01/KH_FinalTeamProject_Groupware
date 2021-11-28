@@ -72,6 +72,8 @@
                                 	<!-- 공지로 등록 -->
                                 <h4 class="card-title font-weight-bold"> ${survey.surveyTitle} </h4>
         						 </div>
+        						 <span class="card-subtitle font-9"> ${survey.surveyContent}</span>
+        						 
         						 <div class="row">
         						 	
         						 	<form class="input-form" action="insertAnswer.sv" method="POST">
@@ -79,11 +81,13 @@
         						 		
         						 		<c:if test="${not empty list}">
         						 			<c:forEach items="${list}" var="q">
-        						 			<li class="form-control">
+        						 			<li class="list-item">
         						 				<div class="card">
         						 					<div class="card-body">
-        						 					
-        						 						<span> </span>
+        						 						<h4 class="card-title">${q.sequence}</h4>
+        						 							<span>${q.essayText}</span>
+        						 						<input type="text" class="essayNo" value="${q.essayNo}" readonly style="display:none;">
+        						 						<br>
         						 						<input type="text" class="answer" name="answer">
         						 					</div>
         						 				</div>
@@ -93,9 +97,10 @@
         						 		
         						 		
         						 		</ul>
+        						 		<hr>
         						 		<div class="btn-list">
         						 			<button type="submit" class="btn waves-effect waves-light btn-primary">작성 완료 </button>
-        						 			
+        						 			<button type="button" class="btn waves-effect waves-light btn-secondary">작성 취소</button>
         						 		</div>
         						 	</form>
         						 </div>

@@ -122,7 +122,7 @@
                                         <tr role="row" class="odd">
                                     </table>
                                     <div class="btn-list float-left">
-                                    	<button type="button" class="btn waves-effect waves-light btn-secondary" onclick="location.href='pNoticeInsertForm.no'">추가</button>
+                                    	<button type="button" class="btn waves-effect waves-light" onclick="location.href='pNoticeInsertForm.no'">추가</button>
                                     </div>
                                     
                                     

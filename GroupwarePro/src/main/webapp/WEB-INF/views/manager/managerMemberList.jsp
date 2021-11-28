@@ -61,6 +61,7 @@
 							<div class="row" style="padding:50px;">
 								<div class="col-sm-12">
 									<div class="col-sm-12 col-md-6 col-lg-4">
+						 <!-- 
                         <div class="card">
                             <div class="card-body">
                                 <form>
@@ -86,6 +87,7 @@
                                 </form>
                             </div>
                         </div>
+                        -->
                     </div>
 									<table id="zero_config"
 										class="table table-striped table-bordered no-wrap dataTable"
@@ -192,75 +194,8 @@
 								</div>
 
 							</div>
-							<h3
-								class="card-title text-truncate text-dark font-weight-bold mb-1">
-								반려된 신청 목록</h3>
 
 
-							<div class="row" style="padding:50px;">
-								<div class="col-sm-12">
-									<table id="zero_config"
-										class="table table-striped table-bordered no-wrap dataTable"
-										role="grid" aria-describedby="zero_config_info">
-										<thead>
-											<tr role="row">
-												<th class="sorting_asc font-weight-bold" tabindex="0"
-													aria-controls="zero_config" rowspan="1" colspan="1"
-													aria-sort="ascending"
-													aria-label="Name: activate to sort column descending">주제명</th>
-												<th class="sorting font-weight-bold" tabindex="0"
-													aria-controls="zero_config" rowspan="1" colspan="1"
-													aria-label="Position: activate to sort column ascending">신청인</th>
-								
-												<th class="sorting font-weight-bold" tabindex="0"
-													aria-controls="zero_config" rowspan="1" colspan="1"
-													aria-label="Build -date activate to sort column ascending"
-													style="width: 60%;">주제 설명</th>
-											</tr>
-										</thead>
-										<tbody id="pros-table-body" class="pros-talbe-body">
-											<tr role="row" class="odd">
-												<td class="sorting_1"></td>
-												<td>)</td>
-												<td></td>
-												<td class="nav-item dropdown"><a
-													class="nav-link dropdown-toggle" href="javascript:void(0)"
-													data-toggle="dropdown" aria-haspopup="true"
-													aria-expanded="false"> <span
-														class="ml-1 d-none d-lg-inline"> <span
-															class="text-dark"> menu </span> <svg
-																xmlns="http://www.w3.org/2000/svg" width="24"
-																height="24" viewBox="0 0 24 24" fill="none"
-																stroke="currentColor" stroke-width="2"
-																stroke-linecap="round" stroke-linejoin="round"
-																class="feather feather-chevron-down svg-icon">
-                                								<polyline
-																	points="6 9 12 15 18 9">
-                                								</polyline>
-                                							</svg>
-													</span>
-												</a>
-													<div
-														class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-														<a class="dropdown-item" href="#"> 
-                                								<svg
-																xmlns="http://www.w3.org/2000/svg" width="24"
-																height="24" viewBox="0 0 24 24" fill="none"
-																stroke="currentColor" stroke-width="2"
-																stroke-linecap="round" stroke-linejoin="round"
-																class="feather feather-power svg-icon mr-2 ml-1">
-	                           								       <circle cx="12" cy="12" r="3"></circle>
-	                           								    </svg> 승인
-														</a> 
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-
-								</div>
-
-							</div>
 
 						</div>
 					</div>

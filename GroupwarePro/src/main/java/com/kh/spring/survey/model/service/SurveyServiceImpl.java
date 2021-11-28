@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.survey.model.dao.SurveyDao;
+import com.kh.spring.survey.model.vo.Essay;
 import com.kh.spring.survey.model.vo.Survey;
 
 
@@ -67,6 +68,23 @@ public class SurveyServiceImpl implements SurveyService {
 	public ArrayList<Survey> selectAbleSurveyList() {
 		
 		ArrayList<Survey> list = surveyDao.selectAbleSurveyList(session);
+		
+		return list;
+	}
+
+
+	@Override
+	public int insertQuestion(Essay essay) {
+		
+		int result = surveyDao.insertQuestion(session,essay);
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<Essay> selectQuestionList(String surveyNo) {	
+		
+		ArrayList<Essay> list = surveyDao.selectQuestionList(session,surveyNo);
 		
 		return list;
 	}

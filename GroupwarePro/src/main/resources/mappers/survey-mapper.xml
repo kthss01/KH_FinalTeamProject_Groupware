@@ -30,10 +30,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="questionNo" column="QUESTION_NO"/>
 	</resultMap>
 	
-	<resultMap id="EssayResultSet" type="Essay">
-		<id property="esNo" column="ES_NO"/>
-		<result property="questionNo" column="QUESTION_NO"/>
-		<result property="esText" column="ES_TEXT"/>
+	<resultMap id="EssayResultSet" type="com.kh.spring.survey.model.vo.Essay">
+		<id property="essayNo" column="ESSAY_NO"/>
+		<result property="sequence" column="SEQUENCE"/>
+		<result property="essayText" column="ESSAY_TEXT"/>
+		<result property="surveyNo" column="SURVEY_NO"/>
 	</resultMap>
 	
 	<resultMap id="optionalAnswerResultSet" type="OptionalAnswer">
@@ -114,5 +115,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set question_count = #{questionCount}
 	</update>
 	
+	<select id="selectQuestionList" parameterType="String" resultMap="EssayResultSet">
+		
+		SELECT *
+		FROM ESSAY
+		WHERE SURVEY_NO = #{surveyNo}
+		
+	</select>	
+	
+	<insert id="insertQuestion" parameterType="Essay">
+		
+		INSERT INTO ESSAY
+		VALUES(
+			SEQ_ESSAY.NEXTVAL,
+			#{sequence},
+			#{essayText},
+			#{surveyNo}
+		)
+	
+	</insert>
 	
 </mapper>
