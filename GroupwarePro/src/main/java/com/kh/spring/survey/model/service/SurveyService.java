@@ -8,7 +8,7 @@ import com.kh.spring.survey.model.vo.Survey;
 
 public interface SurveyService  {
 
-	ArrayList<Survey> selectSurveyList(PageInfo pageInfo);
+	ArrayList<Survey> selectSurveyList();
 
 	Survey selectSurvey(String surveyNo);
 

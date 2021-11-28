@@ -1,6 +1,7 @@
 package com.kh.spring.survey.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,10 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.kh.spring.common.PageInfo;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.survey.model.service.SurveyService;
 import com.kh.spring.survey.model.vo.Essay;
@@ -32,10 +33,10 @@ public class SurveyController {
 	private MemberService memberService;
 	
 	@RequestMapping("managerSurveyListForm.sv")
-	public String managerSurveyListForm(Model model, PageInfo pageInfo) {
+	public String managerSurveyListForm(Model model) {
 		
 		
-		ArrayList<Survey> list = surveyService.selectSurveyList(pageInfo);
+		ArrayList<Survey> list = surveyService.selectSurveyList();
 		model.addAttribute("list", list);
 		
 		System.out.println(list);
@@ -169,15 +170,18 @@ public class SurveyController {
 	
 	@RequestMapping(value="insertQuestion.sv",method=RequestMethod.POST)
 	@ResponseBody
-	public String insertQuestion(String essayText, String sequence, String surveyNo) {
-		
-		Essay essay = new Essay();
-		essay.setEssayText(essayText);
-		essay.setSequence(sequence);
-		essay.setSurveyNo(surveyNo);
-		
-		int result = surveyService.insertQuestion(essay);
+	public String insertQuestion(@RequestParam(value="essayText[]")List<String> list,  String essayText, String sequence, String surveyNo) {
+
 	
-		return "";
+		System.out.println("***** " + list);
+		
+//		Essay essay = new Essay();
+//		essay.setEssayText(essayText);
+//		essay.setSequence(sequence);
+//		essay.setSurveyNo(surveyNo);
+//		
+//		int result = surveyService.insertQuestion(essay);
+//	
+	return "";
 	}
 }

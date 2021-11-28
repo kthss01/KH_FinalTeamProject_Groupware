@@ -110,6 +110,7 @@
 						<div class="card">
 							<div class="card-body">
 								<button type="button" class="btn waves-effect btn-dark font-weight-bold addNewQuestion">  질문추가  + </button>			
+								<button id="shButton" type="button" class="btn waves-effect btn-dark font-weight-bold ">  질문한번에등록 </button>			
 								<div class="form-group">
 								</div>
 							</div>
@@ -145,10 +146,15 @@
 	</div>
 	<script>
 	
+
+	
 			var value = ${survey.questionCount} + 1;
 			var list = document.querySelector(".question-list");
 			var surveyNo = ${survey.surveyNo};
 			
+			var surveyArray = new Array();
+			var surveyNum = 0;
+					
 			$(function(){
 				
 				if(value==0){
@@ -171,29 +177,55 @@
 						</div>
 					</li>`;
 					value++;
-				})
-				
-				
-				$(".insertQuestion").click(function(){
 					
-					var essayText = $(this).prev().val;
-					var sequence = $(this).prev().prev().val;
-					
-					$.ajax({
-						url:'insertQuestion.sv',
-						type:'post',
-						data:{
-							essayText : essayText,
-							sequence : sequence,
-							surveyNo : surveyNo
-						},
-						success:function(){
-							alert("성공");
-							console.log("문제 삽입 성공!!");
+					$(".insertQuestion").click(function(){
+						var countInput = $("input[name=essayText]").length;
+						
+						var essayText = new Array(countInput);
+						
+						for(var i = 0; i<countInput; i++){
+							essayText[i] = $("input[name=essayText]").eq(i).val();
 						}
+						
+						console.log("essayText : ",essayText)
+						var sequence = $(this).prev().prev().val();
+
+					
+						$.ajax({
+							url:'insertQuestion.sv',
+							type:'post',
+							data:{
+								essayText : essayText
+
+							},
+							success:function(){
+								alert("성공");
+								console.log("문제 삽입 성공!!");
+							}
+						}) 
+						
+						
+				/* 					$.ajax({
+							url:'insertQuestion.sv',
+							type:'post',
+							data:{
+								essayText : essayText,
+								sequence : sequence,
+								surveyNo : surveyNo
+							},
+							success:function(){
+								alert("성공");
+								console.log("문제 삽입 성공!!");
+							}
+						}) */
+						
 					})
 					
+					
 				})
+				
+				
+
 				
 				$(".deleteQuestion").click(function(){
 					var essayText = $(this).prev().val;
