@@ -31,7 +31,7 @@
 	
 	
 	.disable{
-		disabled: true;
+		disable:true;
 	
 	}
 	
@@ -64,7 +64,9 @@
 							<label for="surveyContent"> 설문 내용 :</label>
 							<span class="card-subtitle font-weight-bold surveyContent" style="color:black;">${survey.surveyContent}</span>
 							<br>
-							<span class="card-subtitle font-weight-bold font-11 question-count"> 총 질문 수 :  ${survey.questionCount}</span>
+							<label for="question-count"> 총 질문 수 :</label>
+							<span class="card-subtitle font-weight-bold font-11 question-count">${survey.questionCount}</span>
+							<input type="text" class="questionCount=" value="${survey.questionCount}" readonly style="display:none">
 							<br>
 							<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">목록으로</button>
 				</div>
@@ -93,6 +95,8 @@
 						<div class="card-body input-field">
 							<label for="essayText">질문 :</label>
 							<input type="text" class="essayText" name="essayText" value="${q.essayText}"required>
+							<button type="button" class="btn waves-effect waves-light btn-secondary insertQuestion"> 질문 저장 </button>
+							<button type="button" class="btn waves-effect waves-light btn-secondary canceQuestion"> 질문 삭제 </button>
 							</div>
 						</div>
 					</li>
@@ -141,13 +145,11 @@
 	</div>
 	<script>
 	
-			var list = document.querySelector(".qList");
-			var value = document.querySelector(".question-no").value;
+			var value = ${survey.questionCount} + 1;
 			var list = document.querySelector(".question-list");
-			var surveyNo = document.querySelector(".surveyNo");
+			var surveyNo = ${survey.surveyNo};
 			
 			$(function(){
-				
 				
 				if(value==0){
 					value = 1;
@@ -159,9 +161,9 @@
 					list.innerHTML += `<li class="list-item">
 						<div class="card">
 					<h4 class="card-subtitle"> - `+ value +` 번 질문</h4>
-						<input type="text" class="sequence" name="sequence" value="`+value+`" readonly style="display:none;">
 						<div class="card-body input-field">
 							<label for="essayText">질문 : </label>
+							<input type="text" class="sequence" name="sequence" value="`+value+`" readonly style="display:none;">
 							<input type="text" class="essayText" name="essayText" placeholder="질문의 내용을 적어주십시오." required>
 							<button type="button" class="btn waves-effect waves-light btn-secondary insertQuestion"> 질문 저장 </button>
 							<button type="button" class="btn waves-effect waves-light btn-secondary canceQuestion"> 질문 삭제 </button>
@@ -175,7 +177,27 @@
 				$(".insertQuestion").click(function(){
 					
 					var essayText = $(this).prev().val;
-					var sequence = value;
+					var sequence = $(this).prev().prev().val;
+					
+					$.ajax({
+						url:'insertQuestion.sv',
+						type:'post',
+						data:{
+							essayText : essayText,
+							sequence : sequence,
+							surveyNo : surveyNo
+						},
+						success:function(){
+							alert("성공");
+							console.log("문제 삽입 성공!!");
+						}
+					})
+					
+				})
+				
+				$(".deleteQuestion").click(function(){
+					var essayText = $(this).prev().val;
+					var sequence = $(this).prev().prev().val;
 					
 					$.ajax({
 						url:'insertQuestion.sv',
@@ -189,11 +211,6 @@
 							console.log("문제 삽입 성공!!");
 						}
 					})
-					
-				})
-				
-				$(".deleteQuestion").click(function(){
-					
 					
 					
 				})
