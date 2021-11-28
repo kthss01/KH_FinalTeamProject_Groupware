@@ -14,7 +14,7 @@ import com.kh.spring.survey.model.vo.Survey;
 public class SurveyDao{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList<Survey> selectSurveyList(SqlSessionTemplate session,PageInfo pageInfo) {
+	public ArrayList<Survey> selectSurveyList(SqlSessionTemplate session) {
 		return (ArrayList)session.selectList("surveyMapper.selectSurveyList");
 	}
 	

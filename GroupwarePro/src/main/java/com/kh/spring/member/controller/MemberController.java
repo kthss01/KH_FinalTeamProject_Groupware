@@ -128,7 +128,6 @@ public class MemberController {
 		//오늘 근무정보 조회
 		Work w = hrService.selectWork(Integer.parseInt(loginUser.getEmpNo()));
 		model.addAttribute("w", w);
-		
 		model.addAttribute("loginUser", loginUser);
 		
 		return "main";
