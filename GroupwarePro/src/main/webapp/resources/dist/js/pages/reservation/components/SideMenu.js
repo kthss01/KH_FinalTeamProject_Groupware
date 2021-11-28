@@ -23,28 +23,29 @@ export default class SideMenu extends Component {
     this.$state = { ...this.$state, ...newState };
 
     const { event=null, assets=null, categories=null, cat=null, as=null, events=null } = newState;
-
-    // console.log(this.$state);
     const { edit, asset, category, list } = this.$children;
 
-    
+    // 예약 상태 변경시
     if (event) {
       edit.setState({ ...event });
+    // 자산 상태 변경시 (렌더링시)
     } else if (assets) {
       edit.setState({ assets });
       list.setState({ assets });
+    // 자산 상태 변경시
     } else if (as) {
       asset.setState({ asset: as })
+    // 자산목록 상태 변경시 (렌더링시)
     } else if (categories) {
       asset.setState({ categories });
       category.setState({ categories });
       list.setState({ categories });
+    // 자산목록 상태 변경시
     } else if (cat) {
       category.setState({ category: cat });
     } else {
       this.render();
     }
-
   }
 
   mounted () {
@@ -89,10 +90,7 @@ export default class SideMenu extends Component {
       asset: new SideMenuAsset($sideMenuAsset, {
         insertAsset, editAsset, deleteAsset,
       }),
-      list: new SideMenuList($sideMenuList, {
-
-      }),
+      list: new SideMenuList($sideMenuList, { }),
     }
-    
   }
 }

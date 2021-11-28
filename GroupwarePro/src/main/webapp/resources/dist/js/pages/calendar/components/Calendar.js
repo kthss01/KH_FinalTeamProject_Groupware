@@ -55,15 +55,13 @@ export default class Calendar extends Component {
       try {
           this.$calendar.getResources().forEach(async (resource) => { 
             const calNo = resource.id;
+            // axios를 이용하여 캘린더 번호에 맞는 일정 정보 가져오기
             const res = await axios.get(`selectEvtList.ca?calNo=${calNo}`);
-            // console.log(res);
 
             res.data.forEach((evt) => {
-              // console.log(evt);
-              
               const resource = this.$calendar.getResourceById(calNo);
-              // console.log(resource);
 
+              // fullcalendar에 맞게 일정 변경
               const event = {
                 id: evt.evtNo,
                 title: evt.name,
@@ -74,16 +72,10 @@ export default class Calendar extends Component {
                 overlap: evt.isHoliday === 'N',
                 backgroundColor: resource.extendedProps.color,
               };
-              // console.log(event);
-              // console.log(this.$calendar.getResources(), calNo);
 
               this.$calendar.addEvent(event);
               this.$calendar.getEventById(event.id).setResources([resource]);
-              // console.log(this.$calendar.getEventById(event.id));
             });
-
-            // console.log('events', this.$calendar.getEvents());
-            
           });
       } catch (err) {
         console.log(err);
@@ -95,8 +87,6 @@ export default class Calendar extends Component {
       try {
         const res = await axios.get(`selectCalList.ca?empNo=${empNo}`);
 
-        // console.log(res.data);
-
         res.data.forEach((calendar) => {
           this.$calendar.addResource({
             id: calendar.calNo,
@@ -106,7 +96,6 @@ export default class Calendar extends Component {
             },
           });
         });
-
       } catch (err) {
         console.log(err);
       }
@@ -118,8 +107,6 @@ export default class Calendar extends Component {
         const { renderCalendar } = this.$props;
   
         await this.readCalendars(empNo);
-  
-        // console.log(this.$calendar.getResources());
   
         renderCalendar({ calendars: this.$calendar.getResources() });
 
@@ -137,29 +124,22 @@ export default class Calendar extends Component {
     this.$state = { ...this.$state, ...newState };
 
     const { event=null, calendar=null, status, showCal=null } = newState;
-
     const { renderCalendar } = this.$props;
 
-    // console.log(status, calendar);
-
+    // 일정 상태 변경시
     if (event) {
-
-      // console.log(status);
-      // console.log(event);
-
       const resource = this.$calendar.getResourceById(event.calNo);
 
       switch (status) {
+        // 일정 추가
         case 'insert':
-          // console.log('insert', event);
-          // console.log(resource);
-
           this.$calendar.addEvent( {
             ...event,
             backgroundColor: resource.extendedProps.color,
           } );
           this.$calendar.getEventById(event.id).setResources([resource]);
         break;
+        // 일정 수정
         case 'update':
           const evt = this.$calendar.getEventById(event.id);
           evt.setProp("title", event.title);
@@ -168,17 +148,17 @@ export default class Calendar extends Component {
           evt.setAllDay(event.allDay);
           evt.setResources([resource]);
         break;
+        // 일정 삭제
         case 'delete':
           this.$calendar.getEventById(event.id).remove();
         break;
       }
-
-      // console.log(this.$calendar);
-
+    // 캘린더 상태 변경시 
     } else if (calendar) {
       const resource = this.$calendar.getResourceById(calendar.calNo);
 
       switch (status) {
+        // 캘린더 추가
         case 'insert':
           this.$calendar.addResource({
             id: calendar.calNo,
@@ -187,8 +167,8 @@ export default class Calendar extends Component {
               color: calendar.color,
             },
           });
-          
         break;
+        // 캘린더 수정
         case 'update':
           resource.setProp('title', calendar.name);
           resource.setExtendedProp('color', calendar.color);
@@ -197,6 +177,7 @@ export default class Calendar extends Component {
             event.setProp('backgroundColor', calendar.color);
           });
         break;
+        // 캘린더 삭제
         case 'delete':
           resource.getEvents().forEach((event) => {
             event.remove();
@@ -206,6 +187,7 @@ export default class Calendar extends Component {
       }
 
       renderCalendar({ calendars: this.$calendar.getResources() });
+    // 캘린더 보이기 상태 변경시
     } else if (showCal) {
       const { calNo, isShow } = showCal;
       const resource = this.$calendar.getResourceById(calNo);
@@ -216,11 +198,9 @@ export default class Calendar extends Component {
           event.setProp('display', isShow ? 'auto' : 'none');
         }
       });
-
     } else {
       this.render();
     }
-
   }
 
   render () {
@@ -231,19 +211,13 @@ export default class Calendar extends Component {
     this.mounted(); 
   }
 
-  mounted () {
-    
-  }
-
   setEvent() {
-
     const { selectEvent, editEvent } = this.$props;
 
     // 이벤트 생성
     this.$calendar.on('select', (info) => {
 
-      // console.log(info.title); // undefined
-
+      // App Component selectEvent 호출
       selectEvent({
         id: '',
         title: '',
@@ -255,16 +229,9 @@ export default class Calendar extends Component {
 
     // 이벤트 조회
     this.$calendar.on('eventClick', (info) => {
-   
-      // info.event.title = 'test'; // 이런식으로 변경 후 DB 변경
-      // info.event.setProp("title", "test");
-      // info.event.setProp("backgroundColor", "green");
-
-      // console.log(info.event);
-      // console.log(info.event.display);
       const resources = this.$calendar.getEventById(info.event.id).getResources();
-      // console.log(resources);
 
+      // App Component selectEvent 호출
       selectEvent({
         id: info.event.id,
         title: info.event.title,
@@ -279,8 +246,8 @@ export default class Calendar extends Component {
     this.$calendar.on('eventDrop', (info) => {
       const { id, title, start, end, allDay } = info.event;
       const { id: calNo } = info.event.getResources()[0];
-      // console.log('eventDrop', id, title, start, end, allDay, calNo);
 
+      // App Component editEvent 호출
       editEvent({
         id, title, start, end, allDay, calNo,
       });
@@ -290,8 +257,8 @@ export default class Calendar extends Component {
     this.$calendar.on('eventResize', (info) => {
       const { id, title, start, end, allDay } = info.event;
       const { id: calNo } = info.event.getResources()[0];
-      // console.log('eventResize', id, title, start, end, allDay, calNo);
 
+      // App Component editEvent 호출
       editEvent({
         id, title, start, end, allDay, calNo,
       });

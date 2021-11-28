@@ -51,7 +51,6 @@ export default class SideMenuCal extends Component {
     this.$target.innerHTML = this.template();
 
     if (calendars) {
-      // console.log(calendars);
       this.$target.innerHTML += calendars.map(calendar => {
         return this.calendarTemplate(calendar);
       }).join('');
@@ -63,11 +62,9 @@ export default class SideMenuCal extends Component {
   setEvent () {
     // 캘린더 템플릿 Hover Event
     this.addEvent('mouseover', '.calMenu', ({ target }) => {
-      // console.log(target, 'mouseover target');
       target.style.opacity= 1;
     });
     this.addEvent('mouseout', '.calMenu', ({ target }) => {
-      // console.log(target, 'mouseout target');
       target.style.opacity= 0.75;
     });
 
@@ -75,13 +72,10 @@ export default class SideMenuCal extends Component {
 
     // 캘린더 선택
     this.addEvent('click', '.calMenu', ({ target }) => {
-      // console.log(target, 'calMenu select');
       const calNo = target.previousElementSibling.value;
       const name = target.innerText;
       const color = target.style.backgroundColor;
       
-      // console.log(calNo, name, color);
-
       this.$target.querySelector('#calNo').value = calNo;
       this.$target.querySelector('#name').value = name;
       this.$target.querySelector('#color').value = rgb2hex(color);
@@ -98,36 +92,31 @@ export default class SideMenuCal extends Component {
 
     // 캘린더 추가
     this.addEvent('click', '#addCalendarBtn', ({ target }) => {
-      // console.log('addCalendarBtn');
-
       const calNo = this.$target.querySelector('#calNo').value;
       const name = this.$target.querySelector('#name').value;
       const color = this.$target.querySelector('#color').value;
       
-      // console.log(calNo, name, color);
-
+      // App Component insertCalendar 호출
       insertCalendar({ calNo, name, color });
     });
 
     // 캘린더 수정
     this.addEvent('click', '#editCalendarBtn', ({ target }) => {
-      // console.log('editCalendarBtn');
-
       const calNo = this.$target.querySelector('#calNo').value;
       const name = this.$target.querySelector('#name').value;
       const color = this.$target.querySelector('#color').value;
 
+      // App Component editCalendar 호출
       editCalendar({ calNo, name, color });
     });
 
     // 캘린더 삭제
     this.addEvent('click', '#deleteCalendarBtn', ({ target }) => {
-      // console.log('deleteCalendarBtn');
-
       const calNo = this.$target.querySelector('#calNo').value;
       const name = this.$target.querySelector('#name').value;
       const color = this.$target.querySelector('#color').value;
 
+      // App Component deleteCalendar 호출
       deleteCalendar({ calNo, name, color });
     });
 
@@ -135,11 +124,9 @@ export default class SideMenuCal extends Component {
 
     // 캘린더 보이기 (체크박스)
     this.addEvent('click', 'input[name="checkCal"]', ({ target }) => {
-      // console.log(target);
-      // console.log(target.checked);
       const calNo = target.parentElement.parentElement.nextElementSibling.value;
-      // console.log(calNo);
-      
+
+      // App Component showCalendar 호출
       showCalendar(calNo, target.checked);
     })
 
