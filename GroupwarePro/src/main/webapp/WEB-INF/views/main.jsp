@@ -175,7 +175,7 @@
                 <!-- Start Sales Charts Section -->
                 <!-- *************************************************************** -->
                 <div class="row">
-                    <div class="col-lg-8 col-md-12">
+                    <div class="col-lg-7 col-md-12">
                         <div class="card">
 							<div class="card-body">
                                 <h4 class="card-title mb-3 font-weight-bold">전사 공지사항</h4>
@@ -245,17 +245,29 @@
                             </div>
          				</div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card">
+                    <div class="col-lg-5 col-md-12">
+                        <div class="card"  style="padding:0px 10px 15px 10px;">
                             <div class="card-body">
+                            <div id="profileImg" 
+                            style="position:absolute; right:0; height:180px; width:180px; 
+                            margin-right:50px;
+                            background-image:url(${ pageContext.servletContext.contextPath }/resources/assets/images/adminImg.png);
+                            background-size:cover;
+                            " >
+                          
+                            
+                            </div>
+                                  <h4 class="card-title mb-3 font-weight-bold">근태관리</h4>
+                            
                                 <h4 id="todate" class="card-title mb-3 font-weight-bold"></h4>
                                 <p id="clock" style="font-size:40px"></p>
                                 <div>
-									<div class="d-flex" style="font-size: 12px">
+                                <br>
+									<div class="d-flex" style="font-size: 16px; ">
 										<p class="col-6" style="padding:0px;">출근시간</p>
 										<p class="col-6 text-right" style="padding:0px;" id="startTime"></p>
 									</div>
-									<div class="d-flex" style="font-size: 12px">
+									<div class="d-flex" style="font-size: 16px">
 										<p class="col-6" style="padding:0px;">퇴근시간</p>
 										<p class="col-6 text-right" style="padding:0px;" id="endTime"></p>
 									</div>
@@ -268,7 +280,7 @@
 									</div>
 									
 									<!-- 상태 설정버튼 -->
-									<div class="d-flex align-items-center">
+									<div class="d-flex align-items-center" style="margin-top:15px;">
 										<button type="button" id="selectStatus" class="btn btn-rounded btn-outline-primary col-12" style="margin:2px 2px 0px 2px;">근무상태변경<i data-feather="chevron-down" class="feather-icon"></i></button>
 									</div>
 										<div id="status" class="align-items-center" style="border: 1px solid rgb(95,118,232); border-radius: 10px; background-color:white;">
@@ -292,7 +304,7 @@
                 <!-- Start Location and Earnings Charts Section -->
                 <!-- *************************************************************** -->
                 <div class="row">
-                    <div class="col-md-6 col-lg-8">
+                    <div class="col-md-12 col-lg-7">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex align-items-start">
@@ -307,59 +319,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-md-12 col-lg-5">
                         <div class="card">
                             <div class="card-body">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="carousel-item"> <img class="img-fluid" src="${ pageContext.servletContext.contextPath }/resources/assets/images/slideImg1.jpg" alt="First slide"> </div>
+                                        <div class="carousel-item"> <img class="img-fluid" src="${ pageContext.servletContext.contextPath }/resources/assets/images/slideImg2.jpg" alt="Second slide"> </div>
+                                        <div class="carousel-item active"> <img class="img-fluid" src="${ pageContext.servletContext.contextPath }/resources/assets/images/slideImg3.jpg" alt="Third slide"> </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+                                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
+                                </div>
 
                             </div>
-                            <!-- <div class="card-body">
-                                <h4 class="card-title">Recent Activity</h4>
-                                <div class="mt-4 activity">
-                                    <div class="d-flex align-items-start border-left-line pb-3">
-                                        <div>
-                                            <a href="javascript:void(0)" class="btn btn-info btn-circle mb-2 btn-item">
-                                                <i data-feather="shopping-cart"></i>
-                                            </a>
-                                        </div>
-                                        <div class="ml-3 mt-2">
-                                            <h5 class="text-dark font-weight-medium mb-2">New Product Sold!</h5>
-                                            <p class="font-14 mb-2 text-muted">John Musa just purchased <br> Cannon 5M
-                                                Camera.
-                                            </p>
-                                            <span class="font-weight-light font-14 text-muted">10 Minutes Ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-start border-left-line pb-3">
-                                        <div>
-                                            <a href="javascript:void(0)"
-                                                class="btn btn-danger btn-circle mb-2 btn-item">
-                                                <i data-feather="message-square"></i>
-                                            </a>
-                                        </div>
-                                        <div class="ml-3 mt-2">
-                                            <h5 class="text-dark font-weight-medium mb-2">New Support Ticket</h5>
-                                            <p class="font-14 mb-2 text-muted">Richardson just create support <br>
-                                                ticket</p>
-                                            <span class="font-weight-light font-14 text-muted">25 Minutes Ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-start border-left-line">
-                                        <div>
-                                            <a href="javascript:void(0)" class="btn btn-cyan btn-circle mb-2 btn-item">
-                                                <i data-feather="bell"></i>
-                                            </a>
-                                        </div>
-                                        <div class="ml-3 mt-2">
-                                            <h5 class="text-dark font-weight-medium mb-2">Notification Pending Order!
-                                            </h5>
-                                            <p class="font-14 mb-2 text-muted">One Pending order from Ryne <br> Doe</p>
-                                            <span class="font-weight-light font-14 mb-1 d-block text-muted">2 Hours
-                                                Ago</span>
-                                            <a href="javascript:void(0)" class="font-14 border-bottom pb-1 border-info">Load More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+
                         </div>
                     </div>
                 </div>

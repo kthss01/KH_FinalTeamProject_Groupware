@@ -140,7 +140,9 @@
 											선택</label> <select class="custom-select mr-sm-2" id="selectCategory"
 											name="cno"
 											style="width: 150px; height: 33px; font-size: 13px;">
-											<c:forEach items="${ categoryList }" var="c"  varStatus="i">												
+											<c:forEach items="${ categoryList }" var="c"  varStatus="i">	
+											<c:if test="${c.status eq 'Y' }"	>
+																			
 			                                 	<c:choose>
 												    <c:when test="${cno eq c.cno}">
 			                                 			<option value="${c.cno}" selected>${c.cname}  </option>        	
@@ -148,9 +150,10 @@
 												    <c:otherwise>
 			                                 			<option value="${c.cno}">${c.cname} </option>        	
 												    </c:otherwise>
-												</c:choose>	                                 
+												</c:choose>	      
+												</c:if>	
+												                           
 			                                   </c:forEach>
-											
 											
 											
 											
