@@ -9,11 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.survey.model.service.SurveyService;
+import com.kh.spring.survey.model.vo.Essay;
 import com.kh.spring.survey.model.vo.Survey;
 
 @SessionAttributes("loginUser") 
@@ -84,7 +87,11 @@ public class SurveyController {
 	public String insertSurvey(String surveyNo, HttpSession session,Model model) {
 		
 		Survey survey = surveyService.selectSurvey(surveyNo);
+		ArrayList<Essay> list = surveyService.selectQuestionList(surveyNo);
+		
 		model.addAttribute("survey",survey);
+		model.addAttribute("list",list);
+		
 		session.setAttribute("msg", "설문 연동 성공");
 		
 		return "survey/surveyQuestionInsertForm";
@@ -95,8 +102,10 @@ public class SurveyController {
 	public String surveyQuestionForm(String surveyNo, Model model) {
 		
 		Survey survey = surveyService.selectSurvey(surveyNo);
+		ArrayList<Essay> list = surveyService.selectQuestionList(surveyNo);
 		
 		model.addAttribute("survey",survey);
+		model.addAttribute("list",list);
 		
 		return "survey/surveyQuestionForm";
 	}
@@ -157,4 +166,18 @@ public class SurveyController {
 		return "invalidateSurvey";
 	}
 	
+	
+	@RequestMapping(value="insertQuestion.sv",method=RequestMethod.POST)
+	@ResponseBody
+	public String insertQuestion(String essayText, String sequence, String surveyNo) {
+		
+		Essay essay = new Essay();
+		essay.setEssayText(essayText);
+		essay.setSequence(sequence);
+		essay.setSurveyNo(surveyNo);
+		
+		int result = surveyService.insertQuestion(essay);
+	
+		return "";
+	}
 }

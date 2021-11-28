@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="essayMapper">
+
+	<resultMap id="EssayResultSet" type="Essay">
+		<id property="essayNo" column="ESSAY_NO"/>
+		<result property="sequence" column="SEQUENCE"/>
+		<result property="essayText" column="ESSAY_TEXT"/>
+		<result property="surveyNo" column="SURVEY_NO"/>
+	</resultMap>
+	
+	<resultMap id="EssayAnswerResultSet" type="EssayAnswer">
+		<id property="esAnswerNo" column="ES_ANW_NO"/>
+		<result property="esNo" column="ES_NO"/>
+		<result property="esAnswer" column="ES_ANSWER"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
+	<select id="selectQuestionList" parameterType="String" resultMap="EssayResultSet">
+		
+		SELECT *
+		FROM ESSAY
+		WHERE SURVEY_NO = #{surveyNo}
+		
+	</select>	
+	
+	<insert id="insertQuestion" parameterType="Essay">
+		
+		INSERT INTO ESSAY
+		VALUES(
+			SEQ_ESSAY.NEXTVAL,
+			#{sequence},
+			#{essayText},
+			#{surveyNo}
+		)
+	
+	</insert>
+	
+	<delete id="deleteQuestion" parameterType="Essay">
+		DELETE FROM ESSAY
+		WHERE ESSAY_NO = #{essayNo}
+	</delete>
+	
+	
+	
+	
+</mapper>

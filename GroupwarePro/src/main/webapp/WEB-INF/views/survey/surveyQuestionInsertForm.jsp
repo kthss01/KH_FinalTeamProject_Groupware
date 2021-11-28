@@ -28,6 +28,14 @@
 		box-shadow: 2px 5px 3px 1pxrgba (0,0,0,.67);
 	}
 	
+	
+	
+	.disable{
+		disabled: true;
+	
+	}
+	
+	
 </style>
 </head>
 <body>
@@ -49,6 +57,7 @@
 			<div class="card">
 				<div class="card-body">
 						<h4 class="font-weight-bold card-title"> 질문 등록</h4>
+							<span class="surveyNo">${survey.surveyNo}</span>
 							<label for="surveyTitle"> 설문 제목 :</label>
 							<span class="card-subtitle font-weight-bold surveyTitle" style="color:black;">${survey.surveyTitle}</span>
 							<hr>
@@ -57,7 +66,7 @@
 							<br>
 							<span class="card-subtitle font-weight-bold font-11 question-count"> 총 질문 수 :  ${survey.questionCount}</span>
 							<br>
-							<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">작성 취소</button>
+							<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">목록으로</button>
 				</div>
 			</div>
 			<div class="table-responsive">
@@ -70,21 +79,20 @@
 				</div>
 			<div class="row">
 			<div class="col-sm-12">
-			
-					<input type="text" class="question-no" value="${survey.questionCount}" readonly style="display:none">
+					<br>
 					<ul class="list-unstyled question-list">
 					
-					<% int i = 0; %>
 					<c:forEach items="${list}" var="q">
 						<c:if test="${not empty list}">
 							
-					<li class="list-item">
+					<li class="list-item disable">
 						<div class="card">
-							<h4 class="card-subtitle"> <%=i++%>번 질문</h4>
-						<input type="text" class="sequence" name="sequence" value="">
+							<h4 class="card-subtitle"> ${q.sequence}번 질문</h4>
+						<input type="text" class="essayNo" name="essayNo" value="${q.essayNo}" readonly style="display:none;">
+ 						<input type="text" class="sequence" name="sequence" value="${q.sequence}" readonly style="display:none;">
 						<div class="card-body input-field">
-							<label for="essayText">질문 : ${q.esText} </label>
-							<input type="text" class="essayText" name="essayText" placeholder="질문의 내용을 적어주십시오." required>
+							<label for="essayText">질문 :</label>
+							<input type="text" class="essayText" name="essayText" value="${q.essayText}"required>
 							</div>
 						</div>
 					</li>
@@ -136,7 +144,7 @@
 			var list = document.querySelector(".qList");
 			var value = document.querySelector(".question-no").value;
 			var list = document.querySelector(".question-list");
-			
+			var surveyNo = document.querySelector(".surveyNo");
 			
 			$(function(){
 				
@@ -155,14 +163,49 @@
 						<div class="card-body input-field">
 							<label for="essayText">질문 : </label>
 							<input type="text" class="essayText" name="essayText" placeholder="질문의 내용을 적어주십시오." required>
-							<br>
-							<button type="button" class="btn waves-effect waves-light btn-secondary saveQuestion"> O </button>
-							<button type="button" class="btn waves-effect waves-light btn-secondary canceQuestion"> X </button>
+							<button type="button" class="btn waves-effect waves-light btn-secondary insertQuestion"> 질문 저장 </button>
+							<button type="button" class="btn waves-effect waves-light btn-secondary canceQuestion"> 질문 삭제 </button>
 							</div>
 						</div>
 					</li>`;
 					value++;
 				})
+				
+				
+				$(".insertQuestion").click(function(){
+					
+					var essayText = $(this).prev().val;
+					var sequence = value;
+					
+					$.ajax({
+						url:'insertQuestion.sv',
+						type:'post',
+						data:{
+							essayText : essayText,
+							sequence : sequence,
+							surveyNo : surveyNo
+						},
+						success:function(){
+							console.log("문제 삽입 성공!!");
+						}
+					})
+					
+				})
+				
+				$(".deleteQuestion").click(function(){
+					
+					
+					
+				})
+				
+				
+				
+				
+				
+				
+											
+				
+				
 								
 			})
 			

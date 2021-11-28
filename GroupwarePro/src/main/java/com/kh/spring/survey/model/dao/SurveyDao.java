@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.common.PageInfo;
+import com.kh.spring.survey.model.vo.Essay;
 import com.kh.spring.survey.model.vo.Survey;
 
 
@@ -38,6 +39,15 @@ public class SurveyDao{
 
 	public int updateSurvey(SqlSessionTemplate session, Survey survey) {
 		return session.update("surveyMapper.updateSurvey",survey);
+	}
+
+	public int insertQuestion(SqlSessionTemplate session, Essay essay) {
+		return session.insert("surveyMapper.insertQuestion",essay);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public ArrayList<Essay> selectQuestionList(SqlSessionTemplate session, String surveyNo) {
+		return (ArrayList)session.selectList("surveyMapper.selectQuestionList",surveyNo);
 	}
 	
 	

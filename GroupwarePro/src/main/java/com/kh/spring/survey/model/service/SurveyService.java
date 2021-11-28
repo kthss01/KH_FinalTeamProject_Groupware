@@ -3,6 +3,7 @@ package com.kh.spring.survey.model.service;
 import java.util.ArrayList;
 
 import com.kh.spring.common.PageInfo;
+import com.kh.spring.survey.model.vo.Essay;
 import com.kh.spring.survey.model.vo.Survey;
 
 public interface SurveyService  {
@@ -17,9 +18,11 @@ public interface SurveyService  {
 
 	int updateSurvey(Survey survey);
 
-	ArrayList<Survey> selectSurveyList();
-
 	ArrayList<Survey> selectAbleSurveyList();
+
+	int insertQuestion(Essay essay);
+
+	ArrayList<Essay> selectQuestionList(String surveyNo);
 
 
 
