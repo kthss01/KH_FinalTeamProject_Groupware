@@ -209,6 +209,56 @@ public class NoticeServiceImpl implements NoticeService {
 
 
 
+	@Override
+	public void deleteNotify(int nno) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.deleteNotify(sqlSession,nno);
+	}
+
+
+
+
+
+
+
+	@Override
+	public void deleteCall(int nno) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.deleteCall(sqlSession,nno);
+	}
+
+
+
+
+
+
+
+	@Override
+	public void updateTopBoard(int nno) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.updateTopBoard(sqlSession,nno);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int deleteTopBoard(int nno) {
+		// TODO Auto-generated method stub
+		int result=noticeDao.deleteTopBoard(sqlSession,nno);
+		
+		return result;
+	}
+
+
+
+
+
+
+
 	
 	
 	

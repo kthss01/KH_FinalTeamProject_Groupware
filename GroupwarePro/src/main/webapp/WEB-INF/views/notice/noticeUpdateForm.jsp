@@ -152,9 +152,9 @@
                                     
                                     
                                     	<div class="row">
-      										<div class="col-md-12 text-center font-weight-bold">
+      										<div class="col-md-12 font-weight-bold">
       											<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">To.</h3>
-      											
+      											<!--  -->
       											<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" style="width:100px;">
                                             <option selected>공지사항</option>
                                             
@@ -165,23 +165,25 @@
     
     
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-12">
       	<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">작성자</h3>
       	<input type="text" class="form-control" id="nametext"  name="empNo"
                                             value="${notice.empNo}" style="width:230px;" disabled>
       </div>
     </div>
     
+    <br>
+    
     
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-12">
       	<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">제목</h3>
       	<input type="text" class="form-control" id="nametext" name="nTitle" value="${notice.NTitle }" style="width:230px;">
       </div>
     </div>
-    
+    <br>
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-12">
       	<h3 class="page-title text-truncate text-dark font-weight-medium mb-1">파일첨부</h3>
       	
       	<input type="file" class="form-control-file" id="inputSuccess4" name="upfiles">
@@ -194,7 +196,7 @@
                             
       </div>
     </div>
-    
+    <br>
     <div class="row">
       <div class="col-md-12 text-center">
       	

@@ -99,6 +99,26 @@ public class NoticeDao {
 		return (ArrayList)sqlSession.selectList("noticeMapper.selectListCon",search);
 	}
 
+	public int deleteNotify(SqlSessionTemplate sqlSession, int nno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.deleteNotify",nno);
+	}
+
+	public int deleteCall(SqlSessionTemplate sqlSession, int nno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.deleteCall",nno);
+	}
+
+	public int updateTopBoard(SqlSessionTemplate sqlSession, int nno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.updateTopBoard",nno);
+	}
+
+	public int deleteTopBoard(SqlSessionTemplate sqlSession, int nno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.deleteTopBoard",nno);
+	}
+
 	
 
 }

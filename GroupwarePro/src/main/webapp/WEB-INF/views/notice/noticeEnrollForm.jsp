@@ -145,7 +145,10 @@
                                 
                                 
                                 <h4 class="card-title">작성자</h4>
-                                <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo()}" style="width:200px;">     
+                                <input type="text" class="" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo()}" style="width:200px;">
+                                <!--form-control is-valid  -->
+                                <br><br>
+                                     
                                 <!-- <div class="card-body">
                                 <h4 class="card-title">작성자</h4>
                                 <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
@@ -159,7 +162,8 @@
                             </div> -->
                             
                             <h4 class="card-title">제목</h4>
-                            <input type="text" class="form-control is-valid" id="inputSuccess2" name="nTitle" style="width:200px;">
+                            <input type="text" class="" id="inputSuccess2" name="nTitle" style="width:300px;">
+                            <br>
                             <br>
                             
                             
@@ -188,7 +192,7 @@
                                 
                                 
                                 <div class="form-group">
-		<textarea class="form-control" rows="10" name="nContent" required>${notice.NContent}</textarea>
+		<textarea class="form-control" rows="10" name="nContent" style="width:550px;" required>${notice.NContent}</textarea>
 	</div>
                                 
                                 
@@ -205,7 +209,7 @@
                             </div>
                         </div>-->
 								
-								<br><br>
+								<br>
 								
 								<h4 class="card-title">익명설정</h4>
                                 <fieldset class="radio">
@@ -233,23 +237,19 @@
                                     </label>
                                 </fieldset> -->   
                                 
-                                <br>
+                               
                                 
-                                <h4 class="card-title">알림</h4>
+                                <!-- <h4 class="card-title">알림</h4>
                                 <fieldset class="checkbox">
                                     <label>
                                         <input type="checkbox" value="">메일알림
                                     </label>
-                                </fieldset>
+                                </fieldset>-->
                                
-                                <br>
+                               
                                 
                                 <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="submit">등록</button> 
-                                            
-                                            
-                                       
-                                            
+                                            <button class="btn btn-outline-secondary btn-lg" type="submit">등록하기</button>
                              	</div>
                                 
                                 

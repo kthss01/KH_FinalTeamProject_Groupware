@@ -42,6 +42,11 @@ public class TblMealsDao {
 		return sqlSession.insert("tblMealsMapper.insertListTest",alldata);
 	}
 
+	public int insertTblMeals(SqlSessionTemplate sqlSession, TblMealsCal tmc) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("tblMealsMapper.insertTblMeals",tmc);
+	}
+
 	
 
 	
