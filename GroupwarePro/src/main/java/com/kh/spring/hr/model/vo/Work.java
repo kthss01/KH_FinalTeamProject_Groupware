@@ -12,6 +12,7 @@ public class Work {
 	private Date wDate;
 	private String startTime;
 	private String endTime;
+	private String totalTime;
 	private String strDate;
 	
 	public Work() {
@@ -57,5 +58,28 @@ public class Work {
 		this.empNo = empNo;
 		this.strDate = strDate;
 	}
+
+	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, Date totalTime, String strDate) {
+		super();
+		this.wNo = wNo;
+		this.empNo = empNo;
+		this.wDate = wDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.totalTime = totalTime;
+		this.strDate = strDate;
+	}
+
+	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, Date totalTime) {
+		super();
+		this.wNo = wNo;
+		this.empNo = empNo;
+		this.wDate = wDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.totalTime = totalTime;
+	}
+	
+	
 	
 }

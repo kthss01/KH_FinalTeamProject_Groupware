@@ -139,7 +139,14 @@
 												<span class="title">${w.title}<input type="hidden" value="${w.ENo }"></span>
 											</div>
 											<div class="col-1">
-												<span></span>
+												<c:choose>
+													<c:when test="${not empty w.originName }">
+														<span><a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${w.changeName}" download="${ w.originName }"><i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i></a></span>
+													</c:when>
+													<c:otherwise>
+														<span></span>
+													</c:otherwise>
+												</c:choose>
 											</div>
 											<div class="col-2">
 												<span>${w.drafterName }</span>

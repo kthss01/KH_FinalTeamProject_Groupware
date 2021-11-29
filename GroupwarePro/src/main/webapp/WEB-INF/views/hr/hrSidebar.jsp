@@ -111,6 +111,7 @@
 			<button type="submit" class="d-flex col-12 btn btn-outline-primary" style="border:none; border-bottom-left-radius: 9px; border-bottom-right-radius: 9px;" value="7" name="status">반차</button>
 		</div>
 		<input type="hidden" name="wNo" value="${w.WNo }">
+		<input type="hidden" name="main" value="0">
 	</form>
 	<br>
 	<!-- 근태관리, 내 근태 현황, 내 연차 내역, 내 인사정보 -->
@@ -141,6 +142,7 @@
 					$("#status").hide();
 				}
 			})
+			
 		})
 		
 		function printClock() {
@@ -155,7 +157,6 @@
 		    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds; //날짜를 출력해 줌
 		    
 		    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
-		    
 		    
 		    function addZeros(num, digit) { // 자릿수 맞춰주기
 			  	var zero = '';

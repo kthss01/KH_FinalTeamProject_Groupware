@@ -154,8 +154,8 @@
 							$(function(){
 								$(".title").click(function(){
 									
-									var eNo = $(this).children().val();
-									location.href="eDetail.ap?eNo=" + eNo;
+									var fNo = $(this).children().val();
+									location.href="eDetail.ap?fNo=" + fNo;
 									
 								})
 							})

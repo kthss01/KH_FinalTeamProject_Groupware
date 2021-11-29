@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="wDate" column="W_DATE"/>
 		<result property="startTime" column="START_TIME"/>
 		<result property="endTime" column="END_TIME"/>
+		<result property="totalTime" column="TOTAL_TIME"/>
 		<result property="strDate" column="STR_DATE"/>
 	</resultMap>
 	<resultMap id="workSInfoResultSet" type="WorkSInfo">
@@ -86,7 +87,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    CASE
 			        WHEN END_TIME = NULL THEN NULL
 			        ELSE SUBSTR(TO_TIMESTAMP(END_TIME, 'yyyy/MM/dd hh24:MI:ss'), 10, 8) 
-			    END END_TIME
+			    END END_TIME,
+			    TRUNC((TO_DATE(END_TIME, 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(START_TIME, 'YYYY-MM-DD HH24:MI:SS'))*24)
+			    || 'h '
+			    || TRUNC((TO_DATE(END_TIME, 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(START_TIME, 'YYYY-MM-DD HH24:MI:SS'))*24*60
+			    - TRUNC((TO_DATE(END_TIME, 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(START_TIME, 'YYYY-MM-DD HH24:MI:SS'))*24)*60) 
+			    || 'm '
+			    || TRUNC((TO_DATE(END_TIME, 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(START_TIME, 'YYYY-MM-DD HH24:MI:SS'))*24*60*60
+			    - TRUNC((TO_DATE(END_TIME, 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(START_TIME, 'YYYY-MM-DD HH24:MI:SS'))*24*60)*60)
+			    || 's' TOTAL_TIME
 			FROM
 			    WORK
 			WHERE EMP_NO = #{empNo}
@@ -97,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    NULL,
 			    NULL,
 			    YMD W_DATE,
+			    NULL,
 			    NULL,
 			    NULL
 			FROM 
