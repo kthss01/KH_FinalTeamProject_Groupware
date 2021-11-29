@@ -25,7 +25,19 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
+<style>
 
+
+	.question-list li{
+		counter-increment:list-number;
+	}
+	
+	.question-list li:before{
+		content:" - "counter(list-number)"번 질문";
+	}
+
+
+</style>
 <body>
     <div class="preloader">
         <div class="lds-ripple">
@@ -69,14 +81,12 @@
                         <div class="card">                        
                             <div class="card-body">
                                 <div class="row">
-                                	<!-- 공지로 등록 -->
                                 <h4 class="card-title font-weight-bold"> ${survey.surveyTitle} </h4>
         						 </div>
         						 <span class="card-subtitle font-9"> ${survey.surveyContent}</span>
         						 
-        						 <div class="row">
+        						 <div class="wrap">
         						 	
-        						 	<form class="input-form" action="insertAnswer.sv" method="POST">
         						 		<ul class="list-style-none question-list">
         						 		
         						 		<c:if test="${not empty list}">
@@ -84,25 +94,22 @@
         						 			<li class="list-item">
         						 				<div class="card">
         						 					<div class="card-body">
-        						 						<h4 class="card-title">${q.sequence}</h4>
+        						 						<input type="text" class="essayNo" name="essayNo" readonly style="display:none" value="${q.essayNo}">
         						 							<span>${q.essayText}</span>
-        						 						<input type="text" class="essayNo" value="${q.essayNo}" readonly style="display:none;">
-        						 						<br>
+         						 						<br>
         						 						<input type="text" class="answer" name="answer">
         						 					</div>
         						 				</div>
         						 			</li>
         						 			</c:forEach>
         						 		</c:if>
-        						 		
-        						 		
+										
         						 		</ul>
         						 		<hr>
-        						 		<div class="btn-list">
-        						 			<button type="submit" class="btn waves-effect waves-light btn-primary">작성 완료 </button>
-        						 			<button type="button" class="btn waves-effect waves-light btn-secondary">작성 취소</button>
+										<div class="btn-list">
+        						 			<button type="submit" class="btn waves-effect waves-light btn-primary confirm">작성 완료 </button>
+        						 			<button type="button" class="btn waves-effect waves-light btn-secondary" onclick="location.href='surveyListForm.sv'">작성 취소</button>
         						 		</div>
-        						 	</form>
         						 </div>
                             </div>
                         </div>
@@ -115,16 +122,60 @@
       
     
     <script>
-    	
-	
+    		
+    	var surveyNo = ${survey.surveyNo};
+    	var empNo =  ${loginUser.empNo};
+    
+    	$(function(){
+    		
+    		$(".confirm").click(function(){
+				
+					var question = $("input[name=essayNo]");
+    				var answer = $("input[name=answer]");
+					
+					console.log(answer);
+					
+					var answerList = new Array();
+					var questionList = new Array();
+					
+					for(var j = 0; j<question.length; j++){
+						questionList[j] = question.eq(j).val();
+					}
+					
+					for(var i = 0; i< answer.length; i++){
+						answerList[i] = answer.eq(i).val();
+					}
+					
+					console.log("questionList: ",questionList);
+					console.log("answerList: ",answerList);
+					console.log("surveyNo:", surveyNo);
+					console.log("empNo:", empNo);
+					
+					$.ajax({
+						url:'insertAnswer.sv',
+						type:'post',
+						data:{
+							questionList : questionList,
+							answerList : answerList,
+							surveyNo : surveyNo,
+							empNo : empNo
+						},
+						success:function(){
+							alert('답변 작성이 완료되었습니다. 참여해주셔서 감사합니다.')
+							//location.href="surveyListForm.sv";
+						}
+					}) 
+					
+				})
+				
+				
+			})
+    			
     
     </script>
     
     
     
-     <script>
-       
-    </script>
     
     
     

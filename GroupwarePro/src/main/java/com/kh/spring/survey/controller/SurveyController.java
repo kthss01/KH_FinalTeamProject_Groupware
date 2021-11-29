@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.survey.model.service.SurveyService;
 import com.kh.spring.survey.model.vo.Essay;
+import com.kh.spring.survey.model.vo.EssayAnswer;
 import com.kh.spring.survey.model.vo.Survey;
 
 @SessionAttributes("loginUser") 
@@ -99,8 +100,8 @@ public class SurveyController {
 	}
 	 
 
-	@RequestMapping("surveyQuestionForm.sv")
-	public String surveyQuestionForm(String surveyNo, Model model) {
+	@RequestMapping("surveyAnswerForm.sv")
+	public String surveyAnswerForm(String surveyNo, Model model) {
 		
 		Survey survey = surveyService.selectSurvey(surveyNo);
 		ArrayList<Essay> list = surveyService.selectQuestionList(surveyNo);
@@ -108,7 +109,7 @@ public class SurveyController {
 		model.addAttribute("survey",survey);
 		model.addAttribute("list",list);
 		
-		return "survey/surveyQuestionForm";
+		return "survey/surveyAnswerForm";
 	}
 	
 	
@@ -170,18 +171,58 @@ public class SurveyController {
 	
 	@RequestMapping(value="insertQuestion.sv",method=RequestMethod.POST)
 	@ResponseBody
-	public String insertQuestion(@RequestParam(value="essayText[]")List<String> list,  String essayText, String sequence, String surveyNo) {
-
-	
-		System.out.println("***** " + list);
+	public String insertQuestion(@RequestParam(value="essayList[]")List<String> essayList, String surveyNo) {
 		
-//		Essay essay = new Essay();
-//		essay.setEssayText(essayText);
-//		essay.setSequence(sequence);
-//		essay.setSurveyNo(surveyNo);
-//		
-//		int result = surveyService.insertQuestion(essay);
-//	
-	return "";
+		List<Essay> list = new ArrayList<Essay>(essayList.size());
+		
+		for ( int i = 0; i < essayList.size(); i++) {
+			Essay e = new Essay();
+			e.setSequence(Integer.toString(i));
+			e.setEssayText(essayList.get(i));
+			e.setSurveyNo(surveyNo);
+			
+			list.add(e);
+		}
+		
+     	int result = surveyService.insertQuestionList(list);
+     	int result2 = surveyService.updateSurveyQustionCount(surveyNo);
+		
+	return "survey/managerSurveyListForm";
 	}
+	
+
+	@RequestMapping(value="insertAnswer.sv",method=RequestMethod.POST)
+	public String insertAnswer(@RequestParam(value="questionList[]")List<String> essayNoList,@RequestParam(value="answerList[]")List<String> answerList,String surveyNo,String empNo){
+		
+		List<EssayAnswer> list = new ArrayList<EssayAnswer>();
+		
+		
+		for ( int i = 0; i < essayNoList.size(); i++) {
+			EssayAnswer ea = new EssayAnswer();
+			ea.setEmpNo(empNo);
+			ea.setEssayNo(essayNoList.get(i));
+			ea.setEssayAnswer(answerList.get(i));
+		
+			list.add(ea);
+		}
+		
+		System.out.println(list.get(0).getEmpNo());
+		System.out.println(list.get(0).getEssayAnswer());
+		System.out.println(list.get(0).getEssayAnswerNo());
+		System.out.println(list.get(0).getEssayNo());
+		System.out.println(list.get(0).getEmpNo());
+		
+		
+		int result = surveyService.insertAnswerList(list);
+		 
+		return "survey/managerSurveyListForm";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

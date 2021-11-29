@@ -1,6 +1,7 @@
 package com.kh.spring.survey.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.survey.model.dao.SurveyDao;
 import com.kh.spring.survey.model.vo.Essay;
+import com.kh.spring.survey.model.vo.EssayAnswer;
 import com.kh.spring.survey.model.vo.Survey;
 
 
@@ -87,6 +89,30 @@ public class SurveyServiceImpl implements SurveyService {
 		ArrayList<Essay> list = surveyDao.selectQuestionList(session,surveyNo);
 		
 		return list;
+	}
+
+	@Override
+	public int insertQuestionList(List<Essay> list) {
+		
+		int result = surveyDao.insertQuestionList(session,list);
+		
+		return result;
+	}
+
+	@Override
+	public int insertAnswerList(List<EssayAnswer> list) {
+		
+		int result = surveyDao.insertAnswerList(session,list);
+		
+		return result;
+	}
+
+	@Override
+	public int updateSurveyQustionCount(String surveyNo) {
+		
+		int result = surveyDao.updateSurveyQuestionCount(session,surveyNo);
+		
+		return result;
 	}
 
 

@@ -84,7 +84,7 @@
                             					<button type="button" class="btn waves-effect waves-light btn-success empCheck" id="empCheck">아이디 찾기</button><br>
                             					<br>
                             					<button type="button" class="btn waves-effect waves-light btn-secondary searchPwd" id="searchPwd">비밀번호 찾기</button>
-                            					<h6>비밀번호를 잊으셨나요?</h6>
+                            					<h6><a class="searchPwd" id="searchPwd" style="cursor:pointer;">비밀번호를 잊으셨나요?</a></h6>
                             				</div>
                             		</div>
                             			
@@ -116,6 +116,7 @@
                             				<input type="text" placeholder="아이디" class="loginId" name="loginId">
                             				</div>
                             				<button type="button" class="btn waves-effect waves-light btn-primary setNewPwd" style="margin: 5px 15px 5px 15px;"> 확인</button>
+                            				<button type="button" class="btn waves-effect waves-light btn-light canclePwd"> 뒤로 </button>
                             			</form>
                             			</div>
                             			<!-- 비밀번호 찾기 결과 영역 끝 -->
@@ -139,6 +140,7 @@
                             			<!-- 새로운 비밀번호 설정 영역  끝-->
                             			<br>
                             			<br>
+                            			 <a class="font-weight-bold align-self-center" href="${pageContext.servletContext.contextPath}" style="cursor:pointer;">로그인 화면으로</a>
                             			<pre style="color:rgba(0,0,0,0.58); padding:20px 10px 20px 10px; border:1px solid rgba(0,0,0,.48);">
 <b class="font-weight-bold">이용자 계정 정보 분실 및 복원에 대한 안내사항</b>
                       
@@ -164,7 +166,7 @@
                         		$(".empCheck").click(function(){
                         			var empNo = document.querySelector(".empNo").value;
                         			if(empNo=="" || empNo == null){
-                        				document.querySelector(".invalid-empNo-text").innerHTML = '사원 번호를 입력하십시오';           			
+                        				alert('사원 번호를 입력하십시오');           			
                         			} else{
                         			
                         			$.ajax({
@@ -217,6 +219,11 @@
                                      		}
                                      	}
                                 	 }); 
+                        		})
+                        		$(".canclePwd").click(function(){
+                        			document.querySelector(".idSearchWrapper").classList.remove("hidden");
+                        			document.querySelector(".resultForm").classList.add("hidden");
+                        			document.querySelector(".memberCheckWrapper").classList.add("hidden");
                         		})
                         	})
                         	

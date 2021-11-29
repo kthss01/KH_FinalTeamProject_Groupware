@@ -112,6 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*)
 		FROM EMPLOYEE
 		WHERE EMP_NO = #{empNo}
+		AND STATEMENT = 'Y'
 	</select>
 	
 	<select id="checkMemberId" parameterType="String" resultType="_int">

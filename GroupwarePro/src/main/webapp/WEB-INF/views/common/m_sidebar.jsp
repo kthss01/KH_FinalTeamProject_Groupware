@@ -87,6 +87,11 @@ color: white;
                        					<span> <b> 설문 관리 </b></span>
                        				</a>
                        			</li>
+                       			<li class="sidebar-item">
+                       				<a href="managerSurveyListForm.sv" class="sidebar-link">
+                       					<span> <b> 답변 관리 </b></span>
+                       				</a>
+                       			</li>
                        		</ul>
                                     
                         </li>

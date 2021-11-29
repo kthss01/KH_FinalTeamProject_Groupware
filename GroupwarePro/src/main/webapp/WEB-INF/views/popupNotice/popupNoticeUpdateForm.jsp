@@ -11,8 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
 
     <title>WeCanvas</title>
     <!-- Custom CSS -->
@@ -57,13 +55,13 @@
 									<li>
 									<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 제목 </h3>
-											<input type="text" class="form-control title" name="title" value="${pNotice.title}" required>
+											<input type="text" class="form-control title" name="title" value="${pNotice.title}" required maxlength="20">
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title font-weight-bold"> 내용 </h3>
-											<textarea class="form-control content" name="content" required>${pNotice.content}</textarea>
+											<textarea class="form-control content" name="content" required maxlength="300">${pNotice.content}</textarea>
 										</div>
                             		</li>
                             		<li>
@@ -89,7 +87,7 @@
                             		</li>
                             		<li>
                             			<div class="btn-list">
-                            				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#info-alert-modal" class="preview" onclick="">미리보기</button>
+                            				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#info-alert-modal" class="preview">미리보기</button>
                             				<!-- Right modal -->
                             				<button type="submit" class="btn btn-secondary">수정완료</button>
                             				<button type="button" class="btn btn-dark" onclick="history.back();">수정취소</button>
@@ -103,31 +101,22 @@
 		</div>
 		</div>
 		
-		<div id="info-alert-modal" class="modal fade" tabindex="-1" role="dialog"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-sm" style="float:left; margin:5%;">
-                                        <div class="modal-content">
-                                            <div class="modal-body p-4">
-                                                <div class="text-center">
-                                                    <i class="dripicons-information h1 text-info"></i>
-                                                    <h4 class="mt-2" style="overflow:auto; word-break:break-all;">${pNotice.title}</h4>
-                                                    <hr>
-                                                    <div style="overflow:auto; word-break:break-all;">
-														${pNotice.content}                                         
-                                                    </div>
-                                                    <hr>
-                                                    <br>
-                                                    <span class="font-10 font-weight-bold">미리보기 화면 입니다</span>
-                                                    <br>
-                                                    <div class="modal-footer float-left">
-                                                    <button type="button" class="btn btn-info my-2 font-10" data-dismiss="modal">닫기</button>
-													<button type="button" class="btn btn-primary font-10" data-dismiss="modal"> 하루 동안 보이지 않기</button>
-	                                                </div>                                                    
-                                                </div>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+		<div class="toast fade" role="alert" data-autohide="false" aria-live="assertive" aria-atomic="true" id="toastBody">
+                        <div class="toast-header">
+                            <i class="icon-bulb" style="width:100%; left:1; position:absolute;"></i>
+                            <strong class="mr-auto pTitle"> \${p.title} </strong>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        	    <span  id="closeToast" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body pContent">
+                        	\${p.content}
+                        	<hr>
+                        <a class="block-a-day" style="text-decoration:none; cursor:pointer;">하루동안 보지 않기</a>
+                        </div>
+       </div>
+       
+       
 	</div>
 	</div>
 	</div>
@@ -136,6 +125,33 @@
 		
 	
 		$(function(){
+			
+				
+			$(".preview").click(function(){
+					
+					$(".pTitle").text($(".title").val());
+					$(".pContent").text($(".content").val());
+					
+					$(".toast").addClass("show");
+					
+					
+					
+					$("#closeToast").on("click",function(){
+						$("#toastBody").removeClass("show");
+					})
+				})
+				
+			
+			function addZero(data){
+				var result='';
+				if(data < 10){
+					result='0'+data.toString();
+					}else{
+					result=data;
+					}
+				return result;
+				}
+			
 			<!-- 기본 날짜 설정 -->
 			var sysdate = new Date();
 			
@@ -165,26 +181,15 @@
 			$(".startDate").attr('min',startDefaultMin);
 			$(".startDate").attr('max',startDefaultMax);
 			$(".finishDate").attr('min',finishDefaultMin);
-			
+					
 		})
 		
 		<!-- 날짜 양식을 0000 -00 - 00 으로 맞추기 위해 10일 또는 10월 보다 아래일 경우 0을 붙이는 함수 -->
-		function addZero(data){
-			var result='';
-			if(data < 10){
-				result='0'+data.toString();
-			}else{
-				result=data;
-			}
-			return result;
-		}
 
 		
 		
 		
  	</script>
-	
-	
 	
 	
 	
