@@ -1,12 +1,14 @@
 package com.kh.spring.survey.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.survey.model.vo.Essay;
+import com.kh.spring.survey.model.vo.EssayAnswer;
 import com.kh.spring.survey.model.vo.Survey;
 
 
@@ -48,6 +50,19 @@ public class SurveyDao{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ArrayList<Essay> selectQuestionList(SqlSessionTemplate session, String surveyNo) {
 		return (ArrayList)session.selectList("surveyMapper.selectQuestionList",surveyNo);
+	}
+
+	public int insertQuestionList(SqlSessionTemplate session, List<Essay> list) {
+		return session.insert("surveyMapper.insertQuestionList",list);
+	}
+
+	public int insertAnswerList(SqlSessionTemplate session, List<EssayAnswer> list) {
+		return session.insert("surveyMapper.insertAnswerList",list);
+	}
+
+
+	public int updateSurveyQuestionCount(SqlSessionTemplate session, String surveyNo) {
+		return session.update("surveyMapper.updateSurveyQuestionCount",surveyNo);
 	}
 	
 	

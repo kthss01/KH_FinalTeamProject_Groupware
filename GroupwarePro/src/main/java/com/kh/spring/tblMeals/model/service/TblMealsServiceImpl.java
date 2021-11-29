@@ -63,6 +63,13 @@ public class TblMealsServiceImpl implements TblMealsService {
 		
 		return result;
 	}
+
+	@Override
+	public void insertTblMeals(TblMealsCal tmc) {
+		// TODO Auto-generated method stub
+		int result=tblMealsDao.insertTblMeals(sqlSession,tmc);
+		
+	}
 	
 	
 	

@@ -206,6 +206,11 @@ public class MemberController {
 	@ResponseBody
 	public String checkMember(String empNo) {
 		String result = memberService.checkMember(empNo) > 0 ? "valid" : "invalid";
+		
+		if (memberService.searchLoginId(empNo) != null) {
+			result = "inUse";
+		}
+		
 		return result;
 	}
 	

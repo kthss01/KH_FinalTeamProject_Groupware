@@ -248,10 +248,17 @@
                                      	success : function(data){
                                      		var result = data;
                                      		if ( result == "valid"){
+                                     			document.querySelector(".empNo").classList.remove("is-invalid");
 	                                     		document.querySelector(".empNo").classList.add("is-valid");
 	                                     		document.querySelector(".valid-empNo-text").innerHTML = '사원 번호가 정상적으로 확인되었습니다.';
 	                                     		document.querySelector(".invalid-empNo-text").innerHTML = '';
-                                     		}else{
+                                     		}else if(result = "inUse"){
+                                     			document.querySelector(".empNo").classList.remove("is-valid");
+                                     			document.querySelector(".empNo").classList.add("is-invalid");
+                                     			document.querySelector(".valid-empNo-text").innerHTML = '';
+                                     			document.querySelector(".invalid-empNo-text").innerHTML = '이미 해당 사원 정보로 생성된 계정이 존재합니다.';
+                                     		}else {
+                                     			document.querySelector(".empNo").classList.remove("is-valid");
                                      			document.querySelector(".empNo").classList.add("is-invalid");
                                      			document.querySelector(".valid-empNo-text").innerHTML = '';
                                      			document.querySelector(".invalid-empNo-text").innerHTML = '퇴사한 사원 또는 존재하지 않는 사원입니다.';
