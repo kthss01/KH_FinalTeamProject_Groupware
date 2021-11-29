@@ -35,6 +35,13 @@
 	
 	}
 	
+	.question-list li{
+		counter-increment:list-number;
+	}
+	
+	.question-list li:before{
+		content:" - "counter(list-number)"번 질문";
+	}
 	
 </style>
 </head>
@@ -68,7 +75,6 @@
 							<span class="card-subtitle font-weight-bold font-11 question-count">${survey.questionCount}</span>
 							<input type="text" class="questionCount=" value="${survey.questionCount}" readonly style="display:none">
 							<br>
-							<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">목록으로</button>
 				</div>
 			</div>
 			<div class="table-responsive">
@@ -89,14 +95,12 @@
 							
 					<li class="list-item disable">
 						<div class="card">
-							<h4 class="card-subtitle"> ${q.sequence}번 질문</h4>
-						<input type="text" class="essayNo" name="essayNo" value="${q.essayNo}" readonly style="display:none;">
- 						<input type="text" class="sequence" name="sequence" value="${q.sequence}" readonly style="display:none;">
 						<div class="card-body input-field">
 							<label for="essayText">질문 :</label>
-							<input type="text" class="essayText" name="essayText" value="${q.essayText}"required>
-							<button type="button" class="btn waves-effect waves-light btn-secondary insertQuestion"> 질문 저장 </button>
-							<button type="button" class="btn waves-effect waves-light btn-secondary canceQuestion"> 질문 삭제 </button>
+							<input type="text" class="essayText" name="essayText" value="${q.essayText}"required maxlength="200">
+							<input type="text" class="essayNo" name="essayNo" value="${q.essayNo}" readonly style="display:none;">
+ 							<input type="text" class="sequence" name="sequence" value="${q.sequence}" readonly style="display:none;">	
+							<button type="button" class="btn waves-effect waves-light deleteQuestion"> <i class="icon-close"></i> </button>
 							</div>
 						</div>
 					</li>
@@ -109,9 +113,17 @@
 					</ul>
 						<div class="card">
 							<div class="card-body">
-								<button type="button" class="btn waves-effect btn-dark font-weight-bold addNewQuestion">  질문추가  + </button>			
-								<button id="shButton" type="button" class="btn waves-effect btn-dark font-weight-bold ">  질문한번에등록 </button>			
-								<div class="form-group">
+								<div class="btn-list">
+								<button type="button" class="btn waves-effect btn-dark font-weight-bold addNewQuestion">  질문추가  + </button>	
+								<c:choose>
+									<c:when test="${survey.questionCount ne '0'}">
+										<button  type="button" class="btn waves-effect btn-success font-weight-bold update"> 수정 </button>
+									</c:when>
+									<c:otherwise>
+										<button type="button" class="btn waves-effect btn-success font-weight-bold insertAllQuestion" id="insertAllQuestion"> 전체 저장 / 완료 </button>
+									</c:otherwise>
+								</c:choose>
+								<button id="shButton" type="button" class="btn waves-effect btn-light font-weight-bold" onclick="history.back()"> 편집 취소 </button>
 								</div>
 							</div>
 						</div>	
@@ -148,7 +160,7 @@
 	
 
 	
-			var value = ${survey.questionCount} + 1;
+			var q_count = ${survey.questionCount};
 			var list = document.querySelector(".question-list");
 			var surveyNo = ${survey.surveyNo};
 			
@@ -157,98 +169,71 @@
 					
 			$(function(){
 				
-				if(value==0){
-					value = 1;
-				}
-				
 				$(".addNewQuestion").click(function(){
-					
-					console.log("value : " + value);
 					list.innerHTML += `<li class="list-item">
 						<div class="card">
-					<h4 class="card-subtitle"> - `+ value +` 번 질문</h4>
 						<div class="card-body input-field">
 							<label for="essayText">질문 : </label>
-							<input type="text" class="sequence" name="sequence" value="`+value+`" readonly style="display:none;">
-							<input type="text" class="essayText" name="essayText" placeholder="질문의 내용을 적어주십시오." required>
-							<button type="button" class="btn waves-effect waves-light btn-secondary insertQuestion"> 질문 저장 </button>
-							<button type="button" class="btn waves-effect waves-light btn-secondary canceQuestion"> 질문 삭제 </button>
+							<input type="text" class="essayText" name="essayText" placeholder="내용을 입력하십시오." required maxlength="150">
+							<button type="button" class="btn waves-effect waves-light deleteQuestion"> <i class="icon-close"></i></button>
 							</div>
 						</div>
 					</li>`;
-					value++;
+					q_count++;
+					$(".question-count").text(q_count);
 					
-					$(".insertQuestion").click(function(){
-						var countInput = $("input[name=essayText]").length;
+					
+					
+					$(".deleteQuestion").click(function(){
+							
+					var target = $(this).parent().parent().parent().remove();
+					q_count--;
+					$(".question-count").text(q_count);
+					console.log(target);
+					
+				})
+					
+					
+				})
+				
+				$("#insertAllQuestion").click(function(){
+						var text = $("input[name=essayText]");
 						
-						var essayText = new Array(countInput);
+						console.log(text);
 						
-						for(var i = 0; i<countInput; i++){
-							essayText[i] = $("input[name=essayText]").eq(i).val();
+						var essayList = new Array();
+						
+						for(var i = 0; i< text.length; i++){
+							essayList[i] = text.eq(i).val();
 						}
 						
-						console.log("essayText : ",essayText)
-						var sequence = $(this).prev().prev().val();
-
-					
+						
+						console.log("essayList: ",essayList);
+						
+						
 						$.ajax({
 							url:'insertQuestion.sv',
 							type:'post',
 							data:{
-								essayText : essayText
-
-							},
-							success:function(){
-								alert("성공");
-								console.log("문제 삽입 성공!!");
-							}
-						}) 
-						
-						
-				/* 					$.ajax({
-							url:'insertQuestion.sv',
-							type:'post',
-							data:{
-								essayText : essayText,
-								sequence : sequence,
+								essayList : essayList,
 								surveyNo : surveyNo
 							},
 							success:function(){
-								alert("성공");
-								console.log("문제 삽입 성공!!");
+								location.href="managerSurveyListForm.sv";
 							}
-						}) */
+						}) 
 						
 					})
-					
-					
-				})
 				
-				
-
 				
 				$(".deleteQuestion").click(function(){
-					var essayText = $(this).prev().val;
-					var sequence = $(this).prev().prev().val;
-					
-					$.ajax({
-						url:'insertQuestion.sv',
-						type:'post',
-						data:{
-							essayText : essayText,
-							sequence : sequence,
-							surveyNo : surveyNo
-						},
-						success:function(){
-							console.log("문제 삽입 성공!!");
-						}
-					})
-					
+							
+					var target = $(this).parent().parent().parent().remove();
+					q_count--;
+					$(".question-count").text(q_count);
+					console.log(target);
 					
 				})
-				
-				
-				
 				
 				
 				

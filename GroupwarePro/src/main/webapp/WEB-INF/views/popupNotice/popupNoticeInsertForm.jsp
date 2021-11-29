@@ -55,13 +55,13 @@
 									<li>
 									<div class="card-body">
 											<h3 class="card-title"> 제목 </h3>
-											<input type="text" class="form-control title" name="title" required>
+											<input type="text" class="form-control title" name="title" required maxlength="20">
 										</div>
                             		</li>
                             		<li>
                             			<div class="card-body">
 											<h3 class="card-title"> 내용 </h3>
-											<textarea class="form-control content" rows="3" name="content" required></textarea>
+											<textarea class="form-control content" rows="3" name="content" required maxlength="300"></textarea>
 										</div>
                             		</li>
                             		<li>
@@ -135,18 +135,19 @@
 	
 	<script>
 		
+	
+	
 		$(function(){
-			$(".preview").click(function(){
-				
-				
-				
-				
-			})
+			function addZero(data){
+				var result='';
+				if(data < 10){
+					result='0'+data.toString();
+					}else{
+					result=data;
+					}
+				return result;
+				}
 			
-		})
-	
-	
-		$(function(){
 			<!-- 기본 날짜 설정 -->
 			var sysdate = new Date();
 			
@@ -160,8 +161,7 @@
 			<!-- 마감일 최소 날짜 값은 최소 입력 날짜의 1일 이후로 설정-->
 			var finishDefaultMin = year + '-' + addZero(month) + '-' + addZero(date+1);
 			
-			<!-- 공지 시작일 지정은 최소 날짜로부터 6개월 이후까지
-				 만약 6개월 뒤가 2월일 경우 2월의 마지막 날짜 까지로 지정-->
+	
 			if(sysdate.getMonth()+1 >= 7 ) { 
 				year = year+1;
 				month = 6 - 12 - sysdate.getMonth();
@@ -176,26 +176,10 @@
 			
 			$(".startDate").attr('min',startDefaultMin);
 			$(".startDate").attr('max',startDefaultMax);
-			document.querySelector(".startDate").min = startDefaultMin;
-			document.querySelector(".startDate").min = startDefaultMax;
-			document.querySelector(".startDate").value = startDefaultMin;
-				
-			document.querySelector(".finishDate").min = startDefaultMin;
-			
 			$(".finishDate").attr('min',finishDefaultMin);
-			
 		})
 		
 		<!-- 날짜 양식을 0000 -00 - 00 으로 맞추기 위해 10일 또는 10월 보다 아래일 경우 0을 붙이는 함수 -->
-		function addZero(data){
-			var result='';
-			if(data < 10){
-				result='0'+data.toString();
-			}else{
-				result=data;
-			}
-			return result;
-		}
 
 		
 		
@@ -214,19 +198,15 @@
     <!-- apps -->
     <!-- apps -->
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/app-style-switcher.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/feather.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/d3.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/pages/dashboards/dashboard1.min.js"></script>
 	
 </body>
 </html>

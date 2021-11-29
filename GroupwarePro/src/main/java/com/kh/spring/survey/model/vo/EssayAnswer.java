@@ -14,9 +14,9 @@ import lombok.ToString;
 @ToString
 public class EssayAnswer {
 	
-	String esAnswerNo;
-	String esNo;
-	String esAnswer;
+	String essayAnswerNo;
+	String essayNo;
+	String essayAnswer;
 	String empNo;
 	
 }
