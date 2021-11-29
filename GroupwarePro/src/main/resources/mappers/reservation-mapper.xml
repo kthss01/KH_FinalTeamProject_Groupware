@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectAsList" resultMap="assetResultSet">
 	
-		SELECT * 
+		SELECT AS_NO, NAME "AS_NAME", COLOR, ASC_NO
 		FROM ASSET2 
 		WHERE IS_DELETE = 'N'
 		ORDER BY AS_NO
