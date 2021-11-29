@@ -41,6 +41,7 @@
 
     <script>
     	const empNo = ${ loginUser.empNo };
+    	console.log(`${ loginUser }`);
     </script>
 
 </head>
@@ -249,8 +250,8 @@
                         <div class="card"  style="padding:0px 10px 15px 10px;">
                             <div class="card-body">
                             <div id="profileImg" 
-                            style="position:absolute; right:0; height:180px; width:180px; 
-                            margin-right:50px;
+                            style="position:absolute; right:0; height:140px; width:130px; 
+                            margin-right:15px;
                             background-image:url(${ pageContext.servletContext.contextPath }/resources/assets/images/adminImg.png);
                             background-size:cover;
                             " >
