@@ -99,7 +99,7 @@ public class EApprovalController {
 		
 		//업로드 파일이 있으면
 		if(!file.getOriginalFilename().equals("")) {
-			System.out.println("33333");
+			
 			String changeName = saveFile(file, request);
 			
 			if(changeName != null) {
@@ -145,15 +145,24 @@ public class EApprovalController {
 	}
 	
 	@RequestMapping(value="update.ap", method = { RequestMethod.POST })
-	public ModelAndView updateEApproval(EApproval ea, ModelAndView mv) {
+	public ModelAndView updateEApproval(EApproval ea, HttpServletRequest request, ModelAndView mv, @RequestParam(name="uploadFile", required=false) MultipartFile file) {
+		System.out.println("=========update==========");
+		System.out.println(ea);
+		
+		//업로드 파일이 있으면
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String changeName = saveFile(file, request);
+			
+			if(changeName != null) {
+				ea.setOriginName(file.getOriginalFilename());
+				ea.setChangeName(changeName);
+			}
+		}		
 		
 		//문서 수정하기
 		eApprovalService.updateEApproval(ea);
 		String eNo = ea.getENo();
-		
-		System.out.println("====update====");
-		System.out.println(ea);
-		
 		
 		ea = eApprovalService.selectEApproval(eNo);
 		mv.addObject("ea", ea).setViewName("eApproval/eApprDetailView");

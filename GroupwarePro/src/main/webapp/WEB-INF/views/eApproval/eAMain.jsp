@@ -7,10 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <style>
-	.title, .eNo, .statusHeader{
-		overflow : hideen;
-		white-space : nowrap; 
-		text-overflow : ellipsis;
+	.title, .statusHeader, .eNo {
+		width:100%;
+		display: inline-block;  
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	
 	.title:hover{
@@ -22,6 +24,7 @@
 	}
 	
 	.status{
+		width: 60px;
 		color: white;
 		font-weight: bold;
 		border : rgba(0,0,0,.125);
@@ -155,7 +158,14 @@
 												<span class="title">${aw.title}<input type="hidden" value="${aw.ENo }"></span>
 											</div>
 											<div class="col-2">
-												<span>0</span>
+												<c:choose>
+													<c:when test="${not empty aw.originName }">
+														<span><a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${aw.changeName}" download="${ aw.originName }"><i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i></a></span>
+													</c:when>
+													<c:otherwise>
+														<span></span>
+													</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 									</c:forEach>
@@ -187,10 +197,10 @@
 								<div class="col-4">
 									<span>제목</span>
 								</div>
-								<div class="col-2">
+								<div class="col-1">
 									<span>첨부</span>
 								</div>
-								<div class="col-1">
+								<div class="col-2 text-center">
 									<span class="statusHeader">결재상태</span>
 								</div>
 							</div>
@@ -207,10 +217,17 @@
 											<div class="col-4">
 												<span class="title">${d.title}<input type="hidden" value="${d.ENo }"></span>
 											</div>
-											<div class="col-2">
-												<span><!-- <i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i>1 --></span>
+											<div class="col-1">
+												<c:choose>
+													<c:when test="${not empty d.originName }">
+														<span><a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${d.changeName}" download="${ d.originName }"><i data-feather="paperclip" class="feather-icon" style="width:13px; height:13px;"></i></a></span>
+													</c:when>
+													<c:otherwise>
+														<span></span>
+													</c:otherwise>
+												</c:choose>
 											</div>
-											<div class="col-1 text-center">
+											<div class="col-2 text-center">
 												<span class="status" style="background-color: ${d.SColor };">${d.SName }</span>
 											</div>
 										</div>
@@ -244,10 +261,10 @@
 								<div class="col-3">
 									<span>제목</span>
 								</div>
-								<div class="col-3">
+								<div class="col-2">
 									<span>문서번호</span>
 								</div>
-								<div class="col-1">
+								<div class="col-2 text-center">
 									<span class="statusHeader">결재상태</span>
 								</div>
 							</div>
@@ -264,10 +281,10 @@
 											<div class="col-3">
 												<span class="title">${f.title }<input type="hidden" value="${f.ENo }"></span>
 											</div>
-											<div class="col-3">
+											<div class="col-2">
 												<span class="eNo">${f.ENo }</span>
 											</div>
-											<div class="col-1 text-center">
+											<div class="col-2 text-center">
 												<span class="status" style="background-color: ${f.SColor };">${f.SName }</span>
 											</div>
 										</div>

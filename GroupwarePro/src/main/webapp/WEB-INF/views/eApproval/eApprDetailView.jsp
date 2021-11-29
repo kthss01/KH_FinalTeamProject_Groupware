@@ -100,16 +100,16 @@
 						<form method="POST" enctype="multipart/form-data">
 							<div class="row" style="margin:10px;">
 							<c:choose>
-								<c:when test="${approverId == loginUser && sCode == 1}">
+								<c:when test="${approverId == loginUser && (sCode == 1 || sCode == 6)}">
 									<button type="submit" formaction="approve.ap" name="sCode" value="2" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">결재</button>
 									<button type="submit" formaction="approve.ap" name="sCode" value="3" class="btn waves-effect waves-light btn-outline-secondary">반려</button>
 								</c:when>
 								<c:when test="${drafterId == loginUser && sCode == 1}">
-									<button type="submit" formaction="update.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">수정</button>
+									<button type="submit" formaction="update.ap" name="sCode" value="1" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">수정</button>
 									<button type="submit" formaction="delete.ap" class="btn waves-effect waves-light btn-outline-secondary">취소</button>
 								</c:when>
 								<c:when test="${drafterId == loginUser && ea.SCode == 3}">
-									<button type="submit" formaction="insertEApproval.ap" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">재기안</button>
+									<button type="submit" formaction="update.ap" name="sCode" value="6" class="btn waves-effect waves-light btn-outline-secondary" style="margin-right: 10px;">재기안</button>
 								</c:when>
 							</c:choose>
 							</div>

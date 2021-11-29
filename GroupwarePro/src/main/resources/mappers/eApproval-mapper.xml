@@ -63,30 +63,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM
 			(
 			    SELECT 
-						A.E_NO,
-						A.S_CODE,
-						D.S_NAME,
-						A.F_NO,
-						E.F_NAME,
-						A.TITLE,
-						A.CONTENT,
-						A.DRAFTER_ID,
-						B.EMP_NAME DRAFTER_NAME,
-						A.DRAFT_DATE,
-						A.APPROVER_ID,
-						C.EMP_NAME APPROVER_NAME,
-						A.APPROVE_DATE
-					FROM 
-					    ELECTRONIC_APPROVAL A
-					JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
-					JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
-					JOIN E_STATUS D ON A.S_CODE = D.S_CODE
-					JOIN E_FORM E ON A.F_NO = E.F_NO
-					WHERE 
-						A.APPROVER_ID = #{empNo} 
-						AND A.S_CODE = 1
-						AND A.APPROVE_DATE IS NULL
-					ORDER BY A.DRAFT_DATE DESC
+					A.E_NO,
+					A.S_CODE,
+					D.S_NAME,
+					A.F_NO,
+					E.F_NAME,
+					A.TITLE,
+					A.CONTENT,
+					A.DRAFTER_ID,
+					B.EMP_NAME DRAFTER_NAME,
+					A.DRAFT_DATE,
+					A.APPROVER_ID,
+					C.EMP_NAME APPROVER_NAME,
+					A.APPROVE_DATE,
+					A.ORIGIN_NAME,
+					A.CHANGE_NAME
+				FROM 
+				    ELECTRONIC_APPROVAL A
+				JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+				JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+				JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+				JOIN E_FORM E ON A.F_NO = E.F_NO
+				WHERE 
+                    (A.S_CODE = 1 OR A.S_CODE = 6)
+					AND A.APPROVER_ID = #{empNo}
+				ORDER BY A.DRAFT_DATE DESC
 			) X
 			WHERE ROWNUM <= 5
 		]]>
@@ -99,31 +100,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM
 			(
 			    SELECT 
-					    A.E_NO,
-					    A.S_CODE,
-					    D.S_NAME,
-					    D.S_COLOR,
-					    A.F_NO,
-					    E.F_NAME,
-					    A.TITLE,
-					    A.CONTENT,
-					    A.DRAFTER_ID,
-					    B.EMP_NAME DRAFTER_NAME,
-					    A.DRAFT_DATE,
-					    A.APPROVER_ID,
-					    C.EMP_NAME APPROVER_NAME,
-					    A.APPROVE_DATE
-					FROM 
-					    ELECTRONIC_APPROVAL A
-					JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
-					JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
-					JOIN E_STATUS D ON A.S_CODE = D.S_CODE
-					JOIN E_FORM E ON A.F_NO = E.F_NO
-					WHERE 
-					    A.DRAFTER_ID = #{empNo}  
-					    AND A.S_CODE = 1
-					    AND A.APPROVE_DATE IS NULL
-					ORDER BY A.DRAFT_DATE DESC
+				    A.E_NO,
+				    A.S_CODE,
+				    D.S_NAME,
+				    D.S_COLOR,
+				    A.F_NO,
+				    E.F_NAME,
+				    A.TITLE,
+				    A.CONTENT,
+				    A.DRAFTER_ID,
+				    B.EMP_NAME DRAFTER_NAME,
+				    A.DRAFT_DATE,
+				    A.APPROVER_ID,
+				    C.EMP_NAME APPROVER_NAME,
+				    A.APPROVE_DATE,
+				    A.ORIGIN_NAME,
+					A.CHANGE_NAME
+				FROM 
+				    ELECTRONIC_APPROVAL A
+				JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
+				JOIN EMPLOYEE C ON A.APPROVER_ID = C.EMP_NO
+				JOIN E_STATUS D ON A.S_CODE = D.S_CODE
+				JOIN E_FORM E ON A.F_NO = E.F_NO
+				WHERE 
+				    A.DRAFTER_ID = #{empNo}  
+				    AND (A.S_CODE = 1 OR A.S_CODE = 6)
+				ORDER BY A.DRAFT_DATE DESC
 			) X
 			WHERE ROWNUM <= 5
 		]]>
@@ -254,7 +256,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateEApproval" parameterType="EApproval">
 		UPDATE ELECTRONIC_APPROVAL
-		SET TITLE=#{title}, CONTENT=#{content}
+		SET TITLE=#{title}, CONTENT=#{content}, ORIGIN_NAME=#{originName}, CHANGE_NAME=#{changeName}, S_CODE=#{sCode}
 		WHERE E_NO = #{eNo}
 	</update>
 	
@@ -286,7 +288,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    B.EMP_NAME DRAFTER_NAME,
 		    A.DRAFT_DATE,
 		    A.APPROVER_ID,
-		    C.EMP_NAME APPROVER_NAME
+		    C.EMP_NAME APPROVER_NAME,
+		    A.ORIGIN_NAME,
+			A.CHANGE_NAME
 		FROM 
 		    ELECTRONIC_APPROVAL A
 		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
@@ -295,7 +299,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN E_FORM E ON A.F_NO = E.F_NO
 		WHERE 
 		    A.APPROVER_ID = #{empNo}
-		    AND A.S_CODE = 1
+		    AND (A.S_CODE = 1 OR A.S_CODE = 6)
 		ORDER BY A.DRAFT_DATE DESC
 	</select>
 	
@@ -306,7 +310,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    D.S_NAME,
 		    D.S_COLOR,
 		    A.TITLE,
-		    A.DRAFT_DATE
+		    A.DRAFT_DATE,
+		    A.ORIGIN_NAME,
+			A.CHANGE_NAME
 		FROM 
 		    ELECTRONIC_APPROVAL A
 		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO
@@ -328,7 +334,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    A.TITLE,
 		    B.EMP_NAME DRAFTER_NAME,
 		    A.DRAFT_DATE,
-		    A.APPROVE_DATE
+		    A.APPROVE_DATE,
+		    A.ORIGIN_NAME,
+			A.CHANGE_NAME
 		FROM 
 		    ELECTRONIC_APPROVAL A
 		JOIN EMPLOYEE B ON A.DRAFTER_ID = B.EMP_NO

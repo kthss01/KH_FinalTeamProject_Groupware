@@ -102,14 +102,14 @@
 				<tr>
 					<th>제목</th>
 					<td>
-					<c:choose>
-						<c:when test="${ea.drafterId != loginUser.empNo}">
-							<input class="col-12" type="text" value="${ea.title }" name="title" readonly>
-						</c:when>
-						<c:otherwise>
-							<input class="col-12" type="text" value="${ea.title }" name="title" required>
-						</c:otherwise>
-					</c:choose>
+						<c:choose>
+							<c:when test="${ea.drafterId != sessionScope.loginUser.empNo}">
+								<input class="col-12" type="text" value="${ea.title }" name="title" readonly>
+							</c:when>
+							<c:otherwise>
+								<input class="col-12" type="text" value="${ea.title }" name="title" required>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</table>
@@ -123,7 +123,7 @@
 					<th>내용</th>
 					<td>
 						<c:choose>
-							<c:when test="${ea.drafterId != loginUser.empNo}">
+							<c:when test="${ea.approverId == sessionScope.loginUser.empNo}">
 								<textarea class="col-12" name="content" rows="3" readonly>${ea.content }</textarea>
 							</c:when>
 							<c:otherwise>
@@ -139,13 +139,10 @@
 							<c:when test="${empty ea.originName && ea.SCode eq 0}">
 								<input type="file" id="upfile" name="uploadFile">
 							</c:when>
-							<c:when test="${!empty ea.originName && ea.SCode eq 1 && ea.drafterId eq loginUser.empNo}">
+							<c:when test="${ea.SCode eq 1 && ea.drafterId eq sessionScope.loginUser.empNo}">
 								<input type="file" id="upfile" name="uploadFile">현재 업로드된 파일 : ${ ea.originName }
 							</c:when>
-							<c:when test="${ea.drafterId eq loginUser.empNo && ea.SCode eq 3 && !empty ea.originName }">
-								<input type="file" id="upfile" name="uploadFile">현재 업로드된 파일 : ${ ea.originName }
-							</c:when>
-							<c:when test="${ea.drafterId eq loginUser.empNo && ea.SCode eq 3 && empty ea.originName }">
+							<c:when test="${ea.drafterId eq sessionScope.loginUser.empNo && ea.SCode eq 3}">
 								<input type="file" id="upfile" name="uploadFile">현재 업로드된 파일 : ${ ea.originName }
 							</c:when>
 							<c:otherwise>
