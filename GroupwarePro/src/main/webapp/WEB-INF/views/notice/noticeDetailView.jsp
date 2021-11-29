@@ -179,11 +179,28 @@
     <hr>
     
     <div class="row">
-      <div class="col-md-12 text-center">${ notice.originName }</div>
+      <div class="col-md-12"> <!-- text-center -->
+      
+      
+      </div>
+  
     </div>
     
     <div class="row">
-      <div class="col-md-12 text-center">${ notice.NContent }</div>
+      <div class="col-md-12 justify-content-end">${ notice.NContent }</div>
+    </div>
+    
+    <!-- <hr>-->
+    
+    <div class="row">
+      <div class="col-md-12">
+      	<c:if test="${ !empty notice.originName }">
+                        	<a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${notice.changeName}" download="${ notice.originName }"><i class="fas fa-download"></i>첨부파일 다운</a>       
+                        </c:if>
+                        <c:if test="${ empty notice.originName }">
+                        	
+                        </c:if>
+      </div>
     </div>
     
     
@@ -198,13 +215,13 @@
                                 
                                 <form class="mt-4">
                                     <div class="">
-                                    <table class='table table-bordered'>
-                                    			<thead>
+                                    <table class=''> <!-- table table-bordered -->
+                                    			<!-- <thead>
                                     				<tr>
                                     					<td class="col-md-3">작성자번호</td>
                                     					<td class="col-md-9">내용</td>
                                     				</tr>
-                                    			</thead>
+                                    			</thead>-->
                                     			<tbody id="test">
                                     				
                                     			</tbody>
@@ -214,16 +231,19 @@
                                     	</div>
                                     	
                                         
-                                        <div class="input-group-append">
+                                        <div class="input-group">
                                         	<input type="text" class="form-control" id="placeholder" placeholder="Placeholder Text">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="enrollR();">댓글 작성</button>
+                                        	
+                                        	<!--  <i class="fas fa-upload" type="button"></i> -->
+                                            <button class="btn btn-outline-secondary" type="button" id="enrollR">댓글 작성</button>
                                         </div>
+                                        <div><input type="file" class="form-control-file" id="" name="inpurAttach"/></div>
                                         
                                     </div>
                                 </form>
                                 
                             
-      		
+      		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
       		
       		</div>
     	</div>
@@ -266,6 +286,39 @@
 		
 		selectReplyList();
 		
+		$("#enrollR").click(function(){
+			var nno = ${notice.NNo};
+	   		
+	   		
+	    	   if($("#placeholder").val().trim().length != 0){
+	    	   				
+	    	   	$.ajax({
+	    	   		url:"rinsert.bo",
+	    	   		type:"post",
+	    	   		data:{replyContent:$("#placeholder").val(),
+	    	   			  refNo:nno,
+	    	   			  replyWriter:"${loginUser.getEmpNo()}"},
+	    	   		success:function(result){
+	    	   			if(result > 0){//
+	    	   				$("#placeholder").val("");
+	    	   				selectReplyList();
+	    	   				alert("댓글등록성공");
+	    	   				
+	    	   			}else{
+	    	   				alert("로그인하러가기-댓글을 등록하려면 로그인을 해주세요.");
+	    	   			}
+	    	   		},error:function(){
+	    	   			console.log("댓글 작성 ajax 통신 실패");
+	    	   		}
+	    	   	});
+	    	   				
+	    	   			}else{
+	    	   				alert("작성된 댓글이 없습니다. 댓글을 입력해주세요.");
+	    	   			}
+		});
+		
+		
+		selectReplyList();
 		
 	});
     
@@ -287,13 +340,15 @@
 				
 				
 				
-				var value="";
+				var value=""; 
 				$.each(list, function(i, obj){
 
 					value +="<tr>" 
 						+"<td>"+obj.replyWriter+"님" +"</td>"
 						+"<td>"+ obj.replyContent+"</td>"
 						+"</tr>";
+					
+					
 					
 				});
 				
@@ -316,7 +371,7 @@
     
     
     
-    <script>
+    <!--  <script>
        function enrollR(){
     	   var nno = ${notice.NNo};
    		
@@ -347,7 +402,7 @@
     	   				alert("작성된 댓글이 없습니다. 댓글을 입력해주세요.");
     	   			}
        }
-    </script>  
+    </script>  -->
     
     
     <script>
@@ -361,6 +416,8 @@
     <script>
     	function faHeart(){
     		var postForm = $("#postForm");
+    		
+    		
     		postForm.submit();
     		
     		

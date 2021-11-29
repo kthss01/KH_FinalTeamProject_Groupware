@@ -175,6 +175,8 @@
     </script>
   </head>
   <body>
+  
+  
   	<div id='external-events'>
     <p>
       <strong>월간 식단표</strong>

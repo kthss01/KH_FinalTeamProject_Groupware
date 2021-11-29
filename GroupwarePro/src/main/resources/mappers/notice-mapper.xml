@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="origin_name" property="originName"/>
       <result column="change_name" property="changeName"/>
       <result column="status" property="status" />
+      <result column="top_board" property="topBoard" />
    </resultMap>
    
    <resultMap id="replyResultSet" type="NoReply">
@@ -35,11 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectNoticeList" resultMap="noticeResultSet">
 		SELECT *
 		FROM COMPANY_NOTICE
+		ORDER BY TOP_BOARD DESC
 	</select>
 	
 	<insert id="insertNotice" parameterType="CompanyNotice">
 		INSERT INTO COMPANY_NOTICE 
-		VALUES (SEQ_N_NO.NEXTVAL,#{nTitle},#{empNo},SYSDATE,#{nContent},DEFAULT,#{originName},#{changeName},DEFAULT,#{anonym},DEFAULT)
+		VALUES (SEQ_N_NO.NEXTVAL,#{nTitle},#{empNo},SYSDATE,#{nContent},DEFAULT,#{originName},#{changeName},DEFAULT,#{anonym},DEFAULT,DEFAULT)
 	</insert>
 	
 	
@@ -58,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertReply" parameterType="NoReply">
     	INSERT INTO NO_REPLY
-    	VALUES(SEQ_REPLY_NO.NEXTVAL,#{replyContent},#{replyWriter},DEFAULT,#{refNo},#{originName},#{changeName})
+    	VALUES(SEQ_REPLY_NO.NEXTVAL,#{replyContent},#{replyWriter},DEFAULT,#{originName},#{changeName},#{refNo})
     </insert>
     
     
@@ -87,6 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       UPDATE COMPANY_NOTICE
       SET STATUS='Y'
       WHERE N_NO=#{nno}
+      AND STATUS='N'
     </update>
     
    
@@ -123,8 +126,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	WHERE N_TITLE LIKE '%' || #{search} || '%'
   	
   </select>
+  
+  	<update id ="deleteNotify" parameterType="_int">
+      UPDATE COMPANY_NOTICE
+      SET STATUS='N'
+      WHERE N_NO=#{nno} AND STATUS='Y'
+   
+   
+   </update>
+    
+    <delete id="deleteCall" parameterType="_int">
+    	DELETE FROM COMPANY_NOTICE
+    	WHERE N_NO=#{nno}
+    </delete>
     
     
+    <update id = "updateTopBoard" parameterType="_int">
+    	UPDATE COMPANY_NOTICE
+    	SET TOP_BOARD=1
+    	WHERE N_NO=#{nNo}
+    	AND TOP_BOARD=0
+    </update>
+    
+    
+    <update id = "deleteTopBoard" parameterType="_int">
+    	UPDATE COMPANY_NOTICE
+    	SET TOP_BOARD=0
+    	WHERE N_NO=#{nNo} AND TOP_BOARD='1'
+   </update>
     
     
 	

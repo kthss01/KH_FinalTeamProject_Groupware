@@ -21,10 +21,12 @@ public class CompanyNotice {
 	private String nContent;//공지사항내용
 	private int count;//조회수
 	//private int replyNo; //댓글번호
-	private String originName;
-	private String changeName;
-	private String status;
-	private String anonym;
+	private String originName;//파일수정명
+	private String changeName;//파일원본명
+	private String status;//상단의 공지로 등록했는지의 여부
+	private String anonym;//익명
+	private int topBoard;
+	
 
 	
 //	public CompanyNotice() {

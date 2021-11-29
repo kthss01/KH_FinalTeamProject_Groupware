@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,8 +86,7 @@ public class NoticeController {
 	
 	@RequestMapping("enroll.bo")
 	public String insertNotice(CompanyNotice notice,HttpServletRequest request,Model model
-								,@RequestParam(name="upfiles",required=false) MultipartFile file
-								,@RequestParam("anonym") String anonym) {
+								,@RequestParam(name="upfiles",required=false) MultipartFile file) {
 		
 		
 		
@@ -100,7 +100,7 @@ public class NoticeController {
 			}
 		}
 		
-		notice.setAnonym(anonym);
+		//notice.setAnonym(anonym);
 	
 
 
@@ -222,7 +222,8 @@ public class NoticeController {
 		
 		//return mv;
 		
-		return String.valueOf(result);
+		//return String.valueOf(result);
+		return "redirect:/noticeList.bo";
 		
 		//return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
@@ -276,13 +277,7 @@ public class NoticeController {
 	
 	@RequestMapping("increaseSupport.bo")
 	public String increaseSupport(int nno,RedirectAttributes redirect,HttpServletRequest request) {
-		
-		
-		
-		
-		
-		
-		
+	
 		noticeService.increaseSupport(nno);
 		
 		//mv.addObject("nno",nno).setViewName("redirect:detail.bo");
@@ -340,9 +335,102 @@ redirect.addAttribute("nno",nno);
 		
 	}
 	
+	@RequestMapping("deleteNotify.bo")
+	public String deleteNotify(int nno,HttpServletRequest request) {
+		System.out.println("NNO"+nno);
+		
+		noticeService.deleteNotify(nno);
+		
+		return "redirect:noticeList.bo";
+	}
+	
+	
+	@RequestMapping("deleteCall.bo")
+	public String deleteCall(int nno,HttpServletRequest request) {
+		
+		System.out.println("nno"+nno);
+		//게시글 삭제
+		noticeService.deleteCall(nno);
+		
+		
+		//게시글 조회
+				//CompanyNotice notice=noticeService.selectNotice(nno);
+		
+				
+		//첨부파일삭제
+//		String fileName=notice.getChangeName();
+//		
+//
+//		if(!fileName.equals("")) {
+//			deleteFile(fileName,request);
+//		}
+		
+		
+		return "redirect:noticeList.bo";
+	}
 	
 	
 	
+	
+	
+	@RequestMapping("insertTopBoard.bo")
+	public String updateTopBoard(int nno) {
+		
+//		if(!file.getOriginalFilename().equals("")) {
+//			if(notice.getChangeName() !=null) {
+//				deleteFile(notice.getChangeName(),request);
+//			}
+//			String changeName=saveFile(file,request);
+//			
+//			notice.setOriginName(file.getOriginalFilename());
+//			notice.setChangeName(changeName);
+//		}
+		
+		
+		
+		
+		
+		noticeService.updateTopBoard(nno);
+		
+		
+		
+		//리스트 ㅍ로 전환
+		//return mv;
+		//return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+		
+		
+		
+		return "redirect:/noticeList.bo";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectTopBoard.bo",produces="application/json; charset=utf-8")
+	public String selectBoard(int nno,ModelAndView mv) {
+		CompanyNotice notice=noticeService.selectNotice(nno);
+		
+		
+		//JSONObject jsonUser=new JSONObject();
+		
+		//jsonUser.put("topBoard",notice.getTopBoard());
+		//jsonUser.put("name",findUser.getName());
+		//jsonUser.put("age",findUser.getAge());
+		//jsonUser.put("gender",findUser.getGender()+"");
+		
+		
+		//mv.addObject("notice",notice).setViewName("notice/noticeDetailView");
+		
+		//return mv;
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(notice);
+		//return jsonUser.toString();
+	}
+	
+	
+	@RequestMapping("deleteTopBoard.bo")
+	public String deleteTopBoard(int nno) {
+		int result=noticeService.deleteTopBoard(nno);
+		
+		return "redirect:/noticeList.bo";
+	}
 	
 	
 }
