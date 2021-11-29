@@ -100,7 +100,7 @@
                         </li>
                         
                        	<li class="sidebar-item">
-                       		<a class="sidebar-link" href="javascript:void(0)" aria-expanded="true">
+                       		<a class="sidebar-link" href="surveyListForm.sv" aria-expanded="true">
                        			<i data-feater="survey" class="icon-chart"></i>
                        			<span> 설문</span>
                        			</a>

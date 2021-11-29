@@ -27,17 +27,15 @@ export default class SideMenuAsset extends Component {
 
     const { categories, asset } = newState;
 
-    // console.log(categories, asset);
-
     const selectCategories = this.$target.querySelector('select[name="category"]');
 
+    // 자산목록 상태 변경시
     if (categories) {
-      // console.log(categories);
-
       selectCategories.innerHTML = categories.sort((a, b) => a.ascNo - b.ascNo).map((category, index) => {
         return `<option ${index === 0 ? "selected" : ""} value="${category.ascNo}">${category.name}</option>`
       }).join('');
       
+    // 자산 상태 변경시
     } else if (asset) {
       const editAssetBtnGroup = this.$target.querySelector('#editAssetBtnGroup');
       const addAssetBtn = this.$target.querySelector('#addAssetBtn');
@@ -64,40 +62,28 @@ export default class SideMenuAsset extends Component {
 
     // 자산 추가
     this.addEvent('click', '#addAssetBtn', ({ target }) => {
-      // console.log('addAssetBtn');
-
       const asNo = this.$target.querySelector('input[name="id"]').value;
       const name = this.$target.querySelector('input[name="title"]').value;
       const color = this.$target.querySelector('input[name="color"]').value;
       const ascNo = this.$target.querySelector('select[name="category"]').value;
       const ascName = this.$target.querySelector(`select[name="category"] option[value="${ascNo}"]`).textContent;
       
-      // console.log(ascNo, name, color);
-
       insertAsset({ asNo:'', name, color, ascNo, ascName });
     });
 
     // 자산 수정
     this.addEvent('click', '#editAssetBtn', ({ target }) => {
-      // console.log('editAssetBtn');
-
       const asNo = this.$target.querySelector('input[name="id"]').value;
       const name = this.$target.querySelector('input[name="title"]').value;
       const color = this.$target.querySelector('input[name="color"]').value;
       const ascNo = this.$target.querySelector('select[name="category"]').value;
       const ascName = this.$target.querySelector(`select[name="category"] option[value="${ascNo}"]`).textContent;
 
-      // console.log(asNo);
-      // console.log(ascNo);
-      // console.log(ascName);
-
       editAsset({ asNo, name, color, ascNo, ascName });
     });
 
     // 자산 삭제
     this.addEvent('click', '#deleteAssetBtn', ({ target }) => {
-      // console.log('deleteAssetBtn');
-
       const asNo = this.$target.querySelector('input[name="id"]').value;
       const name = this.$target.querySelector('input[name="title"]').value;
       const color = this.$target.querySelector('input[name="color"]').value;

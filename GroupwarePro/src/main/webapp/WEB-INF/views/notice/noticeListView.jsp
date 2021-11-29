@@ -104,7 +104,7 @@
                 <!-- ============================================================== -->
                 <!-- basic table -->
                 
-                <div class="card">                        
+              <!--<div class="card">                        
                             <div class="card-body">
                             
                             <h3></h3>
@@ -114,7 +114,7 @@
                             <h3></h3>
                             
                             </div>
-                </div>
+                </div> -->
                 
                 
                 <!-- basic table -->
@@ -123,8 +123,73 @@
                         <div class="card">                        
                             <div class="card-body">
                                 <div class="row">
-                                	<!-- 공지로 등록 -->
-                                    <i class="icon-bell"></i><a onclick="call();">공지로 등록</a>
+                                	
+                                    <!-- Signup modal content -->
+                                <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+                                                <div class="mt-2 mb-4">
+                                                    <a href="index.html" class="text-success">
+                                                        <span>기간 설정</span>
+                                                    </a>
+                                                </div>
+
+                                                <form class="pl-3 pr-3" action="#">
+
+                                                    <div class="form-group">
+                                                        <div class=""> <!-- custom-control custom-checkbox -->
+                                                            <input type="checkbox" class=""
+                                                                id="customCheck1"> <!-- custom-control-input -->
+                                                            <label class="" for="">1주동안</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="">
+                                                            <input type="checkbox" class=""
+                                                                id="customCheck1">
+                                                            <label class="" for="">2주동안</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="">
+                                                            <input type="checkbox" class=""
+                                                                id="customCheck1">
+                                                            <label class="" for="">3주동안</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="">
+                                                            <input type="checkbox" class=""
+                                                                id="customCheck1">
+                                                            <label class="" for="">4주동안</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group text-center">
+                                                        <button class="btn btn-primary" onclick="call();">공지</button>
+                                                    </div>
+
+                                                </form>
+
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+
+
+                                
+
+                                <i class="icon-bell"></i><a data-toggle="modal"
+                                        data-target="#signup-modal">공지로 등록</a>
+                                    
+                                    <i class="fas fa-trash-alt"></i><a onclick="deleteCall();">삭제</a>
+                                    <i class="fas fa-map-pin"></i><a onclick="insertTopBoard();">상단 고정</a>
                                     
                                       <table id="noticeList" class="table table-hover" align="center">
                 <thead>
@@ -152,19 +217,22 @@
                         	
                         </c:if>
                         <c:if test="${n.anonym ne 'N'}">
-                        	익명설정
+                        	익명
                         </c:if>
                            </td>
                            <td>${ n.createDate }</td>
                            <td>${ n.count }</td>
-                           <td>
+                           <td onclick="event.cancelBubble=true">
                            	<c:if test="${n.status ne 'Y'}">
-                        	<i class="fas fa-star"></i>
+                        	<!--  <i class="fas fa-star btn-outline-secondary"></i> -->
+                        	<i class="icon-star btn-outline-secondary"></i>
                         </c:if>
                         <c:if test="${n.status ne 'N'}">
-                        	<i class="icon-star"></i>
+                        	<!--  <i class="icon-star btn-outline-secondary" onclick="deleteNotify();"></i>-->
+                        	<i class="fas fa-star btn-outline-secondary" onclick="deleteNotify();"></i>
                         </c:if>
                            </td>
+                           <td style="display:none">${ n.topBoard }</td>
                        </tr>
                     </c:forEach>
                 </tbody>
@@ -179,7 +247,7 @@
                        
                                     
                                      <div id="pagingArea">
-                <ul class="pagination">
+                <ul class="pagination" style="justify-content:center;">
                    <c:choose>
                       <c:when test="${ pi.currentPage ne 1 }">
                          <li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">Previous</a></li>
@@ -240,18 +308,7 @@
             
           
          
-   <!-- <script>
-   $(function(){
-      $("#noticeList tbody tr").click(function(){
-    	  
-         location.href="detail.bo?nno=" + $(this).children().eq(0).text();
-         
-         
-         //tr에다가 이벤트 주고
-      });
-   });
-    
-    </script> -->
+   
     
       
     
@@ -283,11 +340,11 @@
    				success:function(result){
    					
    					if(result>0){
-   						alert("수정하기 성공");
+   						
    						
    						
    					}else{
-   						alert("수정하기 실패");
+   						alert("이미 등록되어 있는 게시글입니다. 다른 게시글을 선택해주세요.");
    					}
    				},error:function(){
    					console.log("ajax 통신 실패");
@@ -301,55 +358,130 @@
        
     </script>
     
+    <script>
+    	function deleteNotify(){
+    		var result=confirm("공지 설정을 해제하시겠습니까?");
+    		if(result){
+    			
+    			 var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+    			
+        		location.href="deleteNotify.bo?nno=" +nno;	
+    		}
+    		
+    	}
+    </script>
     
     
     
-    <!-- <script>
-    	function call(){
+    <script>
+    	function deleteCall(){
+    		
+    		var result=confirm("해당 게시물을 삭제하시겠습니까?");
+    		
+    		if(result){
+    			var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+        		
+        		location.href="deleteCall.bo?nno="+nno;
+    		}
+    		
+    		
+    		
+    	}
+    </script>
+    
+    <!--  <script>
+    	function insertTopBoard(){
+  	
+    		
     		if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
      		   alert("전체 항목 중 1가지만 선택해주세요.");
      	   }else if($('input:checkbox[name=inlineCheckbox1]:checked').length < 1){
      		   alert("선택된 게시물이 없습니다.");
      	   }else{
-     		   confirm("선택 항목을 공지로 등록하시겠습니까?");
      		   
-     		   var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
-     		   
-     		   //parseInt(nno);
-     		   
-     		   console.log(nno);
-     		   console.log(typeof nno);
+     		   confirm("상단 고정하시겠습니까?");
+     		  var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
      		   
      		  $.ajax({
-     				url:"notify.bo",
-     				data:{nno:nno},
-     				type:"post",
-     				success:function(result){
-     					
-     					if(result>0){
-     						alert("공지로 등록 성공");
-     						
-     						
-     					}else{
-     						alert("공지로 등록 실패");
-     					}
-     				},error:function(){
-     					console.log("ajax 통신 실패");
-     				}
-     			});
+   				url:"insertTopBoard.bo",
+   				data:{nno:nno},
+   				type:"post",
+   				success:function(result){
+   					
+   					if(result>0){
+   						
+   						//alert("설정 완료되었습니다.");
+   						
+   					}else{
+   						alert("ajax 통신 실패");
+   					}
+   				},error:function(){
+   					console.log("ajax 통신 실패");
+   				}
+   			});
      		   
-     		   
+
      	   }
     		
-    	}
-    	
-    	
-    
-          
-          
-          
+    	} 
        
     </script>-->
+    
+    <script>
+    	function insertTopBoard(){
+    		var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+  	
+    		
+    		$.ajax({
+    			url:"selectTopBoard.bo",
+    			data:{nno:nno},
+    			type:"get",
+    			dataType:"json",
+    			success:function(result){
+    				console.log("result-->"+result);
+    				
+    				var res = {
+    		    			 topBoard: result.topBoard
+    		   
+    		    			};
+    				
+    				if(res.topBoard ==0){
+    					confirm("상단 고정하시겠습니까?");
+			     		  
+    					if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
+    			     		   alert("전체 항목 중 1가지만 선택해주세요.");
+    			     	   }else if($('input:checkbox[name=inlineCheckbox1]:checked').length < 1){
+    			     		   alert("선택된 게시물이 없습니다.");
+    			     	   }else{
+    			     		   
+    			     		   confirm("상단 고정하시겠습니까?");
+    			     		  var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+    			     		   
+    			     		  location.href="insertTopBoard.bo?nno="+nno;
+    			     		 
+    			     		  
+
+    			     	   }
+			     		  
+
+    						
+    				}else{
+    					confirm("설정 해제하시겠습니까?");
+    					
+    					var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+    					
+    					location.href="deleteTopBoard.bo?nno="+nno;
+    				}
+    				
+    				
+    			},error:function(){
+    				console.log("ajax 통신 실패");
+    			}
+    		});
+    		
+    	} 
+       
+    </script>
     
             <!-- ============================================================== -->
             <!-- End Container fluid  -->

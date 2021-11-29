@@ -21,6 +21,8 @@
 		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="Optional"/>
 		<typeAlias type="com.kh.spring.survey.model.vo.Survey" alias="OptionalAnswer"/>
 		
+		<!-- 팝업 공지 -->
+		<typeAlias type="com.kh.spring.popup.model.vo.PopupNotice" alias="PopupNotice"/>
 		
 	
 		<!-- 커뮤니티게시판 -->
@@ -76,6 +78,7 @@
 
 
 	<mappers>
+		<mapper resource="mappers/popupNotice-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/survey-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/> 

@@ -34,22 +34,20 @@ export default class SideMenuEdit extends Component {
 
     const { id=null, title=null, allDay=null, start=null, end=null, calNo=null, calendars=null } = newState;
 
-    // console.log(this.$state);
-
     const selectCalendar = this.$target.querySelector('select[name="calendar"]');
 
+    // 캘린더 상태 변경시
     if (calendars) {
-
-      // console.log(calendars);
-
       selectCalendar.innerHTML = calendars.map((calendar, index) => {
         return `<option ${index === 0 ? "selected" : ""} value="${calendar.id}">${calendar.title}</option>`
       }).join('');
 
+    // 일정 상태 변경시
     } else if (title || allDay || start || end) {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');
 
+      // 캘린더 번호가 있으면
       if (calNo) {
         selectCalendar.value = calNo;    
       }
@@ -75,7 +73,6 @@ export default class SideMenuEdit extends Component {
 
       const checkAllDay = this.$target.querySelector('input[name="allDay"]');
       checkAllDay.checked = allDay;
-    
     } else {
       this.render();
     }
@@ -89,7 +86,6 @@ export default class SideMenuEdit extends Component {
   }
 
   setEvent () {
-
     const { insertEvent, editEvent, deleteEvent } = this.$props;
 
     // 이벤트 생성
@@ -101,8 +97,7 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
-      // console.log('add', id, title, start, end);
-
+      // App Component insertEvent 호출
       insertEvent({ id:'', title, start, end, allDay, calNo });
     });
 
@@ -115,8 +110,7 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
-      // console.log('edit', id, title, start, end, allDay);
-
+      // App Component editEvent 호출
       editEvent({ id, title, start, end, allDay, calNo });
     });
 
@@ -129,8 +123,7 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const calNo = this.$target.querySelector('select[name="calendar"]').value;
 
-      // console.log('delete', id, title, start, end);
-
+      // App Component deleteEvent 호출
       deleteEvent({ id, title, start, end, allDay, calNo });
     });
 
@@ -142,6 +135,22 @@ export default class SideMenuEdit extends Component {
       addEventBtn.classList.remove("d-none");
       editEventBtnGroup.classList.remove("d-flex");
       editEventBtnGroup.classList.add("d-none");
+    });
+
+    // allDay 체크시 날짜 변경
+    this.addEvent('click', '#allDayCheck', ({ target }) => {
+      const start = this.$target.querySelector('input[name="startDate"]').value;
+      const end = this.$target.querySelector('input[name="endDate"]').value;
+
+      // 체크되었으면
+      if (target.checked && start && end) {
+        const newStart = moment(start).hours('00').minutes('00').format('YYYY-MM-DD HH:mm');
+        const newEnd = moment(end).hours('23').minutes('59').format('YYYY-MM-DD HH:mm');
+
+        // DateRangePicker Component 상태 변경
+        const { daterangepicker } = this.$children;
+        daterangepicker.setState({ start: newStart, end: newEnd });
+      }
     });
   }
 

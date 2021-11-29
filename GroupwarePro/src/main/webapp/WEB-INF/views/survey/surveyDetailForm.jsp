@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,224 +13,105 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
+
     <title>WeCanvas</title>
     <!-- Custom CSS -->
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="${ pageContext.servletContext.contextPath }/resources/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
-
+    
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<style>
 	
-	#boardList li:hover{
-	cursor:pointer;
-	color:#212529;
-	}
-	
-	
-
 	
 	.hidden{
 	
-	display:none important!;
+	display:none important!;	
 	
 	}
-	
 	
 	</style>
 </head>
 <body>
 
 
-	 <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+	<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 	<jsp:include page="${pageCOntext.servletContext.contextPath}/WEB-INF/views/common/m_header.jsp"/>
 	<jsp:include page="${pageCOntext.servletContext.contextPath}/WEB-INF/views/common/m_sidebar.jsp"/>
 	
 	
 		
 	<div class="container-fuild" style="padding: 81px 0px 0px 265px;">
-	<div class="row">
 		<div class="col-12">
-		<div class="card">
-		
-			<div class="card-body">
-			<h3 class="card-title text-truncate text-dark font-weight-bold mb-1"> 커뮤니티 목록</h3>
-		
-			<div class="innerWrapper">
-				<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-					<div class="row">
-						<div class="col-sm-12 col-md-6">
-						
-                                    <div class="row"><div class="col-sm-12 col-md-5">
-                                    <div class="col-sm-12 col-md-7">
-                                    
-                                    <div class="card survey-info" id="zero_config_paginate">
-                                    
-                                    	<ul class="list-style-none info-list">
-                                    		<li>info-update-form
-											<div class="card-body">
-												<h3 class="card-title"> 설문 번호 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.surveyNo}" readonly>
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 설문 내용 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.surveyContent}" readonly>
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 작성일 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.writeDate}" readonly>
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 시작일 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.startDate}" readonly>
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 종료일 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.finishDate}" readonly>
-											</div>
-                            				</li>
-                                    		
-                                    		<li>
-											<div class="card-body">
-												<h3 class="card-title"> 게시상태 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.statement}" readonly>
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 총 질문 수 </h3>
-												<input type="text" class="form-control empName" name="empName" value="${survey.questionCount}" readonly>
-											</div>
-                            				</li>
-                            				
-                            				<li>
-	                            				<div class="card-body btn-list">
-                            						<button type="button" class="btn waves-effect waves-light btn-primary updateSurveyForm">수정</button>
-                            						<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">뒤로</button>
-    	                        				</div>
-                            				</li>
-                                    	</ul>
-                                    	
-                                    	<form class="info-update-form hidden">
-                                    	
-                                    	<ul class="list-style-none">
-                                    		<li>
-											<div class="card-body">
-												<h3 class="card-title"> 설문 번호 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 설문 내용 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 작성일 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 시작일 </h3>
-												<input type="text" class="form-control empName" name="empName">
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 종료일 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                                    		
-                                    		<li>
-											<div class="card-body">
-												<h3 class="card-title"> 게시상태 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-											<div class="card-body">
-												<h3 class="card-title"> 총 질문 수 </h3>
-												<input type="text" class="form-control empName" name="empName" >
-											</div>
-                            				</li>
-                            				
-                            				<li>
-	                            				<div class="card-body btn-list">
-                            						<button type="button" class="btn waves-effect waves-light btn-primary updateSurveyForm">수정</button>
-                            						<button type="button" class="btn waves-effect waves-light btn-primary" onclick="history.back()">뒤로</button>
-    	                        				</div>
-                            				</li>
-                                    	</ul>
-                                    	
-                                    	
-                                    	</form>
-                                    	
-                                    </div>
-                           </div>
-                      </div>
-                 </div>
-			
+		<div class="card" >
+			<div class="card-body"> 
+				<h3 class="card-title font-weight-bold text-truncate text-dark font-weight-bold mb-1"> 설문 내용 </h3>
+			<div class="insert-form-wrapper">
+								<ul class="ref navbar-nav">
+									<li>
+										<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 제목 </h3>
+											<input type="text" class="form-control title" name="title" value="${survey.surveyTitle}" readonly>
+										</div>
+                            		</li>
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 내용 </h3>
+											<textarea class="form-control content" rows="3" name="content" readonly>${survey.surveyContent}</textarea>
+										</div>
+                            		</li>
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 작성일 </h3>
+											<input type="date" class="form-control startDate" name="startDate" value="${survey.writeDate}" pattern="\d{4}-\d{2}-\d{2}" readonly>
+										</div>
+                            		</li>
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 시작일</h3>
+											<input type="date" class="form-control finishDate" name="finishDate" value="${survey.startDate}" readonly>
+										</div>
+                            		</li>
+                            		
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 마감일</h3>
+											<input type="text" class="form-control finishDate" name="statement" value="${survey.finishDate}" readonly>
+										</div>
+                            		</li>
+                            		
+                            		<li>
+                            			<div class="card-body">
+											<h3 class="card-title font-weight-bold"> 게시 상태</h3>
+											<input type="text" class="form-control finishDate" name="statement" value="${survey.statement}" readonly>
+										</div>
+                            		</li>
+                            		<li>
+                            			<div class="btn-list">
+                            				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#info-alert-modal" class="preview">미리보기</button>
+                            				<!-- Right modal -->
+                            				<button type="button" class="btn btn-secondary" onclick="location.href='pNoticeUpdateForm.no?popNo='+${pNotice.popNo}">수정하기</button>
+                            				<button type="button" class="btn btn-dark" onclick="history.back();">공지목록</button>
+                            			</div>
+                            		</li>
+                            	</ul>
+                            
 			</div>
-		
+
 		</div>
 		</div>
-		</div>
-		</div>
-		
-		<footer>
-			copyright
-		</footer>
 		
 	</div>
 	</div>
 	</div>
-	
-	</div>
-	
-	
 	
 	<script>
 	
 	
-	
-	$(function(){
-		$(".updateSurveyForm").click(function(){
-			
-			document.querySelector(".survey-info").classList.add("hidden");
-			document.querySelector(".info-update-form").classList.remove("hidden");
-			
-			
-		})
-	})
-	
-	
-	
-	</script>
-	
-	
-	
+		
+ 	</script>
 	
 	
 	<script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>

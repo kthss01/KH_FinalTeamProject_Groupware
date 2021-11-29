@@ -120,7 +120,7 @@ public class ManagerController {
 	
 	@RequestMapping(value="sortMemberList.me",method= RequestMethod.POST,produces="application/json; charset=utf-8")
 	@ResponseBody
-	public ArrayList<Member> checkMember(String value,Model model) {
+	public ArrayList<Member> sortMemberList(String value,Model model) {
 		ArrayList<Member> list = memberService.sortMemberList(value);
 		model.addAttribute("list",list);
 		System.out.println(list);

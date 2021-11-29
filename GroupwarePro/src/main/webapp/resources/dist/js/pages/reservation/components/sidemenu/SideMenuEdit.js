@@ -31,17 +31,15 @@ export default class SideMenuEdit extends Component {
 
     const { id=null, title=null, allDay=null, start=null, end=null, asNo=null, assets=null, empName=null, display=null } = newState;
 
-    // console.log(this.$state);
-
     const selectAsset = this.$target.querySelector('select[name="asset"]');
 
+    // 자산 상태 변경시
     if (assets) {
-      // console.log(assets);
-
       selectAsset.innerHTML = assets.map((asset, index) => {
         return `<option ${index === 0 ? "selected" : ""} value="${asset.id}">${asset.title} - ${asset.extendedProps.category}</option>`
       }).join('');
 
+    // 예약 상태 변경시
     } else if (title || allDay || start || end) {
       const editEventBtnGroup = this.$target.querySelector('#editEventBtnGroup');
       const addEventBtn = this.$target.querySelector('#addEventBtn');
@@ -81,7 +79,6 @@ export default class SideMenuEdit extends Component {
     } else {
       this.render();
     }
-
   }
 
   mounted () {
@@ -91,11 +88,7 @@ export default class SideMenuEdit extends Component {
   }
 
   setEvent () {
-
     const { insertEvent, editEvent, deleteEvent } = this.$props;
-
-    // const empNo = 201; // 임시
-    // const empName = '김태훈';
 
     // 이벤트 생성
     this.addEvent('click', '#addEventBtn', ({ target }) => {
@@ -105,8 +98,6 @@ export default class SideMenuEdit extends Component {
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const asNo = this.$target.querySelector('select[name="asset"]').value;
-
-      // console.log('add', id, title, start, end);
 
       insertEvent({ id:'', title, start, end, allDay, asNo, empNo, empName });
     });
@@ -120,8 +111,6 @@ export default class SideMenuEdit extends Component {
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const asNo = this.$target.querySelector('select[name="asset"]').value;
 
-      // console.log('edit', id, title, start, end, allDay);
-
       editEvent({ id, title, start, end, allDay, asNo });
     });
 
@@ -133,8 +122,6 @@ export default class SideMenuEdit extends Component {
       const end = this.$target.querySelector('input[name="endDate"]').value;
       const allDay = this.$target.querySelector('input[name="allDay"]').checked;
       const asNo = this.$target.querySelector('select[name="asset"]').value;
-
-      // console.log('delete', id, title, start, end);
 
       deleteEvent({ id, title, start, end, allDay, asNo });
     });
@@ -148,6 +135,20 @@ export default class SideMenuEdit extends Component {
       editEventBtnGroup.classList.remove("d-flex");
       editEventBtnGroup.classList.add("d-none");
     });
-  }
 
+    // allDay 체크시 날짜 변경
+    this.addEvent('click', '#allDayCheck', ({ target }) => {
+      const start = this.$target.querySelector('input[name="startDate"]').value;
+      const end = this.$target.querySelector('input[name="endDate"]').value;
+
+      // 체크되었으면
+      if (target.checked && start && end) {
+        const newStart = moment(start).hours('00').minutes('00').format('YYYY-MM-DD HH:mm');
+        const newEnd = moment(end).hours('23').minutes('59').format('YYYY-MM-DD HH:mm');
+
+        const { daterangepicker } = this.$children;
+        daterangepicker.setState({ start: newStart, end: newEnd });
+      }
+    });
+  }
 }

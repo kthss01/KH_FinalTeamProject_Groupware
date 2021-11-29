@@ -10,8 +10,6 @@ export default class Router {
     document.addEventListener("DOMContentLoaded", () => {
       document.body.addEventListener("click", e => {
         if (e.target.closest('a') && e.target.closest('a').matches("[data-link]")) {
-          // console.log(e.target.closest('a'));
-          // console.log('route')
           e.preventDefault();
           this.navigateTo(e.target.closest('a').href);
         }
@@ -60,7 +58,6 @@ export default class Router {
     });
 
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
-    // console.log(match);
 
     if (!match) {
       match = {

@@ -25,6 +25,8 @@ public interface TblMealsService {
 
 	int insert(ArrayList<TblMeals> alldata);
 
+	void insertTblMeals(TblMealsCal tmc);
+
 	
 
 	

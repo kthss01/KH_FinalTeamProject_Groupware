@@ -1,6 +1,7 @@
 package com.kh.spring.survey.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.common.PageInfo;
 import com.kh.spring.survey.model.dao.SurveyDao;
+import com.kh.spring.survey.model.vo.Essay;
+import com.kh.spring.survey.model.vo.EssayAnswer;
 import com.kh.spring.survey.model.vo.Survey;
 
 
@@ -23,9 +26,9 @@ public class SurveyServiceImpl implements SurveyService {
 	private SurveyDao surveyDao;
 	
 	@Override
-	public ArrayList<Survey> selectSurveyList(PageInfo pageInfo) {
+	public ArrayList<Survey> selectSurveyList() {
 		
-		ArrayList<Survey> list = surveyDao.selectSurveyList(session,pageInfo);
+		ArrayList<Survey> list = surveyDao.selectSurveyList(session);
 		
 		return list;
 	}
@@ -61,6 +64,57 @@ public class SurveyServiceImpl implements SurveyService {
 		
 		return result;
 	}
+
+
+	@Override
+	public ArrayList<Survey> selectAbleSurveyList() {
+		
+		ArrayList<Survey> list = surveyDao.selectAbleSurveyList(session);
+		
+		return list;
+	}
+
+
+	@Override
+	public int insertQuestion(Essay essay) {
+		
+		int result = surveyDao.insertQuestion(session,essay);
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<Essay> selectQuestionList(String surveyNo) {	
+		
+		ArrayList<Essay> list = surveyDao.selectQuestionList(session,surveyNo);
+		
+		return list;
+	}
+
+	@Override
+	public int insertQuestionList(List<Essay> list) {
+		
+		int result = surveyDao.insertQuestionList(session,list);
+		
+		return result;
+	}
+
+	@Override
+	public int insertAnswerList(List<EssayAnswer> list) {
+		
+		int result = surveyDao.insertAnswerList(session,list);
+		
+		return result;
+	}
+
+	@Override
+	public int updateSurveyQustionCount(String surveyNo) {
+		
+		int result = surveyDao.updateSurveyQuestionCount(session,surveyNo);
+		
+		return result;
+	}
+
 
 	
 	

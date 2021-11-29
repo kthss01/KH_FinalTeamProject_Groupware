@@ -41,6 +41,14 @@ public interface NoticeService {
 
 	ArrayList<CompanyNotice> selectListCon(String search);
 
+	void deleteNotify(int nno);
+
+	void deleteCall(int nno);
+
+	void updateTopBoard(int nno);
+
+	int deleteTopBoard(int nno);
+
 
 
 	

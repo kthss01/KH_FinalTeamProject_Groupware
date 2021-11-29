@@ -30,10 +30,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="questionNo" column="QUESTION_NO"/>
 	</resultMap>
 	
-	<resultMap id="EssayResultSet" type="Essay">
-		<id property="esNo" column="ES_NO"/>
-		<result property="questionNo" column="QUESTION_NO"/>
-		<result property="esText" column="ES_TEXT"/>
+	<resultMap id="EssayResultSet" type="com.kh.spring.survey.model.vo.Essay">
+		<id property="essayNo" column="ESSAY_NO"/>
+		<result property="sequence" column="SEQUENCE"/>
+		<result property="essayText" column="ESSAY_TEXT"/>
+		<result property="surveyNo" column="SURVEY_NO"/>
 	</resultMap>
 	
 	<resultMap id="optionalAnswerResultSet" type="OptionalAnswer">
@@ -43,10 +44,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empNo" column="EMP_NO"/>
 	</resultMap>
 	
-	<resultMap id="EssayAnswerResultSet" type="EssayAnswer">
-		<id property="esAnswerNo" column="ES_ANW_NO"/>
-		<result property="esNo" column="ES_NO"/>
-		<result property="esAnswer" column="ES_ANSWER"/>
+	<resultMap id="EssayAnswerResultSet" type="com.kh.spring.survey.model.vo.EssayAnswer">
+		<id property="essayAnswerNo" column="ES_ANW_NO"/>
+		<result property="essayNo" column="ES_NO"/>
+		<result property="essayAnswer" column="ES_ANSWER"/>
 		<result property="empNo" column="EMP_NO"/>
 	</resultMap>
 	
@@ -54,6 +55,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from survey
 		order by survey_no asc
+	</select>
+	
+	<select id="selectAbleSurveyList" resultMap="surveyResultSet">
+	
+	<![CDATA[
+		SELECT *
+		FROM SURVEY
+		WHERE START_DATE <= SYSDATE
+		AND FINISH_DATE  >= SYSDATE
+        AND STATEMENT ='Y'
+		ORDER BY SURVEY_NO ASC
+	]]>
+	
 	</select>
 	
 	
@@ -64,9 +78,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertSurvey" parameterType="Survey">
-		
 		insert into survey
-		values (seq_survey_no.nextval, #{surveyTitle}, #{surveyContent}, sysdate, #{startDate}, #{finishDate}, default, default)
+		values (
+		seq_survey_no.nextval, 
+       	#{surveyTitle},
+        #{surveyContent},
+        sysdate, 
+        #{startDate},
+        #{finishDate},
+        default, 
+        default)
 		
 	</insert>
 	
@@ -79,13 +100,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateSurvey" parameterType="Survey">
-		update survey 
-		set surveyTitle = #{surveyTitle},
-		surveyContent = #{surveyContent},
-		write_date = sysdate,
-		start_date = #{startDate},
-		finish_date = #{finishDate},
-		where survey_no = #{surveyNo}
+		UPDATE SURVEY
+		SET SURVEY_TITLE = #{surveyTitle},
+		SURVEY_CONTENT = #{surveyContent},
+		WRITE_DATE = sysdate,
+		START_DATE = #{startDate},
+		FINISH_DATE = #{finishDate},
+		STATEMENT = #{statement}
+		WHERE SURVEY_NO = #{surveyNo}
 	</update>
 	
 	<update id="updateQuestionCount" parameterType="_int">
@@ -93,5 +115,65 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set question_count = #{questionCount}
 	</update>
 	
+	<select id="selectQuestionList" parameterType="String" resultMap="EssayResultSet">
+		
+		SELECT *
+		FROM ESSAY
+		WHERE SURVEY_NO = #{surveyNo}
+		ORDER BY SEQUENCE ASC
+		
+	</select>	
 	
+	<insert id="insertQuestionList" parameterType="java.util.List">
+		
+		 
+		INSERT INTO ESSAY 
+		<foreach collection="list" separator="UNION ALL" item="item">
+			SELECT GET_ESSAY_NO(), #{item.sequence}, #{item.essayText}, #{item.surveyNo} FROM DUAL
+		</foreach>
+		<!-- 
+		INSERT ALL
+		<foreach collection="list" item="e">
+			INTO ESSAY (GET_ESSAY_NO() , #{e.sequence} ,#{e.essayText}, #{e.surveyNo})
+		</foreach>
+		enable
+		-->
+		<!-- 
+		INSERT ALL
+		<foreach collection="list" item="e">
+		INTO ESSAY VALUES (GET_ESSAY_NO(),#{e.sequence},#{e.essayText},#{e.surveyNo})
+		</foreach>
+		SELECT * FROM DUAL
+		able  --> 
+		
+		<!-- 
+		<foreach collection="list" open="(" separator="," close=")" item="e">
+			GET_ESSAY_NO()  #{e.sequence}, #{e.essayText}  #{e.surveyNo}
+		</foreach>
+		
+		INSER INTO ESSAY
+		<foreach collection="list" separator="UNION ALL" item="e">
+			(SELECT GET_ESSAY_NO(), #{e.sequence} , #{e.essayText}, #{e.surveyNo} FROM DUAL) UNION ALL
+			SELECT GET_ESSAY_NO() #{e.sequence}  #{e.essayText} #{e.surveyNo} FROM DUAL
+			SELECT GET_ESSAY_NO() #{e.sequence}  #{e.essayText} #{e.surveyNo} FROM DUAL
+			SELECT GET_ESSAY_NO() #{e.sequence}  #{e.essayText} #{e.surveyNo} FROM DUAL
+		</foreach>
+		 -->
+	</insert>
+	
+	<insert id="insertAnswerList" parameterType="java.util.List">
+		INSERT INTO ESSAY_ANSWER
+		<foreach collection="list" separator="UNION ALL" item="item">
+			SELECT GET_ESSAY_ANSW_NO(), #{item.essayNo}, #{item.essayAnswer}, #{item.empNo} FROM DUAL
+		</foreach>
+
+	</insert>
+	
+	<update id="updateSurveyQuestionCount" parameterType="String">
+	
+		UPDATE SURVEY A
+		SET QUESTION_COUNT = (SELECT COUNT(*) FROM ESSAY WHERE SURVEY_NO = #{surveyNo})
+		WHERE SURVEY_NO = #{surveyNo}
+	
+	</update>
 </mapper>

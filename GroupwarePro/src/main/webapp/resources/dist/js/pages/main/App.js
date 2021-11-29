@@ -10,8 +10,7 @@ export default class App extends Component {
   }
 
   render () {
-    //   this.$target.innerHTML = this.template();
-      this.mounted();
+    this.mounted();
   }
 
   mounted () {
@@ -22,12 +21,8 @@ export default class App extends Component {
 
     // 필요시 기능 {} binding 해줘야 함 (이벤트는 해당 컴포넌트에서 처리)
     this.$children = {
-        calendar: new Calendar($calendar, { 
-        
-        }),
-        reservation: new Reservation($reservation, { 
-
-        }),
+        calendar: new Calendar($calendar, { }),
+        reservation: new Reservation($reservation, {  }),
     };
   }
 

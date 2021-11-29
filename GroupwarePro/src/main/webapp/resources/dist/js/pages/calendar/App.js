@@ -48,23 +48,32 @@ export default class App extends Component {
       })
     };
   }
+
+  // 일정 선택
   selectEvent (event) {
-
-    // console.log(event);
-
     const { sideMenu } = this.$children;
 
     sideMenu.setState({ event });
   }
 
+  // 일정 추가
   async insertEvent (event) {
     const { calendar } = this.$children;
 
-    // console.log('app', event);
+    // 시작일 또는 종료일 미입력 처리
+    if (!event.start || !event.end) {
+      alert("시작일 또는 종료일을 입력해주세요");
+      return;
+    }
 
-    // console.log(new Date(event.start), new Date(event.end));
+    // 일정명 미입력 처리
+    if (!event.title) {
+      alert("일정명을 입력해주세요");
+      return;
+    }
 
     try {
+      // axios를 이용하여 DB에 일정 추가
       const res = await axios.post(`insertEvent.ca`, null, {
         params: {
           name: event.title,
@@ -75,22 +84,22 @@ export default class App extends Component {
         }
       });
 
-      console.log(res);
+      // DB로부터 일정번호 설정
       event.id = res.data;
 
+      // calendar에서 일정 상태 변경
       calendar.setState({ event, status: 'insert' });
-
     } catch (err) {
       console.log(err);
     }
   }
 
+  // 일정 수정
   async editEvent (event) {
     const { calendar } = this.$children;
 
-    console.log('app', event);
-
     try {
+      // axios를 이용하여 DB에 일정 수정
       await axios.put(`updateEvent.ca`, null, {
         params: {
           evtNo: event.id,
@@ -102,41 +111,49 @@ export default class App extends Component {
         }
       });
 
+      // calendar에서 일정 상태 변경
       calendar.setState({ event, status: 'update' });
-
     } catch (err) {
       console.log(err);
     }
 
   }
 
+  // 일정 삭제
   async deleteEvent (event) {
     const { calendar } = this.$children;
 
-    // console.log('app', event);
-
     try {
+      // axios를 이용하여 DB에 일정 삭제
       await axios.delete(`deleteEvent.ca?evtNo=${event.id}`);
 
+      // calendar에 일정 상태 변경
       calendar.setState({ event, status: 'delete' });
     } catch (err) {
       console.log(err);
     }
-    
   }
 
+  // 캘린더 렌더링 (Calendar말고 다른 Component에서)
   renderCalendar (calendars) {
     const { sideMenu } = this.$children;
 
+    // sideMenu에서 일정 캘린더 상태 변경
     sideMenu.setState({ ...calendars });
   }
 
+  // 캘린더 추가
   async insertCalendar (cal) {
     const { calendar } = this.$children;
 
-    console.log(cal);
+    // 캘린더명 미입력 처리
+    if (!cal.name) {
+      alert("캘린더명을 입력해주세요");
+      return;
+    }
 
     try {
+      // axios를 이용하여 DB에 캘린더 추가
       const res = await axios.post(`insertCalendar.ca`, null, {
         params: { 
           name: cal.name, 
@@ -145,23 +162,22 @@ export default class App extends Component {
         }
       });
 
-      // console.log(res.data);
-
+      // DB로부터 캘린더번호 설정
       cal.calNo = res.data;
 
+      // calendar에 캘린더 상태 변경
       calendar.setState({ calendar: cal, status: 'insert' });
-
     } catch (err) {
       console.log(err);
     }
   }
 
+  //
   async editCalendar (cal) {
     const { calendar } = this.$children;
 
-    // console.log(cal);
-
     try {
+      // axios를 이용하여 DB에 캘린더 수정
       await axios.put(`updateCalendar.ca`, null, {
         params: { 
           name: cal.name, 
@@ -171,8 +187,8 @@ export default class App extends Component {
         }
       });
 
+      // calendar에 캘린더 상태 변경
       calendar.setState({ calendar: cal, status: 'update' });
-
     } catch (err) {
       console.log(err);
     }
@@ -181,13 +197,12 @@ export default class App extends Component {
   async deleteCalendar (cal) {
     const { calendar } = this.$children;
 
-    // console.log(cal);
-
     try {
+      // axios를 이용하여 DB에 캘린더 삭제
       await axios.delete(`deleteCalendar.ca?calNo=${cal.calNo}`);
 
+      // calendar에 캘린더 상태 변경
       calendar.setState({ calendar: cal, status: 'delete' });
-
     } catch (err) {
       console.log(err);
     }
@@ -196,6 +211,7 @@ export default class App extends Component {
   showCalendar (calNo, isShow) {
     const { calendar } = this.$children;
 
+    // calendar에 캘린더 상태 변경
     calendar.setState({
       showCal: { calNo, isShow, }
     });

@@ -25,10 +25,9 @@ export default class SideMenuCategory extends Component {
     this.$state = { ...this.$state, ...newState };
 
     const { category, categories } = newState;
-    // console.log(category);
-
     const selectCategories = this.$target.querySelector('select[name="category"]');
 
+    // 자산목록 상태 변경시
     if (category) {
       const editCategoryBtnGroup = this.$target.querySelector('#editCategoryBtnGroup');
       const addCategoryBtn = this.$target.querySelector('#addCategoryBtn');
@@ -44,8 +43,8 @@ export default class SideMenuCategory extends Component {
       editCategoryBtnGroup.classList.add("d-flex");
       selectCategories.classList.add('d-none');
 
+    // 자산목록 상태 변경시 (렌더링 시)
     } else if (categories) {
-
       selectCategories.innerHTML = categories.sort((a, b) => a.ascNo - b.ascNo).map((category, index) => {
         return `<option ${index === 0 ? "selected" : ""} value="${category.ascNo}">${category.name}</option>`
       }).join('');
@@ -53,29 +52,21 @@ export default class SideMenuCategory extends Component {
     } else {
       this.render();
     }
-
   }
 
   setEvent () {
-
     const { insertCategory, editCategory, deleteCategory } = this.$props;
 
     // 카테고리 추가
     this.addEvent('click', '#addCategoryBtn', ({ target }) => {
-      // console.log('addCategoryBtn');
-
       const ascNo = this.$target.querySelector('input[name="ascNo"]').value;
       const name = this.$target.querySelector('input[name="name"]').value;
       
-      // console.log(ascNo, name);
-
       insertCategory({ ascNo:'', name });
     });
 
     // 카테고리 수정
     this.addEvent('click', '#editCategoryBtn', ({ target }) => {
-      // console.log('editCategoryBtn');
-
       const ascNo = this.$target.querySelector('input[name="ascNo"]').value;
       const name = this.$target.querySelector('input[name="name"]').value;
 
@@ -84,8 +75,6 @@ export default class SideMenuCategory extends Component {
 
     // 카테고리 삭제
     this.addEvent('click', '#deleteCategoryBtn', ({ target }) => {
-      // console.log('deleteCategoryBtn');
-
       const ascNo = this.$target.querySelector('input[name="ascNo"]').value;
       const name = this.$target.querySelector('input[name="name"]').value;
 
@@ -94,8 +83,6 @@ export default class SideMenuCategory extends Component {
 
     // 카테고리 선택
     this.addEvent('change', 'select[name="category"]', ({ target }) => {
-      // console.log('select category');
-
       const editCategoryBtnGroup = this.$target.querySelector('#editCategoryBtnGroup');
       const addCategoryBtn = this.$target.querySelector('#addCategoryBtn');
       const selectCategories = this.$target.querySelector('select[name="category"]');
@@ -106,7 +93,6 @@ export default class SideMenuCategory extends Component {
       addCategoryBtn.classList.add("d-none");
       editCategoryBtnGroup.classList.add("d-flex");
       editCategoryBtnGroup.classList.remove("d-none");
-      
     });
 
     // 이벤트 등록버튼으로 되돌리기

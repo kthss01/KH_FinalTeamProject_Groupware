@@ -123,14 +123,19 @@
                                 </form>
                             </div> -->
                             
-                            	<label class="form-control-label" for="tblDate">날짜</label>
+                            	<label class="form-control-label" for="">시작날짜</label>
                                 <div class="form-group">
-                                        <input type="date" class="form-control" id="tblDate" name="tblDate">
+                                        <input type="date" class="form-control" id="startDate" name="startDate">
+                                    </div>
+                                    
+                                <label class="form-control-label" for="">종료날짜  *시작날짜와 동일하게 기입(하루종일 여부)</label>
+                                <div class="form-group">
+                                        <input type="date" class="form-control" id="endDate" name="endDate">
                                     </div>
                                     
                                 <label class="mr-sm-2" for="categoryNo">카테고리</label>
                                 
-                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="categoryNo">
+                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="">
                                             <option selected>Choose...</option>
                                             <option value="1">한식</option>
                                             <option value="2">양식</option>
@@ -144,10 +149,10 @@
                                     </div>
                                     
                                     
-                                    <label>석식</label>
+                                    <!-- <label>석식</label>
                                  <div class="form-group">
                                         <textarea class="form-control" rows="3" id="dnr" name="dnr" placeholder="식단 작성"></textarea>
-                                    </div>
+                                    </div> -->
                            
                             
                 

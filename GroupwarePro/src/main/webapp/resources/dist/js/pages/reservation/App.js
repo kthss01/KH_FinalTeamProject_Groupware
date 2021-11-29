@@ -28,17 +28,14 @@ export default class App extends Component {
       this.$state = { ...this.$state, ...newState };
 
       const { isRoute=null, url=null } = newState;
-      // console.log(isRoute);
 
+      // route 상태 변경시
       if (isRoute) {
-        // console.log('test');
         const $reservationMain = this.$target.querySelector('[data-component="reservation-main"]');
         const Component = this.router.router();
 
-        // console.log(url.indexOf('reservation/'))
         const index = url.indexOf('reservation/');
         const id = index !== -1 ?  url.substring(index + 'reservation/'.length) : -1;
-        // console.log('id', id);
 
         const { selectEvent, insertEvent, editEvent, deleteEvent } = this;
         const { renderAsset, selectAsset, insertAsset, editAsset, deleteAsset } = this;
@@ -93,23 +90,31 @@ export default class App extends Component {
       };
     }
 
-    // events
+    // 예약 선택
     selectEvent (event) {
-      // console.log(event);
-  
       const { sideMenu } = this.$children;
   
       sideMenu.setState({ event });
     }
     
+    // 예약 추가
     async insertEvent (event) {
       const { calendar } = this.$children;
 
-      // console.log('app', event);
+      // 시작일 종료일 미입력 처리
+      if (!event.start || !event.end) {
+        alert("시작일 또는 종료일을 입력해주세요");
+        return;
+      }
 
-      // console.log(new Date(event.start), new Date(event.end));
+      // 예약명 미입력 처리
+      if (!event.title) {
+        alert("예약명을 입력해주세요");
+        return;
+      }
 
       try {
+        // axios를 이용하여 DB 예약 추가
         const res = await axios.post(`insertReservation.rez`, null, {
             params: {
                 name: event.title,
@@ -121,76 +126,81 @@ export default class App extends Component {
             }
         });
 
-        // console.log(res);
+        // DB로부터 받은 예약번호 설정
         event.id = res.data;
 
+        // calendar 예약 상태 변경
         calendar.setState({ event, status: 'insert' });
-
       } catch (err) {
           console.log(err);
       }
     }
 
+    // 예약 수정
     async editEvent (event) {
       const { calendar } = this.$children;
 
-      // console.log('app', event);
-
       try {
+        // axios를 이용하여 DB 예약 수정
         await axios.put(`updateReservation.rez`, null, {
             params: {
-                rezNo: event.id,
-                name: event.title,
-                startDate: new Date(event.start + ' UTC'),
-                endDate: new Date(event.end + ' UTC'),
-                allDay: event.allDay ? '1' : '0',
-                asNo: event.asNo,
+              rezNo: event.id,
+              name: event.title,
+              startDate: new Date(event.start + ' UTC'),
+              endDate: new Date(event.end + ' UTC'),
+              allDay: event.allDay ? '1' : '0',
+              asNo: event.asNo,
             }
         });
 
+        // calendar 예약 상태 변경
         calendar.setState({ event, status: 'update' });
-
       } catch (err) {
           console.log(err);
       }
-
     }
 
+    // 예약 삭제
     async deleteEvent (event) {
       const { calendar } = this.$children;
 
-      // console.log('app', event);
-
       try {
+        // axios를 이용하여 DB 예약 삭제
         await axios.delete(`deleteReservation.rez?rezNo=${event.id}`);
 
+        // calendar 예약 상태 변경
         calendar.setState({ event, status: 'delete' });
       } catch (err) {
           console.log(err);
       }
-    
     }
 
+    // 자산 렌더링 (다른 Component에서)
     renderAsset (assets) {
       const { sideMenu } = this.$children;
 
       sideMenu.setState({ ...assets });
     }
 
+    // 자산 선택
     async selectAsset (as) {
-      // console.log(as);
-      
       const { sideMenu } = this.$children;
 
       sideMenu.setState({ as });
     }
 
+    // 자산 추가
     async insertAsset (as) {
       const { calendar } = this.$children;
   
-      // console.log(as);
-  
+      // 자산명 미입력 처리
+      if (!as.name) {
+        alert("자산명을 입력해주세요");
+        return;
+      }
+
       try {
+        // axios를 이용하여 DB 자산 추가
         const res = await axios.post(`insertAsset.rez`, null, {
           params: { 
             name: as.name, 
@@ -199,23 +209,22 @@ export default class App extends Component {
           }
         });
   
-        // console.log(res.data);
-  
+        // DB로부터 받은 자산번호 설정
         as.asNo = res.data;
   
+        // calendar 자산 상태 변경
         calendar.setState({ asset: as, status: 'insert' });
-  
       } catch (err) {
         console.log(err);
       }
     }
-    
+
+    // 자산 수정
     async editAsset (as) {
       const { calendar } = this.$children;
   
-      // console.log(as);
-  
       try {
+        // axios를 이용하여 DB 자산 수정
         await axios.put(`updateAsset.rez`, null, {
           params: { 
             name: as.name, 
@@ -225,71 +234,76 @@ export default class App extends Component {
           }
         });
   
+        // calendar 자산 상태 변경
         calendar.setState({ asset: as, status: 'update' });
-  
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    
-    async deleteAsset (as) {
-      const { calendar } = this.$children;
-  
-      // console.log(as);
-  
-      try {
-        await axios.delete(`deleteAsset.rez?asNo=${as.asNo}`);
-  
-        calendar.setState({ asset: as, status: 'delete' });
-  
       } catch (err) {
         console.log(err);
       }
     }
 
+    // 자산 삭제
+    async deleteAsset (as) {
+      const { calendar } = this.$children;
+  
+      try {
+        // axios를 이용하여 DB 자산 삭제
+        await axios.delete(`deleteAsset.rez?asNo=${as.asNo}`);
+  
+        // calenadr 자산 상태 변경
+        calendar.setState({ asset: as, status: 'delete' });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    // 자산목록 렌더링 (다른 Component)
     async renderCategories (categories) {
       const { sideMenu } = this.$children;
 
       sideMenu.setState({ ...categories });
     }
 
+    // 자산목록 선택
     async selectCategory (cat) {
-      // console.log(cat);
-
       const { sideMenu } = this.$children;
 
       sideMenu.setState({ cat });
     }
 
+    // 자산목록 추가
     async insertCategory (cat) {
       const { calendar } = this.$children;
   
-      // console.log(cat);
-  
+      // 자산목록 미입력 처리
+      if (!cat.name) {
+        alert("자산목록명을 입력해주세요");
+        return;
+      }
+
       try {
+        // axios를 이용하여 DB 자산 추가
         const res = await axios.post(`insertAssetCategory.rez`, null, {
           params: { 
             name: cat.name, 
           }
         });
   
-        // console.log(res.data);
-  
+        // DB로부터 받은 자산목록번호 설정
         cat.ascNo = res.data;
   
+        // calendar 자산목록 상태 변경
         calendar.setState({ category: cat, status: 'insert' });
-  
       } catch (err) {
         console.log(err);
       }
     }
-    
+
+    // 자산목록 수정
     async editCategory (cat) {
       const { calendar } = this.$children;
   
-      // console.log(cat);
-  
       try {
+        // axios를 이용하여 DB 자산목록 수정
         await axios.put(`updateAssetCategory.rez`, null, {
           params: { 
             name: cat.name, 
@@ -297,23 +311,23 @@ export default class App extends Component {
           }
         });
   
+        // calendar 자산목록 상태 변경
         calendar.setState({ category: cat, status: 'update' });
-  
       } catch (err) {
         console.log(err);
       }
     }
-    
+
+    // 자산목록 삭제
     async deleteCategory (cat) {
       const { calendar } = this.$children;
   
-      // console.log(cat);
-  
       try {
+        // axios를 이용하여 DB 자산목록 삭제
         await axios.delete(`deleteAssetCategory.rez?ascNo=${cat.ascNo}`);
   
+        // calendar 자산목록 상태 변경
         calendar.setState({ category: cat, status: 'delete' });
-  
       } catch (err) {
         console.log(err);
       }

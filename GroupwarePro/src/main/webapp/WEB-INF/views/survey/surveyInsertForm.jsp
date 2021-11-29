@@ -61,13 +61,12 @@
 			<div class="row">
 			<div class="col-sm-12">
 			
-			<form class="surveyFrom mt-3" action="surveyQuestionInsertForm.sv">
-					
+			<form class="surveyFrom mt-3" action="insertSurvey.sv" method="GET">
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">제목 </h4>						
 							<div class="form-group">
-								<input type="text" name="surveyTitle" class="surveyTitle form-control_sm col-md-8" placeholder="설문 제목" aria-controls="zero_config" required>
+								<input type="text" name="surveyTitle" class="surveyTitle form-control_sm col-md-8" placeholder="설문 제목" aria-controls="zero_config" required maxlength="25">
 							</div>
 						</div>
 					</div>
@@ -76,10 +75,11 @@
 						<div class="card-body">
 							<h4 class="card-title">내용 </h4>						
 							<div class="form-group">
-								<input type="text" name="surveyContent" class="surveyContent form-control_sm col-md-8" placeholder="설문 내용" aria-controls="zero_config" required>
+								<input type="text" name="surveyContent" class="surveyContent form-control_sm col-md-8" placeholder="설문 내용" aria-controls="zero_config" required maxlength="250">
 							</div>
 						</div>
 					</div>
+					
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">시작일 </h4>						
@@ -88,6 +88,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">마감일 </h4>						

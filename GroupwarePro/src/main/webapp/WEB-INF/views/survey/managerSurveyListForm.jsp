@@ -55,26 +55,13 @@
 				<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 					<div class="row">
 						<div class="col-sm-12 col-md-6">
-							<div class="dataTables_length" id="zero_config_length">
-							<%-- 
-							<label>Show 
-							<select name="zero_config_length" aria-controls="zero_config" class="form-control form-control-sm">
-							<option value="10">10</option>
-							<option value="25">25</option>
-							<option value="50">50</option>
-							<option value="100">100</option>
-							</select> entries</label>
-							--%>
-							</div>
 						</div>
 						
 						<div class="col-sm-12 col-md-6">
 							<div id="zero_config_filter" class="dataTables_filter">
-								<%--
-								<label>Search:
-									<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="zero_config">
-								</label>
-								--%>
+								
+															
+								
 							</div>
 						</div>
 					</div>
@@ -94,28 +81,24 @@
                                            	 	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Build -date activate to sort column ascending" style="width: 0px;">마감일</th>
                                            	 	<th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Build -date activate to sort column ascending" style="width: 0px;"> </th>
                                            	 	
-                                           	 	
                                           	</tr>
                                         </thead>
                                         <tbody id="pros-table-body" class="pros-talbe-body">
                                         	
                                         		<c:forEach items="${list}" var="survey" >
                                         		<tr role="row" class="odd">
-                                        			<td scope="row" class="sorting_1 table-item">
-                                        				${survey.surveyNo}
-                                        			</td>
-                                        			<td class="surveyTitle">${survey.surveyTitle}</td>
-                                        			<td> <c:out value="${surveyStatement}"/> ${survey.statement}</td>
-                                        			<td>${survey.writeDate}</td>
-                                        			<td>${survey.startDate}</td>
-                                        			<td>${survey.finishDate}</td>
+                                        			<td class="table-item" onclick="location.href='surveyDetailForm.sv?surveyNo=${survey.surveyNo}'">${survey.surveyNo}</td>
+                                        			<td class="surveyTitle" onclick="location.href='surveyDetailForm.sv?surveyNo=${survey.surveyNo}'">${survey.surveyTitle}</td>
+                                        			<td onclick="location.href='surveyDetailForm.sv?surveyNo=${survey.surveyNo}'"> <c:out value="${surveyStatement}"/> ${survey.statement}</td>
+                                        			<td onclick="location.href='surveyDetailForm.sv?surveyNo=${survey.surveyNo}'">${survey.writeDate}</td>
+                                        			<td onclick="location.href='surveyDetailForm.sv?surveyNo=${survey.surveyNo}'">${survey.startDate}</td>
+                                        			<td onclick="location.href='surveyDetailForm.sv?surveyNo=${survey.surveyNo}'">${survey.finishDate}</td>
                                         			
                                         			<td class="nav-item dropdown">
                            								<a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 						<span class="ml-1 d-none d-lg-inline">
                                 						
                                 							<span class="text-dark"></span> 
-                                						
                                 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down svg-icon">
                                 								<polyline points="6 9 12 15 18 9">
                                 								</polyline>
@@ -129,7 +112,7 @@
                                 								</svg>
                                   							질문 작성
                                   							</a>
-                                							<a class="dropdown-item">
+                                							<a class="dropdown-item" href="surveyUpdateForm.sv?surveyNo=${survey.surveyNo}">
                                 							<span style="display:none;">${survey.surveyNo}</span>
                                 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings svg-icon mr-2 ml-1">
                                 								<circle cx="12" cy="12" r="3"></circle>
@@ -155,7 +138,7 @@
                                         		</c:forEach>
                                         		
                                         		<tr role="row" class="odd">
-                                        			<td row colspan="6" style="text-align:center;">
+                                        			<td row colspan="7" style="text-align:center;">
                                         				<a href="surveyInsertForm.sv" style="text-decoration:none; color:rgba(0,0,0,.55);">
                                         					<span> <b> 새로운 설문 + </b></span>
                                         				</a>
@@ -174,38 +157,6 @@
                                     
                                     </div>
                                     
-                                    <div class="col-sm-12 col-md-7">
-                                    
-                                    <div class="dataTables_paginate paging_simple_numbers" id="zero_config_paginate">
-                                    
-                                    	<ul class="pagination">
-                                    		<li class="paginate_button page-item previous disabled" id="zero_config_previous">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item active">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="2" tabindex="0" class="page-link">2</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="4" tabindex="0" class="page-link">4</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="5" tabindex="0" class="page-link">5</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item ">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="6" tabindex="0" class="page-link">6</a>
-                                    		</li>
-                                    		<li class="paginate_button page-item next" id="zero_config_next">
-                                    			<a href="#" aria-controls="zero_config" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
-                                    		</li>
-                                    	</ul>
-                                    </div>
-                                   </div>
                                    </div>
                                    </div>
 			

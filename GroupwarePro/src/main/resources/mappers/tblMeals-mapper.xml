@@ -28,6 +28,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
         
     </insert>
+    
+    
+    
+    <insert id="insertTblMeals" parameterType="TblMealsCal">
+    	INSERT INTO TBL_MEALS_CAL
+    	VALUES
+    	(SEQ_T_NO.NEXTVAL,#{lnc},#{startDate},#{endDate})
+   </insert>
 	
 	
 	<!-- ============================================================================== -->

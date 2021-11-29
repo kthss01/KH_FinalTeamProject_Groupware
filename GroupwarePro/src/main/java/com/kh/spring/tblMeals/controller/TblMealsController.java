@@ -166,7 +166,7 @@ public class TblMealsController {
 		
 
 		ArrayList<TblMealsCal> tList=tblMealsService.selectList();
-		System.out.println(tList);
+		
 		
 		JSONArray jsonArray = new JSONArray();
 		
@@ -192,6 +192,22 @@ public class TblMealsController {
 		
 		
 	}
+	
+	@RequestMapping("insertT.bo")
+	public String insertTblMeals(TblMealsCal tmc,HttpServletRequest request,Model model) {
+		
+		System.out.println("startDate-->"+tmc.getStartDate());
+		
+		tblMealsService.insertTblMeals(tmc);
+			
+			
+		return "redirect:/";
+		
+	}
+	
+	
+	
+	
 	
 	
 	
