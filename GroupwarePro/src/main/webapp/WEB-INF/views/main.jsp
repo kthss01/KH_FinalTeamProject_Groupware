@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="ko">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <head>
     <meta charset="UTF-8">
@@ -41,6 +41,7 @@
 
     <script>
     	const empNo = ${ loginUser.empNo };
+    	//console.log(`${ loginUser }`);
     </script>
 
 </head>
@@ -56,7 +57,20 @@
         </div>
     </div>
     
-
+	<c:choose>
+		<c:when test="${ loginUser.jobCode eq 'J1' }">
+			<c:set var="profileImg"	value="adminImg.png" />
+		</c:when>
+		<c:when test="${ loginUser.jobCode eq 'J2' }">
+			<c:set var="profileImg"	value="profile1.png" />
+		</c:when>
+		<c:when test="${ loginUser.jobCode eq 'J3' or loginUser.jobCode eq 'J4' }">
+			<c:set var="profileImg"	value="profile2.png" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="profileImg"	value="profile3.png" />
+		</c:otherwise>
+	</c:choose>
     
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
@@ -248,16 +262,18 @@
                     <div class="col-lg-5 col-md-12">
                         <div class="card"  style="padding:0px 10px 15px 10px;">
                             <div class="card-body">
-	                            <div id="profileImg" 
-	                            style="position:absolute; right:0; height:180px; width:180px; 
-	                            margin-right:50px;
-	                            background-image:url(${ pageContext.servletContext.contextPath }/resources/assets/images/adminImg.png);
-	                            background-size:cover;
-	                            " >
-	                          
-	                            
-	                            </div>
-                                <h4 class="card-title mb-3 font-weight-bold">근태관리</h4>
+
+                            <div id="profileImg" 
+                            style="position:absolute; right:0; height:140px; width:130px; 
+                            margin-right:15px;
+                            background-image:url(${ pageContext.servletContext.contextPath }/resources/assets/images/${ profileImg });
+                            background-size:cover;
+                            " >
+                          
+                            
+                            </div>
+                                  <h4 class="card-title mb-3 font-weight-bold">근태관리</h4>
+
                             
                                 <h4 id="todate" class="card-title mb-3 font-weight-bold"></h4>
                                 <p id="clock" style="font-size:40px"></p>
