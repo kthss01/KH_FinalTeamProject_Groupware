@@ -103,6 +103,14 @@ public class HrServiceImpl implements HrService {
 		return empInfo;
 	}
 
+	@Override
+	public ArrayList<WorkSInfo> selectWorkSInfoList(String wNo) {
+		
+		ArrayList<WorkSInfo> list = hrDao.selectWorkSInfoList(sqlSession, wNo);
+		
+		return list;
+	}
+
 
 
 

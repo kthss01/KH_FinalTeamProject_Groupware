@@ -43,23 +43,13 @@ public class Work {
 		this.startTime = startTime;
 	}
 
-	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, String strDate) {
-		super();
-		this.wNo = wNo;
-		this.empNo = empNo;
-		this.wDate = wDate;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.strDate = strDate;
-	}
-
 	public Work(int empNo, String strDate) {
 		super();
 		this.empNo = empNo;
 		this.strDate = strDate;
 	}
 
-	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, Date totalTime, String strDate) {
+	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, String totalTime, String strDate) {
 		super();
 		this.wNo = wNo;
 		this.empNo = empNo;
@@ -70,7 +60,7 @@ public class Work {
 		this.strDate = strDate;
 	}
 
-	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, Date totalTime) {
+	public Work(String wNo, int empNo, Date wDate, String startTime, String endTime, String totalTime) {
 		super();
 		this.wNo = wNo;
 		this.empNo = empNo;

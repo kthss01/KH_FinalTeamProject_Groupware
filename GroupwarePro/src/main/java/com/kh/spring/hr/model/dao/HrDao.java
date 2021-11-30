@@ -59,6 +59,10 @@ public class HrDao {
 		
 		return (EmpInfo)sqlSession.selectOne("hrMapper.selectEmpInfo", empNo);
 	}
+	public ArrayList<WorkSInfo> selectWorkSInfoList(SqlSessionTemplate sqlSession, String wNo) {
+		
+		return (ArrayList)sqlSession.selectList("hrMapper.selectWorkSInfoList", wNo);
+	}
 
 
 

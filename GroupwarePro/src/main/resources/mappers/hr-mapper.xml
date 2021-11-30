@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="sNo" column="S_NO"/>
 		<result property="wNo" column="W_NO"/>
 		<result property="sCode" column="S_CODE"/>
+		<result property="sName" column="S_NAME"/>
 		<result property="occurTime" column="OCCUR_TIME"/>
 	</resultMap>
 	<resultMap id="VacationInfoResultSet" type="VacationInfo">
@@ -99,6 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM
 			    WORK
 			WHERE EMP_NO = #{empNo}
+			AND (W_DATE BETWEEN NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-7),'월') AND NEXT_DAY(LAST_DAY(TO_DATE(#{strDate}, 'yy/MM/dd'))-1, '일'))
 			
 			UNION
 			
@@ -112,10 +114,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM 
 			    (
 			    SELECT 
-			        NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-6),'월')+(LEVEL - 1) YMD
+			        NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-7),'월')+(LEVEL - 1) YMD
 			    FROM 
 			        DUAL
-			    CONNECT BY NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-6),'월')+(LEVEL-1) <= NEXT_DAY(LAST_DAY(TO_DATE(#{strDate}, 'yy/MM/dd')), '일')
+			    CONNECT BY NEXT_DAY((TRUNC(TO_DATE(#{strDate}, 'yy/MM/dd'),'MONTH')-7),'월')+(LEVEL-1) <= NEXT_DAY(LAST_DAY(TO_DATE(#{strDate}, 'yy/MM/dd'))-1, '일')
 			    )
 			WHERE YMD NOT IN (
 			    SELECT
@@ -201,5 +203,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN DEPARTMENT C ON A.DEPT_CODE = C.DEPT_CODE
 		JOIN JOB D ON A.JOB_CODE = D.JOB_CODE
 		WHERE A.EMP_NO = #{empNo}
+	</select>
+	
+	<select id="selectWorkSInfoList" parameterType="string" resultMap="workSInfoResultSet">
+		SELECT
+		    A.S_NO,
+		    A.W_NO,
+		    A.S_CODE,
+		    B.S_NAME,
+		    A.OCCUR_TIME
+		FROM
+		    WORK_STATUS_INFO A
+		JOIN WORK_STATUS B ON A.S_CODE = B.S_CODE
+		WHERE A.W_NO = #{wNo}
+		ORDER BY OCCUR_TIME ASC
 	</select>
 </mapper>

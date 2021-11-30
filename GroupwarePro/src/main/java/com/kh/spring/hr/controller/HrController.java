@@ -1,10 +1,6 @@
 package com.kh.spring.hr.controller;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
+import com.kh.spring.community.model.vo.CommunityCategory;
 import com.kh.spring.hr.model.service.HrService;
 import com.kh.spring.hr.model.vo.EmpInfo;
 import com.kh.spring.hr.model.vo.VOccur;
@@ -55,11 +53,16 @@ public class HrController {
 										, @RequestParam("month") int month
 										, @RequestParam("empNo") int empNo) {
 		
-		Date now = new Date(); //오늘 날짜
+		String strYear = Integer.toString(year).substring(2);
+		String strMonth = null;
+		if(month < 10) {
+			strMonth = "0" + month;
+		}
+		else {
+			strMonth = Integer.toString(month);
+		}
 		
-		//now를 문자형으로 변환
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		String strDate = sdf.format(now); 
+		String strDate = strYear + strMonth + "01";
 		
 		Work work = new Work(empNo, strDate);
 		
@@ -151,5 +154,16 @@ public class HrController {
 		model.addAttribute("empInfo", empInfo);
 		
 		return "/hr/empInfoView";
+	}
+	
+	
+	//상태조회
+	@ResponseBody
+	@RequestMapping(value = "selectWorkSInfoList.hr", produces = "application/json; charset=utf-8")
+	public String selectWorkSInfoList(@RequestParam("wNo") String wNo) {
+		
+		ArrayList<WorkSInfo> list = hrService.selectWorkSInfoList(wNo);
+
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 }
