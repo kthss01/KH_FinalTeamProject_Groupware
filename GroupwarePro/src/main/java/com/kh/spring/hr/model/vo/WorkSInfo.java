@@ -8,6 +8,7 @@ public class WorkSInfo {
 	private String sNo;
 	private String wNo;
 	private int sCode;
+	private String sName;
 	private String occurTime;
 	
 	public WorkSInfo() {

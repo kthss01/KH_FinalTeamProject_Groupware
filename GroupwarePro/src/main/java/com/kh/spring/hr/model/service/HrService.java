@@ -30,4 +30,6 @@ public interface HrService {
 
 	EmpInfo selectEmpInfo(int empNo);
 
+	ArrayList<WorkSInfo> selectWorkSInfoList(String wNo);
+
 }

@@ -262,6 +262,7 @@
                     <div class="col-lg-5 col-md-12">
                         <div class="card"  style="padding:0px 10px 15px 10px;">
                             <div class="card-body">
+
                             <div id="profileImg" 
                             style="position:absolute; right:0; height:140px; width:130px; 
                             margin-right:15px;
@@ -272,6 +273,7 @@
                             
                             </div>
                                   <h4 class="card-title mb-3 font-weight-bold">근태관리</h4>
+
                             
                                 <h4 id="todate" class="card-title mb-3 font-weight-bold"></h4>
                                 <p id="clock" style="font-size:40px"></p>
