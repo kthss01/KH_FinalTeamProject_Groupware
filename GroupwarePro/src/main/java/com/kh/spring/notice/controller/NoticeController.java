@@ -283,7 +283,7 @@ public class NoticeController {
 		//mv.addObject("nno",nno).setViewName("redirect:detail.bo");
 		
 		
-redirect.addAttribute("nno",nno);
+		redirect.addAttribute("nno",nno);
 		
 		return "redirect:/detail.bo";
 		

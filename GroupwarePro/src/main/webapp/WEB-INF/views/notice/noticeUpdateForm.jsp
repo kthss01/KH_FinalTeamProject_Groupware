@@ -46,6 +46,16 @@
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
         
+        
+        <jsp:include page="../common/header.jsp"/>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <jsp:include page="../common/sidebar.jsp"/>
+        
 
 
 
@@ -101,52 +111,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-primary text-center">
-                                                <h1 class="font-light text-white">2,064</h1>
-                                                <h6 class="text-white">Total Tickets</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-cyan text-center">
-                                                <h1 class="font-light text-white">1,738</h1>
-                                                <h6 class="text-white">Responded</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-success text-center">
-                                                <h1 class="font-light text-white">1100</h1>
-                                                <h6 class="text-white">Resolve</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-danger text-center">
-                                                <h1 class="font-light text-white">964</h1>
-                                                <h6 class="text-white">Pending</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
+                                    
                                 </div>
                                 
-                                    <!--<table></table>  -->
-                                    
-                                   
-                                    
-                                    
                                     
                                     <div class="page-wrapper">
+                                    
+                                    
+                                    <div class="row"> 
+      										<div class="col-md-12 text-center font-weight-bold"><h1>${ notice.NTitle }</h1>
+      										</div>
+      										</div>
+                                    
                                   <form id="updateForm" method="post" action="update.bo" enctype="multipart/form-data"> 
                                   	<input type="hidden" name="nNo" value="${ notice.NNo }">
                                     

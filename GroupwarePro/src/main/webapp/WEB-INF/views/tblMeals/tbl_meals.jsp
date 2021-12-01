@@ -3,6 +3,26 @@
 <!DOCTYPE html>
 <html lang='en'>
   <head>
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.servletContext.contextPath }/resources/assets/images/favicon.png">
+    <title>Adminmart Template - The Ultimate Multipurpose admin template</title>
+    <!-- This page css -->
+    <!-- Custom CSS -->
+    <link href="${ pageContext.servletContext.contextPath }/resources/dist/css/style.min.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+  
+  
     <meta charset='utf-8' />
     <link href='${ pageContext.servletContext.contextPath }/resources/fullcalendar/main.css' rel='stylesheet' />
     <script src='${ pageContext.servletContext.contextPath }/resources/fullcalendar/main.js'></script>
@@ -45,12 +65,11 @@
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           },
-          editable: true,//수정가능여부
-          droppable: true, // this allows things to be dropped onto the calendar
+          editable: true,
+          droppable: true, 
           drop: function(info) {
-            // is the "remove after drop" checkbox checked?
             if (checkbox.checked) {
-              // if so, remove the element from the "Draggable Events" list
+            
               info.draggedEl.parentNode.removeChild(info.draggedEl);
             }
           },
@@ -58,13 +77,8 @@
         });
 
         loadingEvents();
-        
-        
-        
+
         calendar.render();
-        
-        
-        
       });
     
     
@@ -109,7 +123,7 @@
     }
     
     
-    function loadingEvents(){//selectlist
+    function loadingEvents(){
       	var return_value=null;
     	$.ajax({
     		type:'GET',
@@ -121,8 +135,6 @@
     	})
     	.done(function(result){
     		console.log(result);
-    		
-    		return_value=[];
     		
     		for (var value of result) {
     			 var event = {
@@ -140,9 +152,6 @@
  	      alert("FAILED:");
  	      
  	    })
- 	   
- 	   
- 	  
   
     }
 
@@ -175,9 +184,26 @@
     </script>
   </head>
   <body>
-  
-  
-  	<div id='external-events'>
+  	
+  	
+  	<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">   
+        
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <jsp:include page="../common/header.jsp"/>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <jsp:include page="../common/sidebar.jsp"/>
+        </div>
+        
+       
+          
+        <div id='external-events'>
     <p>
       <strong>월간 식단표</strong>
     </p>
@@ -205,16 +231,25 @@
   </div>
   
   
-  <div style="float:left; width:80%">
+  <div style="float:right; width:80%;">
   	<div style="height:30px; text-align:center; font-size:35px; margin-bottom:30px; font-weight:bold">
   		<div style="width:60%; float:left; text-align:right">월간 식단표</div>
-  		<div style="width:40%; float:left; text-align:right">
-  		<button style="width:120px; height:40px; vertical-align:middle; font-size:17px; cursor:pointer" onclick="register();">식단표 등록</button>
-  		</div>
+  		<div style="width:40%; float:left; text-align:right"><button style="width:120px; height:40px; vertical-align:middle; font-size:17px; cursor:pointer" onclick="register();">식단표 등록</button></div>     
   	
   	</div>
+  	
+  	
     <div id='calendar'></div>
-  </div>
+    
+    
+    </div>
+    
+    
+        
+    
+  
+  
+  	
   
   <script>
   	function register(){
@@ -222,7 +257,18 @@
   	}
   </script>
   
-  
+  <!--  -->
+  <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <!-- apps -->
+    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/app-style-switcher.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/feather.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="${ pageContext.servletContext.contextPath }/resources/dist/js/custom.min.js"></script>
   
   
   </body>
