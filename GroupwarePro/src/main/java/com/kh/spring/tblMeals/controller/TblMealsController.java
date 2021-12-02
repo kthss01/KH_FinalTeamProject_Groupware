@@ -178,18 +178,7 @@ public class TblMealsController {
 		 }
 	
 
-	
-		
-		
-		//return jsonArray.toString();
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(tList);            
-		
-		
-//		HashMap<String, Object> map = new HashMap<String, Object>();
-//		ArrayList<TblMealsCal> planList = tblMealsService.selectList();
-//		map.put("planList", planList);
-//		return map;
-		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create().toJson(tList); 
 		
 	}
 	
@@ -201,7 +190,7 @@ public class TblMealsController {
 		tblMealsService.insertTblMeals(tmc);
 			
 			
-		return "redirect:/";
+		return "redirect:/testCal.bo";
 		
 	}
 	

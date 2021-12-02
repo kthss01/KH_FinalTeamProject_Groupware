@@ -26,6 +26,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     
 <![endif]-->
+
 </head>
 
 <body>
@@ -46,6 +47,15 @@
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
         
+        <jsp:include page="../common/header.jsp"/>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <jsp:include page="../common/sidebar.jsp"/>
+        
 
 
 
@@ -62,105 +72,57 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">전사공지사항</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">전사 게시판</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html" class="text-muted">Apps</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Ticket List</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Notice List</li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
-                            <!--<select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select> -->
                             
-                             
                         </div>
                     </div>
                 </div>
+                
+                
+                
+                
+                
+                
             </div>
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
+            
+            
+            
+
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <!-- basic table -->
+              
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-primary text-center">
-                                                <h1 class="font-light text-white">2,064</h1>
-                                                <h6 class="text-white">Total Tickets</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-cyan text-center">
-                                                <h1 class="font-light text-white">1,738</h1>
-                                                <h6 class="text-white">Responded</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-success text-center">
-                                                <h1 class="font-light text-white">1100</h1>
-                                                <h6 class="text-white">Resolve</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-danger text-center">
-                                                <h1 class="font-light text-white">964</h1>
-                                                <h6 class="text-white">Pending</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                </div>
                                 
-                                    <!--<table></table>  -->
-                                    
-                                    <!-- detail -->
-                                    
-                                    
-                                    
+                                
                                     <div class="page-wrapper"> 
-                                    	<div class="row"> <!-- # -->
+                                    	<div class="row"> 
       										<div class="col-md-12 text-center font-weight-bold"><h1>${ notice.NTitle }</h1>
       											<button type="button" class="btn btn-danger btn-circle-lg btn float-right" onclick="faHeart();">             
       											<i class="fa fa-heart"></i>
                                 				</button>
                                 				
                                 				<form id="postForm" action="increaseSupport.bo" method="post">
-					<input type="hidden" name="nno" value="${ notice.NNo }">
-				</form>
+													<input type="hidden" name="nno" value="${ notice.NNo }">
+												</form>
                                 				<!-- <i class="icon-options-vertical btn float-right btn btn-primary btn-lg"></i> -->
                                 				
                                 				
                                 				<button type="button" class="btn btn-secondary dropdown-toggle btn float-right"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                
                                                 	<i class="icon-options-vertical btn btn-primary btn-lg"></i>
                                             </button>
                                             <div class="dropdown-menu">
@@ -173,24 +135,16 @@
                                             </div>
                                             
                                             
-                                            
       										</div>
     									</div>
     <hr>
     
-    <div class="row">
-      <div class="col-md-12"> <!-- text-center -->
-      
-      
-      </div>
-  
-    </div>
+    
     
     <div class="row">
-      <div class="col-md-12 justify-content-end">${ notice.NContent }</div>
+      <div class="col-md-12 justify-content-end text-center">${ notice.NContent }</div>
     </div>
-    
-    <!-- <hr>-->
+
     
     <div class="row">
       <div class="col-md-12">
@@ -237,7 +191,7 @@
                                         	<!--  <i class="fas fa-upload" type="button"></i> -->
                                             <button class="btn btn-outline-secondary" type="button" id="enrollR">댓글 작성</button>
                                         </div>
-                                        <div><input type="file" class="form-control-file" id="" name="inpurAttach"/></div>
+                                        
                                         
                                     </div>
                                 </form>
@@ -247,8 +201,10 @@
       		
       		</div>
     	</div>
-    </div>
-                                    </div>
+    </div><!--  -->
+                                    </div><!-- page-wrapper -->
+                                    
+                                    
                              
                                     
                                     
@@ -302,7 +258,7 @@
 	    	   			if(result > 0){//
 	    	   				$("#placeholder").val("");
 	    	   				selectReplyList();
-	    	   				alert("댓글등록성공");
+	    	   				alert("댓글이 등록되었습니다.");
 	    	   				
 	    	   			}else{
 	    	   				alert("로그인하러가기-댓글을 등록하려면 로그인을 해주세요.");

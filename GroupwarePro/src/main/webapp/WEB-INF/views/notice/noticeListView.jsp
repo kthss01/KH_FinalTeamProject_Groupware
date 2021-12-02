@@ -192,53 +192,52 @@
                                     <i class="fas fa-map-pin"></i><a onclick="insertTopBoard();">상단 고정</a>
                                     
                                       <table id="noticeList" class="table table-hover" align="center">
-                <thead>
-                  <tr>
-                  	<th></th>
-                    <th>No.</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                   <c:forEach items="${ list }" var="n">
-                       <tr onclick="location.href='detail.bo?nno='+${ n.NNo }">
-                       	   <td onclick="event.cancelBubble=true">
-                       			<input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="inlineCheckbox1" value="${n.NNo}">
-                                <!-- <i class="fas fa-star"></i> -->
-                       	   </td>
-                           <td>${ n.NNo }</td>
-                           <td>${ n.NTitle }</td>
-                           <td>
-                           <c:if test="${n.anonym ne 'Y'}">${ n.empNo }
-                        	
-                        </c:if>
-                        <c:if test="${n.anonym ne 'N'}">
-                        	익명
-                        </c:if>
-                           </td>
-                           <td>${ n.createDate }</td>
-                           <td>${ n.count }</td>
-                           <td onclick="event.cancelBubble=true">
-                           	<c:if test="${n.status ne 'Y'}">
-                        	<!--  <i class="fas fa-star btn-outline-secondary"></i> -->
-                        	<i class="icon-star btn-outline-secondary"></i>
-                        </c:if>
-                        <c:if test="${n.status ne 'N'}">
-                        	<!--  <i class="icon-star btn-outline-secondary" onclick="deleteNotify();"></i>-->
-                        	<i class="fas fa-star btn-outline-secondary" onclick="deleteNotify();"></i>
-                        </c:if>
-                           </td>
-                           <td style="display:none">${ n.topBoard }</td>
-                       </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                                      	<thead>
+                                      		<tr>
+                  							<th></th>
+                    						<th>No.</th>
+                    						<th>제목</th>
+                    						<th>작성자</th>
+                    						<th>작성일</th>
+                    						<th>조회수</th>
+                    						<th></th>
+                  						</tr>
+                                      	</thead>
+
+                						<tbody>
+                   						<c:forEach items="${ list }" var="n">
+                       						<tr onclick="location.href='detail.bo?nno='+${ n.NNo }">
+                       	   						<td onclick="event.cancelBubble=true">
+                       								<input class="form-check-input" type="checkbox" 
+                       								id="inlineCheckbox1" name="inlineCheckbox1" value="${n.NNo}">     
+                       	   						</td>
+                           						<td>${ n.NNo }</td>
+                           						<td>${ n.NTitle }</td>
+                           						<td>
+                           							<c:if test="${n.anonym ne 'Y'}">
+                           							${ n.empNo }
+                        							</c:if>
+                        							<c:if test="${n.anonym ne 'N'}">
+                        							익명
+                        							</c:if>
+                           						</td>
+                           						<td>${ n.createDate }</td>
+                           						<td>${ n.count }</td>
+                           						<td onclick="event.cancelBubble=true">
+                           							<c:if test="${n.status ne 'Y'}">
+                        							<i class="icon-star btn-outline-secondary"></i>
+                        							</c:if>
+                        							<c:if test="${n.status ne 'N'}">
+                        							<i class="fas fa-star btn-outline-secondary" onclick="deleteNotify();"></i>
+                        							</c:if>
+                           						</td>
+                           						<td style="display:none">${ n.topBoard }</td>
+                       						</tr>
+                    					</c:forEach>
+                						</tbody>
+            						</table>
                                 </div>
-                                <!-- <div class="table-responsive"> -->
+                               
                                 
                              
            
@@ -340,9 +339,7 @@
    				success:function(result){
    					
    					if(result>0){
-   						
-   						
-   						
+
    					}else{
    						alert("이미 등록되어 있는 게시글입니다. 다른 게시글을 선택해주세요.");
    					}
@@ -350,22 +347,22 @@
    					console.log("ajax 통신 실패");
    				}
    			});
-     		   
-
      	   }
     		
     	} 
-       
-    </script>
+       </script>
     
     <script>
     	function deleteNotify(){
-    		var result=confirm("공지 설정을 해제하시겠습니까?");
+    		var result=confirm("설정 해제하시겠습니까?");
     		if(result){
     			
-    			 var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+    			 var nno=$('input[name="inlineCheckbox1"]:checked').val();
+    			 
+    			 var res=Number(nno);
     			
-        		location.href="deleteNotify.bo?nno=" +nno;	
+    			
+        		location.href="deleteNotify.bo?nno=" +res;	
     		}
     		
     	}
@@ -439,32 +436,17 @@
     			dataType:"json",
     			success:function(result){
     				console.log("result-->"+result);
-    				
     				var res = {
     		    			 topBoard: result.topBoard
     		   
     		    			};
-    				
     				if(res.topBoard ==0){
     					confirm("상단 고정하시겠습니까?");
-			     		  
-    					if($('input:checkbox[name=inlineCheckbox1]:checked').length > 1){
-    			     		   alert("전체 항목 중 1가지만 선택해주세요.");
-    			     	   }else if($('input:checkbox[name=inlineCheckbox1]:checked').length < 1){
-    			     		   alert("선택된 게시물이 없습니다.");
-    			     	   }else{
-    			     		   
-    			     		   confirm("상단 고정하시겠습니까?");
-    			     		  var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
-    			     		   
-    			     		  location.href="insertTopBoard.bo?nno="+nno;
-    			     		 
-    			     		  
-
-    			     	   }
-			     		  
-
-    						
+			     		var nno=Number($('input[name="inlineCheckbox1"]:checked').val());
+			     		   
+			     		location.href="insertTopBoard.bo?nno="+nno;
+    					
+    					
     				}else{
     					confirm("설정 해제하시겠습니까?");
     					

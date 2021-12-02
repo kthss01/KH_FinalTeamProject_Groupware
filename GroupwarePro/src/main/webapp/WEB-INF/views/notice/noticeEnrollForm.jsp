@@ -146,69 +146,25 @@
                                 
                                 <h4 class="card-title">작성자</h4>
                                 <input type="text" class="" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo()}" style="width:200px;">
-                                <!--form-control is-valid  -->
+                                
                                 <br><br>
                                      
-                                <!-- <div class="card-body">
-                                <h4 class="card-title">작성자</h4>
-                                <h6 class="card-subtitle">To use add <code>is-valid</code> class to the input</h6>
-                                <form class="mt-3">
-                                    <label class="form-control-label" for="inputSuccess1">Input with success</label>
-                                    <input type="text" class="form-control is-valid" id="inputSuccess1" name="empNo" value="${loginUser.getEmpNo() }">
-                                    <div class="valid-feedback">
-                                        Success! You've done it.
-                                    </div>
-                                </form>
-                            </div> -->
-                            
+                                
                             <h4 class="card-title">제목</h4>
                             <input type="text" class="" id="inputSuccess2" name="nTitle" style="width:300px;">
                             <br>
                             <br>
                             
-                            
-                            <!--<h4 class="card-title">파일첨부</h4>
-                            <input type="file" class="" id="inputSuccess4" name="upfiles">-->
-                            
                             <h4 class="card-title">파일첨부</h4>
                             <input type="file" class="form-control-file" id="inputSuccess4" name="upfiles">
                             <br>
-                            
-                            
-                            
-                            <!--<div class="card-body">
-                                <h4 class="card-title"></h4>
-                                <form class="mt-3">
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                </form>
-                            </div> -->
-                                
-                                <!-- <label style=display:inline class="mr-sm-2  font-weight-bold" for="inlineFormCustomSelect">내용</label>  --> 
+
                                 <h4 class="card-title">내용</h4>
-                                <!-- <textarea class="form-control" rows="3" name="nContent" id="inputSuccess3"></textarea> -->
-                                
-                                
                                 
                                 <div class="form-group">
 		<textarea class="form-control" rows="10" name="nContent" style="width:550px;" required>${notice.NContent}</textarea>
 	</div>
-                                
-                                
-                                
-
-								<!-- <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Textarea</h4>
-                                <form class="mt-3">
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="3" name="nContent" id="inputSuccess3"></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>-->
-								
+              
 								<br>
 								
 								<h4 class="card-title">익명설정</h4>
@@ -224,30 +180,6 @@
                                 </fieldset> 
                                 
                                 <br>
-                                
-                           <!-- <h4 class="card-title">공지로 등록</h4>
-                                <fieldset class="radio">
-                                    <label>
-                                        <input type="radio" id="" name="" value="">예
-                                    </label>
-                                </fieldset>
-                                <fieldset class="radio">
-                                    <label>
-                                        <input type="radio" name="" value="">아니오
-                                    </label>
-                                </fieldset> -->   
-                                
-                               
-                                
-                                <!-- <h4 class="card-title">알림</h4>
-                                <fieldset class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="">메일알림
-                                    </label>
-                                </fieldset>-->
-                               
-                               
-                                
                                 <div class="input-group-append">
                                             <button class="btn btn-outline-secondary btn-lg" type="submit">등록하기</button>
                              	</div>
